@@ -1,0 +1,31 @@
+[
+	{
+		"usuario" : "João",
+		"hotel" : "Hotel 1",
+		"avaliacao": "Hotel confortável e com um bom custo benefício."
+	}, 
+
+	{
+		"usuario" : "Maria",
+		"hotel" : "Hotel 2",
+		"avaliacao": "Quartos com muito espaço. Espero voltar novamente."
+	},
+
+	{
+		"usuario" : "Sebastião",
+		"hotel" : "Hotel 3",
+		"avaliacao": "As refeições nao são muito boas e o espaço é pequeno demais. Não recomendo."
+	},
+
+	{
+		"usuario" : "Josefa",
+		"hotel" : "Hotel 5",
+		"avaliacao": "Excelente hotel. Ótimo atendimento"
+	},
+
+	{
+		"usuario" : "Pedro",
+		"hotel" : "Hotel 6",
+		"avaliacao": "O hotel fica um pouco afastado da cidade, mas é confortável e com um bom atendimento."
+	}
+]

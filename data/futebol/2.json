@@ -1,0 +1,32 @@
+{
+  "id": 2,
+  "nome": "Time Y",
+  "ponto": 1,
+  "estado": "São Paulo",
+  "sede": "Vila Marinana, São Paulo, SP",
+  "campeonato": "Copa do Brasil",
+  "partidas": [
+    {
+      "gols_favor": "2",
+      "gols_contra": "2",
+      "local": "casa",
+      "contra_id": 2,
+      "copadobrasil": "Time Y",
+      "ponto": 1
+    },{
+      "gols_favor": "3",
+      "gols_contra": "1",
+      "local": "visitante",
+      "contra_id": 3,
+      "copadobrasil": "Time K",
+      "ponto": 3
+    },{
+      "gols_favor": "2",
+      "gols_contra": "2",
+      "local": "visitante",
+      "contra_id": 4,
+      "copadobrasil": "Time M",
+      "ponto": 1
+    }
+  ]
+}

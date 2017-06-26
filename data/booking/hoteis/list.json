@@ -1,0 +1,615 @@
+{
+	"page" : "selecionarHotel",
+	"status":
+	[
+		{ "name": "Ótimo" }, { "name": "Bom" }, { "name": "Regular" }, { "name": "Ruim" }, { "name": "Péssimo" }
+	],
+	"hoteis" : 
+	[
+		{
+			"id": 1,
+			"nome": "Arena Copacabana Hotel",
+			"cidade": "Rio de Janeiro",
+			"bairro": "Copacabana",
+			"nota": 8.2,
+			"status": "Bom",
+			"urls": 
+			[
+				{
+					"url": "imgs/hotel_1/1.jpg",
+					"descricao": "Descrição da imagem 1"
+				},
+				{
+					"url": "imgs/hotel_1/2.jpg",
+					"descricao": "Descrição da imagem 2"
+				},
+				{
+					"url": "imgs/hotel_1/3.jpg",
+					"descricao": "Descrição da imagem 3"
+				},
+				{
+					"url": "imgs/hotel_1/4.jpg",
+					"descricao": "Descrição da imagem 4"
+				},
+				{
+					"url": "imgs/hotel_1/5.jpg",
+					"descricao": "Descrição da imagem 5"
+				},
+				{
+					"url": "imgs/hotel_1/6.jpg",
+					"descricao": "Descrição da imagem 6"
+				}
+				
+			],
+			"avaliacoes":
+			[
+				{
+					"autor": "Maria Aparecida",
+					"avaliacao": "Bom atendimento, quarto impecável, vista maravilhosa no coração da famosa Praia de Copacabana. Com certeza voltarei! As comodidades do hotel e o custo-benefício faz, dessa experiência, única. Recomendo."
+				},
+				{
+					"autor": "Antônio José",
+					"avaliacao": "Ficamos hospedados em um fim de semana para comemorar 2 anos de casado e fomos presenteado com uma bela garrafa de champagne e chocolates com morangos. O atendimento foi muito bom, o hotel possui uma piscina no terraço com academia e sauna, além de um bar. Houve um show para hóspedes massa d+, curtimos bastante a nossa estadia."
+				},
+				{
+					"autor": "Marta",
+					"avaliacao": "Hotel com ótimas instalações, em frente a praia de copacabana. Fiquei hospedada em um quarto com bela vista para a praia, muito bom. O café da manhã também foi bom e há uma piscina no terraço, bem agradável. REcomendo a estadia."
+				},
+				{
+					"autor": "Emanuel",
+					"avaliacao": "Hotel novo, café da manhã muito bom, funcionários atenciosos. Tem boa localização que facilita a locomoção pelo Rio. A suíte é ampla e tem uma vista muito linda, dá para ver toda a praia de copacabana."
+				},
+				{
+					"autor": "João Paulo",
+					"avaliacao": "Ótima localização, em frente a praia de Copacabana. Café da manha perfeito, vista da piscina excelente, assim como o bar da mesma. Problemas com os elevadores, que são pequenos e lentos. O que te faz esperar mais que o necessário"
+				}
+			]
+		},
+
+		{
+			"id": 2,
+			"nome": "Ritz Copacabana Hotel",
+			"cidade": "Rio de Janeiro",
+			"bairro": "Copacabana",
+			"nota": 9,
+			"status": "Excelente",
+			"urls": 
+			[
+				{
+					"url": "imgs/hotel_2/1.jpg",
+					"descricao": "Descrição da imagem 1"
+				},
+				{
+					"url": "imgs/hotel_2/2.jpg",
+					"descricao": "Descrição da imagem 2"
+				},
+				{
+					"url": "imgs/hotel_2/3.jpg",
+					"descricao": "Descrição da imagem 3"
+				},
+				{
+					"url": "imgs/hotel_2/4.jpg",
+					"descricao": "Descrição da imagem 4"
+				},
+				{
+					"url": "imgs/hotel_2/5.jpg",
+					"descricao": "Descrição da imagem 5"
+				},
+				{
+					"url": "imgs/hotel_2/6.jpg",
+					"descricao": "Descrição da imagem 6"
+				}
+			],
+			"avaliacoes":
+			[
+				{
+					"autor": "Joana",
+					"avaliacao": "O hotel e suas dependências são muito novas e arrumadas. Os funcionários foram super prestativos e eficientes. O café da manhã foi delicioso e a piscina tem uma ótima localização e vista. Dentro do quarto tudo funcionou melhor do que o esperado. A localização é a melhor possível pois é perto da praia e do metrô."
+				},
+				{
+					"autor": "Paulo",
+					"avaliacao": "Excelente hotel, há uma quadra da praia, hotel novo com um designer bem legal, atendimento excelente, todos os funcionários são extremamente solicitos e atenciosos em especial ao Felipe. Possui uma vista sensacional. Excelente custo beneficio. Com certeza voltarei"
+				},
+				{
+					"autor": "Amanda",
+					"avaliacao": "Hotel novo, tudo em ordem. Bom atendimento, café da manhã delicioso. Quarto limpo e o tamanho e ótimo para passar uns dias. Apesar de não ser meu bairro predileto a localização é ótima. Ótimo custo beneficio. Vou voltar com certeza. Fiquei hospedada em outubro de 2016 e voltarei em 2017. Recomendo"
+				},
+				{
+					"autor": "Sebastião",
+					"avaliacao": "Tive a oportunidade de passar a noite de Reveillon neste Hotel, foi fantástico fomos muito bem recebidos e com o previlégio de ver o lindo fogo de artificio do Rooftop do Hotel. Localização excelente - Copacabana, funcionários exclentes, pequeno almoço muito bom. Recomendo..."
+				},
+				{
+					"autor": "Marília",
+					"avaliacao": "Excelente localização , boas instalações e atendimento agradável . Instalações novas . Pessoal bem treinado ! Muito Próximo da praia e de bons restaurantes . Próximo também do melhor comércio De Copacabana"
+				},
+				{
+					"autor": "Mateus",
+					"avaliacao": "Excelente localização, apesar de não termos feitos tantas atividades assim em Copacabana. Rua super conhecida, facilidade para táxi e uber... hotel muito bem estruturado, no último andar tem um bar com piscina, bem bacana para um esquenta antes da balada. Quarto e acomodações muito boas."
+				}
+			]
+		},
+
+		{
+			"id": 3,
+			"nome": "Hotel Fasano",
+			"cidade": "Rio de Janeiro",
+			"bairro": "Centro",
+			"nota": 9.5,
+			"status": "Excelente",
+			"urls": 
+			[
+				{
+					"url": "imgs/hotel_3/1.jpg",
+					"descricao": "Descrição da imagem 1"
+				},
+				{
+					"url": "imgs/hotel_3/2.jpg",
+					"descricao": "Descrição da imagem 2"
+				},
+				{
+					"url": "imgs/hotel_3/3.jpg",
+					"descricao": "Descrição da imagem 3"
+				},
+				{
+					"url": "imgs/hotel_3/4.jpg",
+					"descricao": "Descrição da imagem 4"
+				},
+				{
+					"url": "imgs/hotel_3/5.jpg",
+					"descricao": "Descrição da imagem 5"
+				},
+				{
+					"url": "imgs/hotel_3/6.jpg",
+					"descricao": "Descrição da imagem 6"
+				}
+			],
+			"avaliacoes":
+			[
+				{
+					"autor": "Amanda",
+					"avaliacao": "A vista da cobertura é imperdivel, com sua piscina de borda infinita. O Londra que fica no terreo é super animado e legal, mas para uma balada para quem gosta de animaçao. Bem localizado, atendimento top, os quartos sao pequenos porem mto bem decorados!"
+				},
+				{
+					"autor": "Leonardo",
+					"avaliacao": "Disparado o melhor hotel do Brasil, depois de, no mes mes ter experiencias nos famosos copacabana Palace, Emiliano e Pestana. A localizaçao, a Piscina mais famosa do paìs, o quarto, os serviços. a unica mà experiencia foi pagar tanto e nao ter café da manha incluido. Jantamos maravilhosamente bem e nos servimos na piscina nos almoços também."
+				},
+				{
+					"autor": "Alexandre",
+					"avaliacao": "O Fasano é sempre uma experiência única! Equipe super treinada, elegantes e atenciosos na medida certa. Os quartos são muitos confortáveis, mas a piscina é o ponto alto com a melhor vista de Ipanema. Se tiver oportunidade, experimente os quartos de frente para o mar. A vista vale uma vida!"
+				},
+				{
+					"autor": "Henrique",
+					"avaliacao": "Excelente opção para o casal que busque um final de semana romântico diferente, com muito conforto, privacidade e o melhor atendimento do Rio de Janeiro. O quarto é sensacional, com peças de design, e muito funcional. Gostei do cuidado com os mínimos detalhes, e a belíssima vista do Arporador."
+				}
+			]
+		},
+
+		{
+			"id": 4,
+			"nome": "Aeroporto Othon",
+			"cidade": "Rio de Janeiro",
+			"bairro": "Centro",
+			"nota": 3,
+			"status": "Péssimo",
+			"urls": 
+			[
+				{
+					"url": "imgs/hotel_4/1.jpg",
+					"descricao": "Descrição da imagem 1"
+				},
+				{
+					"url": "imgs/hotel_4/2.jpg",
+					"descricao": "Descrição da imagem 2"
+				},
+				{
+					"url": "imgs/hotel_4/3.jpg",
+					"descricao": "Descrição da imagem 3"
+				},
+				{
+					"url": "imgs/hotel_4/4.jpg",
+					"descricao": "Descrição da imagem 4"
+				},
+				{
+					"url": "imgs/hotel_4/5.jpg",
+					"descricao": "Descrição da imagem 5"
+				},
+				{
+					"url": "imgs/hotel_4/6.jpg",
+					"descricao": "Descrição da imagem 6"
+				}
+			],
+			"avaliacoes":
+			[
+				{
+					"autor": "Marcos",
+					"avaliacao": "avaliação do autor 1 sobre o hotel 4."
+				},
+				{
+					"autor": "Mariana",
+					"avaliacao": "avaliação do autor 6 sobre o hotel 4."
+				}
+			]
+		},
+
+		{
+			"id": 5,
+			"nome": "Hotel 5",
+			"cidade": "Rio de Janeiro",
+			"bairro": "Leblon",
+			"nota": 9.5,
+			"status": "Excelente",
+			"urls": 
+			[
+				{
+					"url": "imgs/hotel_5/1.jpg",
+					"descricao": "Descrição da imagem 1"
+				},
+				{
+					"url": "imgs/hotel_5/2.jpg",
+					"descricao": "Descrição da imagem 2"
+				},
+				{
+					"url": "imgs/hotel_5/3.jpg",
+					"descricao": "Descrição da imagem 3"
+				},
+				{
+					"url": "imgs/hotel_5/4.jpg",
+					"descricao": "Descrição da imagem 4"
+				},
+				{
+					"url": "imgs/hotel_5/5.jpg",
+					"descricao": "Descrição da imagem 5"
+				},
+				{
+					"url": "imgs/hotel_5/6.jpg",
+					"descricao": "Descrição da imagem 6"
+				}
+			],
+			"avaliacoes":
+			[
+				{
+					"autor": "Pedro",
+					"avaliacao": "Ótima vista para o mar."
+				},
+				{
+					"autor": "João",
+					"avaliacao": "A piscina é incrível"
+				},
+				{
+					"autor": "Patrícia",
+					"avaliacao": "Passei 3 dias nesse hotel e fui muito bem atentida."
+				},
+				{
+					"autor": "Luis",
+					"avaliacao": "Ótimo hotel para descansar com a família"
+				},
+				{
+					"autor": "Gustavo",
+					"avaliacao": "Apesar do preso alto, considero um excelente hotel. Vale a pena."
+				},
+				{
+					"autor": "Alan",
+					"avaliacao": "Tive um problema com o quarto, mas fui rapidamente atendido. Resolveram de forma simples e anda me ofereceram vantagens."
+				},
+
+				{
+					"autor": "César",
+					"avaliacao": "Comida muito boa e excelente recepção"
+				}
+			]
+		},
+
+		{
+			"id": 6,
+			"nome": "Itaquera Park hotel",
+			"cidade": "São Paulo",
+			"bairro": "Itaquera",
+			"nota": 8,
+			"status": "Ótimo",
+			"urls": 
+			[
+				{
+					"url": "imgs/hotel_6/1.jpg",
+					"descricao": "Descrição da imagem 1"
+				},
+				{
+					"url": "imgs/hotel_6/2.jpg",
+					"descricao": "Descrição da imagem 2"
+				},
+				{
+					"url": "imgs/hotel_6/3.jpg",
+					"descricao": "Descrição da imagem 3"
+				},
+				{
+					"url": "imgs/hotel_6/4.jpg",
+					"descricao": "Descrição da imagem 4"
+				},
+				{
+					"url": "imgs/hotel_6/5.jpg",
+					"descricao": "Descrição da imagem 5"
+				},
+				{
+					"url": "imgs/hotel_6/6.jpg",
+					"descricao": "Descrição da imagem 6"
+				}
+				
+			],
+			"avaliacoes":
+			[
+				{
+					"autor": "Antônio",
+					"avaliacao": "Tem um bom custo benefício. Um dos melhores hotéis da região"
+				},
+				{
+					"autor": "Murilo",
+					"avaliacao": "avaliação do autor 2 sobre o hotel 1."
+				},
+				{
+					"autor": "Cirino",
+					"avaliacao": "avaliação do autor 3 sobre o hotel 1."
+				},
+				{
+					"autor": "Airton",
+					"avaliacao": "avaliação do autor 4 sobre o hotel 1."
+				},
+				{
+					"autor": "João Paulo",
+					"avaliacao": "avaliação do autor 5 sobre o hotel 1."
+				}
+			]
+		},
+
+		{
+			"id": 7,
+			"nome": "Hotel 7",
+			"cidade": "São Paulo",
+			"bairro": "Grajaú",
+			"nota": 5,
+			"status": "Ruim",
+			"urls": 
+			[
+				{
+					"url": "imgs/hotel_7/1.jpg",
+					"descricao": "Descrição da imagem 1"
+				},
+				{
+					"url": "imgs/hotel_7/2.jpg",
+					"descricao": "Descrição da imagem 2"
+				},
+				{
+					"url": "imgs/hotel_7/3.jpg",
+					"descricao": "Descrição da imagem 3"
+				},
+				{
+					"url": "imgs/hotel_7/4.jpg",
+					"descricao": "Descrição da imagem 4"
+				},
+				{
+					"url": "imgs/hotel_7/5.jpg",
+					"descricao": "Descrição da imagem 5"
+				},
+				{
+					"url": "imgs/hotel_7/6.jpg",
+					"descricao": "Descrição da imagem 6"
+				}
+			],
+			"avaliacoes":
+			[
+				{
+					"autor": "autor 1",
+					"avaliacao": "avaliação do autor 1 sobre o hotel 2."
+				},
+				{
+					"autor": "autor 2",
+					"avaliacao": "avaliação do autor 2 sobre o hotel 2."
+				},
+				{
+					"autor": "autor 3",
+					"avaliacao": "avaliação do autor 3 sobre o hotel 2."
+				},
+				{
+					"autor": "autor 4",
+					"avaliacao": "avaliação do autor 4 sobre o hotel 2."
+				},
+				{
+					"autor": "autor 5",
+					"avaliacao": "avaliação do autor 5 sobre o hotel 2."
+				},
+				{
+					"autor": "autor 6",
+					"avaliacao": "avaliação do autor 6 sobre o hotel 2."
+				}
+			]
+		},
+
+		{
+			"id": 8,
+			"nome": "Hotel 8",
+			"cidade": "São Paulo",
+			"bairro": "Centro",
+			"nota": 7.6,
+			"status": "Bom",
+			"urls": 
+			[
+				{
+					"url": "imgs/hotel_8/1.jpg",
+					"descricao": "Descrição da imagem 1"
+				},
+				{
+					"url": "imgs/hotel_8/2.jpg",
+					"descricao": "Descrição da imagem 2"
+				},
+				{
+					"url": "imgs/hotel_8/3.jpg",
+					"descricao": "Descrição da imagem 3"
+				},
+				{
+					"url": "imgs/hotel_8/4.jpg",
+					"descricao": "Descrição da imagem 4"
+				},
+				{
+					"url": "imgs/hotel_8/5.jpg",
+					"descricao": "Descrição da imagem 5"
+				},
+				{
+					"url": "imgs/hotel_8/6.jpg",
+					"descricao": "Descrição da imagem 6"
+				}
+			],
+			"avaliacoes":
+			[
+				{
+					"autor": "autor 1",
+					"avaliacao": "avaliação do autor 1 sobre o hotel 3."
+				},
+				{
+					"autor": "autor 2",
+					"avaliacao": "avaliação do autor 2 sobre o hotel 3."
+				},
+				{
+					"autor": "autor 3",
+					"avaliacao": "avaliação do autor 3 sobre o hotel 3."
+				},
+				{
+					"autor": "autor 4",
+					"avaliacao": "avaliação do autor 4 sobre o hotel 3."
+				}
+			]
+		},
+
+		{
+			"id": 9,
+			"nome": "Hotel 9",
+			"cidade": "São Paulo",
+			"bairro": "Pacaembu",
+			"nota": 4,
+			"status": "Péssimo",
+			"urls": 
+			[
+				{
+					"url": "imgs/hotel_9/1.jpg",
+					"descricao": "Descrição da imagem 1"
+				},
+				{
+					"url": "imgs/hotel_9/2.jpg",
+					"descricao": "Descrição da imagem 2"
+				},
+				{
+					"url": "imgs/hotel_9/3.jpg",
+					"descricao": "Descrição da imagem 3"
+				},
+				{
+					"url": "imgs/hotel_9/4.jpg",
+					"descricao": "Descrição da imagem 4"
+				},
+				{
+					"url": "imgs/hotel_9/5.jpg",
+					"descricao": "Descrição da imagem 5"
+				},
+				{
+					"url": "imgs/hotel_9/6.jpg",
+					"descricao": "Descrição da imagem 6"
+				}
+			],
+			"avaliacoes":
+			[
+				{
+					"autor": "autor 1",
+					"avaliacao": "avaliação do autor 1 sobre o hotel 4."
+				},
+				{
+					"autor": "autor 6",
+					"avaliacao": "avaliação do autor 6 sobre o hotel 4."
+				}
+			]
+		},
+
+		{
+			"id": 10,
+			"nome": "Hotel 10",
+			"cidade": "São Paulo",
+			"bairro": "São Mateus",
+			"nota": 9.8,
+			"status": "Excelente",
+			"urls": 
+			[
+				{
+					"url": "imgs/hotel_10/1.jpg",
+					"descricao": "Descrição da imagem 1"
+				},
+				{
+					"url": "imgs/hotel_10/2.jpg",
+					"descricao": "Descrição da imagem 2"
+				},
+				{
+					"url": "imgs/hotel_10/3.jpg",
+					"descricao": "Descrição da imagem 3"
+				},
+				{
+					"url": "imgs/hotel_10/4.jpg",
+					"descricao": "Descrição da imagem 4"
+				},
+				{
+					"url": "imgs/hotel_10/5.jpg",
+					"descricao": "Descrição da imagem 5"
+				},
+				{
+					"url": "imgs/hotel_10/6.jpg",
+					"descricao": "Descrição da imagem 6"
+				}
+			],
+			"avaliacoes":
+			[
+				{
+					"autor": "autor 1",
+					"avaliacao": "avaliação do autor 1 sobre o hotel 5."
+				},
+				{
+					"autor": "autor 2",
+					"avaliacao": "avaliação do autor 2 sobre o hotel 5."
+				},
+				{
+					"autor": "autor 3",
+					"avaliacao": "avaliação do autor 3 sobre o hotel 5."
+				},
+				{
+					"autor": "autor 4",
+					"avaliacao": "avaliação do autor 4 sobre o hotel 5."
+				},
+				{
+					"autor": "autor 5",
+					"avaliacao": "avaliação do autor 5 sobre o hotel 5."
+				},
+				{
+					"autor": "autor 6",
+					"avaliacao": "avaliação do autor 6 sobre o hotel 5."
+				},
+
+				{
+					"autor": "autor 7",
+					"avaliacao": "avaliação do autor 7 sobre o hotel 5."
+				},
+				{
+					"autor": "autor 8",
+					"avaliacao": "avaliação do autor 8 sobre o hotel 5."
+				},
+				{
+					"autor": "autor 9",
+					"avaliacao": "avaliação do autor 9 sobre o hotel 5."
+				},
+				{
+					"autor": "autor 10",
+					"avaliacao": "avaliação do autor 10 sobre o hotel 5."
+				},
+				{
+					"autor": "autor 11",
+					"avaliacao": "avaliação do autor 11 sobre o hotel 5."
+				},
+				{
+					"autor": "autor 12",
+					"avaliacao": "avaliação do autor 12 sobre o hotel 5."
+				}
+			]
+		}
+	]
+}

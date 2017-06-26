@@ -1,0 +1,83 @@
+{
+	"id": 1,
+	"nome": "Arena Copacabana Hotel",
+	"cidade": "Rio de Janeiro",
+	"bairro": "Copacabana",
+	"nota": 7.8,
+	"status": "Bom",
+	"descricao": "Localizado no Rio de Janeiro, este hotel está próximo da praia, da Avenida Atlântica, de Copacabana Beach e está a 3 quarteirões da estação de metrô de Siqueira Campos. A escassos quilômetros pode ainda encontrar o Teatro Poeira, a Casa de Rui Barbosa e vários restaurantes e locais de animação noturna.",
+	"urls": 
+	[
+		{
+			"url": "imgs/hotel_1/1.jpg",
+			"descricao": "Descrição da imagem 1"
+		},
+		{
+			"url": "imgs/hotel_1/2.jpg",
+			"descricao": "Descrição da imagem 2"
+		},
+		{
+			"url": "imgs/hotel_1/3.jpg",
+			"descricao": "Descrição da imagem 3"
+		},
+		{
+			"url": "imgs/hotel_1/4.jpg",
+			"descricao": "Descrição da imagem 4"
+		},
+		{
+			"url": "imgs/hotel_1/5.jpg",
+			"descricao": "Descrição da imagem 5"
+		}
+	],
+	"avaliacoes":
+	[
+		{
+			"autor": "Maria Aparecida",
+			"avaliacao": "Bom atendimento, quarto impecável, vista maravilhosa no coração da famosa Praia de Copacabana. Com certeza voltarei! As comodidades do hotel e o custo-benefício faz, dessa experiência, única. Recomendo."
+		},
+		{
+			"autor": "Antônio José",
+			"avaliacao": "Ficamos hospedados em um fim de semana para comemorar 2 anos de casado e fomos presenteado com uma bela garrafa de champagne e chocolates com morangos. O atendimento foi muito bom, o hotel possui uma piscina no terraço com academia e sauna, além de um bar. Houve um show para hóspedes massa d+, curtimos bastante a nossa estadia."
+		},
+		{
+			"autor": "Marta",
+			"avaliacao": "Hotel com ótimas instalações, em frente a praia de copacabana. Fiquei hospedada em um quarto com bela vista para a praia, muito bom. O café da manhã também foi bom e há uma piscina no terraço, bem agradável. REcomendo a estadia."
+		},
+		{
+			"autor": "Emanuel",
+			"avaliacao": "Hotel novo, café da manhã muito bom, funcionários atenciosos. Tem boa localização que facilita a locomoção pelo Rio. A suíte é ampla e tem uma vista muito linda, dá para ver toda a praia de copacabana."
+		},
+		{
+			"autor": "João Paulo",
+			"avaliacao": "Ótima localização, em frente a praia de Copacabana. Café da manha perfeito, vista da piscina excelente, assim como o bar da mesma. Problemas com os elevadores, que são pequenos e lentos. O que te faz esperar mais que o necessário"
+		}
+	],
+	"quartos":
+	[
+		{ 
+			"tipo": "Quarto Standard com Cama de Casal ou 2 de Solteiro", 
+			"camas": "Uma cama de solteiro e uma de casal",
+			"capacidade": "Dois adultos e uma criança",
+			"cafe_da_manha" : true,
+			"preco": 100
+		},
+
+		{ 
+			"tipo": "Quarto Triplo Standard", 
+			"camas": "Uma cama de solteiro e uma de casal",
+			"capacidade": "Três adultos e uma criança",
+			"cafe_da_manha" : true,
+			"preco": 200
+		},
+
+		{ 
+			"tipo": "Quarto Quádruplo", 
+			"camas": "Duas camas de solteiro e uma de casal",
+			"capacidade": "Quatro pessoas",
+			"cafe_manha" : true,
+			"preco": 350
+		}
+	]
+
+
+}

@@ -1,0 +1,11 @@
+[
+	{
+		"value": "Login",
+		"link": "api/booking/login"
+	},
+
+	{
+		"value": "Cadastrar Avaliação",
+		"link": "api/booking/cadastrarAvaliacao"
+	}
+]

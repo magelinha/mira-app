@@ -1,0 +1,22 @@
+site_name: MIRA
+theme_dir: theme
+repo_url: https://github.com/tecweblab/mira
+site_author: Ezequiel Bertti
+site_description: Documentação do MIRA - Model Interface for REST Applications
+include_search: true
+
+pages:
+ - [index.md, Home]
+ - [start.md, Iniciando um Projeto]
+ - [conditions.md, Condições]
+ - [interface-selection.md, Seleção de Interface]
+ - [abstract-interface.md, Interface Abstrata]
+ - [concrete-interface.md, Interface Concreta]
+ - [widgets.md, Widgets Concretos]
+ - [events.md, Condições]
+ - [widgets-customizado.md, Widgets Customizados]
+ - [context.md, Variáveis de Contexto]
+ - [tips.md, Dicas]
+ - [requirements.md, Dependências]
+ - [sobre.md, Sobre]
+ - [example.md, Exemplos]

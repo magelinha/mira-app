@@ -1,0 +1,89 @@
+{
+	"id": 2,
+	"nome": "Ritz Copacabana Hotel",
+	"cidade": "Rio de Janeiro",
+	"bairro": "Copacabana",
+	"nota": 9,
+	"status": "Excelente",
+	"descricao": "Em uma rua particular que leva ao Parque Garota de Ipanema e à famosa pedra do Arpoador, entre as praias de Copacabana e Ipanema, localiza-se o hotel Arpoador Inn. Próximo ao Forte de Copacabana, à Praça General Osório e à Lagoa Rodrigo de Freitas, o hotel oferece muito mais do que uma confortável localização.",
+	"urls": 
+	[
+		{
+			"url": "imgs/hotel_2/1.jpg",
+			"descricao": "Descrição da imagem 1"
+		},
+		{
+			"url": "imgs/hotel_2/2.jpg",
+			"descricao": "Descrição da imagem 2"
+		},
+		{
+			"url": "imgs/hotel_2/3.jpg",
+			"descricao": "Descrição da imagem 3"
+		},
+		{
+			"url": "imgs/hotel_2/4.jpg",
+			"descricao": "Descrição da imagem 4"
+		},
+		{
+			"url": "imgs/hotel_2/5.jpg",
+			"descricao": "Descrição da imagem 5"
+		},
+		{
+			"url": "imgs/hotel_2/6.jpg",
+			"descricao": "Descrição da imagem 6"
+		}
+	],
+	"avaliacoes":
+	[
+		{
+			"autor": "Joana",
+			"avaliacao": "O hotel e suas dependências são muito novas e arrumadas. Os funcionários foram super prestativos e eficientes. O café da manhã foi delicioso e a piscina tem uma ótima localização e vista. Dentro do quarto tudo funcionou melhor do que o esperado. A localização é a melhor possível pois é perto da praia e do metrô."
+		},
+		{
+			"autor": "Paulo",
+			"avaliacao": "Excelente hotel, há uma quadra da praia, hotel novo com um designer bem legal, atendimento excelente, todos os funcionários são extremamente solicitos e atenciosos em especial ao Felipe. Possui uma vista sensacional. Excelente custo beneficio. Com certeza voltarei"
+		},
+		{
+			"autor": "Amanda",
+			"avaliacao": "Hotel novo, tudo em ordem. Bom atendimento, café da manhã delicioso. Quarto limpo e o tamanho e ótimo para passar uns dias. Apesar de não ser meu bairro predileto a localização é ótima. Ótimo custo beneficio. Vou voltar com certeza. Fiquei hospedada em outubro de 2016 e voltarei em 2017. Recomendo"
+		},
+		{
+			"autor": "Sebastião",
+			"avaliacao": "Tive a oportunidade de passar a noite de Reveillon neste Hotel, foi fantástico fomos muito bem recebidos e com o previlégio de ver o lindo fogo de artificio do Rooftop do Hotel. Localização excelente - Copacabana, funcionários exclentes, pequeno almoço muito bom. Recomendo..."
+		},
+		{
+			"autor": "Marília",
+			"avaliacao": "Excelente localização , boas instalações e atendimento agradável . Instalações novas . Pessoal bem treinado ! Muito Próximo da praia e de bons restaurantes . Próximo também do melhor comércio De Copacabana"
+		},
+		{
+			"autor": "Mateus",
+			"avaliacao": "Excelente localização, apesar de não termos feitos tantas atividades assim em Copacabana. Rua super conhecida, facilidade para táxi e uber... hotel muito bem estruturado, no último andar tem um bar com piscina, bem bacana para um esquenta antes da balada. Quarto e acomodações muito boas."
+		}
+	],
+	"quartos":
+	[
+		{ 
+			"tipo": "Quarto Standard com Cama de Casal ou 2 de Solteiro", 
+			"camas": "Uma cama de solteiro e uma de casal",
+			"capacidade": "Dois adultos e uma criança",
+			"cafe_da_manha" : false,
+			"preco": 80
+		},
+
+		{ 
+			"tipo": "Quarto Triplo Standard", 
+			"camas": "Uma cama de solteiro e uma de casal",
+			"capacidade": "Três adultos e uma criança",
+			"cafe_da_manha" : false,
+			"preco": 120
+		},
+
+		{ 
+			"tipo": "Quarto Quádruplo", 
+			"camas": "Duas camas de solteiro e uma de casal",
+			"capacidade": "Quatro pessoas",
+			"cafe_manha" : false,
+			"preco": 200
+		}
+	]
+}

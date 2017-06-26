@@ -1,0 +1,34 @@
+.wy-nav-content { max-width: 99% }
+.toctree-l3 { margin-left: 15px; font-size: 12px !important;}
+
+@media screen and (max-width: 768px) {
+
+    .rst-content {
+        margin-top: 65px;
+    }
+
+    .wy-nav-top {
+        display: block;
+        position: fixed;
+        width: 100%;
+    }
+}
+
+.rst-content ul {
+    list-style: disc;
+    margin-left: 20px;
+    margin-bottom: 24px;
+}
+
+.rst-content li {
+    list-style: disc;
+    margin-bottom: 5px;
+}
+
+p code {
+    background: rgb(226, 238, 255);
+    padding: 5px;
+    border-radius: 10px;
+    color: black;
+}
+

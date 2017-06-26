@@ -1,0 +1,73 @@
+{
+	"id": 4,
+	"nome": "Hotel 4",
+	"cidade": "Rio de Janeiro",
+	"bairro": "Barra da Tijuca",
+	"nota": 3,
+	"status": "Péssimo",
+	"Descrição": "Descrição do hotel 4",
+	"urls": 
+	[
+		{
+			"url": "imgs/hotel_4/1.jpg",
+			"descricao": "Descrição da imagem 1"
+		},
+		{
+			"url": "imgs/hotel_4/2.jpg",
+			"descricao": "Descrição da imagem 2"
+		},
+		{
+			"url": "imgs/hotel_4/3.jpg",
+			"descricao": "Descrição da imagem 3"
+		},
+		{
+			"url": "imgs/hotel_4/4.jpg",
+			"descricao": "Descrição da imagem 4"
+		},
+		{
+			"url": "imgs/hotel_4/5.jpg",
+			"descricao": "Descrição da imagem 5"
+		},
+		{
+			"url": "imgs/hotel_4/6.jpg",
+			"descricao": "Descrição da imagem 6"
+		}
+	],
+	"avaliacoes":
+	[
+		{
+			"autor": "autor 1",
+			"avaliacao": "avaliação do autor 1 sobre o hotel 4."
+		},
+		{
+			"autor": "autor 6",
+			"avaliacao": "avaliação do autor 6 sobre o hotel 4."
+		}
+	],
+	"quartos":
+	[
+		{ 
+			"tipo": "Quarto Standard com Cama de Casal ou 2 de Solteiro", 
+			"camas": "Uma cama de solteiro e uma de casal",
+			"capacidade": "Dois adultos e uma criança",
+			"cafe_da_manha" : true,
+			"preco": 150
+		},
+
+		{ 
+			"tipo": "Quarto Triplo Standard", 
+			"camas": "Uma cama de solteiro e uma de casal",
+			"capacidade": "Três adultos e uma criança",
+			"cafe_da_manha" : true,
+			"preco": 230
+		},
+
+		{ 
+			"tipo": "Quarto Quádruplo", 
+			"camas": "Duas camas de solteiro e uma de casal",
+			"capacidade": "Quatro pessoas",
+			"cafe_manha" : true,
+			"preco": 300
+		}
+	]
+}

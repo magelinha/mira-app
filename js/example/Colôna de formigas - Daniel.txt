@@ -1,0 +1,12 @@
+Algoritmos Interessantes para estudo
+
+Colônia de formigas: Algoritmo de otimização com inspiração biológica. As formigas utilizam uma técnica muito interessante para buscar alimento. Uma formiga sai em busca do alimento e caso encontre algo, ou ache rastros de que possa haver comida a frente, ela emite um feronômio, fazendo com que outras formigas possam possam sentir tal elemento e procurar comida no mesmo caminho que a formiga anterior procurou. Com isso há uma otimização na busca da comida, pois formigas irão buscar alimento em caminhos diferente e a que achar o caminho mais promissor atrairá as outras formigas. Vale ressaltar que esse algoritmo de otimização é uma Heurística, ou seja, é um algoritmo que não acha a melhor solução, mas sim uma solução viável em um tempo hábil.
+
+Relação com seu trabalho: Acho que a ideia desse algoritmo possa ser interessante para sua área porque pode-se ter um determina grupo de pessoas atacando o problema em grupos, com soluções diferentes. A solução que melhor atender um grupo pode ser usada em outros grupos. O legal de uma heurística é que ela pode ter parâmetros de execução, que casa muito bem com seu caso, onde os parâmetros pode ser faixa etária, saneamento básico, local de risco e etc.
+
+Links interessante
+http://www.dca.ufrn.br/~estefane/metaheuristicas/ant.pdf
+https://pt.wikipedia.org/wiki/Col%C3%B4nia_de_formigas_(otimiza%C3%A7%C3%A3o)
+https://www.youtube.com/watch?v=4gVEoOpvpvs
+
+Divisão e conquista

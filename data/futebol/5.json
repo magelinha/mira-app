@@ -1,0 +1,32 @@
+{
+  "id": 5,
+  "nome": "Time Q",
+  "ponto": 0,
+  "estado": "Pernambuco",
+  "sede": "Olinda, PE",
+  "campeonato": "brasileiro",
+  "partidas": [
+    {
+      "gols_favor": "2",
+      "gols_contra": "2",
+      "local": "casa",
+      "contra_id": 2,
+      "brasileiro": "Time Y",
+      "ponto": 0
+    },{
+      "gols_favor": "2",
+      "gols_contra": "2",
+      "local": "visitante",
+      "contra_id": 3,
+      "brasileiro": "Time K",
+      "ponto": 0
+    },{
+      "gols_favor": "2",
+      "gols_contra": "2",
+      "local": "visitante",
+      "contra_id": 4,
+      "brasileiro": "Time L",
+      "ponto": 1
+    }
+  ]
+}

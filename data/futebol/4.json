@@ -1,0 +1,32 @@
+{
+  "id": 4,
+  "nome": "Time L",
+  "ponto": 3,
+  "estado": "Minas Gerais",
+  "sede": "Ipatinga, MG",
+  "campeonato": "Brasileiro",
+  "partidas": [
+    {
+      "gols_favor": "3",
+      "gols_contra": "2",
+      "local": "casa",
+      "contra_id": 2,
+      "brasileiro": "Time Y",
+      "ponto": 3
+    },{
+      "gols_favor": "2",
+      "gols_contra": "2",
+      "local": "visitante",
+      "contra_id": 3,
+      "brasileiro": "Time K",
+      "ponto": 3
+    },{
+      "gols_favor": "2",
+      "gols_contra": "2",
+      "local": "visitante",
+      "contra_id": 4,
+      "brasileiro": "Time M",
+      "ponto": 1
+    }
+  ]
+}

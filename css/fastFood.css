@@ -1,0 +1,16 @@
+body {
+	/*margin-top: 20px;*/
+}
+
+#limpar-lista{
+	margin-right: 15px;
+}
+
+#valor-total{
+	font-size: 200%;
+	margin-bottom: 20%;
+}
+
+#numero {
+	font-size: 140%;
+}

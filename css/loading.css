@@ -1,0 +1,29 @@
+html, body{
+    height:100%;
+    margin:0;
+    padding:0
+}
+#narrate {
+    background:#eee;
+    height: 100%;
+    width: 100%;
+    position:relative;
+    vertical-align:middle;
+    display:table;
+}
+
+h1 {
+    font-size: 3em;
+    font-weight: 700;
+    display:table-cell;
+    vertical-align:middle;
+    text-align:center;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+    color: #009a09;
+}
+
+small{
+    display:block;
+    font-size:20px
+}

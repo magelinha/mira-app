@@ -1,0 +1,32 @@
+[
+	{
+		"name" : "Rio de Janeiro",
+		"img" : "imgs/tcc/rio.jpg",
+		"link" : "api/buscarHoteis",
+		"descricao": "Rio de Janeiro",
+		"synonym" :
+		[
+			"Cidade maravilhosa", "Rio", "Cidade maravilhosa"	
+		]
+	},
+	{
+		"name" : "São Paulo",
+		"img" : "imgs/tcc/sp.jpg",
+		"link" : "api/buscarHoteis",
+		"descricao": "São Paulo",
+		"synonym" :
+		[
+			"Sampa"
+		]
+	},
+	{
+		"name" : "Belo Horizonte",
+		"img" : "imgs/tcc/bh.jpg",
+		"link" : "api/buscarHoteis",
+		"descricao": "Belo Horizonte",
+		"synonym" :
+		[
+			"BH"
+		]
+	}
+]

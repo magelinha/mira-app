@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "mira-voice-app",
+  "private_key_id": "18f1ce1ce8f8d88a76120b9d65128fdf8d1d733e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDe+AB9YltOikTJ\nt4uCsrN1DfG2GJoITZ27CURKgetr/f3qLyIJH+a4Y6nk8qKR/MB4dPOOR8ngDKwW\n9sl1nfWaQCmtGCk0MtlmV/1S7ZLWfjKOupklzfVRew4tIFQKchWcQzl8mv5qNnZc\njaHIsV4y8JZX0oh/od2T6rIqzVcf8h7WjQ0itYWeXAfDK2mmdT7KO8HqQtYthA1n\n2EBhn55DnBOavy7qljxmXtBL9h2ETf+CAG62ratwe/e6Jq7fII5Rzl/SxBuvXfSo\n6QXBkpJPbgDo51VSZeEHY1Ljm1D3nlFo5/d7opnBzPOw0ua6N6TZGCmgwuKDpU7x\n+jVwY/9zAgMBAAECggEBAINoxNkg+9FJOotsSqPn8E5fvoJk83tLS1fteTs0YOzP\n0DOSPcwE6jToQDw4KEpEHaegvd6wPrF2poIORuO0Cgk0IZvrrnUeNvTTjPCwJieW\nTvPB0/rs7NVt4ggEkqNpY4UqNZpTuvgcSxv3OU+QAYWiN+lgoqQeYPoJi6IgTWX8\nceTVnNcVqWPCFXlYQlIWYvlU0jVm/xnwz2Ercf6SQhQfW/vkGIM13N7YCCMpqY6o\nnLL/tAUbdYLlPqjo2ne4vo+1pCHemqDRaJOHn81sYRtsymT59AMnxgGhMWFv6sXU\nCJLcTXEn9Ic696rWfsG7JHyPCVST6BpD54tf1mLqNrECgYEA+4TaNv3USmyCDsER\n2Ly9Nl4PoQk+24fYAHUR/FybwWZonwNFEfRYLP/jVp9oBrBWBoLX2etnt5MHdM/f\nbBZJChj5H9ahpXoNoGqFyLNJaC11Qu7XPGtVJ/jlMlf6a4HiH2SJdV2rTFe58NxA\n02EB41Dq2WzA40l/z+OWNJ/SrXkCgYEA4vDvfW0In7kQDePAty+3pDYrj73BDfYI\n/ZQai0uREi61CRR6NbpiTPR24eAiV6VkzJzaEw40XWeAT9cN40smdyEH95ejeB1B\nJ8V32U5+uinVOzsqb7TjLpXU6XGvaO5nGRV4RMX/sgD0HN9VR/qE0WTyVTx6Al4a\nN42mK6AiVUsCgYEAx0Rf5gV/tV72Q14vF3mgpnwrAbhjdmXPeb1GfJuaQsUxyhk7\nFZhya2Rn5m7waaw22326KUpZp5Ty6VbveaDGSRuz88eF1aY3OYprZ7CzTbgGGPtE\nxvd6RerpGtOc8KO8VIbAaJ3HYvp1tB+rtEw8xK2NAqkowGmwuzFiBVtB/HECgYAt\nmRuFqBLDhPukzs46AGx1oiy+hPH1TCoiSU/MDTLo5FmbqXGkuf5mV/hLCi3cTm8i\nbaGjkocS/Wjaoes4cDEaXpirNtyxla8xvouGLi9oWF9vt0OfjkjXY2OURDNqcfxl\nHds8dkwaB/cElhsci0mEiTPnzG73atD5uIxa16IOYQKBgAUFdy+DVJB/TFwdAOVF\nfP7JMQim5afJGzyjBO8REIc/EI1nmL92h2F62NWQYLjyMv3Yrk12Xary+COQ1TrN\nBwXY4cZGx/1QK5u3Mfr+RC+AixVJpsrICi1uBUNCckeabgGfY+lk7drCdnSNJWDs\nDwz8w6qnuxNW1lOBwg8KJVpB\n-----END PRIVATE KEY-----\n",
+  "client_email": "mira-service@mira-voice-app.iam.gserviceaccount.com",
+  "client_id": "118044351199649062245",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/mira-service%40mira-voice-app.iam.gserviceaccount.com"
+}

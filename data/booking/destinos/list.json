@@ -1,0 +1,87 @@
+[
+	{
+		"name" : "Rio de Janeiro",
+		"img" : "imgs/tcc/rio.jpg",
+		"link" : "api/buscarHoteis",
+		"descricao": "Rio de Janeiro",
+		"synonym" :
+		[
+			"Cidade maravilhosa", "Rio", "Cidade maravilhosa"	
+		]
+	},
+
+	{
+		"name" : "São Paulo",
+		"img" : "imgs/tcc/sp.jpg",
+		"link" : "api/buscarHoteis",
+		"descricao": "São Paulo",
+		"synonym" :
+		[
+			"Sampa"
+		]
+	},
+
+	{
+		"name" : "Belo Horizonte",
+		"img" : "imgs/tcc/bh.jpg",
+		"link" : "api/buscarHoteis",
+		"descricao": "Belo Horizonte",
+		"synonym" :
+		[
+			"BH"
+		]
+	},
+
+	{
+		"name" : "Brasília",
+		"img" : "imgs/tcc/brasilia.jpg",
+		"link" : "api/buscarHoteis",
+		"descricao": "Brasília",
+		"synonym" : []
+		
+	},
+
+	{
+		"name" : "Buenos Aires",
+		"link" : "api/buscarHoteis",
+		"synonym" : []
+	},
+
+	{
+		"name" : "Curitiba",
+		"link" : "api/buscarHoteis",
+		"synonym" : []
+	},
+
+	{
+		"name" : "Nice",
+		"link" : "api/buscarHoteis",
+		"synonym" : []
+	},
+
+	{
+		"name" : "Cambridge",
+		"link" : "api/buscarHoteis",
+		"synonym" : []
+	},
+
+	{
+		"name" : "Nova York",
+		"link" : "api/buscarHoteis",
+		"synonym" :
+		[
+			"Nova Iorque", "New York"
+		]
+	},
+
+	{
+		"name" : "Paris",
+		"link" : "api/buscarHoteis",
+		"synonym" : []
+	},
+	{
+		"name" : "Búzios",
+		"link" : "api/buscarHoteis",
+		"synonym" : []
+	}
+]

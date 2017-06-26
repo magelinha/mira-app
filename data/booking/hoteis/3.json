@@ -1,0 +1,81 @@
+{
+	"id": 3,
+	"nome": "Hotel Fasano",
+	"cidade": "Rio de Janeiro",
+	"bairro": "Centro",
+	"nota": 9.5,
+	"status": "Regular",
+	"descricao": "O hotel foi planejado para surpreender quem visita a Cidade Maravilhosa. Localizado em um dos aeroportos mais movimentados do país, é integrado com o terminal de passageiros e o Shopping Bossa Nova Mall, unindo negócios e lazer.",
+	"urls": 
+	[
+		{
+			"url": "imgs/hotel_3/1.jpg",
+			"descricao": "Descrição da imagem 1"
+		},
+		{
+			"url": "imgs/hotel_3/2.jpg",
+			"descricao": "Descrição da imagem 2"
+		},
+		{
+			"url": "imgs/hotel_3/3.jpg",
+			"descricao": "Descrição da imagem 3"
+		},
+		{
+			"url": "imgs/hotel_3/4.jpg",
+			"descricao": "Descrição da imagem 4"
+		},
+		{
+			"url": "imgs/hotel_3/5.jpg",
+			"descricao": "Descrição da imagem 5"
+		},
+		{
+			"url": "imgs/hotel_3/6.jpg",
+			"descricao": "Descrição da imagem 6"
+		}
+	],
+	"avaliacoes":
+	[
+		{
+			"autor": "Amanda",
+			"avaliacao": "A vista da cobertura é imperdivel, com sua piscina de borda infinita. O Londra que fica no terreo é super animado e legal, mas para uma balada para quem gosta de animaçao. Bem localizado, atendimento top, os quartos sao pequenos porem mto bem decorados!"
+		},
+		{
+			"autor": "Leonardo",
+			"avaliacao": "Disparado o melhor hotel do Brasil, depois de, no mes mes ter experiencias nos famosos copacabana Palace, Emiliano e Pestana. A localizaçao, a Piscina mais famosa do paìs, o quarto, os serviços. a unica mà experiencia foi pagar tanto e nao ter café da manha incluido. Jantamos maravilhosamente bem e nos servimos na piscina nos almoços também."
+		},
+		{
+			"autor": "Alexandre",
+			"avaliacao": "O Fasano é sempre uma experiência única! Equipe super treinada, elegantes e atenciosos na medida certa. Os quartos são muitos confortáveis, mas a piscina é o ponto alto com a melhor vista de Ipanema. Se tiver oportunidade, experimente os quartos de frente para o mar. A vista vale uma vida!"
+		},
+		{
+			"autor": "Henrique",
+			"avaliacao": "Excelente opção para o casal que busque um final de semana romântico diferente, com muito conforto, privacidade e o melhor atendimento do Rio de Janeiro. O quarto é sensacional, com peças de design, e muito funcional. Gostei do cuidado com os mínimos detalhes, e a belíssima vista do Arporador."
+		}
+	],
+	"quartos":
+	[
+		{ 
+			"tipo": "Quarto Standard com Cama de Casal ou 2 de Solteiro", 
+			"camas": "Uma cama de solteiro e uma de casal",
+			"capacidade": "Dois adultos e uma criança",
+			"cafe_da_manha" : true,
+			"preco": 150
+		},
+
+		{ 
+			"tipo": "Quarto Triplo Standard", 
+			"camas": "Uma cama de solteiro e uma de casal",
+			"capacidade": "Três adultos e uma criança",
+			"cafe_da_manha" : true,
+			"preco": 230
+		},
+
+		{ 
+			"tipo": "Quarto Quádruplo", 
+			"camas": "Duas camas de solteiro e uma de casal",
+			"capacidade": "Quatro pessoas",
+			"cafe_manha" : true,
+			"preco": 300
+		}
+	]
+}

@@ -1,0 +1,87 @@
+[
+	{
+		"id": 1,
+		"price": 7.5,
+		"name": {
+			"pt-BR": { 
+				"value": "Hambúrguer",
+				"synonyms": ["Hambúrgueres"]
+			},
+			"en-US": { 
+				"value": "Hamburguer",
+				"synonyms": ["Hamburguers"]
+			}
+		}
+	},
+	{
+		"id": 2,
+		"price": 3,
+		"name": {
+			"pt-BR": { 
+				"value": "Refrigerante",
+				"synonyms": ["Refrigerantes"]
+			},
+			"en-US": { 
+				"value": "Soda",
+				"synonyms": ["Sodas"]
+			}
+		}
+	},
+	{
+		"id": 3,
+		"price": 3,
+		"name": {
+			"pt-BR": { 
+				"value": "Batata Frita",
+				"synonyms": ["Batatas Fritas"]
+			},
+			"en-US": { 
+				"value": "Fries",
+				"synonyms": ["Fries"]
+			}
+		}
+	},
+	{
+		"id": 4,
+		"price": 2.5,
+		"name": {
+			"pt-BR": { 
+				"value": "Suco",
+				"synonyms": ["Sucos"]
+			},
+			"en-US": { 
+				"value": "Juice",
+				"synonyms": ["Juices"]
+			}
+		}
+	},
+	{
+		"id": 5,
+		"price": 5,
+		"name": {
+			"pt-BR": { 
+				"value": "Cachorro Quente",
+				"synonyms": ["Cachorros Quentes"]
+			},
+			"en-US": { 
+				"value": "Hot Dog",
+				"synonyms": ["Hot dogs"]
+			}
+		}
+	},
+	{
+		"id": 6,
+		"price": 4.5,
+		"name": {
+			"pt-BR": { 
+				"value": "Churrasco",
+				"synonyms": ["Churrascos"]
+			},
+			"en-US": { 
+				"value": "Barbecue",
+				"synonyms": ["Barbecues"]
+			}
+		}
+	}
+]
+

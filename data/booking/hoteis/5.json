@@ -1,0 +1,114 @@
+{
+	"id": 5,
+	"nome": "Hotel 5",
+	"cidade": "Rio de Janeiro",
+	"bairro": "Leblon",
+	"nota": 9.5,
+	"descricao": "Descrição do hotel 5",
+	"status": "Excelente",
+	"urls": 
+	[
+		{
+			"url": "imgs/hotel_5/1.jpg",
+			"descricao": "Descrição da imagem 1"
+		},
+		{
+			"url": "imgs/hotel_5/2.jpg",
+			"descricao": "Descrição da imagem 2"
+		},
+		{
+			"url": "imgs/hotel_5/3.jpg",
+			"descricao": "Descrição da imagem 3"
+		},
+		{
+			"url": "imgs/hotel_5/4.jpg",
+			"descricao": "Descrição da imagem 4"
+		},
+		{
+			"url": "imgs/hotel_5/5.jpg",
+			"descricao": "Descrição da imagem 5"
+		},
+		{
+			"url": "imgs/hotel_5/6.jpg",
+			"descricao": "Descrição da imagem 6"
+		}
+	],
+	"avaliacoes":
+	[
+		{
+			"autor": "autor 1",
+			"avaliacao": "avaliação do autor 1 sobre o hotel 5."
+		},
+		{
+			"autor": "autor 2",
+			"avaliacao": "avaliação do autor 2 sobre o hotel 5."
+		},
+		{
+			"autor": "autor 3",
+			"avaliacao": "avaliação do autor 3 sobre o hotel 5."
+		},
+		{
+			"autor": "autor 4",
+			"avaliacao": "avaliação do autor 4 sobre o hotel 5."
+		},
+		{
+			"autor": "autor 5",
+			"avaliacao": "avaliação do autor 5 sobre o hotel 5."
+		},
+		{
+			"autor": "autor 6",
+			"avaliacao": "avaliação do autor 6 sobre o hotel 5."
+		},
+
+		{
+			"autor": "autor 7",
+			"avaliacao": "avaliação do autor 7 sobre o hotel 5."
+		},
+		{
+			"autor": "autor 8",
+			"avaliacao": "avaliação do autor 8 sobre o hotel 5."
+		},
+		{
+			"autor": "autor 9",
+			"avaliacao": "avaliação do autor 9 sobre o hotel 5."
+		},
+		{
+			"autor": "autor 10",
+			"avaliacao": "avaliação do autor 10 sobre o hotel 5."
+		},
+		{
+			"autor": "autor 11",
+			"avaliacao": "avaliação do autor 11 sobre o hotel 5."
+		},
+		{
+			"autor": "autor 12",
+			"avaliacao": "avaliação do autor 12 sobre o hotel 5."
+		}
+	],
+	"quartos":
+	[
+		{ 
+			"tipo": "Quarto Standard com Cama de Casal ou 2 de Solteiro", 
+			"camas": "Uma cama de solteiro e uma de casal",
+			"capacidade": "Dois adultos e uma criança",
+			"cafe_da_manha" : true,
+			"preco": 170
+		},
+
+		{ 
+			"tipo": "Quarto Triplo Standard", 
+			"camas": "Uma cama de solteiro e uma de casal",
+			"capacidade": "Três adultos e uma criança",
+			"cafe_da_manha" : true,
+			"preco": 250
+		},
+
+		{ 
+			"tipo": "Quarto Quádruplo", 
+			"camas": "Duas camas de solteiro e uma de casal",
+			"capacidade": "Quatro pessoas",
+			"cafe_manha" : true,
+			"preco": 320
+		}
+	]
+}
