@@ -1,5 +1,6 @@
 .idea
 *.db
+node_modules
 npm-debug.log
 command.bat
 /docs/site
