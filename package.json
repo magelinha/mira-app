@@ -1,5 +1,8 @@
 {
   "name": "MIRA",
+  "scripts":{
+    "start": "node node/js/server.js"
+  },
   "description": "Criar interfaces multiplataformas para API REST utilizando modelos javascript",
   "dependencies": {
     "@google-cloud/speech": "^0.5.1",
