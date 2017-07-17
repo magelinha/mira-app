@@ -70,9 +70,11 @@ define([
             this.$el.empty();
             
             //Manter centralizado
+            /*
             var $container = $('<div />');
             $container.addClass('container');
             this.$el.append($container);
+            */
             var text = appApi ? (
                         _this.abstract.get('tts') || 
                         getInitialMessage(_this.abstract.get('widgets').models, _this.abstract.get('title'), _this.abstract.get('options')))
@@ -97,8 +99,8 @@ define([
 
             var $head = $('head');
             this.concrete.buildHead($head, this.model, this.$env);
-            //this.abstract.getHtml(this.$el, this.concrete, this.model, this.$env);
-            this.abstract.getHtml($container, this.concrete, this.model, this.$env);
+            this.abstract.getHtml(this.$el, this.concrete, this.model, this.$env);
+            //this.abstract.getHtml($container, this.concrete, this.model, this.$env);
             return this;
         }
 

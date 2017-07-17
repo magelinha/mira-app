@@ -11,6 +11,7 @@ define([
 
 	return function($parent, name, $context, options, callback, ignored_options){
         
+        console.log(options.name, options.class);
         var tts = options.tts;
         var anchor = Helper.buildAnchor();
         
@@ -52,7 +53,7 @@ define([
         }
 
         if(options.value){
-            
+            console.log(options.name, options.value, $context);
             if(options.value === "$bind"){
                 options.value = $context.$bind;
             }

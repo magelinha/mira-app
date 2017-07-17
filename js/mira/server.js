@@ -171,7 +171,9 @@ var http = require('http');
 var httpServer = http.createServer(server);
 
 /*Editado por Magela*/
-httpServer.listen(process.env.PORT || 3000); //porta usada pelo Heroku
+httpServer.listen(process.env.PORT || 3000, function(){
+    console.log("Server ativo na porta: " + (process.env.PORT));
+}); //porta usada pelo Heroku
 
 /*
 httpServer.listen(3000);

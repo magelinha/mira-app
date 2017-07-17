@@ -1,7 +1,11 @@
 "use strict";
 //Define as regras para avaliação de widgets
 var rules = [
-    
+    {
+        name: "isHome",
+        validate: '$dataObj.item == ""'
+
+    }
 ];
 
 //Define as regras para seleção de interface
@@ -12,24 +16,30 @@ var selection = [
 var GeralHead = [
     {name: "bootstrap", widget:"Head", href:"css/bootstrap.css", tag: "style"},
     {name: "fontawesone_css", widget:"Head", href:"https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", tag: "style"},
-    {name: "font_montsrrat", href:"https://fonts.googleapis.com/css?family=Montserrat:400,700", rel:"stylesheet", type:"text/css"},
-    {name: "font_kaushan", href:"https://fonts.googleapis.com/css?family=Kaushan+Script", rel:"stylesheet", type:"text/css"},
-    {name: "font_droid", href:"https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic", rel:"stylesheet", type:"text/css"},
-    {name: "font_roboto", href:"https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700", rel:"stylesheet", type:"text/css"},
-    {name: "agency", widget:"Head", href:"css/agency.min.css", tag: "style"},
+    {name: "font_montsrrat", widget:"Head", href:"https://fonts.googleapis.com/css?family=Montserrat:400,700", rel:"stylesheet", type:"text/css"},
+    {name: "font_kaushan", widget:"Head", href:"https://fonts.googleapis.com/css?family=Kaushan+Script", rel:"stylesheet", type:"text/css"},
+    {name: "font_droid", widget:"Head", href:"https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic", rel:"stylesheet", type:"text/css"},
+    {name: "font_roboto", widget:"Head", href:"https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700", rel:"stylesheet", type:"text/css"},
+    {name: "agency", widget:"Head", widget:"Head", href:"css/agency.min.css", tag: "style"},
     {name: "viewport", widget:"Meta", content:"width=device-width, initial-scale=1"}
 ];
 
 var valores = {
-    menu: [ { item: "Projeto"}, { item: "Desenvolvedor"}, { item: "Orientador"}, { item: "Vídeos"} ],
+    menu: [ 
+        { item: "", url:"#page-top" }, 
+        { item: "Projeto", url:"#projeto"}, 
+        { item: "Desenvolvedor", url:"#desenvolvedor"}, 
+        { item: "Equipe", url:"#content-colaboradores"}, 
+        { item: "Vídeos", url:"#content-videos"} 
+    ],
     projeto:
     {
         "pt-BR": "Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica.",
         "en-US": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop."
-    }
+    },
     desenvolvedor:
     {
-        imagem: "",
+        imagem: "imgs/membros/magela.jpg",
         biografia: 
         {
             "pt-BR": "Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica.",
@@ -38,9 +48,9 @@ var valores = {
     },
     colaboradores:
     [
-        { nome: "Daniel Schwabe", img: "img/membros/daniel.jpg", cargo: "Orientador" },
-        { nome: "Laufer", img: "img/membros/laufer.jpg", cargo: "Professor" },
-        { nome: "Walace Ugulino", img: "img/membros/ugulino.jpg", cargo: "Professor" },
+        { nome: "Daniel Schwabe", img: "imgs/membros/daniel.jpg", cargo: "Orientador" },
+        { nome: "Laufer", img: "imgs/membros/laufer.jpg", cargo: "Professor" },
+        { nome: "Walace Ugulino", img: "imgs/membros/ugulino.jpg", cargo: "Professor" },
     ],
     videos:
     [
@@ -74,7 +84,7 @@ var landingAbstrata = {
     },
     widgets: [
         {
-            name: "menu-container",
+            name: "mainNav",
             children:
             [
                 {
@@ -84,16 +94,17 @@ var landingAbstrata = {
                     children: [
                         {
                             name: "menu-item",
-                            bind: "valores.item"
+                            bind: "$data.item"
                         }
                     ]
                 }
             ]
         },
         {
-            name: "projeto",
-            bind: "valores.projeto",
-            tts: "$bind"
+            name: "projeto", children:
+            [
+                { name: "text-project", bind: "valores.projeto", tts: "$bind"}
+            ]
         },
         {
             name: "desenvolvedor",
@@ -110,30 +121,37 @@ var landingAbstrata = {
             ]
         },
         {
-            name: "colaboradores",
-            datasource: "valores.colaboradores",
-            children: [
+            name: "content-colaboradores", children:
+            [
                 {
-                    name: "colaborador",
+                    name: "colaboradores",
+                    datasource: "valores.colaboradores",
                     children: [
                         {
-                            name: "colaborador-image"
-                        },
-                        {
-                            name: "colaborador-cargo"
+                            name: "colaborador",
+                            children: [
+                                { name: "colaborador-image", bind: "$data.img" },
+                                { name: "colaborador-nome", bind: "$data.nome" },
+                                { name: "colaborador-cargo", bind:"$data.cargo" }
+                            ]
                         }
                     ]
                 }
             ]
         },
         {
-            name: "videos",
-            datasource: "valores.videos",
-            children: [
+            name: "content-videos", children:
+            [
                 {
-                    name: "video",
-                    bind:"$data",
-                    tts: "$data.titulo"
+                    name: "videos",
+                    datasource: "valores.videos",
+                    children: [
+                        {
+                            name: "video",
+                            bind:"$data",
+                            tts: "$data.titulo"
+                        }
+                    ]
                 }
             ]
         }
@@ -151,7 +169,7 @@ var landingConcreta =
             name: "mainNav", children:
             [
                 {
-                    name: "container", children: 
+                    name: "container-center", children: 
                     [
                         { 
                             name: "title-menu", children:
@@ -167,13 +185,17 @@ var landingConcreta =
                                 { name: "menu-item-home"}
                             ]
                         },
-                        { name: "container-items" },
                         { 
-                            name: "menu", children:
+                            name: "container-items", children:
                             [
-                                { name: "menu-item" }
+                                { 
+                                    name: "menu", children:
+                                    [
+                                        { name: "menu-item" }
+                                    ]
+                                }
                             ]
-                        }
+                        },
                     ]
                 }
             ]
@@ -184,7 +206,7 @@ var landingConcreta =
             name: "projeto", children:
             [
                 {
-                    name: "container", children: 
+                    name: "container-center", children: 
                     [
                         { 
                             name: "row", children:
@@ -207,14 +229,14 @@ var landingConcreta =
                     ]
                 }
             ]
-        }
+        },
 
         //Desenvolvedor
         {
             name: "desenvolvedor", children:
             [
                 {
-                    name: "container", children: 
+                    name: "container-center", children: 
                     [
                         { 
                             name: "row", children:
@@ -245,7 +267,7 @@ var landingConcreta =
             name: "content-colaboradores", children:
             [
                 {
-                    name: "container", children: 
+                    name: "container-center", children: 
                     [
                         { 
                             name: "row", children:
@@ -265,12 +287,18 @@ var landingConcreta =
                                 {
                                     name: "colaboradores", children:
                                     [
-                                        { 
-                                            name: "colaborador", children:
+                                        {
+                                            name:"content-colaborador", children:
                                             [
-                                                { name: "colaborador-image" },
-                                                { name: "colaborador-cargo" },
-                                            ]
+                                                { 
+                                                    name: "colaborador", children:
+                                                    [
+                                                        { name: "colaborador-image" },
+                                                        { name: "colaborador-nome" },
+                                                        { name: "colaborador-cargo" },
+                                                    ]
+                                                }
+                                            ]   
                                         }
                                     ]
                                 }
@@ -286,7 +314,7 @@ var landingConcreta =
             name: "content-videos", children:
             [
                 {
-                    name: "container", children: 
+                    name: "container-center", children: 
                     [
                         { 
                             name: "row", children:
@@ -319,10 +347,9 @@ var landingConcreta =
     maps: 
     [
         //Auxiliares
-        { name: "container", widget: "WaiContent", class:"container" },
+        { name: "container-center", widget: "WaiContent", class:"container" },
         { name: "row", widget: "WaiContent", class:"row" },
         { name: "block-title", widget: "WaiContent", class:"col-lg-12 text-center" },
-        { name: "container", widget: "WaiContent", class:"container" },
         
         //títulos
         { name: "item-title-projeto", widget: "WaiContent", class: "section-heading", tag:"h2", value: {"pt-BR": "Projeto", "en-US":"Project"} },
@@ -339,11 +366,11 @@ var landingConcreta =
 
         { name: "item-title-colaboradores", widget: "WaiContent", class: "section-heading", tag:"h2", value: {"pt-BR": "Equipe", "en-US":"Team"} },
         { 
-            name: "item-subtitle-desenvolvedor", widget: "WaiContent", class: "section-subheading text-muted", tag:"h3", 
+            name: "item-subtitle-colaboradores", widget: "WaiContent", class: "section-subheading text-muted", tag:"h3", 
             value: {"pt-BR": "Aqui estão as pessoas que ajudaram o projeto a ser tornar realidade", "en-US":"Here are the people who helped the project become reality" }
         },
 
-        { name: "item-title-video", widget: "WaiContent", class: "section-heading", tag:"h2", value: {"pt-BR": "Membros", "en-US":"Members"} },
+        { name: "item-title-video", widget: "WaiContent", class: "section-heading", tag:"h2", value: {"pt-BR": "Vídeos", "en-US":"Videos"} },
         { 
             name: "item-subtitle-video", widget: "WaiContent", class: "section-subheading text-muted", tag:"h3", 
             value: {"pt-BR": "Veja alguns vídeos de demonstração", "en-US":"See some demo videos" }
@@ -360,7 +387,7 @@ var landingConcreta =
         { name: "menu-value", value: "Menu" },
         { name: "icon-menu", tag: "i", class:"fa fa-bars" },
 
-        { name: "menu-item-home", class: "navbar-brand page-scroll", widget: "WaiContent", href: "#page-top", value: "Início" },
+        { name: "menu-item-home", class: "navbar-brand page-scroll", widget: "WaiContent", tag:"a", href: "#page-top", value: "Início" },
 
         //Itens do menu
         { name: "container-items", widget: "WaiContent", class:"collapse navbar-collapse" },
@@ -368,14 +395,14 @@ var landingConcreta =
         { 
             name: "menu-item", widget: "WaiContent", when: "isHome", tag:"li", class:"hidden", children:
             [
-                { name: "link-item", href:"$bind", widget:"WaiContent", tag:"a" },
+                { name: "link-item", href:"$bind", widget:"WaiContent", tag:"a", class:"page-scroll" },
             ] 
         },
 
         { 
             name: "menu-item", widget: "WaiContent", tag:"li", children:
             [
-                { name: "link-item", href:"$bind", widget:"WaiContent", tag:"a" },
+                { name: "link-item", href:"$data.url", value:"$data.item", widget:"WaiContent", tag:"a" },
             ] 
         },
 
@@ -385,24 +412,31 @@ var landingConcreta =
 
         //desenvolvedor
         { name: "desenvolvedor", widget: "WaiContent", tag:"section" },
-        { name: "desenvolvedor-imagem", widget: "WaiContent", tag:"img", src:"$bind" },
+        { 
+            name: "desenvolvedor-imagem", widget: "WaiContent", class:"col-sm-3", children:
+            [
+                { name: "image-dev", tag:"img", src:"$bind", class:"img-responsive img-rounded" }
+            ]  
+        },
         { name: "desenvolvedor-biografia", widget: "WaiContent", value: "$bind" },
 
         //Equipe
         { name: "content-colaboradores", widget: "WaiContent", tag:"section" },
-        { name: "colaboradores", widget: "WaiContent", class:"col-sm-4" },
+        { name: "content-colaborador", widget: "WaiContent", class:"col-sm-4" },
+        { name: "colaboradores", widget: "WaiContent" },
         { name: "colaborador", widget: "WaiContent", class:"team-member" },
-        { name: "colaborador-image", widget: "WaiContent", tag: "img", src: "$bind" },
-        { name: "colaborador-cargo", widget: "WaiContent", tag: "h4", value:"$bind" }
+        { name: "colaborador-image", widget: "WaiContent", tag: "img", class:"img-responsive img-circle", src: "$data.img" },
+        { name: "colaborador-nome", widget: "WaiContent", tag: "h4", value: "$data.nome" },
+        { name: "colaborador-cargo", widget: "WaiContent", tag: "p", class:"text-muted", value:"$data.cargo" },
 
         //Vídeos
         { name: "content-videos", widget: "WaiContent", tag:"section" },
-        { name: "videos", widget: "WaiListSelect" },
+        { name: "videos", widget: "WaiListSelect"},
         { 
             name: "video", widget: "WaiContent", class:"col-sm-4", children: 
             [
                 { name: "iframe-video", tag: "iframe", class:"embed-responsive embed-responsive-16by9", src:"$data.url"},
-                { name: "title-video", tag: "h3", src:"$data.titulo"},
+                { name: "title-video", tag: "h5", value:"$data.titulo"},
             ]
         },
     ]
@@ -425,11 +459,11 @@ var ajaxSetup = {
 
 var configAPIAi = {
     defaultLanguage: "pt-BR",
-    tokens: [
-        { "pt-BR": "c9139162143c4836b87c21dbce326362" }    
-        { "en-US": "17dde376a370484b89a00c8c71cb8d78" }
-    ];
-    
+    tokens: 
+    {
+        "pt-BR": "c9139162143c4836b87c21dbce326362",
+        "en-US": "17dde376a370484b89a00c8c71cb8d78"
+    }
 };
 
 if(typeof define === 'function') {

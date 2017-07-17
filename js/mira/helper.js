@@ -271,7 +271,6 @@
         /*Funções para o WAI */
         tts_on_focus: function($element, tts, context){
             var _this = this;
-            console.log($element);
             $element.focus(function(e){
                 var text = _.isString(tts) ? _this.process_value(tts, context) : _this.process_value(tts[appApi.currentLanguage], context);
                 appApi.tts(text);
