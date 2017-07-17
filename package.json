@@ -1,5 +1,6 @@
 {
   "name": "MIRA",
+  "main": "js/index.js",
   "scripts":{
     "start": "node js/mira/server.js"
   },
