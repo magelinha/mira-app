@@ -32,7 +32,7 @@ var landingAbstrata = {
     name: "landing",
     title: { "pt-BR": "Fast Food UAI - Área de pedidos", "en-US": "Fast Food UAI - Order area" },
     widgets: [
-        { name: "tutorial", title: "Tutorial", bind: "tutorial"},
+        { name: "tutorial", title: "Tutorial", bind: "tutorial", tts: "$bind"},
         {
             name: "section-add-item",
             children: [
@@ -40,13 +40,13 @@ var landingAbstrata = {
                     name: "adicionar-item",
                     title:
                     {
-                        "pt-BR": "Selecionar Itens",
-                        "en-US": "Select Items"
+                        "pt-BR": "Adicionar Item",
+                        "en-US": "Add Item"
                     },
                     children: [
                         {
                             name: "alimento",
-                            label: "Item",
+                            label: "Alimento",
                             entity: { name: "alimento", key: "name" },
                             validation: function(value){
                                 return { success: value != undefined && value.length > 0 };
@@ -152,19 +152,85 @@ var landingAbstrata = {
                             bind: "$data",
                             tts: 
                             {
-                                "pt-BR": "sprintf('Item: %s. Quantidade: %d. Preço: %0.2f', '$data.item', $data.quantidade, $data.total)",
-                                "en-US": "sprintf('Item: %s. Quantity: %d. Price: %0.2f', '$data.item', $data.quantidade, $data.total)"
+                                "pt-BR": "sprintf('Item: %s. Quantidade: %d. Preço: %0.2f. Fale Editar para editá-lo ou Remover para removê-lo do pedido.', '$data.item', $data.quantidade, $data.total)",
+                                "en-US": "sprintf('Item: %s. Quantity: %d. Price: %0.2f. Say Edit to edit it or Remove to remove from order.', '$data.item', $data.quantidade, $data.total)"
                             }
                         }
                     ]
                 },
                 { name: "limpar-lista", bind: { "pt-BR": "Limpar", "en-US": "Clear" }, title: { "pt-BR":"Limpar lista de pedidos", "en-US":"Clear list of order" } },
-                { name: "cadastrar-pedido", bind: { "pt-BR": "Cadastrar", "en-US": "Register" }, title: { "pt-BR":"Registrar o pedido", "en-US":"Register order" } },
+                { name: "cadastrar-pedido", bind: { "pt-BR": "Comprar", "en-US": "Purchase" }, title: { "pt-BR":"Efetuar compra", "en-US":"Purchase" } },
                 { 
                     name:"valor-total", 
                     bind: "_.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0)",
                     tts: "$bind"
                 }
+            ]
+        },
+        {
+            name: "content-edit-item",
+            children:[
+                {
+                    name: "form-edit-item",
+                    children:[
+                        { name: "item-to-edit", label: "Item" },
+                        { 
+                            name: "nova-quantidade", 
+                            label: "Nova Quantidade",
+                            validation: function(value){
+                                
+                                //empty
+                                if(value == "")
+                                    return { success: false, error: 'empty'};
+                                
+                                //Invalid
+                                if(_.isNaN(value) || !Number.isInteger(parseInt(value)))
+                                    return { success: false, error: 'invalid'};
+
+                                if(parseInt(value) > 3)
+                                    return { success: false, error: 'maxValue'};
+
+                                if(parseInt(value) < 1)
+                                    return { success: false, error: 'minValue'};
+
+                                return { success: true };
+
+                            },
+                            error: [
+                                {
+                                    name: "empty",
+                                    message: {
+                                        "pt-BR": "A quantidade não foi informada",
+                                        "en-US": "The quantity didn't informed"
+                                    }
+                                },
+                                {
+                                    name: "maxValue",
+                                    message: {
+                                        "pt-BR": "A quantidade não pode ser maior que três.",
+                                        "en-US": "The quantity can not be greater than three."
+                                    }
+                                },
+                                {
+                                    name: "minValue",
+                                    message: {
+                                        "pt-BR": "A quantidade não pode ser menor que um.",
+                                        "en-US": "The amount can not be less than one."
+                                    }
+                                },
+                                {
+                                    name: "invalid",
+                                    message: {
+                                        "pt-BR": "O valor informado não é um número",
+                                        "en-US": "The value informed is not a number."
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                { name: "confirmar-edicao", bind: { "pt-BR": "Confirmar", "en-US": "Confirm" }},
+                { name: "cancelar-edicao", bind: { "pt-BR": "Cancelar", "en-US": "Cancel" }}
             ]
         }
     ]
@@ -177,6 +243,7 @@ var landingConcreta =
     ]),
     structure: 
     [
+        //Estrututa para a tabela
         {
             name: "section-itens", children:
             [
@@ -210,6 +277,44 @@ var landingConcreta =
                     ]
                 }
             ]
+        },
+        //Estrutura para o modal
+        {
+            name: "content-edit-item", children:
+            [
+                {
+                    name: "modal-dialog", children:
+                    [
+                        {
+                            name:"modal-content", children:
+                            [
+                                {
+                                    name: "modal-title", children:[ { name: "modal-title-value" }]
+                                },
+                                {
+                                    name:"modal-body", children:
+                                    [
+                                        { 
+                                            name: "form-edit-item", children:
+                                            [
+                                                { name: "item-to-edit" },
+                                                { name: "nova-quantidade" }
+                                            ] 
+                                        }
+                                    ]
+                                },
+                                {
+                                    name: "modal-footer", children:
+                                    [
+                                        { name: "confirmar-edicao" },
+                                        { name: "cancelar-edicao" }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
     ],
     maps: 
@@ -221,6 +326,23 @@ var landingConcreta =
         { name: "block-table", widget: "WaiContent", class:"col-sm-8"},
         { name: "block-total", widget: "WaiContent", class:"col-sm-4"},
         { name: "block-buttons", widget: "WaiContent", class:"row text-center"},
+
+        //modal
+        { name: "content-edit-item", widget: "WaiContent", tabindex: "-1", role:"dialog", class: "modal fade" },
+        { name: "modal-dialog", widget: "WaiContent", class: "modal-dialog", role: "document"},
+        { name: "modal-content", widget: "WaiContent", class:"modal-content" },
+        { name: "modal-title", widget: "WaiContent", class:"modal-header" },
+        { name: "modal-title-value", widget: "WaiContent", tag:"h4", class:"modal-title", value: { "pt-BR": "Editar Item", "en-US": "Edit Item"}},
+        { name: "modal-body", widget: "WaiContent", class:"modal-body" },
+        { name: "modal-footer", widget: "WaiContent", class: "modal-footer" },
+
+        //Formulário edição
+        { name: "form-edit-item", widget: "WaiForm", class: "form-horizontal", events: { submit: "EvtSubmitEdit"}},
+        { name: "item-to-edit", widget: "WaiStatic" },
+        { name: "nova-quantidade", widget: "WaiInput" },
+        { name: "confirmar-edicao", widget: "WaiButton", class:"btn btn-primary", value: "$bind", events: { click: "EvtConfirmEdit" } },
+        { name: "cancelar-edicao", widget: "WaiButton", class:"btn btn-default", value: "$bind", events: { click: "EvtCancelEdit" } },
+
 
         //tutorial 
         { name: "tutorial", widget: "WaiContent", value: "$bind", class:"alert alert-info" },
@@ -241,9 +363,11 @@ var landingConcreta =
                 { 
                     name: "tr-head", tag:"tr", widget: "WaiContent", children:
                     [
-                        { name: "header-item", tag:"th", widget: "WaiContent", value: "Item" },
-                        { name: "header-item", tag:"th", widget: "WaiContent", value: { "pt-BR":"Quantidade", "en-US":"Quantity" } },
-                        { name: "header-item", tag:"th", widget: "WaiContent", value: { "pt-BR": "Total (R$)", "en-US": "Total (US$)"} }
+                        { name: "header-item-selected", tag:"th", widget: "WaiContent", value: "Item" },
+                        { name: "header-item-quantidade", tag:"th", widget: "WaiContent", value: { "pt-BR":"Quantidade", "en-US":"Quantity" } },
+                        { name: "header-item-total", tag:"th", widget: "WaiContent", value: { "pt-BR": "Total (R$)", "en-US": "Total (US$)"} },
+                        { name: "header-item-edit", tag:"th", widget: "WaiContent", value: { "pt-BR": "Editar", "en-US": "Edit"} },
+                        { name: "header-item-remove", tag:"th", widget: "WaiContent", value: { "pt-BR": "Remover", "en-US": "Remove"} },
                     ]
                 }
             ]
@@ -255,7 +379,19 @@ var landingConcreta =
             [
                 { name: "item-name", tag:"td", widget: "WaiContent", value: "$data.item"},
                 { name: "item-quantidade", tag:"td", widget: "WaiContent", value: "$data.quantidade"},
-                { name: "item-preco", tag:"td", widget: "WaiContent", value: "$data.total.formatMoney()"}
+                { name: "item-preco", tag:"td", widget: "WaiContent", value: "$data.total.formatMoney()"},
+                { 
+                    name: "item-edit", tag:"td", 
+                    widget: "WaiContent", class: "text-center",
+                    children:
+                    [{ name: "btn-edit", widget:"WaiContent", "aria-hidden": true, tag:"i", class:"fa fa-pencil fa-lg btn-action", events:{ click: "EvtEditItem"}}]
+                },
+                { 
+                    name: "item-remove", tag:"td", 
+                    widget: "WaiContent", class: "text-center",
+                    children:
+                    [{ name: "btn-remove", widget:"WaiContent", "aria-hidden": true, tag:"i", class:"fa fa-trash fa-lg btn-action", events:{ click: "EvtRemoveItem"}}]
+                }
             ]
         },
 
@@ -263,7 +399,7 @@ var landingConcreta =
             name: "valor-total", widget: "", class:"row text-center", children:
             [
                 { name: "label-total", widget: "WaiContent", tag:"strong", value: "Total: " },
-                { name: "label-total", widget: "WaiContent", tag:"span", value: "$bind.formatMoney()" },
+                { name: "total-value", widget: "WaiContent", tag:"span", value: "$bind.formatMoney()" },
             ]
         },
 
@@ -288,7 +424,7 @@ var pedidoAbstrata = {
             },
             children: [
                 {
-                    name: "numero",
+                    name: "numero-pedido",
                     bind: "$data.numero",
                     tts: "$bind"
                 }
@@ -319,7 +455,7 @@ var pedidoAbstrata = {
                         }
                     ]
                 },
-                { name: "novo-pedido", bind: { "pt-BR": "Novo Pedido", "en-US": "New Order" }, title: { "pt-BR":"Cadastrar novo pedido", "en-US":"Register new order" } },
+                { name: "novo-pedido", bind: { "pt-BR": "Novo Pedido", "en-US": "New Order" }, title: { "pt-BR":"Novo pedido", "en-US":"New order" } },
                 { 
                     name:"valor-total", 
                     bind: "_.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0)",
@@ -382,9 +518,9 @@ var pedidoConcreta =
         { name: "block-buttons", widget: "WaiContent", class:"row text-center"},
 
         { 
-            name: "numero", widget: "WaiContent", class:"alert alert-success", children:
+            name: "numero-pedido", widget: "WaiContent", class:"alert alert-success", children:
             [
-                { name: "content-numero", widget:"WaiContent", tag:"strong", value:"$data.numero" }
+                { name: "content-numero", widget:"WaiContent", tag:"strong", value:"$bind" }
             ]
         },
 
@@ -472,7 +608,7 @@ if(typeof define === 'function') {
                 "pt-BR": `Bem vindo ao Fast Food UAI, onde você poderá fazer o pedido do alimento desejado sem enfrentar filas.
                 Para fazer o pedido siga os seguintes passos. Informe o item desejado e quantidade. Depois clique em "Adicionar".
                 Você poderá limpar a lista de pedidos clicando em "Limpar".
-                Para finalizar o pedido, clique em "Registrar". Com isso o número do pedido será gerado, então é so aguardar. Bom apetite.`,
+                Para finalizar o pedido, clique em "Cadastrar". Com isso o número do pedido será gerado, então é so aguardar. Bom apetite.`,
 
                 "en-US": `Welcome to Fast Food UAI, You'll can do order of food desired without queues. To order follow the steps. 
                 Select food desired and the quantity. After click in "Add". You'll can clean the list of order clicking in "Clean".
@@ -484,11 +620,23 @@ if(typeof define === 'function') {
                 [
                     {
                         name: "add",
-                        message: "Item adicionado com sucesso. O valor total até o momento é %.2f reais"
+                        message: "Item adicionado com sucesso. O valor total até o momento é %.2f reais."
+                    },
+                    {
+                        name: "edit",
+                        message: "Item atualizado com sucesso. O valor total até o momento é %.2f reais."
                     },
                     {
                         name: "clear",
                         message: "Lista limpada com sucesso."
+                    },
+                    {
+                        name: "remove",
+                        message: "Item removido com sucesso. O valor total até o momento é %.2f reais."
+                    },
+                    {
+                        name: "cancelEdit",
+                        message: "A edição foi cancelada."
                     }
                 ],
                 "en-US": 
@@ -498,25 +646,33 @@ if(typeof define === 'function') {
                         message:"Item added successfully. The total amount so far is %.2f dollars."
                     },
                     {
+                        name: "edit",
+                        message:"Item updated successfully. The total amount so far is %.2f dollars."
+                    },
+                    {
                         name: "clear",
                         message:"List successfully cleaned."
+                    },
+                    {
+                        name: "remove",
+                        message: "Item removed successfully. The total amount so far is %.2f dollars."
+                    },
+                    {
+                        name: "cancelEdit",
+                        message: "Edition canceled."
                     }
+
                 ]
                 
             }
 
-            window.AdicionarItem = function(options){
-                
-                var values = {
-                    idItem: options.$element.find("#alimento").val(),
-                    quantidade: parseInt(options.$element.find("#quantidade").val())
-                }
-
+            var GetItemSelecionado = function(idItem, quantidade, options){
                 //Busca o item
                 var alimentos = !_.isArray(options.$env.collections.alimento) ? options.$env.collections.alimento.models : 
                                     options.$env.collections.alimento[1].models;
-                
-                var alimento = _.find(alimentos, function(x){ return x.get("id") == values.idItem });
+                console.log(options);
+
+                var alimento = _.find(alimentos, function(x){ return x.get("id") == idItem });
                 var valueAlimento = alimento.get("name");
                 var itemValue = {};
                 for(var key in valueAlimento)
@@ -524,11 +680,42 @@ if(typeof define === 'function') {
 
                 //Gera o item selecioando
                 var itemSelecionado = {
-                    idItem: values.idItem,
+                    idItem: idItem,
                     item: itemValue,
-                    quantidade: values.quantidade,
-                    total: values.quantidade * alimento.get("price")
+                    quantidade: quantidade,
+                    total: quantidade * alimento.get("price")
                 };
+
+                return itemSelecionado;
+            };
+
+            var ActionGrid = function(index, message){
+                var currentElement = $(document.activeElement);
+                console.log(currentElement);
+                var button;
+                if(currentElement.is("tr")){
+                    button = currentElement.children().eq(index).children();
+                }else if(currentElement.is("td")){
+                    button = currentElement.parents("tr").children().eq(index).children();
+                }else{
+                    appApi.tts(message);
+                    return;
+                }
+                
+                button.click();    
+            }
+
+            window.AdicionarGrupoItem = function(options){
+                var valid = appApi.setValue(options);
+                !valid.success ? appApi.tts(valid.error) : appApi.tts(options.response, function(){
+                    $("#adicionar-item").submit();
+                });
+            }
+
+            window.AdicionarItem = function(options){
+                var idItem = options.$element.find("#alimento").val();
+                var quantidade = parseInt(options.$element.find("#quantidade").val());
+                var itemSelecionado = GetItemSelecionado(idItem, quantidade, options);
 
                 var selecionado = window.selecionados.find(function(x){ return x.get("idItem") == itemSelecionado.idItem });
                 
@@ -538,7 +725,6 @@ if(typeof define === 'function') {
                 }else{
                     window.selecionados.add(itemSelecionado);
                 }
-
 
                 //Mensagem indicando que salvou com sucesso
                 appApi.tts(
@@ -552,22 +738,105 @@ if(typeof define === 'function') {
             };
 
             window.LimparLista = function(options){
-                window.selecionados.each(function(element){
-                    element.destroy();
-                });
+                window.selecionados = new Mira.Api.Collection([]);
                 
-                appApi.tts(_.find(messages[appApi.currentLanguage], function(x){ return x.name == "clear"}).message);
+                appApi.tts(
+                    _.find(messages[appApi.currentLanguage], function(x){ return x.name == "clear"}).message
+                );   
+
                 app.$env.$dataObj.trigger("change");
             };
 
             window.CadastrarPedido = function(options){
-                $("#cadastrar-pedido").click();
+                $("#cadastrar-pedido")[0].click();
             };
 
             window.NovoPedido = function(options){
                 options.$event.preventDefault();
                 window.location.href = "/?app=example/fastfood";
+            };
+
+            window.EditarItem = function(options){
+                ActionGrid(3, "O item para atualização não foi encontrado.");
+            };
+
+            window.RemoverItem = function(options){
+                ActionGrid(4, "O item para remoção não foi encontrado.");
             }
+
+            //Operações modal
+            window.EvtEditItem = function(options){
+                var $button =  options.$element;
+                var values = $button.parents("tr").children();
+                var item = values.eq(0).text();
+                var oldQuantity = values.eq(1).text();
+                
+                $("#item-to-edit").text(item);
+                $("#nova-quantidade").val(oldQuantity);
+
+                var $modal = $("#content-edit-item").modal({ show: false });
+                $modal.on('shown.bs.modal', function () {
+                    $('#form-edit-item').focus();
+                });
+                
+                $modal.modal('show');
+            };
+
+            window.EvtRemoveItem = function(options){
+                var selected = options.$element.parents("tr").children().eq(0).text();
+                var idItem = $("option").filter(function(){
+                    return $(this).text() === selected;
+                }).val();
+                
+                var selecionado = window.selecionados.find(function(x){ return x.get("idItem") == idItem });
+                window.selecionados.remove(selecionado);
+
+                //Mensagem indicando que salvou com sucesso
+                appApi.tts(
+                    sprintf(
+                        _.find(messages[appApi.currentLanguage], function(x){ return x.name == "remove"}).message, 
+                        _.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0)
+                    )
+                );
+
+                app.$env.$dataObj.trigger("change");
+            };
+
+            window.EvtConfirmEdit = function(options){
+                $("#form-edit-item").submit();
+            };
+
+            window.EvtSubmitEdit = function(options){
+                var newQuantity = parseInt($("#nova-quantidade").val());
+                var selected = $("#item-to-edit").text();
+                var idItem = $("option").filter(function(){
+                    return $(this).text() === selected;
+                }).val();
+                
+                var itemSelecionado = GetItemSelecionado(idItem, newQuantity, options);
+
+                var selecionado = window.selecionados.find(function(x){ return x.get("idItem") == itemSelecionado.idItem });
+                
+                if(selecionado){
+                    selecionado.set("quantidade", itemSelecionado.quantidade);
+                    selecionado.set("total", itemSelecionado.total);
+                }
+
+                appApi.tts(
+                    sprintf(
+                        _.find(messages[appApi.currentLanguage], function(x){ return x.name == "edit"}).message, 
+                        _.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0)
+                    )
+                );
+
+                options.$dataObj.trigger("change");
+            };
+
+            window.EvtCancelEdit = function(options){
+                $("#content-edit-item").modal('hide');
+                appApi.tts(_.find(messages[appApi.currentLanguage], function(x){ return x.name == "cancelEdit"}).message);
+            }
+
         };
     });
 } else {

@@ -37,7 +37,7 @@ define([
         //Template dos grupo e input
         var $group = $(_.template(templateGroup, { 
                         id: id,
-                        help: $context.$env.help, 
+                        help: options.help, 
                         label: label
                     }));
 
@@ -57,7 +57,11 @@ define([
         $input.prop('tabindex', 0);
         $input.prop('aria-required', options.required || false);
         $input.attr('required', options.required || false);
-        $input.removeClass('form-control').addClass('form-control');
+        if(tag == "p"){
+            $input.removeClass('form-control-static').addClass('form-control-static');
+        }else{
+            $input.removeClass('form-control').addClass('form-control');
+        }
 
         //Configura a label do controle após a mudança de linguagem
         if(_.isObject(label)){
@@ -146,7 +150,7 @@ define([
             //Template dos grupo e input
             var $group = $(_.template(templateGroup, { 
                             id: id,
-                            help: $context.$env.help, 
+                            help: options.help, 
                             label: label
                         }));
 
@@ -197,6 +201,10 @@ define([
 
         Select: function($parent, name, $context, options, callback, ignored_options){
             generateGeneralInput('select', $parent, name, $context, options, callback, ignored_options);
+        },
+
+        Static: function($parent, name, $context, options, callback, ignored_options){
+            generateGeneralInput('p', $parent, name, $context, options, callback, ignored_options);
         },
 
         TextArea: function($parent, name, $context, options, callback, ignored_options){

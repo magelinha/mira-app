@@ -91,6 +91,7 @@
                             map.buildChildren(ret.$children, $data, $env, $bind, callback);
                         }
                     }
+
                     var tts = esse.get('tts');
                     var entity = esse.get('entity');
                     

@@ -73,6 +73,7 @@ define([
         WaiContent: WaiContent,
         WaiForm: WaiForm,
         WaiInput: WaiControl.Input,
+        WaiStatic: WaiControl.Static,
         WaiSelect: WaiControl.Select,
         WaiOption: WaiControl.Option,
         WaiTextarea: WaiControl.Textarea,

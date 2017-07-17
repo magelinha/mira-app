@@ -73,7 +73,20 @@
                 this.attributes = this.original
             }
 
+            var title = abstract ? abstract.get('title') : undefined;
+            var label = abstract ? abstract.get('label') : undefined;
+            var entity = abstract ? abstract.get('entity') : undefined;
+            var validation = abstract != null ? abstract.get('validation') : undefined;
+            var error = abstract != null ? abstract.get('error') : undefined;
+            var help = abstract ? abstract.get('help') : undefined;
+
             this.set("tts",tts);
+            this.set('title', title);
+            this.set('label', label);
+            this.set('entity', entity);
+            this.set('validation', validation);
+            this.set('error', error);
+            this.set('help', help);
 
             if(itemWidget)
                 this.abstract = itemWidget;

@@ -14,3 +14,7 @@ body {
 #numero {
 	font-size: 140%;
 }
+
+.btn-action {
+	cursor: pointer;
+}

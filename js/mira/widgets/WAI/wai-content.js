@@ -57,14 +57,18 @@ define([
                 options.value = $context.$bind;
             }
 
-            if(_.isString(options.value))
+            if(_.isNumber(options.value)){
+                $element.append(options.value);
+            }else if(!_.isObject(options.value))
                 $element.append(Helper.build_value(options.value, context));
             else{
                 $element.append(Helper.build_value(options.value[appApi.currentLanguage], context));
             }
 
             $element.updateValue = function(){
-                if(_.isString(options.value))
+                if(_.isNumber(options.value)){
+                    $element.append(options.value);
+                }else if(!_.isObject(options.value))
                     $element.html(Helper.build_value(options.value, context))
                 else
                     $element.html(Helper.build_value(options.value[appApi.currentLanguage], context));
@@ -82,7 +86,7 @@ define([
 
             appApi.widgets.push($element);
         }
-                
+        
         if(tts){
         	Helper.tts_on_focus($element, tts, context);
         }

@@ -16,6 +16,11 @@ define([
         "en-US": "The required fields are: "    
     };
 
+    var requiredField = {
+        "pt-BR": "O campo desejado é: ",
+        "en-US": "The required field is: "    
+    };
+
     var submitMessage = {
         "pt-BR": ". Diga %s para submeter o formulário.",
         "en-US": ". Say %s to submit form.",
@@ -42,7 +47,7 @@ define([
     }
 
 	return function($parent, name, $context, options, callback, ignored_options){
-		var tts = $context.$env.tts;
+		var tts = options.tts;
 		var element = document.createElement('form');
         // Determina o Id do elemento
         element.id = Helper.get_valid_id(name, $parent);
@@ -106,15 +111,21 @@ define([
             $element.focus(function(e){
                 var labels = $element.find('label[for!=""]');
                 var text = '';
+                var requiredLabels = [];
                 $.each(labels, function(index, label){
-                    text += $(label).text() + '.';
+                    var $label = $(label);
+                    var $input = $("#" + $label.prop("for"));
+                    if($input.length && !$input.is("p")){
+                        requiredLabels.push($label);
+                        text += $label.text() + '.';
+                    }
                 });
 
                 var textButton = $element.find('button[type="submit"]').text();
                 var messageButton = textButton && textButton.length ? sprintf(submitMessage[appApi.currentLanguage], textButton) : '';
 
                 if(text && text.length > 0){
-                    var finalMessage = requiredFields[appApi.currentLanguage] + text;
+                    var finalMessage = (requiredLabels.length  > 1 ? requiredFields[appApi.currentLanguage] : requiredField[appApi.currentLanguage]) + text;
                     finalMessage += messageButton.length ? messageButton : '';
                     appApi.tts(finalMessage);
                 }
