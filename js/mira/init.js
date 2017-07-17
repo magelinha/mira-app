@@ -21,6 +21,7 @@ define([
     //'libs/WebAudioRecorder.min',
     'libs/api.ai',
     'libs/appAPI',
+    'libs/agency.min',
     'mira/application',
     'mira/interface',
     'mira/helper',
@@ -46,6 +47,7 @@ define([
         //WebAudioRecorder,
         APIAi,
         MiraApiai,
+        Agency,
         Application,
         Interface,
         Helper
@@ -72,6 +74,7 @@ define([
         //WebAudioRecorder: WebAudioRecorder,
         APIAi : APIAi,
         MiraApiai : MiraApiai,
+        Agency: Agency,
         Application : Application,
         Interface: Interface,
         Helper: Helper
