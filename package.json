@@ -1,7 +1,7 @@
 {
   "name": "MIRA",
   "scripts":{
-    "start": "node node/js/server.js"
+    "start": "node js/server.js"
   },
   "description": "Criar interfaces multiplataformas para API REST utilizando modelos javascript",
   "dependencies": {
