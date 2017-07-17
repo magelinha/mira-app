@@ -169,6 +169,11 @@ server.get('/docs', function(req, res, next){
 
 var http = require('http');
 var httpServer = http.createServer(server);
+
+/*Editado por Magela*/
+httpServer.listen(process.env.PORT || 3000); //porta usada pelo Heroku
+
+/*
 httpServer.listen(3000);
 
 try {
@@ -180,4 +185,4 @@ try {
     httpsServer.listen(443);
 } catch (e){
     console.log('erro ao abrir arquivos para https');
-}
+}*/
