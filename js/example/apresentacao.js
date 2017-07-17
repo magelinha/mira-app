@@ -382,7 +382,7 @@ var landingConcreta =
         { name: "title-menu", class: "navbar-header page-scroll" },
         
         //Menu mobile
-        { name: "button-mobile", class: "navbar-toggle", "data-toggle": "collapse", "data-target": "#container-items" },
+        { name: "button-mobile", class: "navbar-toggle", "data-toggle": "collapse", "data-target": "#container-items", tag:"button" },
         { name: "span-readonly", class: "sr-only", value: "Toggle navigation", tag: "span" },
         { name: "menu-value", value: "Menu" },
         { name: "icon-menu", tag: "i", class:"fa fa-bars" },
@@ -395,14 +395,14 @@ var landingConcreta =
         { 
             name: "menu-item", widget: "WaiContent", when: "isHome", tag:"li", class:"hidden", children:
             [
-                { name: "link-item", href:"$bind", widget:"WaiContent", tag:"a", class:"page-scroll" },
+                { name: "link-item", href:"$bind", widget:"WaiContent", tag:"a" },
             ] 
         },
 
         { 
             name: "menu-item", widget: "WaiContent", tag:"li", children:
             [
-                { name: "link-item", href:"$data.url", value:"$data.item", widget:"WaiContent", tag:"a" },
+                { name: "link-item", href:"$data.url", value:"$data.item", widget:"WaiContent", tag:"a", class:"page-scroll" },
             ] 
         },
 

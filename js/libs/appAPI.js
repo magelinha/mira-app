@@ -303,8 +303,10 @@ ActionAPI.SpeechAction.prototype.InitRecorder = function(){
 
     _this.recorder.onerror = function(event){
         if(event.error == "not-allowed"){
-            _this.recorder.canDestroy = true;
-            _this.recorder = null;
+            if(_this.recorder){
+                _this.recorder.canDestroy = true;
+                _this.recorder = null;    
+            }
 
             return;
         }
@@ -313,7 +315,7 @@ ActionAPI.SpeechAction.prototype.InitRecorder = function(){
     };
 
     _this.recorder.onend = function(event){
-        if(!_this.recorder.canDestroy)
+        if(_this.recorder && !_this.recorder.canDestroy)
             _this.startRecording();
     }
 
