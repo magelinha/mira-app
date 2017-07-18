@@ -5,3 +5,8 @@
 .exemplo-image {
 	height: 16em;
 }
+
+.img-equipe {
+	margin: 0 auto;
+	border: 7px solid #fff;
+}

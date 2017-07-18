@@ -140,6 +140,7 @@ var landingAbstrata = {
                     children: [
                         {
                             name: "colaborador",
+                            tts: "sprintf(\"%s - %s \", \"$data.nome\", \"$data.cargo\")",
                             children: [
                                 { name: "colaborador-image", bind: "$data.img" },
                                 { name: "colaborador-nome", bind: "$data.nome" },
@@ -335,18 +336,13 @@ var landingConcreta =
                                 {
                                     name: "colaboradores", children:
                                     [
-                                        {
-                                            name:"content-colaborador", children:
+                                        { 
+                                            name: "colaborador", children:
                                             [
-                                                { 
-                                                    name: "colaborador", children:
-                                                    [
-                                                        { name: "colaborador-image" },
-                                                        { name: "colaborador-nome" },
-                                                        { name: "colaborador-cargo" },
-                                                    ]
-                                                }
-                                            ]   
+                                                { name: "colaborador-image" },
+                                                { name: "colaborador-nome" },
+                                                { name: "colaborador-cargo" },
+                                            ]
                                         }
                                     ]
                                 }
@@ -465,11 +461,10 @@ var landingConcreta =
         { name: "desenvolvedor-biografia", widget: "WaiContent", value: "$bind" },
 
         //Equipe
-        { name: "content-colaboradores", widget: "WaiContent", tag:"section" },
-        { name: "content-colaborador", widget: "WaiContent", class:"col-sm-3" },
-        { name: "colaboradores", widget: "WaiContent" },
-        { name: "colaborador", widget: "WaiContent", class:"team-member" },
-        { name: "colaborador-image", widget: "WaiContent", tag: "img", class:"img-responsive img-circle exemplo-image", src: "$data.img" },
+        { name: "content-colaboradores", widget: "WaiContent", tag:"section", class:"bg-light-gray" },
+        { name: "colaboradores", widget: "WaiListContent" },
+        { name: "colaborador", widget: "WaiContent", class:"col-sm-3 text-center" },
+        { name: "colaborador-image", widget: "WaiContent", tag: "img", class:"img-responsive img-circle exemplo-image img-equipe", src: "$data.img" },
         { name: "colaborador-nome", widget: "WaiContent", tag: "h4", value: "$data.nome" },
         { name: "colaborador-cargo", widget: "WaiContent", tag: "p", class:"text-muted", value:"$data.cargo" },
 
