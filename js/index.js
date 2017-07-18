@@ -204,7 +204,7 @@ var landingConcreta =
 {
     name: "landing",
     head: GeralHead.concat([
-        {name: "title", widget:"Title", value: "Title Page"}
+        {name: "title", widget:"Title", value: "Projeto de Mestrado - PUC-Rio"}
     ]),
     structure: [
         //Estrutura do menu
