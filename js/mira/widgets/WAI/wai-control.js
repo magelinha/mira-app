@@ -221,7 +221,6 @@ define([
 
         Button: function($parent, name, $context, options, callback, ignored_options){
             var tts = options.tts;
-
             if(options.value === "$bind")
                 options.value = $context.$bind;
 
@@ -240,12 +239,12 @@ define([
             $element.prop('tabindex', 0);
 
             var value = _.isObject(options.value) ? options.value[appApi.currentLanguage] : options.value;
-            $element.text(Helper.build_value(value));
+            $element.text(Helper.build_value(value, context));
             
             if(_.isObject(options.value)){
                 $element.update = function(){
                     var valueToUpdate = _.isObject(options.value) ? options.value[appApi.currentLanguage] : options.value;
-                    $element.text(Helper.build_value(valueToUpdate));
+                    $element.text(Helper.build_value(valueToUpdate, context));
                 }
 
                 appApi.widgets.push($element);

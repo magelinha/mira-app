@@ -94,6 +94,7 @@
 
                     var tts = esse.get('tts');
                     var entity = esse.get('entity');
+                    var title = esse.get("title");
                     
                     map.set('title', esse.get('title'));
                     map.set('tts', tts);
@@ -168,11 +169,13 @@
                         itemWidget = structure;
                     }
 
+                    //itemWidget.set("interface", esse.get("interface"));
+
                     var view = new MiraView.Collection({
                         collection: collection,
                         model: $data,
                         $el: $parent,
-                        $env: $env,
+                        $env: $env, 
                         $bind: $bind1,
                         widget: this,
                         concrete: concrete,
@@ -183,6 +186,12 @@
 
                 });
             }  else {
+                var title = this.get("title"); 
+                if(appApi && title){
+                    var $context = { $data: $data.attributes };
+                    appApi.RegisterTitle(title, this.get("interface"), $context);
+                }
+
                 this.get('children').each(function (widget, i) {
                     widget.getHtml($parent, concrete, $data, $env);
                 }, this);
@@ -194,8 +203,11 @@
             var anchor = Helper.buildAnchor();
             var temp = Helper.buildAnchor();
             var structure = concrete.findStructure(this.get('name'));
+            var interfaceWidget = esse.get("interface");
             if(structure){
+                structure.set("interface", interfaceWidget);
                 structure.prepare(this.get('children'), esse);
+                
                 esse = structure;
             }
 

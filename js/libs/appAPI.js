@@ -53,6 +53,10 @@ ActionAPI.SpeechAction = function(conf){
     this.defaultLanguage = conf.defaultLanguage;
     this.validsLanguages = ['pt-BR', 'en-US'];
     this.messagesInterface = {},
+    this.titles = {
+        "pt-BR":[],
+        "en-US":[]
+    }
 
     this.languages = [
         { 
@@ -167,7 +171,7 @@ ActionAPI.SpeechAction = function(conf){
     /*
         Títulos dos elementos
     */
-    this.titleMessage = { "pt-BR" :[], "en-US": [] };
+    this.titleMessage = { "pt-BR" :{}, "en-US": {} };
 
     /*
     Todas as interfaces abstratas. Será usado para buscar os dados
@@ -886,3 +890,88 @@ ActionAPI.SpeechAction.prototype.ExecuteAppAction = function(action){
             break;
     }
 };
+
+ActionAPI.SpeechAction.prototype.RegisterTitle = function(title, abstractName, $context) {
+    var $data, $bind, $dataObj, $env;
+    if($context != null){
+        $data = $context.$data; $bind = $context.$bind; $dataObj = $context.$dataObj;  $env = $context.$env;
+    }
+    if(title && appApi){
+        var matches = title.match(/(\$\w+\.\w+)|(\$\w+)\w+/g);
+        if(matches != null){
+            title = eval(title);
+        }
+
+        if(_.isObject(title) && title["pt-BR"]){
+            if(!this.titles["pt-BR"][abstractName].includes(title["pt-BR"]));
+                this.titles["pt-BR"][abstractName].push(title["pt-BR"]);
+
+            if(!this.titles["en-US"][abstractName].includes(title["en-US"]));
+                this.titles["en-US"][abstractName].push(title["en-US"]);
+
+        }
+        else if(_.isString(title)){
+
+            if(!this.titles["pt-BR"][abstractName].includes(title));
+                this.titles["pt-BR"][abstractName].push(title);
+
+            if(!this.titles["en-US"][abstractName].includes(title));
+                this.titles["en-US"][abstractName].push(title);
+        }
+    }
+};
+
+
+ActionAPI.SpeechAction.prototype.SpeakInitialMessage = function(titleInterface, abstractName){
+    //Verifica se já não há uma mensagem criada
+    var messages = {
+        "pt-BR": this.titleMessage["pt-BR"][abstractName],
+        "en-US": this.titleMessage["en-US"][abstractName]
+    };
+
+    if(messages[this.currentLanguage] && messages[this.currentLanguage].length){
+        this.tts(messages[this.currentLanguage]);
+        return;
+    }
+
+    //Cria uma mensagem com base nos parâmetros passados
+    var initialMessage = {
+        "pt-BR": "Você está em %s. %s O que deseja?",
+        "en-US": "You are in %s. %s What do you want?"
+    };
+
+    var titles = this.titles[appApi.currentLanguage][abstractName];
+    
+    var messageOptions = {
+        "pt-BR": "As opções são: %s.",
+        "en-US": "The options are: %s."
+    };
+
+    var options = {
+        "pt-BR": "",
+        "en-US": ""
+    };
+
+    var filter = function(value){
+        return value.length;
+    }
+
+    if(titles.length){
+        options["pt-BR"] = sprintf(messageOptions["pt-BR"], this.titles["pt-BR"][abstractName].filter(filter).join(", "));
+        options["en-US"] = sprintf(messageOptions["en-US"], this.titles["en-US"][abstractName].filter(filter).join(", "));
+    }
+    console.log(options);
+
+    var text = {
+        "pt-BR": sprintf(initialMessage[this.currentLanguage], titleInterface["pt-BR"], options["pt-BR"]),
+        "en-US": sprintf(initialMessage[this.currentLanguage], titleInterface["en-US"], options["en-US"])
+    }
+    
+
+    this.titleMessage["pt-BR"][abstractName] = text["pt-BR"];
+    this.titleMessage["en-US"][abstractName] = text["en-US"];
+
+    this.tts(text[this.currentLanguage]);
+}
+
+

@@ -37,8 +37,10 @@
         },
 
         getHtml: function($parent, concrete, $data, $env){
+            var _this = this;
             var widgets = this.get('widgets');
             widgets.each(function(widget){
+                widget.set("interface", _this.get("name"));
                 widget.getHtml($parent, concrete, $data, $env);
             });
         },

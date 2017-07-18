@@ -41,15 +41,7 @@ define([
         configureApi: function(conf){
             if(!conf)
                 return;
-            console.log(conf);
-
-            //SERVER_PROTO = conf.SERVER_PROTO,
-            //SERVER_DOMAIN = conf.SERVER_DOMAIN,
-            //SERVER_PORT = conf.SERVER_PORT,
-            //ACCESS_TOKEN = conf.ACCESS_TOKEN,
-            //SERVER_VERSION = conf.SERVER_VERSION,
-            //LANG = conf.LANG,
-            //TIME_ZONE = conf.TIME_ZONE,
+            
             appApi = new ActionAPI.SpeechAction(conf);
             appApi.Init();
         },

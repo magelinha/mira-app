@@ -52,7 +52,7 @@ var valores = {
     [
         { nome: "Daniel Schwabe", img: "imgs/membros/daniel.jpg", cargo: "Orientador" },
         { nome: "Laufer", img: "imgs/membros/laufer.jpg", cargo: "Professor" },
-        { nome: "Walace Ugulino", img: "imgs/membros/ugulino.jpg", cargo: "Professor" },
+        { nome: "Wallace Ugulino", img: "imgs/membros/ugulino.jpg", cargo: "Professor" },
         { nome: "Ezequiel Bertti", img: "imgs/membros/ezequiel.jpg", cargo: "Desenvolvedor do Mira" }
     ],
     exemplos: [
@@ -105,7 +105,7 @@ var landingAbstrata = {
                     children: [
                         {
                             name: "menu-item",
-                            bind: "$data.item"
+                            title: "$data.item"
                         }
                     ]
                 }
@@ -234,7 +234,12 @@ var landingConcreta =
                                 { 
                                     name: "menu", children:
                                     [
-                                        { name: "menu-item" }
+                                        { 
+                                            name: "menu-li", children:
+                                            [
+                                                { name: "menu-item" }
+                                            ]
+                                        }
                                     ]
                                 }
                             ]
@@ -441,19 +446,9 @@ var landingConcreta =
         //Itens do menu
         { name: "container-items", widget: "WaiContent", class:"collapse navbar-collapse" },
         { name: "menu", widget: "WaiListContent", tag: "ul", class: "nav navbar-nav navbar-right" },
-        { 
-            name: "menu-item", widget: "WaiContent", when: "isHome", tag:"li", class:"hidden", children:
-            [
-                { name: "link-item", href:"$bind", widget:"WaiContent", tag:"a" },
-            ] 
-        },
-
-        { 
-            name: "menu-item", widget: "WaiContent", tag:"li", children:
-            [
-                { name: "link-item", href:"$data.url", value:"$data.item", widget:"WaiContent", tag:"a", class:"page-scroll" },
-            ] 
-        },
+        { name: "menu-li", widget: "WaiContent", when: "isHome", tag:"li", class:"hidden"},
+        { name: "menu-li", widget: "WaiContent", tag:"li" },
+        { name: "menu-item", href:"$data.url", widget:"WaiButton", tag:"a", value:"$data.item" },
 
         //Projeto
         { name: "projeto", widget: "WaiContent", tag:"section"},
@@ -471,10 +466,10 @@ var landingConcreta =
 
         //Equipe
         { name: "content-colaboradores", widget: "WaiContent", tag:"section" },
-        { name: "content-colaborador", widget: "WaiContent", class:"col-sm-4" },
+        { name: "content-colaborador", widget: "WaiContent", class:"col-sm-3" },
         { name: "colaboradores", widget: "WaiContent" },
         { name: "colaborador", widget: "WaiContent", class:"team-member" },
-        { name: "colaborador-image", widget: "WaiContent", tag: "img", class:"img-responsive img-circle", src: "$data.img" },
+        { name: "colaborador-image", widget: "WaiContent", tag: "img", class:"img-responsive img-circle exemplo-image", src: "$data.img" },
         { name: "colaborador-nome", widget: "WaiContent", tag: "h4", value: "$data.nome" },
         { name: "colaborador-cargo", widget: "WaiContent", tag: "p", class:"text-muted", value:"$data.cargo" },
 

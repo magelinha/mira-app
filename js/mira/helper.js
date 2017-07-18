@@ -400,7 +400,7 @@
 
         omit_params: function(options, ignored_options) {
             return _.omit(options, ignored_options, 'tag', 'value', 'tts', 'validation', 'entity', 
-                            'name', 'widget', 'events', 'title','label', 'error', 'help', 'text');
+                            'name', 'widget', 'events', 'title','label', 'error', 'help', 'text', 'interface');
         }
     };
     return esse;
