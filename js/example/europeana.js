@@ -316,7 +316,7 @@ if(typeof define === 'function') {
   ], function ($, $bootstrap, Mira, BootstrapBase) {
 
     return function Europeana() {
-      var app = new Mira.Application(interface_abstracts, concrete_interface, rules, selection, conf);
+      var app = new Mira.Application(interface_abstracts, concrete_interface, rules, selection, null, conf);
       Mira.Widget.setDefault('BootstrapSimple');
       $.ajaxSetup(ajaxSetup);
       app.useServer();

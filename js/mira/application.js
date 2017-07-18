@@ -41,6 +41,7 @@ define([
         configureApi: function(conf){
             if(!conf)
                 return;
+            console.log(conf);
 
             //SERVER_PROTO = conf.SERVER_PROTO,
             //SERVER_DOMAIN = conf.SERVER_DOMAIN,

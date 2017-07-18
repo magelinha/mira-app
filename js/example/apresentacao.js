@@ -21,16 +21,18 @@ var GeralHead = [
     {name: "font_droid", widget:"Head", href:"https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic", rel:"stylesheet", type:"text/css"},
     {name: "font_roboto", widget:"Head", href:"https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700", rel:"stylesheet", type:"text/css"},
     {name: "agency", widget:"Head", widget:"Head", href:"css/agency.min.css", tag: "style"},
+    {name: "apresentacao", widget:"Head", widget:"Head", href:"css/apresentacao.css", tag: "style"},
     {name: "viewport", widget:"Meta", content:"width=device-width, initial-scale=1"}
 ];
 
 var valores = {
     menu: [ 
         { item: "", url:"#page-top" }, 
-        { item: "Projeto", url:"#projeto"}, 
-        { item: "Desenvolvedor", url:"#desenvolvedor"}, 
-        { item: "Equipe", url:"#content-colaboradores"}, 
-        { item: "Vídeos", url:"#content-videos"} 
+        { item: { "pt-BR": "Projeto", "en-US": "Project"}, url:"#projeto"}, 
+        { item: { "pt-BR": "Desenvolvedor", "en-US": "Developer"}, url:"#desenvolvedor"}, 
+        { item: { "pt-BR": "Equipe", "en-US": "Team"}, url:"#content-colaboradores"}, 
+        { item: { "pt-BR": "Exemplos", "en-US": "Examples"}, url:"#content-exemplos"}, 
+        { item: { "pt-BR": "Vídeos", "en-US": "Videos"}, url:"#content-videos"}
     ],
     projeto:
     {
@@ -51,6 +53,15 @@ var valores = {
         { nome: "Daniel Schwabe", img: "imgs/membros/daniel.jpg", cargo: "Orientador" },
         { nome: "Laufer", img: "imgs/membros/laufer.jpg", cargo: "Professor" },
         { nome: "Walace Ugulino", img: "imgs/membros/ugulino.jpg", cargo: "Professor" },
+        { nome: "Ezequiel Bertti", img: "imgs/membros/ezequiel.jpg", cargo: "Desenvolvedor do Mira" }
+    ],
+    exemplos: [
+        {name: "FastFood", href:"/?app=example/fastfood", source:'js/example/fastfood.js', img: "imgs/exemplos/fastfood.PNG"},
+        {name: "Imobiliária", href:"/?app=example/imovel", source:'https://github.com/TecWebLab/mira/blob/master/js/example/imovel.js', img: "imgs/exemplos/imobiliaria.PNG"},
+        {name: "Futebol", href:"/?app=example/futebol", source:'https://github.com/TecWebLab/mira/blob/master/js/example/futebol.js', img: "imgs/exemplos/futebol.PNG"},
+        {name: "Todo", href:"/?app=example/todo", source:'https://github.com/TecWebLab/mira/blob/master/js/example/todo.js', img: "imgs/exemplos/todo.PNG"},
+        {name: "Europeana", href:"/?app=example/europeana", source:'https://github.com/TecWebLab/mira/blob/master/js/example/europeana.js', img: "imgs/exemplos/europeana.PNG"},
+        {name: "Reserva de Hotéis", href:"/?app=example/booking", source:'js/example/booking.js', img: "imgs/exemplos/reserva_hotel.PNG"},
     ],
     videos:
     [
@@ -103,7 +114,7 @@ var landingAbstrata = {
         {
             name: "projeto", children:
             [
-                { name: "text-project", bind: "valores.projeto", tts: "$bind"}
+                { name: "descricao-projeto", bind: "valores.projeto", tts: "$bind"}
             ]
         },
         {
@@ -140,6 +151,37 @@ var landingAbstrata = {
             ]
         },
         {
+            name: "content-exemplos", children:
+            [
+                {
+                    name: "container-exemplos", children:
+                    [
+                        {
+                            name: "container-titulo-exemplo", children:
+                            [
+                                { name: "item-title-exemplos" },
+                                { name: "item-subtitle-exemplos" }
+                            ]
+                        },
+                        {
+                            name: "exemplos",
+                            datasource: "valores.exemplos",
+                            children: [
+                                {
+                                    name: "exemplo",
+                                    children: [
+                                        { name: "exemplo-image" },
+                                        { name: "exemplo-link" },
+                                        { name: "exemplo-codigo-fonte" }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             name: "content-videos", children:
             [
                 {
@@ -157,6 +199,7 @@ var landingAbstrata = {
         }
     ]
 };
+
 var landingConcreta = 
 {
     name: "landing",
@@ -223,7 +266,7 @@ var landingConcreta =
                         { 
                             name: "row", children:
                             [
-                                { name: "text-project" },
+                                { name: "descricao-projeto" },
                             ]
                         }
                     ]
@@ -370,6 +413,12 @@ var landingConcreta =
             value: {"pt-BR": "Aqui estão as pessoas que ajudaram o projeto a ser tornar realidade", "en-US":"Here are the people who helped the project become reality" }
         },
 
+        { name: "item-title-exemplos", widget: "WaiContent", class: "section-heading", tag:"h2", value: {"pt-BR": "Exemplos", "en-US":"Examples"} },
+        { 
+            name: "item-subtitle-exemplos", widget: "WaiContent", class: "section-subheading text-muted", tag:"h3", 
+            value: {"pt-BR": "Veja alguns projetos implementados com o Mira", "en-US":"See some projects implemented with Mira" }
+        },
+
         { name: "item-title-video", widget: "WaiContent", class: "section-heading", tag:"h2", value: {"pt-BR": "Vídeos", "en-US":"Videos"} },
         { 
             name: "item-subtitle-video", widget: "WaiContent", class: "section-subheading text-muted", tag:"h3", 
@@ -408,7 +457,7 @@ var landingConcreta =
 
         //Projeto
         { name: "projeto", widget: "WaiContent", tag:"section"},
-        { name: "text-project", widget: "WaiContent", value:"$bind"},
+        { name: "descricao-projeto", widget: "WaiContent", value:"$bind"},
 
         //desenvolvedor
         { name: "desenvolvedor", widget: "WaiContent", tag:"section" },
@@ -428,6 +477,16 @@ var landingConcreta =
         { name: "colaborador-image", widget: "WaiContent", tag: "img", class:"img-responsive img-circle", src: "$data.img" },
         { name: "colaborador-nome", widget: "WaiContent", tag: "h4", value: "$data.nome" },
         { name: "colaborador-cargo", widget: "WaiContent", tag: "p", class:"text-muted", value:"$data.cargo" },
+
+        //Exemplos
+        { name: "container-titulo-exemplo", widget:"WaiContent", class:"row text-center" },
+        { name: "container-exemplos", widget: "WaiContent", class:"container" },
+        { name: "content-exemplos", widget: "WaiContent", tag:"section" },
+        { name: "exemplos", widget: "WaiContent" },
+        { name: "exemplo", widget: "WaiContent", class:"col-sm-4 team-member group-exemplos" },
+        { name: "exemplo-image", widget: "WaiContent", tag: "img", class:"img-responsive exemplo-image", src: "$data.img" },
+        { name: "exemplo-link", widget: "WaiContent", tag: "a", class:"btn btn-primary col-sm-12", value: "$data.name", href:"$data.href", style:"margin-top:10px;" },
+        { name: "exemplo-codigo-fonte", widget: "WaiContent", tag: "a", class:"btn btn-info col-sm-12", value:"Código Fonte", href:"$data.source", style:"margin-top:10px;" },
 
         //Vídeos
         { name: "content-videos", widget: "WaiContent", tag:"section" },

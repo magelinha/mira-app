@@ -32,205 +32,210 @@ var landingAbstrata = {
     name: "landing",
     title: { "pt-BR": "Fast Food UAI - Área de pedidos", "en-US": "Fast Food UAI - Order area" },
     widgets: [
-        { name: "tutorial", title: "Tutorial", bind: "tutorial", tts: "$bind"},
-        {
-            name: "section-add-item",
-            children: [
+        { 
+            name: "container-center" , children:
+            [
+                { name: "tutorial", title: "Tutorial", bind: "tutorial", tts: "$bind"},
                 {
-                    name: "adicionar-item",
+                    name: "section-add-item",
+                    children: [
+                        {
+                            name: "adicionar-item",
+                            title:
+                            {
+                                "pt-BR": "Adicionar Item",
+                                "en-US": "Add Item"
+                            },
+                            children: [
+                                {
+                                    name: "alimento",
+                                    label: "Alimento",
+                                    entity: { name: "alimento", key: "name" },
+                                    validation: function(value){
+                                        return { success: value != undefined && value.length > 0 };
+                                    },
+                                    datasource: "url:<%= \"/api/FastFood/itens\" %>",
+                                    children: [
+                                        {
+                                            name: "option-item",
+                                            error: 
+                                            {
+                                                name: "default",
+                                                message: {
+                                                    "pt-BR": "O item não foi informado",
+                                                    "en-US": "The item didn't informed"
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    name: "quantidade",
+                                    label: {
+                                        "pt-BR": "Quantidade",
+                                        "en-US": "Quantity"
+                                    },
+                                    validation: function(value){
+                                        
+                                        //empty
+                                        if(value == "")
+                                            return { success: false, error: 'empty'};
+                                        
+                                        //Invalid
+                                        if(_.isNaN(value) || !Number.isInteger(parseInt(value)))
+                                            return { success: false, error: 'invalid'};
+
+                                        if(parseInt(value) > 3)
+                                            return { success: false, error: 'maxValue'};
+
+                                        if(parseInt(value) < 1)
+                                            return { success: false, error: 'minValue'};
+
+                                        return { success: true };
+
+                                    },
+                                    error: [
+                                        {
+                                            name: "empty",
+                                            message: {
+                                                "pt-BR": "A quantidade não foi informada",
+                                                "en-US": "The quantity didn't informed"
+                                            }
+                                        },
+                                        {
+                                            name: "maxValue",
+                                            message: {
+                                                "pt-BR": "A quantidade não pode ser maior que três.",
+                                                "en-US": "The quantity can not be greater than three."
+                                            }
+                                        },
+                                        {
+                                            name: "minValue",
+                                            message: {
+                                                "pt-BR": "A quantidade não pode ser menor que um.",
+                                                "en-US": "The amount can not be less than one."
+                                            }
+                                        },
+                                        {
+                                            name: "invalid",
+                                            message: {
+                                                "pt-BR": "O valor informado não é um número",
+                                                "en-US": "The value informed is not a number."
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    name: "confirmar",
+                                    bind: {
+                                        "pt-BR": "Adicionar",
+                                        "en-US": "Add"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: "section-itens",
                     title:
                     {
-                        "pt-BR": "Adicionar Item",
-                        "en-US": "Add Item"
+                        "pt-BR": "Lista de Itens",
+                        "en-US": "List of Items"
                     },
                     children: [
                         {
-                            name: "alimento",
-                            label: "Alimento",
-                            entity: { name: "alimento", key: "name" },
-                            validation: function(value){
-                                return { success: value != undefined && value.length > 0 };
-                            },
-                            datasource: "url:<%= \"/api/FastFood/itens\" %>",
-                            children: [
+                            name: "lista-itens",
+                            
+                            datasource: "selecionados",
+                            children: 
+                            [
                                 {
-                                    name: "option-item",
-                                    error: 
+                                    name: "item-informado",
+                                    bind: "$data",
+                                    tts: 
                                     {
-                                        name: "default",
-                                        message: {
-                                            "pt-BR": "O item não foi informado",
-                                            "en-US": "The item didn't informed"
-                                        }
+                                        "pt-BR": "sprintf('Item: %s. Quantidade: %d. Preço: %0.2f. Fale Editar para editá-lo ou Remover para removê-lo do pedido.', '$data.item', $data.quantidade, $data.total)",
+                                        "en-US": "sprintf('Item: %s. Quantity: %d. Price: %0.2f. Say Edit to edit it or Remove to remove from order.', '$data.item', $data.quantidade, $data.total)"
                                     }
                                 }
                             ]
                         },
-                        {
-                            name: "quantidade",
-                            label: {
-                                "pt-BR": "Quantidade",
-                                "en-US": "Quantity"
-                            },
-                            validation: function(value){
-                                
-                                //empty
-                                if(value == "")
-                                    return { success: false, error: 'empty'};
-                                
-                                //Invalid
-                                if(_.isNaN(value) || !Number.isInteger(parseInt(value)))
-                                    return { success: false, error: 'invalid'};
-
-                                if(parseInt(value) > 3)
-                                    return { success: false, error: 'maxValue'};
-
-                                if(parseInt(value) < 1)
-                                    return { success: false, error: 'minValue'};
-
-                                return { success: true };
-
-                            },
-                            error: [
-                                {
-                                    name: "empty",
-                                    message: {
-                                        "pt-BR": "A quantidade não foi informada",
-                                        "en-US": "The quantity didn't informed"
-                                    }
-                                },
-                                {
-                                    name: "maxValue",
-                                    message: {
-                                        "pt-BR": "A quantidade não pode ser maior que três.",
-                                        "en-US": "The quantity can not be greater than three."
-                                    }
-                                },
-                                {
-                                    name: "minValue",
-                                    message: {
-                                        "pt-BR": "A quantidade não pode ser menor que um.",
-                                        "en-US": "The amount can not be less than one."
-                                    }
-                                },
-                                {
-                                    name: "invalid",
-                                    message: {
-                                        "pt-BR": "O valor informado não é um número",
-                                        "en-US": "The value informed is not a number."
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            name: "confirmar",
-                            bind: {
-                                "pt-BR": "Adicionar",
-                                "en-US": "Add"
-                            }
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            name: "section-itens",
-            title:
-            {
-                "pt-BR": "Lista de Itens",
-                "en-US": "List of Items"
-            },
-            children: [
-                {
-                    name: "lista-itens",
-                    
-                    datasource: "selecionados",
-                    children: 
-                    [
-                        {
-                            name: "item-informado",
-                            bind: "$data",
-                            tts: 
-                            {
-                                "pt-BR": "sprintf('Item: %s. Quantidade: %d. Preço: %0.2f. Fale Editar para editá-lo ou Remover para removê-lo do pedido.', '$data.item', $data.quantidade, $data.total)",
-                                "en-US": "sprintf('Item: %s. Quantity: %d. Price: %0.2f. Say Edit to edit it or Remove to remove from order.', '$data.item', $data.quantidade, $data.total)"
-                            }
-                        }
-                    ]
-                },
-                { name: "limpar-lista", bind: { "pt-BR": "Limpar", "en-US": "Clear" }, title: { "pt-BR":"Limpar lista de pedidos", "en-US":"Clear list of order" } },
-                { name: "cadastrar-pedido", bind: { "pt-BR": "Comprar", "en-US": "Purchase" }, title: { "pt-BR":"Efetuar compra", "en-US":"Purchase" } },
-                { 
-                    name:"valor-total", 
-                    bind: "_.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0)",
-                    tts: "$bind"
-                }
-            ]
-        },
-        {
-            name: "content-edit-item",
-            children:[
-                {
-                    name: "form-edit-item",
-                    children:[
-                        { name: "item-to-edit", label: "Item" },
+                        { name: "limpar-lista", bind: { "pt-BR": "Limpar", "en-US": "Clear" }, title: { "pt-BR":"Limpar lista de pedidos", "en-US":"Clear list of order" } },
+                        { name: "cadastrar-pedido", bind: { "pt-BR": "Comprar", "en-US": "Purchase" }, title: { "pt-BR":"Efetuar compra", "en-US":"Purchase" } },
                         { 
-                            name: "nova-quantidade", 
-                            label: "Nova Quantidade",
-                            validation: function(value){
-                                
-                                //empty
-                                if(value == "")
-                                    return { success: false, error: 'empty'};
-                                
-                                //Invalid
-                                if(_.isNaN(value) || !Number.isInteger(parseInt(value)))
-                                    return { success: false, error: 'invalid'};
-
-                                if(parseInt(value) > 3)
-                                    return { success: false, error: 'maxValue'};
-
-                                if(parseInt(value) < 1)
-                                    return { success: false, error: 'minValue'};
-
-                                return { success: true };
-
-                            },
-                            error: [
-                                {
-                                    name: "empty",
-                                    message: {
-                                        "pt-BR": "A quantidade não foi informada",
-                                        "en-US": "The quantity didn't informed"
-                                    }
-                                },
-                                {
-                                    name: "maxValue",
-                                    message: {
-                                        "pt-BR": "A quantidade não pode ser maior que três.",
-                                        "en-US": "The quantity can not be greater than three."
-                                    }
-                                },
-                                {
-                                    name: "minValue",
-                                    message: {
-                                        "pt-BR": "A quantidade não pode ser menor que um.",
-                                        "en-US": "The amount can not be less than one."
-                                    }
-                                },
-                                {
-                                    name: "invalid",
-                                    message: {
-                                        "pt-BR": "O valor informado não é um número",
-                                        "en-US": "The value informed is not a number."
-                                    }
-                                }
-                            ]
+                            name:"valor-total", 
+                            bind: "_.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0)",
+                            tts: "$bind"
                         }
                     ]
                 },
-                { name: "confirmar-edicao", bind: { "pt-BR": "Confirmar", "en-US": "Confirm" }},
-                { name: "cancelar-edicao", bind: { "pt-BR": "Cancelar", "en-US": "Cancel" }}
+                {
+                    name: "content-edit-item",
+                    children:[
+                        {
+                            name: "form-edit-item",
+                            children:[
+                                { name: "item-to-edit", label: "Item" },
+                                { 
+                                    name: "nova-quantidade", 
+                                    label: "Nova Quantidade",
+                                    validation: function(value){
+                                        
+                                        //empty
+                                        if(value == "")
+                                            return { success: false, error: 'empty'};
+                                        
+                                        //Invalid
+                                        if(_.isNaN(value) || !Number.isInteger(parseInt(value)))
+                                            return { success: false, error: 'invalid'};
+
+                                        if(parseInt(value) > 3)
+                                            return { success: false, error: 'maxValue'};
+
+                                        if(parseInt(value) < 1)
+                                            return { success: false, error: 'minValue'};
+
+                                        return { success: true };
+
+                                    },
+                                    error: [
+                                        {
+                                            name: "empty",
+                                            message: {
+                                                "pt-BR": "A quantidade não foi informada",
+                                                "en-US": "The quantity didn't informed"
+                                            }
+                                        },
+                                        {
+                                            name: "maxValue",
+                                            message: {
+                                                "pt-BR": "A quantidade não pode ser maior que três.",
+                                                "en-US": "The quantity can not be greater than three."
+                                            }
+                                        },
+                                        {
+                                            name: "minValue",
+                                            message: {
+                                                "pt-BR": "A quantidade não pode ser menor que um.",
+                                                "en-US": "The amount can not be less than one."
+                                            }
+                                        },
+                                        {
+                                            name: "invalid",
+                                            message: {
+                                                "pt-BR": "O valor informado não é um número",
+                                                "en-US": "The value informed is not a number."
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        { name: "confirmar-edicao", bind: { "pt-BR": "Confirmar", "en-US": "Confirm" }},
+                        { name: "cancelar-edicao", bind: { "pt-BR": "Cancelar", "en-US": "Cancel" }}
+                    ]
+                }
             ]
         }
     ]
@@ -319,6 +324,7 @@ var landingConcreta =
     ],
     maps: 
     [
+        { name: "container-center", widget:"WaiContent", class:"container"},
         
         //Sessões    
         { name: "section-add-item", widget: "WaiContent", tag: "section", class:"row" },
@@ -416,50 +422,55 @@ var pedidoAbstrata = {
     name: "pedido",
     title: { "pt-BR": "Fast Food UAI - Número do pedido", "en-US": "Fast Food UAI - Number of Order"},
     widgets: [
-        {
-            name: "section-numero-pedido",
-            title: {
-                "pt-BR": "Número do pedido",
-                "en-US": "Number of Order"
-            },
-            children: [
+        { 
+            name: "container-center", children:
+            [
                 {
-                    name: "numero-pedido",
-                    bind: "$data.numero",
-                    tts: "$bind"
-                }
-            ]
-        },
-        {
-            name: "section-itens",
-            title:
-            {
-                "pt-BR": "Lista de Itens",
-                "en-US": "List of Items"
-            },
-            children: [
-                {
-                    name: "lista-itens",
-                    
-                    datasource: "selecionados",
-                    children: 
-                    [
+                    name: "section-numero-pedido",
+                    title: {
+                        "pt-BR": "Número do pedido",
+                        "en-US": "Number of Order"
+                    },
+                    children: [
                         {
-                            name: "item-informado",
-                            bind: "$data",
-                            tts: 
-                            {
-                                "pt-BR": "sprintf('Item: %s. Quantidade: %d. Preço: %f', '$data.item', $data.quantidade, $data.total)",
-                                "en-US": "sprintf('Item: %s. Quantity: %d. Price: %f', '$data.item', $data.quantidade, $data.total)"
-                            }
+                            name: "numero-pedido",
+                            bind: "$data.numero",
+                            tts: "$bind"
                         }
                     ]
                 },
-                { name: "novo-pedido", bind: { "pt-BR": "Novo Pedido", "en-US": "New Order" }, title: { "pt-BR":"Novo pedido", "en-US":"New order" } },
-                { 
-                    name:"valor-total", 
-                    bind: "_.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0)",
-                    tts: "$bind"
+                {
+                    name: "section-itens",
+                    title:
+                    {
+                        "pt-BR": "Lista de Itens",
+                        "en-US": "List of Items"
+                    },
+                    children: [
+                        {
+                            name: "lista-itens",
+                            
+                            datasource: "selecionados",
+                            children: 
+                            [
+                                {
+                                    name: "item-informado",
+                                    bind: "$data",
+                                    tts: 
+                                    {
+                                        "pt-BR": "sprintf('Item: %s. Quantidade: %d. Preço: %f', '$data.item', $data.quantidade, $data.total)",
+                                        "en-US": "sprintf('Item: %s. Quantity: %d. Price: %f', '$data.item', $data.quantidade, $data.total)"
+                                    }
+                                }
+                            ]
+                        },
+                        { name: "novo-pedido", bind: { "pt-BR": "Novo Pedido", "en-US": "New Order" }, title: { "pt-BR":"Novo pedido", "en-US":"New order" } },
+                        { 
+                            name:"valor-total", 
+                            bind: "_.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0)",
+                            tts: "$bind"
+                        }
+                    ]
                 }
             ]
         }
@@ -509,7 +520,8 @@ var pedidoConcreta =
         }
     ],
     maps: 
-    [
+    [   
+        { name: "container-center", widget:"WaiContent", class:"container"},
         { name: "section-numero-pedido", widget: "WaiContent", class:"text-center" },
         { name: "section-itens", widget: "WaiContent" },
         { name: "section-itens", widget: "WaiContent", tag: "section", class:"row" },
