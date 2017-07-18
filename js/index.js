@@ -71,7 +71,7 @@ var valores = {
                 "pt-BR": "Demonstração Reserva de Hoteis",
                 "en-US": "Demo Hotel Reservation"
             }, 
-            url: "https://www.youtube.com/watch?v=oTAIIpIcUwI&t=8s"
+            url: "https://www.youtube.com/embed/oTAIIpIcUwI"
         },
         /*
         { 
@@ -492,9 +492,14 @@ var landingConcreta =
         { name: "content-videos", widget: "WaiContent", tag:"section" },
         { name: "videos", widget: "WaiListSelect"},
         { 
-            name: "video", widget: "WaiContent", class:"col-sm-4", children: 
+            name: "video", widget: "WaiContent", class:"col-sm-6 text-center", children: 
             [
-                { name: "iframe-video", tag: "iframe", class:"embed-responsive embed-responsive-16by9", src:"$data.url"},
+                {
+                    name: "embed-video", widget:"WaiContent", class: "embed-responsive embed-responsive-16by9", children:
+                    [
+                        { name: "iframe-video", tag: "iframe", src:"$data.url", allowfullscreen:true },
+                    ]
+                },
                 { name: "title-video", tag: "h5", value:"$data.titulo"},
             ]
         },
