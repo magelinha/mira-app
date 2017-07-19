@@ -245,16 +245,6 @@ ActionAPI.SpeechAction.prototype.startRecording = function(){
     }catch(e){
 
     }
-    
-    
-    /*
-    setTimeout(function(){
-        console.log('acabou o tempo');
-        if(_this.recorder.isRecording()){
-            console.log('encerrando a gravação..');
-            _this.recorder.finishRecording();
-        }
-    }, 5000);*/
 };
 
 
@@ -345,184 +335,6 @@ ActionAPI.SpeechAction.prototype.InitAPIAi = function(){
     });
 
     _this.InitRecorder();
-
-    /*
-    _this.recorder = _this.apiAi.createStreamClient();
-
-    _this.recorder.onInit = function() {
-        console.log("> ON INIT use direct assignment property");
-        _this.recorder.open();
-    };
-
-    _this.recorder.onStartListening = function() {
-        console.log("> ON START LISTENING");
-    };
-
-    _this.recorder.onStopListening = function() {
-        console.log("> ON STOP LISTENING");
-    };
-
-    _this.recorder.onOpen = function() {
-        console.log("> ON OPEN SESSION");
-    };
-
-    _this.recorder.onClose = function() {
-        console.log("> ON CLOSE");
-        //_this.recorder.close();
-        if(!_this.recorder.started)
-            _this.recorder.startListening();
-        _this.recorder.started = false;
-    };
-
-    _this.recorder.onResults = function(data){
-        console.log("> ON RESULTS", data);
-        var status = data.status,
-            code,
-            responseSpeech;
-
-        if (!(status && (code = status.code) && isFinite(parseFloat(code)) && code < 300 && code > 199)) {
-            _this.tts("Houve um erro ao processar a fala. Tente novamente.")
-            return;
-        }
-
-        responseSpeech = (data.result.fulfillment) ? data.result.fulfillment.speech : data.result.speech;
-
-        console.log(data);
-
-        if(data.result.action != 'input.unknown' && data.result.action != 'Fallback' && !data.result.actionIncomplete ) {
-            var action = data.result.action.toUpperCase();
-             switch(action){
-                case 'SETVALUE':
-                    var messageError = setValue(data.result.parameters);
-                    if(messageError.length)
-                        responseSpeech = messageError;
-
-                    break;
-
-                case 'CONFIRMFORM':
-                    confirmForm();
-                    break;
-
-                case 'REQUESTFOCUS':
-                    requestFocus(data.result.parameters);
-                    break;
-
-                default:
-                    executeCommand(data.result.action, data.result.parameters);
-                    break;
-            }
-        }
-
-        // Use Text To Speech service to play text.
-        if(responseSpeech){
-            _this.tts(responseSpeech);
-        }
-
-    };
-
-    _this.recorder.onError = function(code, data) {
-        _this.recorder.close();
-        console.log("> ON ERROR", code, data);
-    };
-
-    _this.recorder.onEvent = function(code, data) {
-        console.log("> ON EVENT", code, data);
-    };
-
-    _this.recorder.readingInterval = 1000;
-    console.log(_this.recorder);
-
-    _this.recorder.init();
-    
-    /*
-    var config = {
-        server: _this.ServerProto + '://' + _this.ServerDomain + ':' + _this.ServerPort + '/api/ws/query',
-        serverVersion: _this.ServerVersion,
-        token: _this.tokens[_this.currentLanguage],// Use Client access token there (see agent keys).
-        sessionId: _this.sessionId,
-        lang: _this.currentLanguage,
-        onInit: function () {
-            _this.apiAi.open();
-        },
-
-        onOpen: function () {
-            console.log("> ON OPEN SESSION abriu uma sessão");
-            //_this.startRecording();
-        },
-
-        onClose: function () {
-            console.log("> ON CLOSE fechou uma sessão");
-            
-            //reabre a conexão caso feche
-            _this.apiAi.open();
-        },
-
-        onResults: function (data) {
-            
-            //console.log("> ON RESULT");
-            //console.log(data);
-            var status = data.status,
-                code,
-                responseSpeech;
-
-            if (!(status && (code = status.code) && isFinite(parseFloat(code)) && code < 300 && code > 199)) {
-                _this.tts("Houve um erro ao processar a fala. Tente novamente.")
-                return;
-            }
-
-            responseSpeech = (data.result.fulfillment) ? data.result.fulfillment.speech : data.result.speech;
-
-            console.log(data);
-
-            if(data.result.action != 'input.unknown' && data.result.action != 'Fallback' && !data.result.actionIncomplete ) {
-                var action = data.result.action.toUpperCase();
-                 switch(action){
-                    case 'SETVALUE':
-                        var messageError = setValue(data.result.parameters);
-                        if(messageError.length)
-                            responseSpeech = messageError;
-
-                        break;
-
-                    case 'CONFIRMFORM':
-                        confirmForm();
-                        break;
-
-                    case 'REQUESTFOCUS':
-                        requestFocus(data.result.parameters);
-                        break;
-
-                    default:
-                        executeCommand(data.result.action, data.result.parameters);
-                        break;
-                }
-            }
-
-            // Use Text To Speech service to play text.
-            if(responseSpeech){
-                _this.tts(responseSpeech);
-            }
-
-            //_this.ResetRecorder();
-            //apiAiTts.tts(speech, undefined, LANG);
-
-            //_this.startRecording();
-        },
-
-        onError: function (code, data) {
-            //apiAi.close();
-            console.log("> ON ERROR", code, data);
-        },
-
-    };
-
-    this.apiAi = new ApiAi(config);
-    */
-
-    /**
-     * You have to invoke init() method explicitly to decide when ask permission to use microphone.
-     */
-    //this.apiAi.init();    
 }
 
 
@@ -534,6 +346,7 @@ ActionAPI.SpeechAction.prototype.AjaxCurl = function(url, type, callback, data, 
           xhr.setRequestHeader("Authorization", "Bearer " + (token ? token : _this.tokens[_this.currentLanguage]));
         },
         type: type,
+        crossDomain: true,
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         processData: false,
