@@ -36,7 +36,7 @@ var valores = {
     ],
     projeto:
     {
-        "pt-BR": `O (projeto- nome a ser definido) é a modelagem de interfaces a partir de conversas. O objetivo do projeto é propor uma nova forma de interação entre o usuário e a aplicação através de intenções, que são expressadas através de falas. Esse projeto tem como objetivo também propor um novo conceito de acessibilidade, já que o atual apresenta que uma aplicação acessível é aquela que permite à usuários com deficiência utilizar, sem levar em consideração a dificuldade para tal. Através desse modelo, e com os widgets criados para o MIRA Framework, é possível criar aplicações que atendam as questões de acessibilidade propostas pela W3C e que possua a interação através de conversas.`,
+        "pt-BR": "O (projeto- nome a ser definido) é a modelagem de interfaces a partir de conversas. O objetivo do projeto é propor uma nova forma de interação entre o usuário e a aplicação através de intenções, que são expressadas através de falas. Esse projeto tem como objetivo também propor um novo conceito de acessibilidade, já que o atual apresenta que uma aplicação acessível é aquela que permite à usuários com deficiência utilizar, sem levar em consideração a dificuldade para tal. Através desse modelo, e com os widgets criados para o MIRA Framework, é possível criar aplicações que atendam as questões de acessibilidade propostas pela W3C e que possua a interação através de conversas.",
         "en-US": "The (design-name to be defined) is the modeling of interfaces from conversations. The purpose of the project is to propose a new way of interaction between the user and the application through intentions, which are expressed through speeches. This project also aims to propose a new concept of accessibility, since the present one shows that an accessible application is one that allows disabled users to use, without taking into account the difficulty to do so. Through this template, and with the widgets created for the MIRA Framework, it is possible to create applications that meet the accessibility issues proposed by the W3C and have the interaction through conversations."
     },
     desenvolvedor:
@@ -53,7 +53,7 @@ var valores = {
         { nome: "Daniel Schwabe", img: "imgs/membros/daniel.jpg", cargo: {"pt-BR": "Orientador", "en-US": "Advisor"}},
         { nome: "Laufer", img: "imgs/membros/laufer.jpg", cargo: "Professor" },
         { nome: "Wallace Ugulino", img: "imgs/membros/ugulino.jpg", cargo: "Professor" },
-        { nome: "Ezequiel Bertti", img: "imgs/membros/ezequiel.jpg", cargo: "pt-BR": "Desenvolvedor do Mira Framework", "en-US":"MIRA Framework Developer" }
+        { nome: "Ezequiel Bertti", img: "imgs/membros/ezequiel.jpg", cargo: {"pt-BR": "Desenvolvedor do Mira Framework", "en-US":"MIRA Framework Developer"} }
     ],
     exemplos: [
         {name: "FastFood", href:"/?app=example/fastfood", source:'js/example/fastfood.js', img: "imgs/exemplos/fastfood.PNG"},
