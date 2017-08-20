@@ -43,6 +43,8 @@ define([
                 appApi.titles["en-US"][abstractName] = [];
             }
 
+            console.log(appApi.titles);
+
             var $head = $('head');
             this.concrete.buildHead($head, this.model, this.$env);
             this.abstract.getHtml(this.$el, this.concrete, this.model, this.$env);
