@@ -706,7 +706,6 @@ ActionAPI.SpeechAction.prototype.ExecuteAppAction = function(action){
 
 ActionAPI.SpeechAction.prototype.RegisterTitle = function(title, abstractName, $context) {
     var $data, $bind, $dataObj, $env;
-    console.log(this.titles["pt-BR"]);
     
     if($context != null){
         $data = $context.$data; $bind = $context.$bind; $dataObj = $context.$dataObj;  $env = $context.$env;
@@ -722,19 +721,20 @@ ActionAPI.SpeechAction.prototype.RegisterTitle = function(title, abstractName, $
         if(_.isObject(title) && title["pt-BR"]){
             console.log(this.titles["pt-BR"][abstractName]);
 
-            if(!this.titles["pt-BR"][abstractName].includes(title["pt-BR"]));
+
+            if(!_.contains(this.titles["pt-BR"][abstractName], title["pt-BR"]))
                 this.titles["pt-BR"][abstractName].push(title["pt-BR"]);
 
-            if(!this.titles["en-US"][abstractName].includes(title["en-US"]));
+            if(!_.contains(this.titles["en-US"][abstractName], title["en-US"]));
                 this.titles["en-US"][abstractName].push(title["en-US"]);
 
         }
         else if(_.isString(title)){
             console.log(this.titles["pt-BR"][abstractName]);
-            if(!this.titles["pt-BR"][abstractName].includes(title));
+            if(!_.contains(this.titles["pt-BR"][abstractName], title));
                 this.titles["pt-BR"][abstractName].push(title);
 
-            if(!this.titles["en-US"][abstractName].includes(title));
+            if(!_.contains(this.titles["en-US"][abstractName], title["en-US"]));
                 this.titles["en-US"][abstractName].push(title);
         }
     }
