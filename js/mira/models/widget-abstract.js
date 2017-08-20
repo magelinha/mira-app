@@ -187,12 +187,12 @@
                 });
             }  else {
                 var title = this.get("title");
-                var interface = this.get("interface");
+                var interfaceWidget = this.get("interface");
                 console.log(this, esse);
 
-                if(appApi && title && interface){
+                if(appApi && title && interfaceWidget){
                     var $context = { $data: $data.attributes };
-                    appApi.RegisterTitle(title, interface, $context);
+                    appApi.RegisterTitle(title, interfaceWidget, $context);
                 }
 
                 this.get('children').each(function (widget, i) {
