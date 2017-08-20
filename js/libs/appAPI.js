@@ -706,6 +706,8 @@ ActionAPI.SpeechAction.prototype.ExecuteAppAction = function(action){
 
 ActionAPI.SpeechAction.prototype.RegisterTitle = function(title, abstractName, $context) {
     var $data, $bind, $dataObj, $env;
+    console.log(this.titles["pt-BR"]);
+    
     if($context != null){
         $data = $context.$data; $bind = $context.$bind; $dataObj = $context.$dataObj;  $env = $context.$env;
     }
@@ -715,9 +717,11 @@ ActionAPI.SpeechAction.prototype.RegisterTitle = function(title, abstractName, $
             title = eval(title);
         }
 
+        
+
         if(_.isObject(title) && title["pt-BR"]){
             console.log(this.titles["pt-BR"][abstractName]);
-            
+
             if(!this.titles["pt-BR"][abstractName].includes(title["pt-BR"]));
                 this.titles["pt-BR"][abstractName].push(title["pt-BR"]);
 
