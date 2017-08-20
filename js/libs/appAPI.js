@@ -716,12 +716,7 @@ ActionAPI.SpeechAction.prototype.RegisterTitle = function(title, abstractName, $
             title = eval(title);
         }
 
-        
-
         if(_.isObject(title) && title["pt-BR"]){
-            console.log(this.titles["pt-BR"][abstractName]);
-
-
             if(!_.contains(this.titles["pt-BR"][abstractName], title["pt-BR"]))
                 this.titles["pt-BR"][abstractName].push(title["pt-BR"]);
 
@@ -730,11 +725,10 @@ ActionAPI.SpeechAction.prototype.RegisterTitle = function(title, abstractName, $
 
         }
         else if(_.isString(title)){
-            console.log(this.titles["pt-BR"][abstractName]);
             if(!_.contains(this.titles["pt-BR"][abstractName], title));
                 this.titles["pt-BR"][abstractName].push(title);
 
-            if(!_.contains(this.titles["en-US"][abstractName], title["en-US"]));
+            if(!_.contains(this.titles["en-US"][abstractName], title));
                 this.titles["en-US"][abstractName].push(title);
         }
     }
