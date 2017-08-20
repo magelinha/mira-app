@@ -186,7 +186,9 @@
 
                 });
             }  else {
-                var title = this.get("title"); 
+                var title = this.get("title");
+                console.log(this, esse);
+
                 if(appApi && title){
                     var $context = { $data: $data.attributes };
                     appApi.RegisterTitle(title, this.get("interface"), $context);
