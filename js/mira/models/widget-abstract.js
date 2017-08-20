@@ -188,8 +188,7 @@
             }  else {
                 var title = this.get("title");
                 var interfaceWidget = this.get("interface");
-                console.log(this, esse);
-
+                
                 if(appApi && title && interfaceWidget){
                     var $context = { $data: $data.attributes };
                     appApi.RegisterTitle(title, interfaceWidget, $context);
