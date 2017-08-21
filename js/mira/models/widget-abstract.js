@@ -147,7 +147,7 @@
 
         },
 
-        buildChildren: function($parent, concrete, $data, $env){
+        buildChildren: function($parent, concrete, $data, $env, currentInterface){
             var esse = this;
             var $bind = this.getBind($data.attributes, $data, $env);
             if(this.get('datasource')){
@@ -162,8 +162,6 @@
                         var entities = Helper.buildEntities(entity, values);
                         appApi.RegisterEntity(entities);
                     }
-
-                    var currentInterface = itemWidget.get("interface");
 
                     var $bind1 = itemWidget.getBind($data.attributes, $data, $env);
                     var structure = concrete.findStructure(itemWidget.get('name'));
@@ -190,7 +188,6 @@
                 });
             }  else {
                 var title = this.get("title");
-                var currentInterface = this.get("interface");
                 if(appApi && title && currentInterface){
                     var $context = { $data: $data.attributes };
                     appApi.RegisterTitle(title, currentInterface, $context);
@@ -219,7 +216,7 @@
             $parent.append(anchor);
             
             this.buildWidget(temp, concrete, $data, $env, function(options){
-                esse.buildChildren(options.$children, concrete, $data, $env);               
+                esse.buildChildren(options.$children, concrete, $data, $env, currentInterface);               
 
                 anchor.after(temp.children());
                 anchor.remove();
