@@ -22,7 +22,7 @@ var selection = [
 var GeralHead = [
     {name: 'main_css', widget:'Head', href:'css/bootstrap.css', tag: 'style'},
     {name: 'fontawesone_css', widget:'Head', href:'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', tag: 'style'},
-    {name: 'booking_css', widget:'Head', href:'css/FastFood.css', tag: 'style'},
+    {name: 'booking_css', widget:'Head', href:'css/fastFood.css', tag: 'style'},
     {name: 'viewport', widget:'Meta', content:'width=device-width, initial-scale=1'}
 ];
 
