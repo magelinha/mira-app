@@ -77,7 +77,7 @@
             return map_selected
         },
 
-        buildWidget: function($parent, concrete, $data, $env, callback) {
+        buildWidget: function($parent, concrete, $data, $env, currentInterface, callback) {
             var esse = this;
             var $bindl = this.getBind($data.attributes, $data, $env);
             
@@ -97,6 +97,7 @@
                     var title = esse.get("title");
                     
                     map.set('title', esse.get('title'));
+                    map.set('interface', currentInterface);
                     map.set('tts', tts);
                     map.set('label', esse.get('label'));
                     map.set('entity', entity);
@@ -146,7 +147,7 @@
 
         },
 
-        buildChildren: function($parent, concrete, $data, $env){
+        buildChildren: function($parent, concrete, $data, $env, currentInterface){
             var esse = this;
             var $bind = this.getBind($data.attributes, $data, $env);
             if(this.get('datasource')){
@@ -165,6 +166,7 @@
                     var $bind1 = itemWidget.getBind($data.attributes, $data, $env);
                     var structure = concrete.findStructure(itemWidget.get('name'));
                     if(structure){
+                        structure.set("interface", currentInterface);
                         structure.prepare(itemWidget.get('children'), itemWidget);
                         itemWidget = structure;
                     }
@@ -187,27 +189,27 @@
                 });
             }  else {
                 var title = this.get("title");
-                var interfaceWidget = this.get("interface");
                 
-                if(appApi && title && interfaceWidget){
+                if(appApi && title && currentInterface){
                     var $context = { $data: $data.attributes };
-                    appApi.RegisterTitle(title, interfaceWidget, $context);
+                    appApi.RegisterTitle(title, currentInterface, $context);
                 }
 
                 this.get('children').each(function (widget, i) {
-                    widget.getHtml($parent, concrete, $data, $env);
+                    widget.getHtml($parent, concrete, $data, $env, currentInterface);
                 }, this);
             }
         },
 
-        getHtml: function($parent, concrete, $data, $env){
+        getHtml: function($parent, concrete, $data, $env, currentInterface){
             var esse = this;
+            esse.set("interface", currentInterface);
+
             var anchor = Helper.buildAnchor();
             var temp = Helper.buildAnchor();
             var structure = concrete.findStructure(this.get('name'));
-            var interfaceWidget = esse.get("interface");
             if(structure){
-                structure.set("interface", interfaceWidget);
+                structure.set("interface", currentInterface);
                 structure.prepare(this.get('children'), esse);
                 
                 esse = structure;
@@ -215,8 +217,8 @@
 
             $parent.append(anchor);
             
-            this.buildWidget(temp, concrete, $data, $env, function(options){
-                esse.buildChildren(options.$children, concrete, $data, $env);               
+            this.buildWidget(temp, concrete, $data, $env, currentInterface, function(options){
+                esse.buildChildren(options.$children, concrete, $data, $env, currentInterface);               
 
                 anchor.after(temp.children());
                 anchor.remove();

@@ -45,11 +45,8 @@ define([
 
             var $head = $('head');
             this.concrete.buildHead($head, this.model, this.$env);
-            this.abstract.getHtml(this.$el, this.concrete, this.model, this.$env);
+            this.abstract.getHtml(this.$el, this.concrete, this.model, this.$env, abstractName);
 
-            //Ao passar de uma inteface para outra, verifica se o responsive voice já foi carregado
-            console.log(responsiveVoice.OnVoiceReady, appApi, _this.currentView, _this.abstract.get("name"));
-            
             if(appApi && _this.currentView !== _this.abstract.get("name")){
                 setTimeout(function(){
                     appApi.SpeakInitialMessage(_this.abstract.get("title"), _this.abstract.get("name"));
