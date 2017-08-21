@@ -194,7 +194,7 @@
                 }
 
                 this.get('children').each(function (widget, i) {
-                    widget,set("interface", currentInterface);
+                    widget.set("interface", currentInterface);
                     widget.getHtml($parent, concrete, $data, $env);
                 }, this);
             }
