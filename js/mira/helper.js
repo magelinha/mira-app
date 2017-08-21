@@ -372,7 +372,12 @@
             _.each(values, function(item){
                 var value = item.get(entity.key);
                 for(var key in entities){
-                    var valueToAdd = _.isString(value) ? { value: value, synonyms:[value] } : { value: value[key].value, synonyms: value[key].synonyms };
+                    var valueToAdd = _.isString(value) ? 
+                        { value: value, synonyms:[value] } : 
+                        _.isString(value[key]) ? 
+                            { value: value[key], synonyms: [] } :
+                            { value: value[key].value, synonyms: value[key].synonyms };
+                            
                     if(!_.contains(valueToAdd.synonyms, valueToAdd.value))
                         valueToAdd.synonyms.push(valueToAdd.value);
                     
