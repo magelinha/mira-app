@@ -716,9 +716,6 @@ ActionAPI.SpeechAction.prototype.RegisterTitle = function(title, abstractName, $
             title = eval(title);
         }
 
-        console.log(this.titles["pt-BR"]);
-        console.log(abstractName);
-
         if(_.isObject(title) && title["pt-BR"]){
             if(!_.contains(this.titles["pt-BR"][abstractName], title["pt-BR"]))
                 this.titles["pt-BR"][abstractName].push(title["pt-BR"]);
