@@ -166,12 +166,11 @@
                     var $bind1 = itemWidget.getBind($data.attributes, $data, $env);
                     var structure = concrete.findStructure(itemWidget.get('name'));
                     if(structure){
-                        structure.set("interface", currentInterface);
                         structure.prepare(itemWidget.get('children'), itemWidget);
                         itemWidget = structure;
                     }
 
-                    //itemWidget.set("interface", esse.get("interface"));
+                    itemWidget.set("interface", currentInterface);
 
                     var view = new MiraView.Collection({
                         collection: collection,
@@ -189,6 +188,7 @@
                 });
             }  else {
                 var title = this.get("title");
+                console.log(title, currentInterface);
                 
                 if(appApi && title && currentInterface){
                     var $context = { $data: $data.attributes };

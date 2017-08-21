@@ -37,6 +37,7 @@ define([
             this.$el.empty();
             
             //Limpa os títulos definidos no AppApi para gerar uma nova mensagem de texto
+            var abstractName = "";
             if(appApi){
                 var abstractName = this.abstract.get("name");
                 appApi.titles["pt-BR"][abstractName] = [];
