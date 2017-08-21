@@ -50,10 +50,10 @@ define([
             //Ao passar de uma inteface para outra, verifica se o responsive voice já foi carregado
             console.log(responsiveVoice.OnVoiceReady, appApi, _this.currentView, _this.abstract.get("name"));
             
-            if(!responsiveVoice.OnVoiceReady && appApi && _this.currentView !== _this.abstract.get("name")){
-                responsiveVoice.OnVoiceReady = function(){
-                    appApi.SpeakInitialMessage(_this.abstract.get("title"), _this.abstract.get("name"));     
-                }
+            if(appApi && _this.currentView !== _this.abstract.get("name")){
+                setTimeout(function(){
+                    appApi.SpeakInitialMessage(_this.abstract.get("title"), _this.abstract.get("name"));
+                }, 201);
             }
                 
 
