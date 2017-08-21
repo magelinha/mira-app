@@ -704,8 +704,10 @@ ActionAPI.SpeechAction.prototype.ExecuteAppAction = function(action){
     }
 };
 
-ActionAPI.SpeechAction.prototype.RegisterTitle = function(title, abstractName, $context) {
+ActionAPI.SpeechAction.prototype.RegisterTitle = function(param, abstractName, $context) {
     var $data, $bind, $dataObj, $env;
+
+    var tltle = _.isObject(param) ? param[this.currentLanguage] : param; 
     
     if($context != null){
         $data = $context.$data; $bind = $context.$bind; $dataObj = $context.$dataObj;  $env = $context.$env;
