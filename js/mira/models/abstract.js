@@ -41,7 +41,7 @@
             var widgets = this.get('widgets');
             widgets.each(function(widget){
                 widget.set("interface", currentInterface);
-                widget.getHtml($parent, concrete, $data, $env, currentInterface);
+                widget.getHtml($parent, concrete, $data, $env);
             });
         },
 

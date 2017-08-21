@@ -77,7 +77,7 @@
             return map_selected
         },
 
-        buildWidget: function($parent, concrete, $data, $env, currentInterface, callback) {
+        buildWidget: function($parent, concrete, $data, $env, callback) {
             var esse = this;
             var $bindl = this.getBind($data.attributes, $data, $env);
             
@@ -97,7 +97,7 @@
                     var title = esse.get("title");
                     
                     map.set('title', esse.get('title'));
-                    map.set('interface', currentInterface);
+                    map.set('interface', esse.get("interface"));
                     map.set('tts', tts);
                     map.set('label', esse.get('label'));
                     map.set('entity', entity);
@@ -147,7 +147,7 @@
 
         },
 
-        buildChildren: function($parent, concrete, $data, $env, currentInterface){
+        buildChildren: function($parent, concrete, $data, $env){
             var esse = this;
             var $bind = this.getBind($data.attributes, $data, $env);
             if(this.get('datasource')){
@@ -162,6 +162,8 @@
                         var entities = Helper.buildEntities(entity, values);
                         appApi.RegisterEntity(entities);
                     }
+
+                    var currentInterface = itemWidget.get("interface");
 
                     var $bind1 = itemWidget.getBind($data.attributes, $data, $env);
                     var structure = concrete.findStructure(itemWidget.get('name'));
@@ -188,22 +190,21 @@
                 });
             }  else {
                 var title = this.get("title");
-                console.log(title, currentInterface);
-                
+                var currentInterface = this.get("interface");
                 if(appApi && title && currentInterface){
                     var $context = { $data: $data.attributes };
                     appApi.RegisterTitle(title, currentInterface, $context);
                 }
 
                 this.get('children').each(function (widget, i) {
-                    widget.getHtml($parent, concrete, $data, $env, currentInterface);
+                    widget.getHtml($parent, concrete, $data, $env);
                 }, this);
             }
         },
 
-        getHtml: function($parent, concrete, $data, $env, currentInterface){
+        getHtml: function($parent, concrete, $data, $env){
             var esse = this;
-            esse.set("interface", currentInterface);
+            var currentInterface = esse.get("interface");
 
             var anchor = Helper.buildAnchor();
             var temp = Helper.buildAnchor();
@@ -217,8 +218,8 @@
 
             $parent.append(anchor);
             
-            this.buildWidget(temp, concrete, $data, $env, currentInterface, function(options){
-                esse.buildChildren(options.$children, concrete, $data, $env, currentInterface);               
+            this.buildWidget(temp, concrete, $data, $env, function(options){
+                esse.buildChildren(options.$children, concrete, $data, $env);               
 
                 anchor.after(temp.children());
                 anchor.remove();
