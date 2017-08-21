@@ -36,12 +36,12 @@
             return data;
         },
 
-        getHtml: function($parent, concrete, $data, $env){
+        getHtml: function($parent, concrete, $data, $env, currentInterface){
             var _this = this;
             var widgets = this.get('widgets');
             widgets.each(function(widget){
-                widget.set("interface", _this.get("name"));
-                widget.getHtml($parent, concrete, $data, $env);
+                widget.set("interface", currentInterface);
+                widget.getHtml($parent, concrete, $data, $env, currentInterface);
             });
         },
 
