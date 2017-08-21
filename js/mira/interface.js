@@ -52,6 +52,7 @@ define([
 
             if(appApi && _this.currentView !== _this.abstract.get("name")){
                 setTimeout(function(){
+                    _this.currentView = abstractName;
                     appApi.SpeakInitialMessage(_this.abstract.get("title"), _this.abstract.get("name"));
                 }, 201);
             }
