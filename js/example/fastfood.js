@@ -155,8 +155,8 @@ var landingAbstrata = {
                                     bind: "$data",
                                     tts: 
                                     {
-                                        "pt-BR": "sprintf('Item: %s. Quantidade: %d. Preço: %0.2f. Fale Editar para editá-lo ou Remover para removê-lo do pedido.', '$data.item', $data.quantidade, $data.total)",
-                                        "en-US": "sprintf('Item: %s. Quantity: %d. Price: %0.2f. Say Edit to edit it or Remove to remove from order.', '$data.item', $data.quantidade, $data.total)"
+                                        "pt-BR": "sprintf('Item: %s. Quantidade: %d. Preço: %0.2f. ', '$data.item', $data.quantidade, $data.total)",
+                                        "en-US": "sprintf('Item: %s. Quantity: %d. Price: %0.2f. ', '$data.item', $data.quantidade, $data.total)"
                                     }
                                 }
                             ]
@@ -793,7 +793,7 @@ if(typeof define === 'function') {
             window.NovaQuantidade = function(options){
                 var valid = appApi.setValue(options);
                 if(valid)
-                    $modal.modal('hide');
+                    $("#content-edit-item").modal('hide');
             }
 
             //Operações modal
