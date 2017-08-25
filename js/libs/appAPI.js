@@ -665,7 +665,7 @@ ActionAPI.SpeechAction.prototype.OnApiResult = function(data){
                 break;
 
             default:
-                _this.executeCommand(data.result.action, data.result.parameters);
+                _this.executeCommand(data.result.action, data);
                 break;
         }
     }
