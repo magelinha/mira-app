@@ -776,6 +776,12 @@ if(typeof define === 'function') {
                 ActionGrid(4, "O item para remoção não foi encontrado.");
             }
 
+            window.NovaQuantidade = function(options){
+                var valid = appApi.setValue(options);
+                if(valid)
+                    $modal.modal('hide');
+            }
+
             //Operações modal
             window.EvtEditItem = function(options){
                 var $button =  options.$element;
