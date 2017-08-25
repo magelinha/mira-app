@@ -718,8 +718,8 @@ if(typeof define === 'function') {
             }
 
             window.AdicionarGrupoItem = function(options){
-                var valid = appApi.setValue(options);
-                !valid.success ? appApi.tts(valid.error) : appApi.tts(options.response, function(){
+                var valid = appApi.setValue(options.result.parameters);
+                !valid.success ? appApi.tts(valid.error) : appApi.tts(options.fulfillment.speech, function(){
                     $("#adicionar-item").submit();
                 });
             }
@@ -791,9 +791,10 @@ if(typeof define === 'function') {
             }
 
             window.NovaQuantidade = function(options){
-                var valid = appApi.setValue(options);
-                if(valid)
-                    $("#content-edit-item").modal('hide');
+                var valid = appApi.setValue(options.result.parameters);
+                if(valid){
+                    $("#confirmar-edicao").click();
+                }
             }
 
             //Operações modal
