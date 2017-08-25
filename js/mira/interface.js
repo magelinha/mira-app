@@ -48,8 +48,11 @@ define([
             this.concrete.buildHead($head, this.model, this.$env);
             this.abstract.getHtml(this.$el, this.concrete, this.model, this.$env, abstractName);
 
+            console.log(_this.currentView, _this.abstract.get("name"));
+
             if(appApi && _this.currentView !== _this.abstract.get("name")){
                 setTimeout(function(){
+                    _this.currentView = abstractName;
                     appApi.SpeakInitialMessage(_this.abstract.get("title"), _this.abstract.get("name"));
                 }, 201);
             }

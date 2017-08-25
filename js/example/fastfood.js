@@ -774,6 +774,20 @@ if(typeof define === 'function') {
 
             window.RemoverItem = function(options){
                 ActionGrid(4, "O item para remoção não foi encontrado.");
+            };
+
+            window.ListarOpcoes = function(options){
+                var alimentos = !_.isArray(options.$env.collections.alimento) ? options.$env.collections.alimento.models : 
+                                    options.$env.collections.alimento[1].models;
+                var text = "";
+                _.each(alimentos, function(alimento){
+                    text += alimento.get("name")[appApi.currentLanguage] + " - " +  alimento.get("price") + ", ";
+                });
+
+                text += ".";
+
+                if(text.length)
+                    appApi.tts(text);
             }
 
             window.NovaQuantidade = function(options){
