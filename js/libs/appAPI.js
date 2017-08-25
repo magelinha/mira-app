@@ -643,6 +643,7 @@ ActionAPI.SpeechAction.prototype.OnApiResult = function(data){
         _this.tts("Houve um erro ao processar a fala. Tente novamente.")
         return;
     }
+    var speechResponse = true;
 
     responseSpeech = (data.result.fulfillment) ? data.result.fulfillment.speech : data.result.speech;
 
@@ -666,12 +667,13 @@ ActionAPI.SpeechAction.prototype.OnApiResult = function(data){
 
             default:
                 _this.executeCommand(data.result.action, data);
+                speechResponse = false;
                 break;
         }
     }
 
     // Use Text To Speech service to play text.
-    if(responseSpeech){
+    if(responseSpeech && speechResponse){
         _this.tts(responseSpeech);
     }
 };
