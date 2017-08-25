@@ -719,9 +719,8 @@ if(typeof define === 'function') {
 
             window.AdicionarGrupoItem = function(options){
                 var valid = appApi.setValue(options.result.parameters);
-                !valid ? appApi.tts(valid.error) : appApi.tts(options.result.fulfillment.speech, function(){
-                    $("#adicionar-item").submit();
-                });
+                !valid ? appApi.tts(valid.error) : appApi.tts(options.result.fulfillment.speech);
+                $("#confirmar").click();
             }
 
             window.AdicionarItem = function(options){
