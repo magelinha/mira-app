@@ -16,8 +16,8 @@ define([
     };
 
     var messageBaseMult = {
-        "pt-BR": "A lista tem %d registros. ",
-        "en-US": "The list has %d records. "
+        "pt-BR": "%d registros. ",
+        "en-US": "%d records. "
     };
 
     var hasEntity = function($env){
@@ -92,7 +92,7 @@ define([
                     text = messageBaseOne[appApi.currentLanguage];
                 }
                 else{
-                    text = sprintf(messageBaseMult[appApi.currentLanguage] + message[appApi.currentLanguage], lenChildren);
+                    text = sprintf(messageBaseMult[appApi.currentLanguage], lenChildren);
                 }
                 
                 appApi.tts(text);
