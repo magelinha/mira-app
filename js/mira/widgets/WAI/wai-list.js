@@ -102,6 +102,26 @@ define([
 
             });
         }
+
+        //Evento disparado ao adicionar um item na lista
+        $element.bind("DOMNodeInserted", function(event){
+            console;log('adicionou um elemento na lista', event);
+            
+            var children = $element.children();
+            _.each(children, function(child){
+                children.keypress(function(e){
+                    //40 -> seta pra baixo
+                    //38 -> seta para cima
+
+                    if(e.which != 38 || e.which != 40)
+                        return;
+
+                    var index = $(child).index($element);
+                    index = index >= children.length -1 ? 0 : index + 1;
+                    children[index].focus();
+                });
+            })
+        })
         
         //Registra as entidades
         if(hasEntity($context.$env)){
@@ -133,6 +153,8 @@ define([
             };
 
             defaultContent(message, $parent, name, $context, options, callback, ignored_options);
+
+
         },
 
         //Lista com conteúdo que pode ser selecionado. A naveagação é festa através de próximo, anterior ou selecionar.
