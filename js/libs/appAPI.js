@@ -339,24 +339,25 @@ ActionAPI.SpeechAction.prototype.InitAPIAi = function(){
 
 
 ActionAPI.SpeechAction.prototype.AjaxCurl = function(url, type, callback, data, token){
-    var _this = this;
-    return $.ajax({
-        url: url,
-        beforeSend: function(xhr) { 
-          xhr.setRequestHeader("Authorization", "Bearer " + (token ? token : _this.tokens[_this.currentLanguage]));
-        },
-        type: type,
-        crossDomain: true,
-        dataType: 'json',
-        contentType: 'application/json; charset=utf-8',
-        processData: false,
-        data: data ? JSON.stringify(data) : undefined,
-        success: callback,
+    return this.apiAi.eventRequest(type, data);
+    // var _this = this;
+    // return $.ajax({
+    //     url: url,
+    //     beforeSend: function(xhr) { 
+    //       xhr.setRequestHeader("Authorization", "Bearer " + (token ? token : _this.tokens[_this.currentLanguage]));
+    //     },
+    //     type: type,
+    //     crossDomain: true,
+    //     dataType: 'json',
+    //     contentType: 'application/json; charset=utf-8',
+    //     processData: false,
+    //     data: data ? JSON.stringify(data) : undefined,
+    //     success: callback,
         
-        error: function(err){
-          //console.log(err);
-        }
-    });
+    //     error: function(err){
+    //       //console.log(err);
+    //     }
+    // });
 }
 
 ActionAPI.SpeechAction.prototype.RegisterEntityByLanguage = function(entityValues, lang){
