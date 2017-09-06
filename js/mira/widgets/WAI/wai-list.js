@@ -104,10 +104,9 @@ define([
         }
 
         //Evento disparado ao adicionar um item na lista
-        $element.bind("DOMNodeInserted", function(event){
-            console;log('adicionou um elemento na lista', event);
-            
+        $element.on("appened", function(event){
             var children = $element.children();
+            console.log('adicionou um elemento na lista', children, event);
             _.each(children, function(child){
                 children.keypress(function(e){
                     //40 -> seta pra baixo

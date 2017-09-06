@@ -58,10 +58,10 @@ define([
                 var children = parent.children();
 
                 if(old_$el.parent().length){
-                    old_$el.after(children);
+                    old_$el.after(children).trigger("appended");
                     old_$el.remove();
                 } else {
-                    esse.$parent.append(children);
+                    esse.$parent.append(children).trigger("appended");
                 }
             });
 
