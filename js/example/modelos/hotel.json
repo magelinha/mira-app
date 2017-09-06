@@ -1,0 +1,1419 @@
+{
+	"entities": [
+		{ "name": "destino", "default": "Rio de Janeiro" },
+		{ "name": "principalDestino", "default": "Rio de Janeiro" },
+		{ "name": "bairro", "default": "Copacabana" },
+		{ "name": "status", "default": "bom" }
+	],
+
+	"intents": [
+		{
+			"name": "buscar-hotel",
+			"action": "RequestFocus",
+			"phrases": 
+            {
+                "pt-BR": 
+                [
+                    { "phrase": "Buscar hotel" }, { "phrase": "Pesquisar hotel" }, { "phrase": "Buscar hotéis" }, { "phrase": "Pesquisar hotéis" }
+                ],
+                "en-US": 
+                [
+                    { "phrase": "Search hotel" }, { "phrase": "Search hotels" }
+                ]
+            },
+            "params": [ {"name": "container", "value": "buscar-hotel" } ]
+        },
+
+        {
+			"name": "destino",
+			"context": { "out": ["destinos"] },
+			"action": "SetValue",
+			"phrases": 
+            {
+                "pt-BR":
+                [
+                    {
+                        "phrase": "Destino Rio de Janeiro", 
+                        "entities": [ { "type": "destino", "value": "Rio de Janeiro", "alias": "destino" } ] 
+                    },
+
+                    {
+                        "phrase": "Vou viajar para São Paulo", 
+                        "entities": [ { "type": "destino", "value": "São Paulo", "alias": "destino"} ] 
+                    },
+
+                    {
+                        "phrase": "Vou para Rio de Janeiro", 
+                        "entities": [ { "type": "destino", "value": "Rio de Janeiro", "alias": "destino" } ] 
+                    }
+                ],
+                "en-US":
+                [
+                    {
+                        "phrase": "Destination Rio de Janeiro", 
+                        "entities": [ { "type": "destino", "value": "Rio de Janeiro", "alias": "destino" } ] 
+                    },
+
+                    {
+                        "phrase": "I'm going to travel to São Paulo", 
+                        "entities": [ { "type": "destino", "value": "São Paulo", "alias": "destino"} ] 
+                    },
+
+                    {
+                        "phrase": "I'm going to Rio de Janeiro", 
+                        "entities": [ { "type": "destino", "value": "Rio de Janeiro", "alias": "destino" } ] 
+                    }
+                ]
+            },
+            "params": [{ "name": "destino", "value": "$destino" }],
+            "error": 
+            {
+            	"name": "fallback-informar-destino",
+            	"messages": 
+                {
+                    "pt-BR": 
+                    [
+                        "O destino informado não está presente na nossa lista de possíveis destinos.",
+                        "Desculpe. Não é possível buscar hotéis para o destino informado.",
+                        "Lamento, mas não consigo encontrar hotéis para esse destino."
+                    ],
+                    "en-US":
+                    [
+                        "The destination informed is not present in our list of possible destinations",
+                        "Excuse me. It is not possible to search hotels for the informed destination.",
+                        "I'm sorry, but I can not find hotels for that destination."
+                    ]
+                }
+            },
+            "responses": 
+            {
+                "pt-BR":
+                [
+                    "Entendi. O destino informado foi $destino."
+                ],
+                "en-US":
+                [
+                    "Ok. The destination informed was $destino."
+                ]
+            }
+        },
+        {
+			"name": "checkin",
+			"action": "SetValue",
+			"phrases": 
+            {
+                "pt-BR":
+                [
+                    {
+                        "phrase": "Data de entrada hoje", 
+                        "entities": [ { "type": "sys.date", "value": "hoje", "alias": "checkin" } ] 
+                    },
+                    {
+                        "phrase": "Checkin hoje", 
+                        "entities": [ { "type": "sys.date", "value": "hoje", "alias": "checkin" } ] 
+                    },
+                    {
+                        "phrase": "Checkin fevereiro", 
+                        "entities": [ { "type": "sys.date", "value": "fevereiro", "alias": "checkin" } ] 
+                    },
+                    {
+                        "phrase": "Checkin cinco de dezembro de dois mil e dezessete", 
+                        "entities": [ { "type": "sys.date", "value": "cinco de dezembro de dois mil e dezessete", "alias": "checkin" } ] 
+                    },
+                    {
+                        "phrase": "Check-in 5 do 12 de 2017", 
+                        "entities": [ { "type": "sys.date", "value": "5 do 12 de 2017", "alias": "checkin" } ] 
+                    },
+                    {
+                        "phrase": "Data de entrada fevereiro", 
+                        "entities": [ { "type": "sys.date", "value": "fevereiro", "alias": "checkin" } ] 
+                    },
+                    {
+                        "phrase": "Data de entrada cinco de dezembro de dois mil e dezessete", 
+                        "entities": [ { "type": "sys.date", "value": "cinco de dezembro de dois mil e dezessete", "alias": "checkin" } ] 
+                    },
+                    {
+                        "phrase": "Data de entrada 05/01/2017", 
+                        "entities": [ { "type": "sys.date", "value": "05/01/2017", "alias": "checkin" } ] 
+                    }
+                ],
+                "en-US":
+                [
+                    {
+                        "phrase": "Check in Today", 
+                        "entities": [ { "type": "sys.date", "value": "Today", "alias": "checkin" } ] 
+                    },
+                    {
+                        "phrase": "Check in february", 
+                        "entities": [ { "type": "sys.date", "value": "february", "alias": "checkin" } ] 
+                    }
+                ]
+            },
+            "params": [{ "name": "checkin", "value": "$checkin" }],
+            "responses":
+            {
+                "pt-BR":
+                [
+                    "Entendi. O data de entrada será $checkin."
+                ],
+                "en-US":
+                [
+                    "Ok. Check in will be $checkin."
+                ]
+            }
+        },
+        {
+			"name": "checkout",
+			"action": "SetValue",
+			"phrases": 
+            {
+                "pt-BR":
+                [
+                    {
+                        "phrase": "Checkout fevereiro", 
+                        "entities": [ { "type": "sys.date", "value": "fevereiro", "alias": "checkout" } ] 
+                    },
+                    {
+                        "phrase": "Checkout cinco de dezembro de dois mil e dezessete", 
+                        "entities": [ { "type": "sys.date", "value": "cinco de dezembro de dois mil e dezessete", "alias": "checkout" } ] 
+                    },
+                    {
+                        "phrase": "Checkout 5 do 12 de 2017", 
+                        "entities": [ { "type": "sys.date", "value": "5 do 12 de 2017", "alias": "checkout" } ] 
+                    },
+                    {
+                        "phrase": "Data de saída fevereiro", 
+                        "entities": [ { "type": "sys.date", "value": "fevereiro", "alias": "checkout" } ] 
+                    },
+                    {
+                        "phrase": "Data de saída 5 do 12 de 2017", 
+                        "entities": [ { "type": "sys.date", "value": "5 do 12 de 2017", "alias": "checkout" } ] 
+                    },
+                    {
+                        "phrase": "Data de saída cinco de dezembro de dois mil e dezessete", 
+                        "entities": [ { "type": "sys.date", "value": "cinco de dezembro de dois mil e dezessete", "alias": "checkout" } ] 
+                    },
+                    {
+                        "phrase": "Data de saída 05/01/2017", 
+                        "entities": [ { "type": "sys.date", "value": "05/01/2017", "alias": "checkout" } ] 
+                    }
+                ],
+                "en-US":
+                [
+                    {
+                        "phrase": "Check out february", 
+                        "entities": [ { "type": "sys.date", "value": "february", "alias": "checkout" } ] 
+                    },
+                    {
+                        "phrase": "Check out Today", 
+                        "entities": [ { "type": "sys.date", "value": "Today", "alias": "checkout" } ] 
+                    }
+                ]
+            },
+            "params": [{ "name": "checkout", "value": "$checkout" }],
+            "responses": 
+            {
+                "pt-BR": [ "Entendi. O data de entrada será $checkout" ],
+                "en-US": [ "Ok. Check out will be $checkout" ]
+            }
+        },
+        {
+			"name": "quartos",
+			"action": "SetValue",
+			"phrases": 
+            {
+                "pt-BR":
+                [
+                    {
+                        "phrase": "1 quarto", 
+                        "entities": [ { "type": "sys.number", "value": "1", "alias": "quartos" } ] 
+                    },
+                    {
+                        "phrase": "3 quartos", 
+                        "entities": [ { "type": "sys.number", "value": "3", "alias": "quartos" } ] 
+                    },
+                    {
+                        "phrase": "Quantidade de quartos 4", 
+                        "entities": [ { "type": "sys.number", "value": "4", "alias": "quartos" } ] 
+                    },
+                    {
+                        "phrase": "Total de quartos 4", 
+                        "entities": [ { "type": "sys.number", "value": "4", "alias": "quartos" } ] 
+                    }
+                ],
+                "en-US":
+                [
+                    {
+                        "phrase": "1 bedroom", 
+                        "entities": [ { "type": "sys.number", "value": "1", "alias": "quartos" } ] 
+                    },
+                    {
+                        "phrase": "1 room", 
+                        "entities": [ { "type": "sys.number", "value": "3", "alias": "quartos" } ] 
+                    },
+                    {
+                        "phrase": "3 bedrooms", 
+                        "entities": [ { "type": "sys.number", "value": "3", "alias": "quartos" } ] 
+                    },
+                    {
+                        "phrase": "bedrooms 3", 
+                        "entities": [ { "type": "sys.number", "value": "4", "alias": "quartos" } ] 
+                    },
+                    {
+                        "phrase": "rooms 3", 
+                        "entities": [ { "type": "sys.number", "value": "4", "alias": "quartos" } ] 
+                    },
+                    {
+                        "phrase": "number of rooms 4", 
+                        "entities": [ { "type": "sys.number", "value": "4", "alias": "quartos" } ] 
+                    },
+                    {
+                        "phrase": "number of bedrooms 4", 
+                        "entities": [ { "type": "sys.number", "value": "4", "alias": "quartos" } ] 
+                    }
+                ]
+            },
+            "params": [{ "name": "quartos", "value": "$quartos" }],
+            "responses": 
+            {
+                "pt-BR":
+                [
+                    "Entendi. A quantidade de quartos é $quartos"
+                ],
+                "en-US":
+                [
+                    "Ok. You want $quartos rooms.",
+                    "Ok. You want $quartos room."
+                ]
+            }
+        },
+        {
+			"name": "adultos",
+			"action": "SetValue",
+			"phrases": 
+            {
+                "pt-BR":
+                [
+                    {
+                        "phrase": "1 adulto", 
+                        "entities": [ { "type": "sys.number", "value": "1", "alias": "adultos" } ] 
+                    },
+                    {
+                        "phrase": "3 adultos", 
+                        "entities": [ { "type": "sys.number", "value": "3", "alias": "adultos" } ] 
+                    },
+                    {
+                        "phrase": "Quantidade de adultos 4", 
+                        "entities": [ { "type": "sys.number", "value": "4", "alias": "adultos" } ] 
+                    },
+                    {
+                        "phrase": "Total de adultos 4", 
+                        "entities": [ { "type": "sys.number", "value": "4", "alias": "adultos" } ] 
+                    }
+                ],
+                "en-US":
+                [
+                    {
+                        "phrase": "1 adult", 
+                        "entities": [ { "type": "sys.number", "value": "1", "alias": "adultos" } ] 
+                    },
+                    {
+                        "phrase": "3 adults", 
+                        "entities": [ { "type": "sys.number", "value": "3", "alias": "adultos" } ] 
+                    },
+                    {
+                        "phrase": "adults 4", 
+                        "entities": [ { "type": "sys.number", "value": "4", "alias": "adultos" } ] 
+                    },
+                    {
+                        "phrase": "number of adults is 4", 
+                        "entities": [ { "type": "sys.number", "value": "4", "alias": "adultos" } ] 
+                    }
+                ]
+
+            },
+            "params": [{ "name": "adultos", "value": "$adultos" }],
+            "responses": 
+            {
+                "pt-BR": [ "Entendi. A quantidade de adultos é $adultos" ],
+                "en-US": [ "Ok. the number of adults will be $adultos"]
+            }
+        },
+        {
+			"name": "criancas",
+			"action": "SetValue",
+			"phrases": 
+            {
+                "pt-BR":
+                [
+                    {
+                        "phrase": "1 criança", 
+                        "entities": [ { "type": "sys.number", "value": "1", "alias": "criancas" } ] 
+                    },
+                    {
+                        "phrase": "3 crianças", 
+                        "entities": [ { "type": "sys.number", "value": "3", "alias": "criancas" } ] 
+                    },
+                    {
+                        "phrase": "Quantidade de crianças 3", 
+                        "entities": [ { "type": "sys.number", "value": "3", "alias": "criancas" } ] 
+                    },
+                    {
+                        "phrase": "Total de crianças 4", 
+                        "entities": [ { "type": "sys.number", "value": "4", "alias": "criancas" } ] 
+                    }
+                ],
+                "en-US":
+                [
+                    {
+                        "phrase": "1 child", 
+                        "entities": [ { "type": "sys.number", "value": "1", "alias": "criancas" } ] 
+                    },
+                    {
+                        "phrase": "1 kid", 
+                        "entities": [ { "type": "sys.number", "value": "1", "alias": "criancas" } ] 
+                    },
+                    {
+                        "phrase": "3 children", 
+                        "entities": [ { "type": "sys.number", "value": "3", "alias": "criancas" } ] 
+                    },
+                    {
+                        "phrase": "3 kids", 
+                        "entities": [ { "type": "sys.number", "value": "3", "alias": "criancas" } ] 
+                    },
+                    {
+                        "phrase": "Children 3", 
+                        "entities": [ { "type": "sys.number", "value": "3", "alias": "criancas" } ] 
+                    },
+                    {
+                        "phrase": "Number of children is 4", 
+                        "entities": [ { "type": "sys.number", "value": "4", "alias": "criancas" } ] 
+                    }
+                ]
+            },
+            "params": [{ "name": "criancas", "value": "$criancas" }],
+            "responses": 
+            {
+                "pt-BR": [ "Entendi. A quantidade de crianças é $criancas" ],
+                "en-US": [ "Ok. The number of children will be $criancas" ]
+            }
+        },
+        {
+        	"name": "principais-destinos",
+        	"action": "RequestFocus",
+			"phrases": 
+            {
+                "pt-BR":
+                [
+                    { "phrase": "Consultar os principais destinos" },
+                    { "phrase": "Consultar principais destinos" },
+                    { "phrase": "Principais destinos" },
+                    { "phrase": "Destinos mais visitados" },
+                    { "phrase": "Destinos mais procurados" },
+                    { "phrase": "Cidades mais procuradas" }
+                ],
+                "en-US":
+                [
+                    { "phrase": "Check the top destinations" },
+                    { "phrase": "Top destinations" },
+                    { "phrase": "Most visisted destinations" },
+                    { "phrase": "Most wanted destinations" },
+                    { "phrase": "Most wanted cities" }
+                ]
+            },
+            "params": [{ "name": "container", "value": "principais-destinos"}]
+        },
+        {
+        	"name": "ultimas-avaliacoes",
+        	"action": "RequestFocus",
+			"phrases": 
+            {
+                "pt-BR": 
+                [
+                    { "phrase": "Últimas avaliações" },
+                    { "phrase": "Consultar últimas avaliações" },
+                    { "phrase": "Consultar as últimas avaliações cadastradas" },
+                    { "phrase": "Últimas avaliações cadastradas" }
+                ],
+                "en-US": 
+                [
+                    { "phrase": "Latest reviews" },
+                    { "phrase": "Check latest reviews" },
+                    { "phrase": "Check latest reviews registered" },
+                    { "phrase": "Latest reviews registered" }
+                ]
+            },
+            "params": [{ "name": "container", "value": "ultimas-avaliacoes"}]
+        },
+
+        {
+        	"name": "lista-hoteis",
+        	"action": "RequestFocus",
+			"phrases": 
+            {
+                "pt-BR":
+                [
+                    { "phrase": "Listar hotéis" },
+                    { "phrase": "Hotéis" },
+                    { "phrase": "Ir para lista de hotéis" }
+                ],
+                "en-US":
+                [
+                    { "phrase": "List hotels" },
+                    { "phrase": "Hotels" },
+                    { "phrase": "Go to list of hotels" }
+                ]
+            },
+            "params": [{ "name": "container", "value": "lista-hoteis" }]
+        },
+
+        {
+        	"name": "filtro-bairro",
+        	"action": "RequestFocus",
+			"phrases":
+            {
+                "pt-BR":
+                [
+                    { "phrase": "Filtrar por bairro" },
+                    { "phrase": "Filtro por bairro" }
+                ],
+                "en-US":
+                [
+                    { "phrase": "Filter by neighborhood" }
+                ]
+            },
+            "params": [{ "name": "container", "value": "filtro-bairro" }]
+        },
+        {
+        	"name": "marcar-bairro",
+        	"context": { "out": ["bairros"] },
+        	"action": "MarcarBairro",
+			"phrases":
+            {
+                "pt-BR": 
+                [
+                    {
+                        "phrase": "Hotéis em Copacabana",
+                        "entities": 
+                        [ 
+                            { "type": "bairro", "value": "Capacabana", "alias": "bairro" }
+                        ]  
+                    },
+                    {
+                        "phrase": "Listar hotéis em Itaquera",
+                        "entities": 
+                        [ 
+                            { "type": "bairro", "value": "Itaquera", "alias": "bairro" }
+                        ]
+                    }
+                ],
+                "en-US":
+                [
+                    {
+                        "phrase": "Hotels in Copacabana",
+                        "entities": [ 
+                            { "type": "bairro", "value": "Capacabana", "alias": "bairro" }
+                        ]  
+                    },
+                    {
+                        "phrase": "List hotels in Itaquera",
+                        "entities": [ 
+                            { "type": "bairro", "value": "Itaquera", "alias": "bairro" }
+                        ]
+                    }
+                ]
+            },
+            "params": [{ "name": "bairro", "value": "$bairro" }],
+            "error": 
+            {
+            	"name": "fallback-marcar-bairro",
+            	"messages":
+                {
+                    "pt-BR":
+                    [
+                        "O bairro informado não está presente na nossa lista para filtro.",
+                        "Desculpe. Não é possível filtrar a lista de hotéis com o bairro informado."
+                    ],
+                    "en-US":
+                    [
+                        "The neighborhood informed doesn't present in our list.",
+                        "Sorry, we can not filter the list of hotels with the informed neighborhood."  
+                    ]
+                }  
+            },
+            "responses":
+            {
+                "pt-BR":
+                [
+                    "O filtro foi aplicado. Fale \"Listar Hotéis\" ir para a lista de hotéis."
+                ],
+                "en-US":
+                [
+                    "O filter was applied. Tell \"List Hotels\" to go to list of Hotels."
+                ]
+            }
+        },
+
+        {
+        	"name": "filtro-status",
+        	"action": "RequestFocus",
+			"phrases": 
+            {
+                "pt-BR":
+                [
+                    { "phrase": "Filtrar por status" },
+                    { "phrase": "Filtro por status" }
+                ],
+                "en-US":
+                [
+                    { "phrase": "Filter by status" }   
+                ]    
+            },
+            "params": [{ "name": "container", "value": "filtro-status" }]
+        },
+
+        {
+        	"name": "marcar-status",
+        	"context": { "out": ["status"] },
+        	"action": "MarcarStatus",
+			"phrases": 
+            {
+                "pt-BR":
+                [
+                    {
+                        "phrase": "Hotéis com status bom",
+                        "entities": 
+                        [ 
+                            { "type": "status", "value": "bom", "alias": "status" }
+                        ]
+                    },
+                    {
+                        "phrase": "Hotéis com ótimo status",
+                        "entities": 
+                        [ 
+                            { "type": "status", "value": "otimo", "alias": "status" }
+                        ]
+                    },
+                    {
+                        "phrase": "Hotéis excelentes",
+                        "entities": 
+                        [ 
+                            { "type": "status", "value": "excelentes", "alias": "status" }
+                        ]
+                    }
+                ],
+                "en-US":
+                [
+                    {
+                        "phrase": "Hotels with status good",
+                        "entities": 
+                        [ 
+                            { "type": "status", "value": "good", "alias": "status" }
+                        ]
+                    },
+                    {
+                        "phrase": "Hotels with great status",
+                        "entities": 
+                        [ 
+                            { "type": "status", "value": "great", "alias": "status" }
+                        ]
+                    },
+                    {
+                        "phrase": "Excellent Hotels",
+                        "entities": 
+                        [ 
+                            { "type": "status", "value": "Excellent", "alias": "status" }
+                        ]
+                    }
+                ]
+            },
+            "error": 
+            {
+                "name": "fallback-marcar-status",
+                "messages":
+                {
+                    "pt-BR":
+                    [
+                        "O status informado não está presente na nossa lista para filtro.",
+                        "Desculpe. Não é possível filtrar a lista de hotéis com o status informado."
+                    ],
+                    "en-US":
+                    [
+                        "The status informed doesn't present in our list",
+                        "Sorry. It's not possible to filter the list of hoteis with the status informed."
+                    ]
+                }
+            },
+            "params": [{ "name": "status", "value": "$status" }],
+            "responses":
+            {
+                "pt-BR":
+                [
+                    "O filtro foi aplicado. Fale \"Listar Hotéis\" ir para a lista de hotéis."
+                ],
+                "en-US":
+                [
+                    "O filter was applied. Tell \"List Hotels\" to go to list of Hotels."
+                ]
+            }
+        },
+
+        {
+        	"name": "imagens",
+        	"action": "RequestFocus",
+			"phrases": 
+            {
+                "pt-BR":
+                [
+                    { "phrase": "Imagens" },
+                    { "phrase": "Descrição das imagens" },
+                    { "phrase": "Imagens do hotel" }
+                ],
+                "en-US":
+                [
+                    { "phrase": "Images" },
+                    { "phrase": "Description of images" },
+                    { "phrase": "Images of hotel" }
+                ]
+            },
+            "params": [{ "name": "container", "value": "imagens" }]
+        },
+
+        {
+        	"name": "descricao",
+        	"action": "RequestFocus",
+			"phrases": 
+            {
+                "pt-BR":
+                [
+                    { "phrase": "Descrição do hotel" },
+                    { "phrase": "Informações do hotel" },
+                    { "phrase": "Detalhes do hotel" },
+                    { "phrase": "Detalhes" },
+                    { "phrase": "Informações" },
+                    { "phrase": "Descrição" }
+                ],
+                "en-US":
+                [
+                    { "phrase": "Description of hotel" },
+                    { "phrase": "Informations of hotel" },
+                    { "phrase": "Details of hotel" },
+                    { "phrase": "Details" },
+                    { "phrase": "Informations" },
+                    { "phrase": "Description" }
+                ]
+            },
+            "params": [{ "name": "container", "value": "descricao" }]
+        },
+
+        {
+        	"name": "avaliacoes",
+        	"action": "RequestFocus",
+			"phrases": 
+            {
+                "pt-BR":
+                [
+                    { "phrase": "Avaliações do hotel" },
+                    { "phrase": "Avaliações" },
+                    { "phrase": "Opiniões" }
+                ],
+                "en-US":
+                [
+                    { "phrase": "Reviews of hotel" },
+                    { "phrase": "Reviews" }
+                ]
+            },
+            "params": [{ "name": "container", "value": "avaliacoes" }]
+        },
+        {
+        	"name": "tipo-quarto",
+        	"action": "RequestFocus",
+            "phrases": 
+            {
+                "pt-BR":
+                [
+                    { "phrase": "Quartos do hotel" },
+                    { "phrase": "Informações dos quartos" },
+                    { "phrase": "Quartos" },
+                    { "phrase": "Tipo de quarto" },
+                    { "phrase": "Preço" }
+                ],
+                "en-US":
+                [
+                    { "phrase": "Rooms of hotel" },
+                    { "phrase": "Informations of rooms" },
+                    { "phrase": "Rooms" },
+                    { "phrase": "Type of Rooms" },
+                    { "phrase": "Price" }
+                ]
+            },
+            "params": [{ "name": "container", "value": "quartos" }]
+        }
+	],
+
+	"interfaces": 
+    [
+		{
+			"name": "landing",
+            "title": 
+            {
+                "pt-BR": "Página inicial",
+                "en=en-US": "Home Page"
+            },
+            "widgets":
+            [
+				{
+                    "name": "section-buscar-hoteis",
+                    "children": 
+                    [
+                        { 
+                            "name": "buscar-hoteis",
+                            "title": 
+                            {
+                                "pt-BR": "Buscar Hotéis",
+                                "en-US": "Find Hotels"
+                            },
+                            "children": 
+                            [
+                                { 
+                                    "name": "destino",
+                                    "label": 
+                                    {
+                                        "pt-BR": "Destino",
+                                        "en-US": "Destination"
+                                    }, 
+                                    "datasource": "url:<%= \"/api/booking/destinos\" %>",
+                                    "error": 
+                                    {
+                                        "name": "default",
+                                        "message":
+                                        {
+                                            "pt-BR": "O destino não foi informado",
+                                            "en-US": "The destination didn't informed"    
+                                        }
+                                    },
+                                    "children":
+                                    [
+                                        { "name": "option-destino" }
+                                    ]
+                                },
+                                { 
+                                    "name": "checkin",
+                                    "label": 
+                                    {
+                                        "pt-BR": "Data de Entrada",
+                                        "en-US": "Check-in"
+                                    },
+                                    "error": 
+                                    [
+                                        {
+                                            "name": "lessThanNow",
+                                            "message" : 
+                                            {
+                                                "pt-BR": "A data de entrada informada é menor que a data atual.",
+                                                "en-US": "Check in is less than Today."
+                                            }
+                                        },
+                                        {
+                                            "name":"empty",
+                                            "message" : 
+                                            {
+                                                "pt-BR": "A data de entrada não foi informada.",
+                                                "en-US": "Check in didn't informed."
+                                            }
+                                        },
+                                        {
+                                           "name":"invalid",
+                                           "message" : 
+                                            {
+                                                "pt-BR": "A data de entrada informada é maior que a data de saída.",
+                                                "en-US": "Check in is less than check out."
+                                            }
+                                        }
+                                    ],
+                                    "help": 
+                                    {
+                                        "pt-BR": "A data de entrada dever ser maior ou igual a data atual e menor que data de saída.",
+                                        "en-US": "The check in must be greater then or equal to Today and less than the check out."
+                                    }
+                                },   
+                                { 
+                                    "name": "checkout",
+                                    "label": 
+                                    {
+                                        "pt-BR": "Data de Saída",
+                                        "en-US": "Check-out"
+                                    },
+                                    "error": 
+                                    [
+                                        {
+                                            "name": "lessThanNow",
+                                            "message":
+                                            {
+                                                "pt-BR": "A data de saída informada é menor que a data atual.",
+                                                "en-US": "The check-out informed is less than the current date."
+                                            }
+                                        },
+                                        {
+                                            "name": "empty",
+                                            "message":
+                                            {
+                                                "pt-BR": "A data de saída não foi informada.",
+                                                "en-US": "The check-out wasn't informed"
+                                            }
+                                        },
+                                        {
+                                           "name": "invalid",
+                                            "message": 
+                                            {
+                                                "pt-BR": "A data de saída informada é menor que a data de entrada.",
+                                                "en-US": "The check-out informed is less than check-in"
+                                            }
+                                        }
+                                    ],
+                                    "help": 
+                                    {
+                                        "pt-BR": "A data de saída deve ser maior que a data atual e maior que data de entrada.",  
+                                        "en-US": "The check-out must be bigger than the current date and check-out"
+                                    }
+                                },
+                                { 
+                                    "name": "quartos",
+                                    "label": 
+                                    {
+                                        "pt-BR": "Quantidade de quartos",
+                                        "en-US": "Number of Rooms"
+                                    },
+                                    "error": 
+                                    [
+                                        {
+                                            "name": "valueIsNaN",
+                                            "message": 
+                                            {
+                                                "pt-BR": "A quantidade de quartos informada é inválida.",
+                                                "en-US": "The amount of rooms informed is invalid"
+                                            }                                            
+                                        },
+                                        {
+                                            "name": "invalidAmount",
+                                            "message": 
+                                            {
+                                                "pt-BR": "A quantidade de quartos deve ser um valor de 1 a 30",
+                                                "en-US": "The amount of rooms should be a number from 1 to 30"
+                                            }
+                                        }
+                                    ],
+                                    "help": 
+                                    {
+                                        "pt-BR": "Informe a quantidade de quartos de 1 a 30.",
+                                        "en-US": "Enter the number of rooms from 1 to 30."
+                                    },
+                                    "datasource": "generateNumber(30)",
+                                    "children":[
+                                        { "name": "option-quartos" }
+                                    ]
+                                },
+                                { 
+                                    "name": "adultos",
+                                    "label": 
+                                    {
+                                        "pt-BR": "Quantidade de Adultos",
+                                        "en-US": "Number of Adults"
+                                    },
+                                    "error": 
+                                    [
+                                        {
+                                            "name": "valueIsNaN",
+                                            "message": 
+                                            {
+                                                "pt-BR": "A quantidade de adultos informada é inválida.",
+                                                "en-US": "The number of adults informed is invalid."
+                                            }                                            
+                                        },
+                                        {
+                                            "name": "invalidAmount",
+                                            "message": 
+                                            {
+                                                "pt-BR": "A quantidade de adultos deve ser um valor de 1 a 30",
+                                                "en-US": "The amount of adults should be a number from 1 to 30"
+                                            }
+                                        }
+                                    ],
+                                    "help": 
+                                    {
+                                        "pt-BR": "Informe a quantidade de adultos de 1 a 30.",
+                                        "en-US": "Enter the number of adults from 1 to 30"    
+                                    },
+                                    "datasource": "generateNumber(30)",
+                                    "children":[
+                                        { "name": "option-quartos" }
+                                    ]
+                                },
+                                { 
+                                    "name": "criancas",
+                                    "label": 
+                                    {
+                                        "pt-BR": "Quantidade de Crianças",
+                                        "en-US": "Number of Children"
+                                    },
+                                    "error": 
+                                    [
+                                        {
+                                            "name": "valueIsNaN",
+                                            "message": 
+                                            {
+                                                "pt-BR": "A quantidade de crianças informada é inválida.",
+                                                "en-US": "The number of children informed is invalid."
+                                            }                                            
+                                        },
+                                        {
+                                            "name": "invalidAmount",
+                                            "message": 
+                                            {
+                                                "pt-BR": "A quantidade de crianças deve ser um valor de 1 a 10",
+                                                "en-US": "The number of children should be a number from 1 to 10"
+                                            }
+                                        }
+                                    ],
+                                    "help": 
+                                    {
+                                        "pt-BR": "Informe a quantidade de crianças de 1 a 10.",
+                                        "en-US": "Enter the number of crianças from 1 to 10"    
+                                    },
+                                    "datasource": "generateNumber(11)",
+                                    "children":[
+                                        { "name": "option-criancas" }
+                                    ]   
+                                },
+                                { "name": "confirmar", "bind": {"pt-BR": "Buscar", "en-US": "Search"}}
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "section-principais-destinos",
+                    "children":
+                    [
+                        {    
+                            "name": "principais-destinos",
+                            "title": 
+                            {
+                                "pt-BR": "Principais Destinos",
+                                "en-US": "Top Destinations"
+                            },
+                            "datasource": "url:<%= \"/api/booking/destinos\" %>",
+                            "children":
+                            [
+                                {
+                                    "name": "item-destino",
+                                    "tts": "$data.cidade"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name":"section-ultimas-avaliacoes",
+                    "children":
+                    [
+                        { 
+                            "name": "ultimas-avalicoes",
+                            "title": 
+                            {
+                                "pt-BR": "Últimas Avaliações",
+                                "en-US": "Latest Reviews"
+                            },
+                            "datasource": "url:<%= \"/api/booking/ultimasAvalicoes\" %>",
+                            "children":
+                            [
+                                { 
+                                    "name": "avaliacao",
+                                    "tts": 
+                                    {
+                                        "pt-BR": "$data.avaliacao. $data.usuario sobre $data.hotel",
+                                        "en-US": "$data.avaliacao. $data.usuario about $data.hotel"
+                                    }
+                                    
+                                }   
+                            ]
+                        }
+                    ]
+                }
+			]
+		},
+		{
+			"name": "hoteis",
+			"widgets":[
+                {
+                    "name": "section-buscar-hoteis",
+                    "children": 
+                    [
+                        { 
+                            "name": "buscar-hoteis",
+                            "title": 
+                            {
+                                "pt-BR": "Buscar Hotéis",
+                                "en-US": "Find Hotels"
+                            },
+                            "children": 
+                            [
+                                { 
+                                    "name": "destino",
+                                    "label": 
+                                    {
+                                        "pt-BR": "Destino",
+                                        "en-US": "Destination"
+                                    }, 
+                                    "datasource": "url:<%= \"/api/booking/destinos\" %>",
+                                    "error": 
+                                    {
+                                        "name": "default",
+                                        "message":
+                                        {
+                                            "pt-BR": "O destino não foi informado",
+                                            "en-US": "The destination didn't informed"    
+                                        }
+                                    },
+                                    "children":
+                                    [
+                                        { "name": "option-destino" }
+                                    ]
+                                },
+                                { 
+                                    "name": "checkin",
+                                    "label": 
+                                    {
+                                        "pt-BR": "Data de Entrada",
+                                        "en-US": "Check-in"
+                                    },
+                                    "error": 
+                                    [
+                                        {
+                                            "name": "lessThanNow",
+                                            "message" : 
+                                            {
+                                                "pt-BR": "A data de entrada informada é menor que a data atual.",
+                                                "en-US": "Check in is less than Today."
+                                            }
+                                        },
+                                        {
+                                            "name":"empty",
+                                            "message" : 
+                                            {
+                                                "pt-BR": "A data de entrada não foi informada.",
+                                                "en-US": "Check in didn't informed."
+                                            }
+                                        },
+                                        {
+                                           "name":"invalid",
+                                           "message" : 
+                                            {
+                                                "pt-BR": "A data de entrada informada é maior que a data de saída.",
+                                                "en-US": "Check in is less than check out."
+                                            }
+                                        }
+                                    ],
+                                    "help": 
+                                    {
+                                        "pt-BR": "A data de entrada dever ser maior ou igual a data atual e menor que data de saída.",
+                                        "en-US": "The check in must be greater then or equal to Today and less than the check out."
+                                    }
+                                },   
+                                { 
+                                    "name": "checkout",
+                                    "label": 
+                                    {
+                                        "pt-BR": "Data de Saída",
+                                        "en-US": "Check-out"
+                                    },
+                                    "error": 
+                                    [
+                                        {
+                                            "name": "lessThanNow",
+                                            "message":
+                                            {
+                                                "pt-BR": "A data de saída informada é menor que a data atual.",
+                                                "en-US": "The check-out informed is less than the current date."
+                                            }
+                                        },
+                                        {
+                                            "name": "empty",
+                                            "message":
+                                            {
+                                                "pt-BR": "A data de saída não foi informada.",
+                                                "en-US": "The check-out wasn't informed"
+                                            }
+                                        },
+                                        {
+                                           "name": "invalid",
+                                            "message": 
+                                            {
+                                                "pt-BR": "A data de saída informada é menor que a data de entrada.",
+                                                "en-US": "The check-out informed is less than check-in"
+                                            }
+                                        }
+                                    ],
+                                    "help": 
+                                    {
+                                        "pt-BR": "A data de saída deve ser maior que a data atual e maior que data de entrada.",  
+                                        "en-US": "The check-out must be bigger than the current date and check-out"
+                                    }
+                                },
+                                { 
+                                    "name": "quartos",
+                                    "label": 
+                                    {
+                                        "pt-BR": "Quantidade de quartos",
+                                        "en-US": "Number of Rooms"
+                                    },
+                                    "error": 
+                                    [
+                                        {
+                                            "name": "valueIsNaN",
+                                            "message": 
+                                            {
+                                                "pt-BR": "A quantidade de quartos informada é inválida.",
+                                                "en-US": "The amount of rooms informed is invalid"
+                                            }                                            
+                                        },
+                                        {
+                                            "name": "invalidAmount",
+                                            "message": 
+                                            {
+                                                "pt-BR": "A quantidade de quartos deve ser um valor de 1 a 30",
+                                                "en-US": "The amount of rooms should be a number from 1 to 30"
+                                            }
+                                        }
+                                    ],
+                                    "help": 
+                                    {
+                                        "pt-BR": "Informe a quantidade de quartos de 1 a 30.",
+                                        "en-US": "Enter the number of rooms from 1 to 30."
+                                    },
+                                    "datasource": "generateNumber(30)",
+                                    "children":[
+                                        { "name": "option-quartos" }
+                                    ]
+                                },
+                                { 
+                                    "name": "adultos",
+                                    "label": 
+                                    {
+                                        "pt-BR": "Quantidade de Adultos",
+                                        "en-US": "Number of Adults"
+                                    },
+                                    "error": 
+                                    [
+                                        {
+                                            "name": "valueIsNaN",
+                                            "message": 
+                                            {
+                                                "pt-BR": "A quantidade de adultos informada é inválida.",
+                                                "en-US": "The number of adults informed is invalid."
+                                            }                                            
+                                        },
+                                        {
+                                            "name": "invalidAmount",
+                                            "message": 
+                                            {
+                                                "pt-BR": "A quantidade de adultos deve ser um valor de 1 a 30",
+                                                "en-US": "The amount of adults should be a number from 1 to 30"
+                                            }
+                                        }
+                                    ],
+                                    "help": 
+                                    {
+                                        "pt-BR": "Informe a quantidade de adultos de 1 a 30.",
+                                        "en-US": "Enter the number of adults from 1 to 30"    
+                                    },
+                                    "datasource": "generateNumber(30)",
+                                    "children":[
+                                        { "name": "option-quartos" }
+                                    ]
+                                },
+                                { 
+                                    "name": "criancas",
+                                    "label": 
+                                    {
+                                        "pt-BR": "Quantidade de Crianças",
+                                        "en-US": "Number of Children"
+                                    },
+                                    "error": 
+                                    [
+                                        {
+                                            "name": "valueIsNaN",
+                                            "message": 
+                                            {
+                                                "pt-BR": "A quantidade de crianças informada é inválida.",
+                                                "en-US": "The number of children informed is invalid."
+                                            }                                            
+                                        },
+                                        {
+                                            "name": "invalidAmount",
+                                            "message": 
+                                            {
+                                                "pt-BR": "A quantidade de crianças deve ser um valor de 1 a 10",
+                                                "en-US": "The number of children should be a number from 1 to 10"
+                                            }
+                                        }
+                                    ],
+                                    "help": 
+                                    {
+                                        "pt-BR": "Informe a quantidade de crianças de 1 a 10.",
+                                        "en-US": "Enter the number of crianças from 1 to 10"    
+                                    },
+                                    "datasource": "generateNumber(11)",
+                                    "children":[
+                                        { "name": "option-criancas" }
+                                    ]   
+                                },
+                                { "name": "confirmar", "bind": {"pt-BR": "Buscar", "en-US": "Search"}}
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "section-hoteis",
+                    "children":
+                    [
+                        {    
+                            "name": "hoteis",
+                            "title": 
+                            {
+                                "pt-BR": "Lista de hotéis",
+                                "en-US": "List of Hotels"
+                            },
+                            "datasource": "getHoteis($data.hoteis)",
+                            "children":
+                            [
+                                {
+                                    "name": "item-hotel",                                  
+                                    "tts": 
+                                    {
+                                        "pt-BR": "sprintf(\"Nome: %s. Bairro: %s. Nota: %d. Status: %s. Quantidade de Avaliações: %i.\", $data.nome, $data.bairro, $data.nota, $data.status, $data.avaliacoes.length)",
+                                        "en-US": "sprintf(\"Name: %s. Neighborhood: %s. Rating: %d. Status: %s. Number of Evaluates: %i.\", $data.nome, $data.bairro, $data.nota, $data.status, $data.avaliacoes.length)"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name":"section-filtros",
+                    "children":
+                    [
+                        { 
+                            "name": "filtro-bairro",
+                            "title": 
+                            {
+                                "pt-BR":"Filtrar por Bairro",
+                                "en-US": "Filter by Neighborhood"
+                            },
+                            "datasource": "getBairros(getHoteis($data.hoteis))",
+                            "children":
+                            [
+                                { 
+                                    "name": "item-bairro",
+                                    "tts": "$data.name"
+                                }
+                            ]
+                        },
+                        { 
+                            "name": "filtro-status",
+                            "title": 
+                            {
+                                "pt-BR":"Filtrar por Status",
+                                "en-US": "Filter by Status"
+                            },
+                            "datasource": "$data.status",
+                            "children":
+                            [
+                                { 
+                                    "name": "item-status",
+                                    "tts": "$data.name"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+		},
+
+		{
+			"name": "hotel",
+			"widgets":[
+                {
+                    "name": "section-descricao",
+                    "children":
+                    [
+                        {    
+                            "name": "imagens",
+                            "title": 
+                            {
+                                "pt-BR":"Imagens",
+                                "en-US": "Images"
+                            },
+                            "datasource": "$data.urls",
+                            "children":
+                            [
+                                {
+                                    "name": "imagem",
+                                    "tts": "$data.descricao"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "descricao",
+                            "title": 
+                            {
+                                "pt-BR":"Descrição",
+                                "en-US": "Description"
+                            },
+                            "tts": "$data.get(\"descricao\")"
+                        },
+                        {    
+                            "name": "quartos",
+                            "title": 
+                            {
+                                "pt-BR":"Tipo de Quartos",
+                                "en-US": "Types of Rooms"
+                            },
+                            "datasource": "$data.quartos",
+                            "children":
+                            [
+                                {
+                                    "name": "item-quarto",
+                                    "tts":
+                                    {
+                                        "pt-BR": "sprintf(\"%s. %i %s. %s café da manhã. Diárias a %d.\", $data.tipo, $data.camas, $data.camas > 1 ? \"camas\" : \"cama\", $data.cafe_manha ? \"Com\" : \"Sem\", $data.preco)",
+                                        "en-US": "sprintf(\"%s. %i %s. %s breakfast. Daily room rate to %d.\", $data.tipo, $data.camas, $data.camas > 1 ? \"beds\" : \"bed\", $data.cafe_manha ? \"With\" : \"Without\", $data.preco)."
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {    
+                    "name": "avaliacoes",
+                    "title": 
+                    {
+                        "pt-BR":"Avaliações",
+                        "en-US": "Reviews"
+                    },
+                    "datasource": "$data.avaliacoes",
+                    "children":
+                    [
+                        {
+                            "name": "avaliacao",
+                            "tts": 
+                            {
+                                "pt-BR": "$data.avaliacao + \". Autor: \" + $data.autor",
+                                "en-US": "$data.avaliacao + \". Author: \" + $data.autor"
+                            }
+                        }
+                    ]
+                }
+			] 
+		}
+	]
+}

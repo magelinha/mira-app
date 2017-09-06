@@ -1,0 +1,607 @@
+{
+	"entities": [
+		{ "name": "alimento" }
+	],
+	"intents": [
+        {
+            "name": "tutorial",
+            "action": "RequestFocus",
+            "phrases": 
+            {
+                "pt-BR": 
+                [
+                    { "phrase": "Tutorial" }, { "phrase": "Como fazer" }, { "phrase": "O que fazer" }
+                ],
+                "en-US": 
+                [
+                    { "phrase": "Tutorial" }, { "phrase": "How to do" }, { "phrase": "What to do" }
+                ]
+            },
+            "params": [ {"name": "container", "value": "tutorial" } ]
+        },
+		{
+			"name": "adicionar-item",
+			"action": "RequestFocus",
+			"phrases": 
+            {
+                "pt-BR": 
+                [
+                    { "phrase": "Selecionar Item" }, { "phrase": "Novo item" }, { "phrase": "Adicionar Item" }
+                ],
+                "en-US": 
+                [
+                    { "phrase": "Select item" }, { "phrase": "New Item" }, { "phrase": "Add item" }
+                ]
+            },
+            "params": [ {"name": "container", "value": "adicionar-item" } ]
+        },
+        {
+			"name": "alimento",
+			"context": { "out": ["alimento"] },
+			"action": "SetValue",
+			"phrases": 
+            {
+                "pt-BR":
+                [
+                    {
+                        "phrase": "alimento batata frita", 
+                        "entities": [ { "type": "alimento", "value": "batata frita", "alias": "alimento" } ] 
+                    },
+                    {
+                        "phrase": "Quero hambúrguer", 
+                        "entities": [ { "type": "alimento", "value": "hambúrguer", "alias": "alimento"} ] 
+                    }
+                ],
+                "en-US":
+                [
+                    {
+                        "phrase": "food fries", 
+                        "entities": [ { "type": "alimento", "value": "fries", "alias": "alimento" } ] 
+                    },
+                    {
+                        "phrase": "I want hamburguer", 
+                        "entities": [ { "type": "alimento", "value": "hamburguer", "alias": "alimento"} ] 
+                    }
+                ]
+            },
+            "params": [{ "name": "alimento", "value": "$alimento" }],
+            "error": 
+            {
+            	"name": "fallback-informar-alimento",
+            	"messages": 
+                {
+                    "pt-BR": [ "O item informado não está presente na nossa lista de alimentos."],
+                    "en-US": [ "The item informed is not present in our list of foods." ]
+                }
+            },
+            "responses": 
+            {
+                "pt-BR": [ "Entendi. O item escolhido foi $alimento." ],
+                "en-US": [ "Ok. The item informed was $destino." ]
+            }
+        },
+        {
+			"name": "quantidade",
+			"action": "SetValue",
+            "phrases": 
+            {
+                "pt-BR":
+                [
+                    {
+                        "phrase": "Quantidade 3", 
+                        "entities": [ { "type": "sys.number", "value": "3", "alias": "quantidade" } ] 
+                    },
+                    {
+                        "phrase": "3 itens", 
+                        "entities": [ { "type": "sys.number", "value": "3", "alias": "quantidade" } ] 
+                    },
+                    {
+                        "phrase": "1 item", 
+                        "entities": [ { "type": "sys.number", "value": "1", "alias": "quantidade" } ] 
+                    }
+                ],
+                "en-US":
+                [
+                    {
+                        "phrase": "Quantity 3", 
+                        "entities": [ { "type": "sys.number", "value": "3", "alias": "quantidade" } ] 
+                    },
+                    {
+                        "phrase": "3 items", 
+                        "entities": [ { "type": "sys.number", "value": "3", "alias": "quantidade" } ] 
+                    },
+                    {
+                        "phrase": "1 item", 
+                        "entities": [ { "type": "sys.number", "value": "1", "alias": "quantidade" } ] 
+                    }
+                ]
+            },
+            "params": [{ "name": "quantidade", "value": "$quantidade" }],
+            "responses":
+            {
+                "pt-BR":
+                [
+                    "Entendi. A quantidade de itens será $quantidade."
+                ],
+                "en-US":
+                [
+                    "Ok. The quantity will be $quantidade."
+                ]
+            }
+        },
+        {
+            "name": "grupo-item",
+            "action": "AdicionarGrupoItem",
+            "context": { "out": ["alimento"] },
+            "phrases": 
+            {
+                "pt-BR":
+                [
+                    
+                    {
+                        "phrase": "3 batatas fritas", 
+                        "entities": [
+                            { "type": "sys.number", "value": "3", "alias": "quantidade" },
+                            { "type": "alimento", "value": "batatas fritas", "alias": "alimento", "principal": "batata frita" } 
+                        ] 
+                    },
+                    {
+                        "phrase": "1 batata frita", 
+                        "entities": [ 
+                            { "type": "sys.number", "value": "1", "alias": "quantidade" },
+                            { "type": "alimento", "value": "batata frita", "alias": "alimento"  } 
+                        ] 
+                    }
+                ],
+                "en-US":
+                [
+                    {
+                        "phrase": "1 hamburguer", 
+                        "entities": [ 
+                            { "type": "alimento", "value": "hamburguer", "alias": "alimento"},
+                            { "type": "sys.number", "value": "1", "alias": "quantidade"}
+                        ] 
+                    },
+                    {
+                        "phrase": "3 hamburguers", 
+                        "entities": [ 
+                            { "type": "alimento", "value": "hamburguers", "alias": "alimento", "principal": "hamburguer"},
+                            { "type": "sys.number", "value": "3", "alias": "quantidade"}
+                        ] 
+                    }
+                ]
+            },
+            "error": 
+            {
+                "name": "fallback-informar-alimento",
+                "messages": 
+                {
+                    "pt-BR": [ "O item informado não está presente na nossa lista de alimentos."],
+                    "en-US": [ "The item informed is not present in our list of foods." ]
+                }
+            },
+            "params": [{ "name": "quantidade", "value": "$quantidade" }, { "name": "alimento", "value": "$alimento" }],
+            "responses":
+            {
+                "pt-BR":
+                [
+                    "Entendi. Você quer $quantidade $alimento."
+                ],
+                "en-US":
+                [
+                    "Ok. You want $quantidade $alimento."
+                ]
+            }
+        },
+        {
+            "name": "adicionar",
+            "action": "Submit",
+            "phrases": 
+            {
+                "pt-BR": 
+                [
+                    { "phrase": "Adicionar" }
+                ],
+                "en-US": 
+                [
+                    { "phrase": "Add" }
+                ]
+            }
+        },
+        {
+        	"name": "lista-itens",
+        	"action": "RequestFocus",
+			"phrases": 
+            {
+                "pt-BR":
+                [
+                    { "phrase": "Itens adicionados" },
+                    { "phrase": "Lista de itens" },
+                    { "phrase": "Itens atuais" },
+                    { "phrase": "Lista de desejo" },
+                    { "phrase": "Carrinho de compras" }
+                ],
+                "en-US":
+                [
+                    { "phrase": "Items added" },
+                    { "phrase": "List of items" },
+                    { "phrase": "Current items" },
+                    { "phrase": "Wishlist" },
+                    { "phrase": "Shopping cart" }
+                ]
+            },
+            "params": [{ "name": "container", "value": "lista-itens"}]
+        },
+        {
+            "name": "valor-total",
+            "action": "RequestFocus",
+            "phrases": 
+            {
+                "pt-BR":
+                [
+                    { "phrase": "Total do pedido " },
+                    { "phrase": "Valor total" },
+                    { "phrase": "Valor final" }
+                ],
+                "en-US":
+                [
+                    { "phrase": "Cost" },
+                    { "phrase": "Total" }
+                ]
+            }
+        },
+        {
+        	"name": "limpar-lista",
+        	"action": "LimparLista",
+			"phrases": 
+            {
+                "pt-BR":
+                [
+                    { "phrase": "Limpar lista" },
+                    { "phrase": "Limpar tudo" },
+                    { "phrase": "Apagar todos os itens" },
+                    { "phrase": "Apagar todos" }
+                ],
+                "en-US":
+                [
+                    { "phrase": "Claer list" },
+                    { "phrase": "Clear" }
+                ]
+            }
+        },
+        {
+        	"name": "cadastrar-pedido",
+        	"action": "CadastrarPedido",
+			"phrases": 
+            {
+                "pt-BR":
+                [
+                    { "phrase": "Cadastrar Pedido" },
+                    { "phrase": "Cadastrar" }
+                ],
+                "en-US":
+                [
+                    { "phrase": "Register" },
+                    { "phrase": "Register order" }
+                ]
+            }
+        },
+        {
+            "name": "editar-item",
+            "action": "EditarItem",
+            "phrases": 
+            {
+                "pt-BR":
+                [
+                    { "phrase": "Editar" },
+                    { "phrase": "Alterar " },
+                    { "phrase": "Editar Item " },
+                    { "phrase": "Alterar Item" }
+                ],
+                "en-US":
+                [
+                    { "phrase": "Edit" },
+                    { "phrase": "Alter " },
+                    { "phrase": "Edit Item " },
+                    { "phrase": "Alter Item" }
+                ]
+            }
+        },
+        {
+            "name": "remover-item",
+            "action": "RemoverItem",
+            "phrases": 
+            {
+                "pt-BR":
+                [
+                    { "phrase": "Remover" },
+                    { "phrase": "Remover Item " }
+                ],
+                "en-US":
+                [
+                    { "phrase": "Remove" },
+                    { "phrase": "Remove Item " }
+                ]
+            }
+        },
+        {
+            "name": "nova-quantidade",
+            "action": "SetValue",
+            "phrases": 
+            {
+                "pt-BR":
+                [
+                    {
+                        "phrase": "Nova quantidade 3", 
+                        "entities": [ { "type": "sys.number", "value": "3", "alias": "quantidade" } ] 
+                    },
+                    {
+                        "phrase": "Nova quantidade será 2", 
+                        "entities": [ { "type": "sys.number", "value": "2", "alias": "quantidade" } ] 
+                    }
+                ],
+                "en-US":
+                [
+                    {
+                        "phrase": "New Quantity 3", 
+                        "entities": [ { "type": "sys.number", "value": "3", "alias": "quantidade" } ] 
+                    },
+                    {
+                        "phrase": "New Quantity will be 3", 
+                        "entities": [ { "type": "sys.number", "value": "3", "alias": "quantidade" } ] 
+                    }
+                ]
+            },
+            "params": [{ "name": "newQuantity", "value": "$newQuantity" }],
+            "responses":
+            {
+                "pt-BR":
+                [
+                    "Entendi. A nova quantidade será $newQuantity."
+                ],
+                "en-US":
+                [
+                    "Ok. The new quantity will be $newQuantity."
+                ]
+            }
+        },
+        {
+            "name": "confirmar-edicao",
+            "action": "Click",
+            "phrases": 
+            {
+                "pt-BR":
+                [
+                    { "phrase": "Confirmar Edição" },
+                    { "phrase": "Confirmar " }
+                ],
+                "en-US":
+                [
+                    { "phrase": "Confirm Edit" },
+                    { "phrase": "Confirm " }
+                ]
+            },
+            "params": [{ "name": "element", "value": "confirmar-edicao" }],
+        },
+        {
+            "name": "cancelar-edicao",
+            "action": "Click",
+            "phrases": 
+            {
+                "pt-BR":
+                [
+                    { "phrase": "Cancelar Edição" },
+                    { "phrase": "Cancelar " }
+                ],
+                "en-US":
+                [
+                    { "phrase": "Cancel Edit" },
+                    { "phrase": "Cancel " }
+                ]
+            },
+            "params": [{ "name": "element", "value": "cancelar-edicao" }],
+        },
+        {
+        	"name": "numero-pedido",
+        	"action": "RequestFocus",
+			"phrases": 
+            {
+                "pt-BR":
+                [
+                    { "phrase": "Número do pedido" },
+                    { "phrase": "Número" },
+                    { "phrase": "Pedido" }
+                ],
+                "en-US":
+                [
+                    { "phrase": "Number of order" },
+                    { "phrase": "Number" },
+                    { "phrase": "Order" }
+                ]
+            },
+            "params": [{ "name": "container", "value": "numero-pedido"}]
+        },
+        {
+        	"name": "novo-pedido",
+        	"action": "NovoPedido",
+			"phrases": 
+            {
+                "pt-BR":
+                [
+                    { "phrase": "Novo pedido" },
+                    { "phrase": "Novo" }
+                ],
+                "en-US":
+                [
+                    { "phrase": "New order" },
+                    { "phrase": "New" }
+                ]
+            }
+        }
+	],
+
+	"interfaces": 
+    [
+		{
+			"name": "landing",
+		    "title": { "pt-BR": "Fast Food UAI - Área de pedidos", "en-US": "Fast Food UAI - Order area" },
+		    "widgets": [
+                {
+                    "name": "tutorial",
+                    "title": "Tutorial"
+                },
+		        {
+		            "name": "section-add-item",
+		            "children": [
+		                {
+		                    "name": "adicionar-item",
+		                    "title":
+		                    {
+		                        "pt-BR": "Selecionar Itens",
+		                        "en-US": "Select Items"
+		                    },
+		                    "children": [
+		                        {
+		                            "name": "alimento",
+		                            "label": "Alimento",
+		                            "entity": { "name": "alimento", "key": "name" },
+		                            "datasource": "url:<%= \"/api/FastFood/itens\" %>",
+		                            "children": [
+		                                {
+		                                    "name": "option-item",
+		                                    "error": 
+		                                    {
+		                                        "name": "default",
+		                                        "message": {
+		                                            "pt-BR": "O item não foi informado",
+		                                            "en-US": "The item didn't informed"
+		                                        }
+		                                    }
+		                                }
+		                            ]
+		                        },
+		                        {
+		                            "name": "quantidade",
+		                            "label": {
+		                                "pt-BR": "Quantidade",
+		                                "en-US": "Quantity"
+		                            },
+		                            "error": [
+		                                {
+		                                    "name": "empty",
+		                                    "message": {
+		                                        "pt-BR": "A quantidade não foi informada",
+		                                        "en-US": "The quantity didn't informed"
+		                                    }
+		                                },
+		                                {
+		                                    "name": "maxValue",
+		                                    "message": {
+		                                        "pt-BR": "A quantidade não pode ser maior que três.",
+		                                        "en-US": "The quantity can not be greater than three."
+		                                    }
+		                                },
+		                                {
+		                                    "name": "minValue",
+		                                    "message": {
+		                                        "pt-BR": "A quantidade não pode ser menor que um.",
+		                                        "en-US": "The amount can not be less than one."
+		                                    }
+		                                },
+		                                {
+		                                    "name": "invalid",
+		                                    "message": {
+		                                        "pt-BR": "O valor informado não é um número",
+		                                        "en-US": "The value informed is not a number."
+		                                    }
+		                                }
+		                            ]
+		                        },
+		                        {
+		                            "name": "confirmar",
+		                            "bind": {
+		                                "pt-BR": "Adicionar",
+		                                "en-US": "Add"
+		                            }
+		                        }
+		                    ]
+		                }
+		            ]
+		        },
+		        {
+		            "name": "section-itens",
+		            "children": [
+		                {
+		                    "name": "lista-itens",
+		                    "title":
+		                    {
+		                        "pt-BR": "Lista de Itens",
+		                        "en-US": "List of Items"
+		                    },
+		                    "datasource": "selecionados",
+		                    "children": 
+		                    [
+		                        {
+		                            "name": "item-informado",
+		                            "bind": "$data",
+		                            "tts": 
+		                            {
+		                                "pt-BR": "sprintf('Item: %s. Quantidade: %d. Preço: %0.2f. Fale Editar para editá-lo ou Remover para removê-lo do pedido.', '$data.item', $data.quantidade, $data.total)",
+		                                "en-US": "sprintf('Item: %s. Quantity: %d. Price: %0.2f. Say Edit to edit it or Remove to remove from order.', '$data.item', $data.quantidade, $data.total)"
+		                            }
+		                        }
+		                    ]
+		                },
+		                { 
+		                    "name": "limpar-lista", "bind": { "pt-BR": "Limpar", "en-US": "Clear" }, "title": { "pt-BR":"Limpar lista de pedidos", "en-US":"Clear list of order" } 
+		                },
+		                { "name": "cadastrar-pedido", "bind": { "pt-BR": "Comprar", "en-US": "Purchase" }, "title": { "pt-BR":"Registrar o pedido", "en-US":"Register order" } },
+		                { 
+		                    "name":"valor-total", 
+		                    "bind": "_.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0)",
+		                    "tts": "$bind"
+		                }
+		            ]
+		        }
+		    ]
+		},
+		{
+			"name": "pedido",
+            "title": { "pt-BR": "Fast Food UAI - Número do pedido", "en-US": "Fast Food UAI - Number of Order"},
+			"widgets":
+            [
+                {
+                    "name": "section-numero-pedido",
+                    "title": 
+                    {
+                    	"pt-BR": "Número do pedido",
+                    	"en-US": "Number of Order"
+                    },
+                    "children": 
+                    [
+                        { 
+                            "name": "numero",
+                            "bind": "$data.numero"
+                        }
+                    ]
+                },
+                {
+                    "name": "section-itens",
+                    "children":
+                    [
+                        {
+                            "name": "lista-itens",
+                            "datasource": "$data.selecionados",
+                            "children": 
+                            [
+                                "item-informado"
+                            ]
+                        },
+                        { "name":"valor-total" },
+                        { "name": "novo-pedido"}
+                    ]                        
+                }
+			] 
+		}
+	]
+}
