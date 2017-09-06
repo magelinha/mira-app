@@ -26,6 +26,44 @@ var GeralHead = [
     {name: 'viewport', widget:'Meta', content:'width=device-width, initial-scale=1'}
 ];
 
+var textCurrency = function(param){
+    var value = parseFloat(value);
+
+    var intPart = Math.trunc(value);
+    var decimalPart = value % 1;
+    decimalPart = Math.round(decimalPart * 100) / 100;
+
+    var text = {
+        "pt-BR" : "",
+        "en-US" : ""
+    };
+
+    if(intPart == 1){
+        text["pt-BR"] += intPart + " real";
+        text["en-US"] += intPart + " dollar";
+    }
+    else if(intPart > 1){
+        text["pt-BR"] += intPart + " reais";
+        text["en-US"] += intPart + " dollars";    
+    }
+
+    if(intPart > 0 && decimalPart > 0){
+        text["pt-BR"] += intPart + " e ";
+        text["en-US"] += intPart + " and ";    
+    }
+
+    if(intPart == 1){
+        text["pt-BR"] += intPart + " centavo";
+        text["en-US"] += intPart + " cent";
+    }
+    else if(intPart > 1){
+        text["pt-BR"] += intPart + " centavos";
+        text["en-US"] += intPart + " cents";    
+    }
+
+    return text;
+}
+
 
 //---------------------------------------------------------------------------------------- landing ----------------------------------------------------------------------------------------
 var landingAbstrata = {
@@ -632,11 +670,11 @@ if(typeof define === 'function') {
                 [
                     {
                         name: "add",
-                        message: "Item adicionado com sucesso. O valor total até o momento é %.2f reais."
+                        message: "'Item adicionado com sucesso. O valor total até o momento é ' + textCurrency('%.2f')['pt-BR']."
                     },
                     {
                         name: "edit",
-                        message: "Item atualizado com sucesso. O valor total até o momento é %.2f reais."
+                        message: "'Item atualiado com sucesso. O valor total até o momento é ' + textCurrency('%.2f')['pt-BR']."
                     },
                     {
                         name: "clear",
@@ -644,7 +682,7 @@ if(typeof define === 'function') {
                     },
                     {
                         name: "remove",
-                        message: "Item removido com sucesso. O valor total até o momento é %.2f reais."
+                        message: "'Item removido com sucesso. O valor total até o momento é ' + textCurrency('%.2f')['pt-BR']."
                     },
                     {
                         name: "cancelEdit",
@@ -655,11 +693,11 @@ if(typeof define === 'function') {
                 [
                     {
                         name: "add",
-                        message:"Item added successfully. The total amount so far is %.2f dollars."
+                        message:"'Item added successfully. The total amount so far is ' + textCurrency('%.2f')['en-US']."
                     },
                     {
                         name: "edit",
-                        message:"Item updated successfully. The total amount so far is %.2f dollars."
+                        message:"'Item updated successfully. The total amount so far is ' + textCurrency('%.2f')['en-US']."
                     },
                     {
                         name: "clear",
@@ -667,7 +705,7 @@ if(typeof define === 'function') {
                     },
                     {
                         name: "remove",
-                        message: "Item removed successfully. The total amount so far is %.2f dollars."
+                        message: "'Item removed successfully. The total amount so far is ' + textCurrency('%.2f')['en-US']."
                     },
                     {
                         name: "cancelEdit",
@@ -778,9 +816,10 @@ if(typeof define === 'function') {
             window.ListarOpcoes = function(options){
                 var alimentos = !_.isArray(options.$env.collections.alimento) ? options.$env.collections.alimento.models : 
                                     options.$env.collections.alimento[1].models;
-                var text = "";
+                var text = appApi.currentLanguage == "pt-BR" ? "As opções são: " : "The options are: ";
+                
                 _.each(alimentos, function(alimento){
-                    text += alimento.get("name")[appApi.currentLanguage] + " - " +  alimento.get("price") + ", ";
+                    text += alimento.get("name")[appApi.currentLanguage] + " - " +  textCurrency(alimento.get("price"))[appApi.currentLanguage]  + ", ";
                 });
 
                 text += ".";
@@ -795,6 +834,8 @@ if(typeof define === 'function') {
                     $("#confirmar-edicao").click();
                 }
             }
+
+            
 
             //Operações modal
             window.EvtEditItem = function(options){
