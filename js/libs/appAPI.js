@@ -1,6 +1,17 @@
 
 'use strict';
 
+//Configura o append do jquery para gerar um evento
+(function($) {
+
+    var origAppend = $.fn.append;
+
+    $.fn.append = function () {
+        return origAppend.apply(this, arguments).triggerHandler("append");
+    };
+})(jQuery);
+
+
 var appApi = null;
 var ActionAPI = window.ActionAPI || {};
 

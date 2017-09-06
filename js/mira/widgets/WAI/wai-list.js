@@ -104,22 +104,29 @@ define([
         }
 
         //Evento disparado ao adicionar um item na lista
-        $element.on("appened", function(event){
+        $element.bind("append", function(event){
             var children = $element.children();
-            console.log('adicionou um elemento na lista', children, event);
-            _.each(children, function(child){
-                children.keypress(function(e){
-                    //40 -> seta pra baixo
-                    //38 -> seta para cima
+            if(!children.length)
+                return;
 
-                    if(e.which != 38 || e.which != 40)
-                        return;
+            console.log('adicionou um elemento na lista');
+            var child = children.last();
 
-                    var index = $(child).index($element);
-                    index = index >= children.length -1 ? 0 : index + 1;
-                    children[index].focus();
-                });
-            })
+            child.keypress(function(e){
+                e.stopPropagation();
+
+                //40 -> seta pra baixo
+                //38 -> seta para cima
+
+                if(e.which != 38 || e.which != 40)
+                    return;
+
+                var index = $(child).index($element);
+                index = index >= children.length -1 ? 0 : index + 1;
+                children[index].focus();
+            });
+            
+            
         })
         
         //Registra as entidades

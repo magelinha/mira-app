@@ -214,13 +214,9 @@
                 esse = structure;
             }
 
-            $parent.append(anchor).trigger("appended");
-            
             this.buildWidget(temp, concrete, $data, $env, function(options){
                 esse.buildChildren(options.$children, concrete, $data, $env, currentInterface);               
-
-                anchor.after(temp.children());
-                anchor.remove();
+                $parent.append(temp.children());
             });
         },
 

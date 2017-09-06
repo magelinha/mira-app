@@ -55,14 +55,16 @@ define([
                 esse.setElement(options.$element || options.$children);
                 esse.widget.buildChildren(esse.$el, esse.concrete, esse.model, esse.$env);
 
-                var children = parent.children();
+                // var children = parent.children();
+                // if(!children.length)
+                //     return;
 
-                if(old_$el.parent().length){
-                    old_$el.after(children).trigger("appended");
-                    old_$el.remove();
-                } else {
-                    esse.$parent.append(children).trigger("appended");
-                }
+                // if(old_$el.parent().length){
+                //     old_$el.after(children);
+                //     old_$el.remove();
+                // } else {
+                //     esse.$parent.append(children);
+                // }
             });
 
             if(this.collectionView && this in this.collectionView.subviews){

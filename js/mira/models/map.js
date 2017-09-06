@@ -39,9 +39,15 @@ define([
 
             this.get('children').each(function(map){
                 map.getHtml($parent, $data, $env, $bind, function(ret){
+                    var anchor = Helper.buildAnchor();
                     if(map.hasChildren()){
-                        map.buildChildren(ret.$children, $data, $env, $bind, callback)
+                        map.buildChildren(anchor, $data, $env, $bind, callback)
                     }
+
+                    var children = anchor.children();
+                    if(children.length)
+                        ret.$children.append(children);
+                    
                     callback(ret);
                 });
             }, this);
