@@ -7,6 +7,25 @@ define([
 ], function ($, _, Helper) {
 
     var validTypes = ['select', 'textarea'];
+    var messages = {
+        zeroItem: {
+            "pt-BR":"Caixa de seleção sem itens",
+            "en-US": "Combobox without items"
+        },
+
+        oneItem: {
+            "pt-BR":"Caixa de seleção com 1 item",
+            "en-US": "Combobox with 1 item"
+        },
+
+        manyItems: {
+            "pt-BR":"Caixa de seleção com %d itens",
+            "en-US": "Combobox with %d items"
+        },
+
+    }
+
+
 
     var templateGroup = '<div class="form-group">\
                                         <label class="col-sm-2 control-label"><%= _.isString(label) ? label : label[appApi.currentLanguage] %></label>\
@@ -25,6 +44,48 @@ define([
                                 <%=label%>\
                             </label>\
                         </div>';
+    
+    var configureElementByTag = function(tag, $input){
+        switch(tag){
+            case "select":
+                configureSelect($input);
+                break;
+            case "p":
+                configureP($input);
+                break;
+            default:
+                $input.removeClass('form-control').addClass('form-control');
+                break;
+        }
+    };
+
+    var configureSelect = function($input){
+        $input.removeClass('form-control').addClass('form-control');
+        
+        // Quando ganhar o foco, fala quantas opções tem
+        $input.focus(function(e){
+            var children = $input.find("option");
+            if(children.length == 0)
+                appApi.tts(messages.zeroItem[appApi.currentLanguage]);
+            else if(children.length == 1)
+                appApi.tts(messages.oneItem[appApi.currentLanguage]);
+            else
+                appApi.tts(sprintf(messages.manyItems[appApi.currentLanguage], children.length));
+        });
+
+        //quando alterar a valor do objeto via teclado, informa o valor
+        $input.keyup(function(e){
+            if(e.which != 38 && e.which != 40)
+                return;
+
+            appApi.tts($(this[this.selectedIndex]).text());
+        });
+    }
+
+    var configureP = function($input){
+        $input.removeClass('form-control-static').addClass('form-control-static');
+    }
+
 
     var generateGeneralInput = function(tag, $parent, name, $context, options, callback, ignored_options){
         var tts = options.tts;
@@ -57,11 +118,7 @@ define([
         $input.prop('tabindex', 0);
         $input.prop('aria-required', options.required || false);
         $input.attr('required', options.required || false);
-        if(tag == "p"){
-            $input.removeClass('form-control-static').addClass('form-control-static');
-        }else{
-            $input.removeClass('form-control').addClass('form-control');
-        }
+        configureElementByTag(tag, $input);
 
         //Configura a label do controle após a mudança de linguagem
         if(_.isObject(label)){
