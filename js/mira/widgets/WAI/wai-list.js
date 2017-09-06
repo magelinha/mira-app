@@ -112,18 +112,24 @@ define([
             console.log('adicionou um elemento na lista');
             var child = children.last();
 
-            child.keypress(function(e){
+            child.keydown(function(e){
                 e.stopPropagation();
 
                 //40 -> seta pra baixo
                 //38 -> seta para cima
 
-                if(e.which != 38 || e.which != 40)
-                    return;
+                var currentChildren = $element.children();
+                var index = currentChildren.index(child);
 
-                var index = $(child).index($element);
-                index = index >= children.length -1 ? 0 : index + 1;
-                children[index].focus();
+                
+                if(e.which == 38){
+                    //up
+
+                    index = index == 0 ? currentChildren.length - 1 : index - 1;
+                }else if (e.which == 40){
+                    //down
+                    index = index >= currentChildren.length - 1 ? 0 : index + 1;
+                }
             });
             
             

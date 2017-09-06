@@ -645,7 +645,7 @@ ActionAPI.SpeechAction.prototype.IsAppAction = function(text){
 
 ActionAPI.SpeechAction.prototype.OnApiResult = function(data){
     var _this = appApi;
-    console.log("> ON RESULT");
+    console.log("> ON RESULT", data);
     //console.log(data);
     var status = data.status;
     var code;
