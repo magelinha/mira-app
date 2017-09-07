@@ -99,6 +99,12 @@ ActionAPI.SpeechAction = function(conf){
             "en-US": ["Change language to Portuguese"]
         },
 
+        repeat: 
+        {
+            "pt-BR": ["Repetir", "Repita"],
+            "en-US": ["Repeat"]
+        },
+
         nextItem: 
         {
             "pt-BR": ["Próximo", "Próximo Item", "Avançar"],
@@ -130,6 +136,7 @@ ActionAPI.SpeechAction = function(conf){
         },
     };
     
+    this.lastMessage = "";
 
     //Controle de audio capitado do microfone
     this.audioContext = null;
@@ -139,12 +146,6 @@ ActionAPI.SpeechAction = function(conf){
 
     //Faz a comunicação com o API.ai
     this.apiAi = null;
-
-    //Chave para fazer a comunicação com o Cloud Speech
-    this.googleSpeechKey = 'AIzaSyC4oqjriZB1lLFSfNQyvLnXa43s8nGRoW4';
-
-    // Url onde deverá ser feito o Ajax
-    this.googleSpeechURL = 'https://speech.googleapis.com/v1beta1/speech:syncrecognize?key=' + this.googleSpeechKey;
 
     this.sessionId = null;
 
@@ -234,6 +235,8 @@ ActionAPI.SpeechAction.prototype.SendJson = function(query, contexts){
 */
 ActionAPI.SpeechAction.prototype.tts = function(text){
     var _this = this;
+    _this.lastMessage = text;
+
     var getVoice = function(){
         switch(_this.currentLanguage){
             case "pt-BR": return "Brazilian Portuguese Female";
@@ -542,6 +545,13 @@ ActionAPI.SpeechAction.prototype.changeLanguage = function(){
     //document.documentElement.lang = this.currentLanguage;
 };
 
+ActionAPI.SpeechAction.prototype.repeat = function(){
+    if(!this.lastMessage.length)
+        return;
+
+    this.tts(this.lastMessage);
+};
+
 ActionAPI.SpeechAction.prototype.executeCommand = function(action, params){
     if(typeof(window[action]) != "undefined"){
         window[action](params);
@@ -696,6 +706,10 @@ ActionAPI.SpeechAction.prototype.ExecuteAppAction = function(action){
         case "changeLanguage": 
             _this.changeLanguage();
             break;
+        case "repeat": 
+            _this.repeat();
+            break;
+
         case "nextItem": 
             _this.nextItem();
             break;
