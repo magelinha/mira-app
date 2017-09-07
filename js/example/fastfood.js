@@ -178,13 +178,12 @@ var landingAbstrata = {
                     name: "section-itens",
                     title:
                     {
-                        "pt-BR": "Lista de Itens",
-                        "en-US": "List of Items"
+                        "pt-BR": "Itens do Pedido",
+                        "en-US": "Items of List"
                     },
                     children: [
                         {
-                            name: "lista-itens",
-                            
+                            name: "lista-itens",      
                             datasource: "selecionados",
                             children: 
                             [
