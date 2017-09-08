@@ -78,30 +78,30 @@ define([
             appApi.widgets.push($element);
         }
 
-        if(tts){
-            Helper.tts_on_focus($element, tts, context);
-        }else{
-            $element.focus(function(e){
-                var children = $element.children('div:visible, blockquote:visible, a:visible, li:visible, section:visible, tr:visible')
-                var lenChildren = children.length;
-                var text = '';
+        $element.focus(function(e){
+            var children = $element.children('div:visible, blockquote:visible, a:visible, li:visible, section:visible, tr:visible')
+            var lenChildren = children.length;
+            var text = '';
 
-                if(lenChildren == 0){
-                    text = messageEmptyList[appApi.currentLanguage];
-                }else if(lenChildren == 1){
-                    text = messageBaseOne[appApi.currentLanguage];
-                }
-                else{
-                    text = sprintf(messageBaseMult[appApi.currentLanguage], lenChildren);
-                }
-                
-                appApi.tts(text);
+            if(lenChildren == 0){
+                text = messageEmptyList[appApi.currentLanguage];
+            }else if(lenChildren == 1){
+                text = messageBaseOne[appApi.currentLanguage];
+            }
+            else{
+                text = sprintf(messageBaseMult[appApi.currentLanguage], lenChildren);
+            }
+            
+            if(tts){
+                text += _.isString(tts) ? tts : tts[appApi.currentLanguage];
+            }
+            
+            appApi.tts(text);
 
-                if(children.length)
-                    children[0].focus();
+            if(children.length)
+                children[0].focus();
 
-            });
-        }
+        });
 
         //Evento disparado ao adicionar um item na lista
         $element.bind("append", function(event){

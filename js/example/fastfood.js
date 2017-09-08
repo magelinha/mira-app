@@ -184,6 +184,11 @@ var landingAbstrata = {
                     children: [
                         {
                             name: "lista-itens",      
+                            tts: 
+                            {
+                                "pt-BR": "Você pode Mudar Pedido ou Remover Pedido.",
+                                "en-US": "You can Edit Item or Delete Item."
+                            }
                             datasource: "selecionados",
                             children: 
                             [
