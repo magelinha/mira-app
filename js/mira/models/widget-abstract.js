@@ -204,6 +204,12 @@
             var esse = this;
             var currentInterface = esse.get("interface");
 
+            var title = this.get("title");
+            if(appApi && title && currentInterface){
+                var $context = { $data: $data.attributes };
+                appApi.RegisterTitle(title, currentInterface, $context);
+            }
+
             var anchor = Helper.buildAnchor();
             var temp = Helper.buildAnchor();
             var structure = concrete.findStructure(this.get('name'));

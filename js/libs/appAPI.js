@@ -747,18 +747,18 @@ ActionAPI.SpeechAction.prototype.RegisterTitle = function(param, abstractName, $
         }
 
         if(_.isObject(title) && title["pt-BR"]){
-            if(!_.contains(this.titles["pt-BR"][abstractName], title["pt-BR"]))
+            if(this.titles["pt-BR"][abstractName].indexOf(title["pt-BR"]) < 0 )
                 this.titles["pt-BR"][abstractName].push(title["pt-BR"]);
 
-            if(!_.contains(this.titles["en-US"][abstractName], title["en-US"]));
+            if(this.titles["en-US"][abstractName].indexOf(title["en-US"]) < 0 )
                 this.titles["en-US"][abstractName].push(title["en-US"]);
 
         }
         else if(_.isString(title)){
-            if(!_.contains(this.titles["pt-BR"][abstractName], title));
+            if(this.titles["pt-BR"][abstractName].indexOf(title) < 0 )
                 this.titles["pt-BR"][abstractName].push(title);
 
-            if(!_.contains(this.titles["en-US"][abstractName], title));
+            if(this.titles["en-US"][abstractName].indexOf(title) < 0 )
                 this.titles["en-US"][abstractName].push(title);
         }
     }

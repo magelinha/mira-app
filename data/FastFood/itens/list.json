@@ -1,7 +1,7 @@
 [
 	{
 		"id": 1,
-		"price": 7.5,
+		"price": 5,
 		"name": {
 			"pt-BR": { 
 				"value": "Hambúrguer",
@@ -15,71 +15,99 @@
 	},
 	{
 		"id": 2,
-		"price": 3,
+		"price": 6,
 		"name": {
 			"pt-BR": { 
-				"value": "Refrigerante",
-				"synonyms": ["Refrigerantes"]
+				"value": "X-Burguer",
+				"synonyms": ["X-Burguers"]
 			},
 			"en-US": { 
-				"value": "Soda",
-				"synonyms": ["Sodas"]
+				"value": "X-Burguer",
+				"synonyms": ["X-Burguers"]
 			}
 		}
 	},
 	{
 		"id": 3,
-		"price": 3,
+		"price": 6.5,
 		"name": {
 			"pt-BR": { 
-				"value": "Batata Frita",
-				"synonyms": ["Batatas Fritas"]
+				"value": "X-Bacon",
+				"synonyms": ["X-Bacons"]
 			},
 			"en-US": { 
-				"value": "Fries",
-				"synonyms": ["Fries"]
+				"value": "X-Bacon",
+				"synonyms": ["X-Bacons"]
 			}
 		}
 	},
 	{
 		"id": 4,
-		"price": 2.5,
+		"price": 6,
 		"name": {
 			"pt-BR": { 
-				"value": "Suco",
-				"synonyms": ["Sucos"]
+				"value": "X-Frango",
+				"synonyms": ["X-Frangos"]
 			},
 			"en-US": { 
-				"value": "Juice",
-				"synonyms": ["Juices"]
+				"value": "X-Bacon",
+				"synonyms": ["X-Frangos"]
 			}
 		}
 	},
 	{
 		"id": 5,
-		"price": 5,
+		"price": 10,
 		"name": {
 			"pt-BR": { 
-				"value": "Cachorro Quente",
-				"synonyms": ["Cachorros Quentes"]
+				"value": "X-Tudo",
+				"synonyms": ["X-Tudos"]
 			},
 			"en-US": { 
-				"value": "Hot Dog",
-				"synonyms": ["Hot dogs"]
+				"value": "X-Tudo",
+				"synonyms": ["X-Tudos"]
 			}
 		}
 	},
 	{
 		"id": 6,
-		"price": 4.5,
+		"price": 3.5,
 		"name": {
 			"pt-BR": { 
-				"value": "Churrasco",
-				"synonyms": ["Churrascos"]
+				"value": "Suco natural de Laranja",
+				"synonyms": ["Suco de Laranja", "Sucos de Laranja", "Sucos naturais de laranja"]
 			},
 			"en-US": { 
-				"value": "Barbecue",
-				"synonyms": ["Barbecues"]
+				"value": "Orange juice",
+				"synonyms": ["Orange juices"]
+			}
+		}
+	},
+	{
+		"id": 7,
+		"price": 4.3,
+		"name": {
+			"pt-BR": { 
+				"value": "Regrigerante lata",
+				"synonyms": ["Regrigerantes lata"]
+			},
+			"en-US": { 
+				"value": "Soda",
+				"synonyms": ["Soda"]
+			}
+		}
+	},
+	{
+		"id": 8,
+		"price": 12,
+		"name": {
+			"pt-BR": { 
+				"value": "Milk Shake",
+				"synonyms": ["Milk Shakes"]
+			},
+			"en-US": { 
+				"value": "Milk Shake",
+				"synonyms": ["Milk Shakes"]
 			}
 		}
 	}
