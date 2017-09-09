@@ -471,12 +471,11 @@ ActionAPI.SpeechAction.prototype.RegisterEntityByLanguage = function(entityValue
         var url = "entities"
         var options = {};
         if(exists){
-            type = "PUT";
             valuesToSave.id = exists.id;
-            url += "/" + exists.id;
+            url += "/" + exists.id + "/entries";
         }
 
-        _this.AjaxCurl(url, type, valuesToSave, function(data){
+        _this.AjaxCurl(url, type, exists ? valuesToSave.entries : valuesToSave, function(data){
             console.log('entidades registradas com sucesso');
         });
     });

@@ -27,12 +27,13 @@ var GeralHead = [
 ];
 
 var textCurrency = function(param){
-    var value = parseFloat(value);
+    var value = parseFloat(param);
 
     var intPart = Math.trunc(value);
     var decimalPart = value % 1;
-    decimalPart = Math.round(decimalPart * 100) / 100;
-
+    decimalPart = decimalPart.toFixed(2);
+    decimalPart = decimalPart > 0 ? Number(String(decimalPart).split('.')[1]) : 0;
+    
     var text = {
         "pt-BR" : "",
         "en-US" : ""
@@ -48,17 +49,17 @@ var textCurrency = function(param){
     }
 
     if(intPart > 0 && decimalPart > 0){
-        text["pt-BR"] += intPart + " e ";
-        text["en-US"] += intPart + " and ";    
+        text["pt-BR"] += " e ";
+        text["en-US"] += " and ";    
     }
 
-    if(intPart == 1){
-        text["pt-BR"] += intPart + " centavo";
-        text["en-US"] += intPart + " cent";
+    if(decimalPart == 1){
+        text["pt-BR"] += decimalPart + " centavo";
+        text["en-US"] += decimalPart + " cent";
     }
-    else if(intPart > 1){
-        text["pt-BR"] += intPart + " centavos";
-        text["en-US"] += intPart + " cents";    
+    else if(decimalPart > 1){
+        text["pt-BR"] += decimalPart + " centavos";
+        text["en-US"] += decimalPart + " cents";    
     }
 
     return text;
@@ -674,11 +675,11 @@ if(typeof define === 'function') {
                 [
                     {
                         name: "add",
-                        message: "'Item adicionado com sucesso. O valor total até o momento é ' + textCurrency('%.2f')['pt-BR']."
+                        message: "Item adicionado com sucesso. O valor total até o momento é %s"
                     },
                     {
                         name: "edit",
-                        message: "'Item atualiado com sucesso. O valor total até o momento é ' + textCurrency('%.2f')['pt-BR']."
+                        message: "Item atualiado com sucesso. O valor total até o momento é %s"
                     },
                     {
                         name: "clear",
@@ -686,7 +687,7 @@ if(typeof define === 'function') {
                     },
                     {
                         name: "remove",
-                        message: "'Item removido com sucesso. O valor total até o momento é ' + textCurrency('%.2f')['pt-BR']."
+                        message: "Item removido com sucesso. O valor total até o momento é %s."
                     },
                     {
                         name: "cancelEdit",
@@ -697,11 +698,11 @@ if(typeof define === 'function') {
                 [
                     {
                         name: "add",
-                        message:"'Item added successfully. The total amount so far is ' + textCurrency('%.2f')['en-US']."
+                        message:"Item added successfully. The total amount so far is %s."
                     },
                     {
                         name: "edit",
-                        message:"'Item updated successfully. The total amount so far is ' + textCurrency('%.2f')['en-US']."
+                        message:"Item updated successfully. The total amount so far is %s."
                     },
                     {
                         name: "clear",
@@ -709,7 +710,7 @@ if(typeof define === 'function') {
                     },
                     {
                         name: "remove",
-                        message: "'Item removed successfully. The total amount so far is ' + textCurrency('%.2f')['en-US']."
+                        message: "'Item removed successfully. The total amount so far is %s."
                     },
                     {
                         name: "cancelEdit",
@@ -779,11 +780,12 @@ if(typeof define === 'function') {
                     window.selecionados.add(itemSelecionado);
                 }
 
-                //Mensagem indicando que salvou com sucesso
+                var total = _.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0);
+                var currentAmount = textCurrency(total)[appApi.currentLanguage];
                 appApi.tts(
                     sprintf(
                         _.find(messages[appApi.currentLanguage], function(x){ return x.name == "add"}).message, 
-                        _.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0)
+                        currentAmount
                     )
                 );
 
@@ -872,7 +874,9 @@ if(typeof define === 'function') {
                 appApi.tts(
                     sprintf(
                         _.find(messages[appApi.currentLanguage], function(x){ return x.name == "remove"}).message, 
-                        _.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0)
+                        textCurrency(
+                            _.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0)
+                        )[appApi.currentLanguage]
                     )
                 );
 
@@ -899,10 +903,12 @@ if(typeof define === 'function') {
                     selecionado.set("total", itemSelecionado.total);
                 }
 
+                var total = _.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0);
+                var currentAmount = textCurrency(total)[appApi.currentLanguage];
                 appApi.tts(
                     sprintf(
                         _.find(messages[appApi.currentLanguage], function(x){ return x.name == "edit"}).message, 
-                        _.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0)
+                        currentAmount
                     )
                 );
 
