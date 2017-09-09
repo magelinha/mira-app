@@ -352,60 +352,142 @@ ActionAPI.SpeechAction.prototype.InitAPIAi = function(){
 }
 
 
-ActionAPI.SpeechAction.prototype.AjaxCurl = function(url, type, callback, data, token){
-    return this.apiAi.eventRequest(type, data);
-    // var _this = this;
-    // return $.ajax({
-    //     url: url,
-    //     beforeSend: function(xhr) { 
-    //       xhr.setRequestHeader("Authorization", "Bearer " + (token ? token : _this.tokens[_this.currentLanguage]));
-    //     },
-    //     type: type,
-    //     crossDomain: true,
-    //     dataType: 'json',
-    //     contentType: 'application/json; charset=utf-8',
-    //     processData: false,
-    //     data: data ? JSON.stringify(data) : undefined,
-    //     success: callback,
-        
-    //     error: function(err){
-    //       //console.log(err);
-    //     }
-    // });
+ActionAPI.SpeechAction.prototype.AjaxCurl = function(url, type, data, callback){
+    var finalUrl = this.apiAi.getApiBaseUrl() + (url || "") + "?v=" + this.apiAi.getApiVersion();
+    this.ajax(type, finalUrl, data, null)
+        .then(callback || function(xhr){
+
+        })
+        .catch(function(xhr){
+            console.log(xhr);
+        });
+
+    /*var request = new ApiAi.EventRequest(this.apiAi, {});
+    request.uri = this.apiAi.getApiBaseUrl() + url;
+    request.requestMethod = type;
+    var promise = request.perform();
+
+    if(callback)
+        promise.then(callback);*/
+}
+
+ActionAPI.SpeechAction.prototype.ajax = function(method, url, args, options) {
+    //variáveis internas para poder fazer o ajax
+    var headers = {
+            Authorization: "Bearer " + this.apiAi.getAccessToken(),
+    };
+
+    var XMLHttpFactories = [
+        () => new XMLHttpRequest(),
+        () => new window["ActiveXObject"]("Msxml2.XMLHTTP"),
+        () => new window["ActiveXObject"]("Msxml3.XMLHTTP"),
+        () => new window["ActiveXObject"]("Microsoft.XMLHTTP")
+    ];
+
+    var createXMLHTTPObject = function() {
+        let xmlhttp = null;
+        for (const i of XMLHttpFactories) {
+            try {
+                xmlhttp = i();
+            }
+            catch (e) {
+                continue;
+            }
+            break;
+        }
+        return xmlhttp;
+    };
+
+    // Creating a promise
+    return new Promise((resolve, reject) => {
+        // Instantiates the XMLHttpRequest
+        const client = createXMLHTTPObject();
+        let uri = url;
+        let payload = null;
+        // Add given payload to get request
+        if (args && (method === "GET")) {
+            uri += "?";
+            let argcount = 0;
+            for (const key in args) {
+                if (args.hasOwnProperty(key)) {
+                    if (argcount++) {
+                        uri += "&";
+                    }
+                    uri += encodeURIComponent(key) + "=" + encodeURIComponent(args[key]);
+                }
+            }
+        }
+        else if (args) {
+            if (!headers) {
+                headers = {};
+            }
+            headers["Content-Type"] = "application/json; charset=utf-8";
+            payload = JSON.stringify(args);
+        }
+        for (const key in options) {
+            if (key in client) {
+                client[key] = options[key];
+            }
+        }
+        // hack: method[method] is somewhat like .toString for enum Method
+        // should be made in normal way
+        client.open(method, uri, true);
+        // Add given headers
+        if (headers) {
+            for (const key in headers) {
+                if (headers.hasOwnProperty(key)) {
+                    client.setRequestHeader(key, headers[key]);
+                }
+            }
+        }
+        payload ? client.send(payload) : client.send();
+        client.onload = () => {
+            if (client.status >= 200 && client.status < 300) {
+                // Performs the function "resolve" when this.status is equal to 2xx
+                resolve(JSON.parse(client.responseText));
+            }
+            else {
+                // Performs the function "reject" when this.status is different than 2xx
+                reject(client);
+            }
+        };
+        client.onerror = () => {
+            reject(client);
+        };
+    });
 }
 
 ActionAPI.SpeechAction.prototype.RegisterEntityByLanguage = function(entityValues, lang){
     var _this = this;
-    var urlBase = 'https://api.api.ai/v1/entities%s?v=20150910';
     var valuesToSave = entityValues[lang];
     var token = _this.tokens[lang];
 
     if(!valuesToSave.entries.length)
         return;
 
-    _this.AjaxCurl(sprintf(urlBase,""), "GET", function(data){
+    _this.AjaxCurl("entities", "GET", null, function(data){
         var exists = _.find(data, function(x){ return x.name == valuesToSave.name; })
         var type = "POST";
+        var url = "entities"
+        var options = {};
         if(exists){
             type = "PUT";
             valuesToSave.id = exists.id;
+            url += "/" + exists.id;
         }
 
-        urlBase = exists ? sprintf(urlBase,'/' + exists.id) : sprintf(urlBase,'');            
-
-        _this.AjaxCurl(urlBase, type, function(data){
+        _this.AjaxCurl(url, type, valuesToSave, function(data){
             console.log('entidades registradas com sucesso');
-        }, valuesToSave, token);
-    }, undefined, token);
+        });
+    });
 
 }
 
 ActionAPI.SpeechAction.prototype.RegisterEntity = function(entityValues){
     var _this = this;
-    $.ajaxSetup({ async: false });
+    
     _this.RegisterEntityByLanguage(entityValues, "pt-BR");
     _this.RegisterEntityByLanguage(entityValues, "en-US");
-    $.ajaxSetup({ async: true });
 }
 
 /*
@@ -627,14 +709,19 @@ ActionAPI.SpeechAction.prototype.requestFocus = function(params){
         return;
     }
 
-    $container.focus();
+    setTimeout(function(){
+        $container.focus();
+    },0);
     
+    if($container.is("form"))
+        return;
+
     setTimeout(function(){
         var children = $container.children('div:visible, blockquote:visible, a:visible, li:visible, section:visible');
         if(children.length >= 1){
             $(children[0]).focus();
         }
-    },0)
+    },0);
     
 };
 

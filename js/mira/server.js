@@ -15,8 +15,25 @@ var rdfstore = require('rdfstore');
 var Rule = require('./models/rule.js');
 var Selection = require('./models/selection.js');
 
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+
+    // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+      res.send(200);
+    }
+    else {
+      next();
+    }
+};
+
 // start do servidor
 var server = express();
+
+//Enable Cors
+server.use(allowCrossDomain);
 
 // para exibir o log
 server.use(morgan());

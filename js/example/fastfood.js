@@ -400,7 +400,7 @@ var landingConcreta =
         { name: "alimento", widget: "WaiSelect" },
         { name: "option-item", tag:"option", widget:"WaiOption", value:"$data.id", text:"$data.name" },
         { name: "quantidade", widget: "WaiInput" },
-        { name: "confirmar", widget: "WaiButton", value:"$bind", class:"btn btn-primary pull-right" },
+        { name: "confirmar", widget: "WaiButton", value:"$bind", type:"submit", class:"btn btn-primary pull-right" },
         
         /* Lista de itens */
         { name: "table-itens", tag: "table", widget:"WaiContent", class:"table table-bordered table-hover" },

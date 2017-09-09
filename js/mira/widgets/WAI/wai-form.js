@@ -122,8 +122,6 @@ define([
                 });
 
                 var textButton = $element.find('button[type="submit"]').text();
-                console.log(textButton);
-                
                 var messageButton = textButton && textButton.length ? sprintf(submitMessage[appApi.currentLanguage], textButton) : '';
 
                 if(text && text.length > 0){
