@@ -27,10 +27,9 @@ var GeralHead = [
 ];
 
 window.ChangeCurrentValue = function(){
-    var $element = $("#numero-atual");
-    
     //De 5 em 5 Segundos, atualiza o número do pedido
     setInterval(function(){
+        var $element = $("#numero-atual");
         if(!$element.length)
             return;
 
@@ -39,8 +38,18 @@ window.ChangeCurrentValue = function(){
         if(_.isNaN(currentValue))
             return;
 
-        $element.html((current + 1).toString());
-    }, 5000)
+        var nextValue = (currentValue + 1);
+        $element.html(nextValue.toString());
+
+        var numeroPedido = parseInt($("numero-pedido").html());
+        if(numeroPedido != nextValue){
+            appApi.tts("Pedido de número" + nextValue + " está pronto.");
+        }
+        else{
+            appApi.tts("Seu pedido está pronto.");
+        }
+        
+    }, 20000)
 }
 
 //---------------------------------------------------------------------------------------- landing ----------------------------------------------------------------------------------------
@@ -575,7 +584,7 @@ var pedidoConcreta =
         { name: "block-buttons", widget: "WaiContent", class:"row text-center"},
         { name: "container-numero", widget: "WaiContent", class: "col-sm-4" },
         { 
-            name: "numero-atual", widget: "WaiContent", class:"alert alert-info", value:"$bind", events: { change: "EvtChangeCurrentValue" }
+            name: "numero-atual", widget: "WaiContent", class:"alert alert-info", value:"$bind"
         },
         { 
             name: "numero-pedido", widget: "WaiContent", class:"alert alert-success", value:"$bind"
@@ -970,11 +979,6 @@ if(typeof define === 'function') {
             window.EvtCancelEdit = function(options){
                 $("#content-edit-item").modal('hide');
                 appApi.tts(_.find(messages[appApi.currentLanguage], function(x){ return x.name == "cancelEdit"}).message);
-            }
-
-            window.EvtChangeCurrentValue = function(options){
-                var current = options.$element.html();
-                appApi.tts("Pedido de número" + current + " está pronto.");
             }
 
         };
