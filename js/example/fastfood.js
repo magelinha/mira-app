@@ -26,6 +26,19 @@ var GeralHead = [
     {name: 'viewport', widget:'Meta', content:'width=device-width, initial-scale=1'}
 ];
 
+window.ChangeCurrentValue = function(){
+    var $element = $("#content-numero-atual");
+    if(!$element.length)
+        return;
+
+    //De 5 em 5 Segundos, atualiza o número do pedido
+    setInterval(function(){
+        var currentValue = parseInt($element.text());
+
+        $element.text((current + 1).toString());
+    }, 5000)
+}
+
 //---------------------------------------------------------------------------------------- landing ----------------------------------------------------------------------------------------
 var landingAbstrata = {
     name: "landing",
@@ -430,15 +443,24 @@ var pedidoAbstrata = {
             [
                 {
                     name: "section-numero-pedido",
-                    title: {
-                        "pt-BR": "Número do pedido",
-                        "en-US": "Number of Order"
-                    },
                     children: [
+                        {
+                            name: "numero-atual",
+                            bind: "$data.numero - 6",
+                            tts: "$bind",
+                            title: {
+                                "pt-BR": "Número Atual",
+                                "en-US": "Current Number"
+                            }
+                        },
                         {
                             name: "numero-pedido",
                             bind: "$data.numero",
-                            tts: "$bind"
+                            tts: "$bind",
+                            title: {
+                                "pt-BR": "Número do pedido",
+                                "en-US": "Number of Order"
+                            }
                         }
                     ]
                 },
@@ -533,7 +555,13 @@ var pedidoConcreta =
         { name: "block-buttons", widget: "WaiContent", class:"row text-center"},
 
         { 
-            name: "numero-pedido", widget: "WaiContent", class:"alert alert-success", children:
+            name: "numero-atual", widget: "WaiContent", class:"col-sm-4 alert alert-info", children:
+            [
+                { name: "content-numero-atual", widget:"WaiContent", tag:"strong", value:"$bind", events: { change: "EvtChangeCurrentValue" } }
+            ]
+        },
+        { 
+            name: "numero-pedido", widget: "WaiContent", class:"col-sm-4 alert alert-success", children:
             [
                 { name: "content-numero", widget:"WaiContent", tag:"strong", value:"$bind" }
             ]
@@ -617,6 +645,8 @@ if(typeof define === 'function') {
             var app = new Mira.Application(interface_abstracts, concrete_interface, rules, selection, configAPIAi);
             Mira.Widget.setDefault('BootstrapSimple');
 
+            ChangeCurrentValue();
+
             window.selecionados = new Mira.Api.Collection([]);
             window.numero = 0;
             window.tutorial = {
@@ -635,23 +665,23 @@ if(typeof define === 'function') {
                 [
                     {
                         name: "add",
-                        message: "Item adicionado com sucesso. O valor total até o momento é %s"
+                        message: "Adicionamos o item ao pedido. O valor total até o momento é %s"
                     },
                     {
                         name: "edit",
-                        message: "Item atualiado com sucesso. O valor total até o momento é %s"
+                        message: "Atualizamos seu pedido. O valor total até o momento é %s"
                     },
                     {
                         name: "clear",
-                        message: "Lista limpada com sucesso."
+                        message: "Desconsideramos os itens pedidos. Vamos começar novamente."
                     },
                     {
                         name: "remove",
-                        message: "Item removido com sucesso. O valor total até o momento é %s."
+                        message: "Removemos o item do pedido. O valor total até o momento é %s."
                     },
                     {
                         name: "cancelEdit",
-                        message: "A edição foi cancelada."
+                        message: "Ok. Não alteramos o item do pedido."
                     }
                 ],
                 "en-US": 
@@ -819,12 +849,12 @@ if(typeof define === 'function') {
             };
 
             window.ListarOpcoes = function(options){
-                var alimentos = !_.isArray(options.$env.collections.alimento) ? options.$env.collections.alimento.models : 
-                                    options.$env.collections.alimento[1].models;
-                var text = appApi.currentLanguage == "pt-BR" ? "As opções são: " : "The options are: ";
+                var alimentos = !_.isArray(mira.$env.collections.alimento) ? mira.$env.collections.alimento.models : 
+                                    mira.$env.collections.alimento[1].models;
+                var text = appApi.currentLanguage == "pt-BR" ? "Nosso cardápio tem os seguintes itens: " : "The options are: ";
                 
                 _.each(alimentos, function(alimento){
-                    text += alimento.get("name")[appApi.currentLanguage] + " - " +  textCurrency(alimento.get("price"))[appApi.currentLanguage]  + ", ";
+                    text += alimento.get("name")[appApi.currentLanguage].value + " - " +  textCurrency(alimento.get("price"))[appApi.currentLanguage]  + ", ";
                 });
 
                 text += ".";
@@ -917,6 +947,11 @@ if(typeof define === 'function') {
             window.EvtCancelEdit = function(options){
                 $("#content-edit-item").modal('hide');
                 appApi.tts(_.find(messages[appApi.currentLanguage], function(x){ return x.name == "cancelEdit"}).message);
+            }
+
+            window.EvtChangeCurrentValue = function(options){
+                var current = options.$element.text();
+                appApi.tts("Pedido de número" + current + " está pronto.");
             }
 
         };

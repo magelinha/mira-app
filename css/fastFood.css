@@ -19,3 +19,7 @@ body {
 	cursor: pointer;
 }
 
+option, select {
+	text-transform: capitalize;
+}
+

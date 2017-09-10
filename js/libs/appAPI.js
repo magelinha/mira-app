@@ -99,6 +99,12 @@ ActionAPI.SpeechAction = function(conf){
             "en-US": ["Change language to Portuguese"]
         },
 
+        optionsView:
+        {
+            "pt-BR": ["Minhas opções", "O que posso fazer", "Opções", "Onde estou"],
+            "en-US": ["My options", "What do I do", "Options", "Where I am"]
+        }
+
         repeat: 
         {
             "pt-BR": ["Repetir", "Repita"],
@@ -293,12 +299,7 @@ ActionAPI.SpeechAction.prototype.InitRecorder = function(){
             //Verifica se o comando foi para alterar a linguagem;
             console.log(_this.final_transcript.trim())
             if(!_this.IsAppAction(_this.final_transcript.trim())){
-                _this.apiAi
-                    .textRequest(_this.final_transcript.trim())
-                    .then(_this.OnApiResult)
-                    .catch(function(error){
-                        console.log(error);
-                    });
+                _this.CallRequest(_this.final_transcript.trim());
             }
             
             _this.final_transcript = '';
@@ -330,6 +331,14 @@ ActionAPI.SpeechAction.prototype.InitRecorder = function(){
     _this.recorder.start();
 }
 
+ActionAPI.SpeechAction.prototype.CallRequest = function(text){
+    var _this = this;
+    _this.apiAi.textRequest(text)
+        .then(_this.OnApiResult)
+        .catch(function(error){
+            console.log(error);
+        });
+}
 
 /*
     Criar um instância de comunicação com o API.ai
@@ -678,8 +687,10 @@ ActionAPI.SpeechAction.prototype.setValue = function(params){
         }   
 
         if($input.is("select")){
-            var option = $input.find("option").filter(function(){ return $(this).html() == value; });
-
+            var option = $input.find("option").filter(function(){
+                var valueOption =  $(this).html().toUpperCase();
+                return valueOption == value.toUpperCase(); 
+            });
             if(option.length){
                 $input.val(option.val());
             }
@@ -794,6 +805,10 @@ ActionAPI.SpeechAction.prototype.ExecuteAppAction = function(action){
             break;
         case "repeat": 
             _this.repeat();
+            break;
+
+        case "optionsView": 
+            _this.SpeakInitialMessage();
             break;
 
         case "nextItem": 

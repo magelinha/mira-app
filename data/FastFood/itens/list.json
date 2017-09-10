@@ -18,12 +18,12 @@
 		"price": 6,
 		"name": {
 			"pt-BR": { 
-				"value": "X-Burguer",
-				"synonyms": ["X-Burguers"]
+				"value": "x-burguer",
+				"synonyms": ["x-burguers"]
 			},
 			"en-US": { 
-				"value": "X-Burguer",
-				"synonyms": ["X-Burguers"]
+				"value": "x-burguer",
+				"synonyms": ["x-burguers"]
 			}
 		}
 	},
@@ -32,12 +32,12 @@
 		"price": 6.5,
 		"name": {
 			"pt-BR": { 
-				"value": "X-Bacon",
-				"synonyms": ["X-Bacons"]
+				"value": "x-bacon",
+				"synonyms": ["x-bacons"]
 			},
 			"en-US": { 
-				"value": "X-Bacon",
-				"synonyms": ["X-Bacons"]
+				"value": "x-bacon",
+				"synonyms": ["x-bacons"]
 			}
 		}
 	},
@@ -46,12 +46,12 @@
 		"price": 6,
 		"name": {
 			"pt-BR": { 
-				"value": "X-Frango",
-				"synonyms": ["X-Frangos"]
+				"value": "x-frango",
+				"synonyms": ["x-frangos"]
 			},
 			"en-US": { 
-				"value": "X-Bacon",
-				"synonyms": ["X-Frangos"]
+				"value": "x-frango",
+				"synonyms": ["x-frangos"]
 			}
 		}
 	},
@@ -60,12 +60,12 @@
 		"price": 10,
 		"name": {
 			"pt-BR": { 
-				"value": "X-Tudo",
-				"synonyms": ["X-Tudos"]
+				"value": "x-tudo",
+				"synonyms": ["x-tudos"]
 			},
 			"en-US": { 
-				"value": "X-Tudo",
-				"synonyms": ["X-Tudos"]
+				"value": "x-tudo",
+				"synonyms": ["x-tudos"]
 			}
 		}
 	},
