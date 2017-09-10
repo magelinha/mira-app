@@ -27,16 +27,19 @@ var GeralHead = [
 ];
 
 window.ChangeCurrentValue = function(){
-    var $element = $("#content-numero-atual");
+    var $element = $("#numero-atual");
     
     //De 5 em 5 Segundos, atualiza o número do pedido
     setInterval(function(){
         if(!$element.length)
             return;
 
-        var currentValue = parseInt($element.text());
 
-        $element.text((current + 1).toString());
+        var currentValue = parseInt($element.html());
+        if(_.isNaN(currentValue))
+            return;
+
+        $element.html((current + 1).toString());
     }, 5000)
 }
 
@@ -172,8 +175,8 @@ var landingAbstrata = {
                                     bind: "$data",
                                     tts: 
                                     {
-                                        "pt-BR": "sprintf('Item: %s. Quantidade: %d. Preço: %0.2f. ', '$data.item', $data.quantidade, $data.total)",
-                                        "en-US": "sprintf('Item: %s. Quantity: %d. Price: %0.2f. ', '$data.item', $data.quantidade, $data.total)"
+                                        "pt-BR": "sprintf('Item: %s. Quantidade: %d. Preço: %s. ', '$data.item', $data.quantidade, textCurrency($data.total))",
+                                        "en-US": "sprintf('Item: %s. Quantity: %d. Price: %s. ', '$data.item', $data.quantidade, textCurrency($data.total)))"
                                     }
                                 }
                             ]
@@ -446,7 +449,7 @@ var pedidoAbstrata = {
                     children: [
                         {
                             name: "numero-atual",
-                            bind: "$data.numero - 6",
+                            bind: "$data.numero - 10",
                             tts: "$bind",
                             title: {
                                 "pt-BR": "Número Atual",
@@ -468,7 +471,7 @@ var pedidoAbstrata = {
                     name: "section-itens",
                     title:
                     {
-                        "pt-BR": "Lista de Itens",
+                        "pt-BR": "Itens do Pedido",
                         "en-US": "List of Items"
                     },
                     children: [
@@ -483,8 +486,8 @@ var pedidoAbstrata = {
                                     bind: "$data",
                                     tts: 
                                     {
-                                        "pt-BR": "sprintf('Item: %s. Quantidade: %d. Preço: %f', '$data.item', $data.quantidade, $data.total)",
-                                        "en-US": "sprintf('Item: %s. Quantity: %d. Price: %f', '$data.item', $data.quantidade, $data.total)"
+                                        "pt-BR": "sprintf('Item: %s. Quantidade: %d. Preço: %s', '$data.item', $data.quantidade, textCurrency($data.total))",
+                                        "en-US": "sprintf('Item: %s. Quantity: %d. Price: %s', '$data.item', $data.quantidade, textCurrency($data.total))"
                                     }
                                 }
                             ]
@@ -524,9 +527,7 @@ var pedidoConcreta =
                         { name: "numero-atual" }
                     ]
                 }
-
             ]
-
         },
         {
             name: "section-itens", children:
@@ -574,16 +575,10 @@ var pedidoConcreta =
         { name: "block-buttons", widget: "WaiContent", class:"row text-center"},
         { name: "container-numero", widget: "WaiContent", class: "col-sm-4" },
         { 
-            name: "numero-atual", widget: "WaiContent", class:"alert alert-info", children:
-            [
-                { name: "content-numero-atual", widget:"WaiContent", tag:"strong", value:"$bind", events: { change: "EvtChangeCurrentValue" } }
-            ]
+            name: "numero-atual", widget: "WaiContent", class:"alert alert-info", value:"$bind", events: { change: "EvtChangeCurrentValue" }
         },
         { 
-            name: "numero-pedido", widget: "WaiContent", class:"alert alert-success", children:
-            [
-                { name: "content-numero", widget:"WaiContent", tag:"strong", value:"$bind" }
-            ]
+            name: "numero-pedido", widget: "WaiContent", class:"alert alert-success", value:"$bind"
         },
 
         /* Lista de itens */
@@ -622,7 +617,6 @@ var pedidoConcreta =
         },
 
         //Operações da view
-        { name: "limpar-lista", widget: "WaiButton", class: "btn btn-danger btn-lg", value: "$bind", events: { click: "LimparLista"}},
         { name: "novo-pedido", widget:"WaiButton", class: "btn btn-success btn-lg", value: "$bind", events: {click:"NovoPedido" } },
          
     ]
@@ -805,7 +799,7 @@ if(typeof define === 'function') {
                     text["en-US"] += decimalPart + " cents";    
                 }
 
-                return text;
+                return text[appApi.currentLanguage];
             }
 
             window.AdicionarGrupoItem = function(options){
@@ -829,7 +823,7 @@ if(typeof define === 'function') {
                 }
 
                 var total = _.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0);
-                var currentAmount = textCurrency(total)[appApi.currentLanguage];
+                var currentAmount = textCurrency(total);
                 appApi.tts(
                     sprintf(
                         _.find(messages[appApi.currentLanguage], function(x){ return x.name == "add"}).message, 
@@ -873,7 +867,7 @@ if(typeof define === 'function') {
                 var text = appApi.currentLanguage == "pt-BR" ? "Nosso cardápio tem os seguintes itens: " : "The options are: ";
                 
                 _.each(alimentos, function(alimento){
-                    text += alimento.get("name")[appApi.currentLanguage].value + " - " +  textCurrency(alimento.get("price"))[appApi.currentLanguage]  + ", ";
+                    text += alimento.get("name")[appApi.currentLanguage].value + " - " +  textCurrency(alimento.get("price"))  + ", ";
                 });
 
                 text += ".";
@@ -924,7 +918,7 @@ if(typeof define === 'function') {
                         _.find(messages[appApi.currentLanguage], function(x){ return x.name == "remove"}).message, 
                         textCurrency(
                             _.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0)
-                        )[appApi.currentLanguage]
+                        )
                     )
                 );
 
@@ -952,7 +946,7 @@ if(typeof define === 'function') {
                 }
 
                 var total = _.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0);
-                var currentAmount = textCurrency(total)[appApi.currentLanguage];
+                var currentAmount = textCurrency(total);
                 appApi.tts(
                     sprintf(
                         _.find(messages[appApi.currentLanguage], function(x){ return x.name == "edit"}).message, 
@@ -964,7 +958,13 @@ if(typeof define === 'function') {
             };
 
             window.EvtCadastrarPedido = function(options){
-                
+                var size = window.selecionados.size();
+
+                if(size <= 0){
+                    options.$event.preventDefault();
+                    appApi.tts("Você não escolheu os itens para o pedido.");
+                    return;
+                }
             };
 
             window.EvtCancelEdit = function(options){

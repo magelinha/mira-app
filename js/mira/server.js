@@ -154,7 +154,7 @@ server.get('/api/:folder/:subfolder/:id', function (req, res, next) {
 
 server.get('/fastfood/gerarPedido', function(req, res, next){
     var numeroPedido = {
-        numero: Math.floor(Math.random() * (500 - 1) + 1)
+        numero: Math.floor(Math.random() * (100 - 1 + 1)) + 1 
     };
 
     res.json(numeroPedido);

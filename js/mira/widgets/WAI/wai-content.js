@@ -56,16 +56,16 @@ define([
             }
 
             if(_.isNumber(options.value)){
-                $element.append(options.value);
+                $element.html(options.value);
             }else if(!_.isObject(options.value))
-                $element.append(Helper.build_value(options.value, context));
+                $element.html(Helper.build_value(options.value, context));
             else{
-                $element.append(Helper.build_value(options.value[appApi.currentLanguage], context));
+                $element.html(Helper.build_value(options.value[appApi.currentLanguage], context));
             }
 
             $element.updateValue = function(){
                 if(_.isNumber(options.value)){
-                    $element.append(options.value);
+                    $element.html(options.value);
                 }else if(!_.isObject(options.value))
                     $element.html(Helper.build_value(options.value, context))
                 else

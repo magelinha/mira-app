@@ -23,3 +23,6 @@ option, select {
 	text-transform: capitalize;
 }
 
+#numero-pedido, #numero-atual {
+	font-weight: bold;
+}

@@ -240,6 +240,9 @@ ActionAPI.SpeechAction.prototype.SendJson = function(query, contexts){
     @text: texto a ser transoformado em fala
 */
 ActionAPI.SpeechAction.prototype.tts = function(text){
+    if(!text.length)
+        return;
+
     var _this = this;
     _this.lastMessage = text;
 
