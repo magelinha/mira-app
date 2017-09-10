@@ -273,7 +273,7 @@
             var _this = this;
             $element.focus(function(e){
                 var text = _.isString(tts) ? _this.process_value(tts, context) : _this.process_value(tts[appApi.currentLanguage], context);
-                appApi.tts(text);
+                appApi.tts(text.toString());
             });
         },
 

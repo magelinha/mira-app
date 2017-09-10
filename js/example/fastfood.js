@@ -973,7 +973,7 @@ if(typeof define === 'function') {
             }
 
             window.EvtChangeCurrentValue = function(options){
-                var current = options.$element.text();
+                var current = options.$element.html();
                 appApi.tts("Pedido de número" + current + " está pronto.");
             }
 

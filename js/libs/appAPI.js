@@ -722,9 +722,7 @@ ActionAPI.SpeechAction.prototype.requestFocus = function(params){
         return;
     }
 
-    setTimeout(function(){
-        $container.focus();
-    },0);
+    $container[0].focus();
     
     if($container.is("form"))
         return;
