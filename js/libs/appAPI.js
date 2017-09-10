@@ -103,7 +103,7 @@ ActionAPI.SpeechAction = function(conf){
         {
             "pt-BR": ["Minhas opções", "O que posso fazer", "Opções", "Onde estou"],
             "en-US": ["My options", "What do I do", "Options", "Where I am"]
-        }
+        },
 
         repeat: 
         {

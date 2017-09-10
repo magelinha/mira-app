@@ -28,11 +28,12 @@ var GeralHead = [
 
 window.ChangeCurrentValue = function(){
     var $element = $("#content-numero-atual");
-    if(!$element.length)
-        return;
-
+    
     //De 5 em 5 Segundos, atualiza o número do pedido
     setInterval(function(){
+        if(!$element.length)
+            return;
+
         var currentValue = parseInt($element.text());
 
         $element.text((current + 1).toString());
@@ -427,8 +428,7 @@ var landingConcreta =
 
         //Operações da view
         { name: "limpar-lista", widget: "WaiButton", class: "btn btn-danger btn-lg", value: "$bind", events: { click: "LimparLista"}},
-        { name: "cadastrar-pedido", tag:"a", widget:"WaiButton", class: "btn btn-success btn-lg", value: "$bind", href:"navigate('fastfood/gerarPedido')" },
-         
+        { name: "cadastrar-pedido", tag:"a", widget:"WaiButton", class: "btn btn-success btn-lg", value: "$bind", events:{ click: "EvtCadastrarPedido" }, href:"navigate('fastfood/gerarPedido')" },
     ]
 };
 //---------------------------------------------------------------------------------------- Fim: landing ----------------------------------------------------------------------------------------
@@ -510,6 +510,25 @@ var pedidoConcreta =
     structure: 
     [
         {
+            name: "section-numero-pedido", children:
+            [
+                {
+                    name: "container-numero", children:
+                    [
+                        { name: "numero-pedido" }
+                    ]
+                },
+                {
+                    name: "container-numero", children:
+                    [
+                        { name: "numero-atual" }
+                    ]
+                }
+
+            ]
+
+        },
+        {
             name: "section-itens", children:
             [
                 {
@@ -547,21 +566,21 @@ var pedidoConcreta =
     maps: 
     [   
         { name: "container-center", widget:"WaiContent", class:"container"},
-        { name: "section-numero-pedido", widget: "WaiContent", class:"text-center" },
+        { name: "section-numero-pedido", widget: "WaiContent", class:"text-center row" },
         { name: "section-itens", widget: "WaiContent" },
         { name: "section-itens", widget: "WaiContent", tag: "section", class:"row" },
         { name: "block-table", widget: "WaiContent", class:"col-sm-8"},
         { name: "block-total", widget: "WaiContent", class:"col-sm-4"},
         { name: "block-buttons", widget: "WaiContent", class:"row text-center"},
-
+        { name: "container-numero", widget: "WaiContent", class: "col-sm-4" },
         { 
-            name: "numero-atual", widget: "WaiContent", class:"col-sm-4 alert alert-info", children:
+            name: "numero-atual", widget: "WaiContent", class:"alert alert-info", children:
             [
                 { name: "content-numero-atual", widget:"WaiContent", tag:"strong", value:"$bind", events: { change: "EvtChangeCurrentValue" } }
             ]
         },
         { 
-            name: "numero-pedido", widget: "WaiContent", class:"col-sm-4 alert alert-success", children:
+            name: "numero-pedido", widget: "WaiContent", class:"alert alert-success", children:
             [
                 { name: "content-numero", widget:"WaiContent", tag:"strong", value:"$bind" }
             ]
@@ -942,6 +961,10 @@ if(typeof define === 'function') {
                 );
 
                 options.$dataObj.trigger("change");
+            };
+
+            window.EvtCadastrarPedido = function(options){
+                
             };
 
             window.EvtCancelEdit = function(options){
