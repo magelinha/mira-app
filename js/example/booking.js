@@ -982,7 +982,7 @@ window.getBairros = function(hoteis) {
 var detalheHotelAbstrata = 
 {
     name:'hotel',
-    title: 'Detalhes do hotel',
+    title: { "pt-BR": "Detalhes do hotel", "en-US": "Details of Hotel" },
     options: ['detalhes-hotel', 'quartos', 'imagens', 'avaliacoes'],
     widgets : [
         {
@@ -1025,7 +1025,7 @@ var detalheHotelAbstrata =
                             [
                                 { 
                                     name: 'item-quarto',
-                                    tts: "sprintf('%s. Quantidade de camas: %d. Café da manhã: %s, Preço:%s. ', '$data.tpo', $data.camas, textBoolean($data.cafe_manha), $data.preco)", 
+                                    tts: "sprintf('%s. Quantidade de camas: %s. Café da manhã: %s, Preço:%s. ', '$data.tipo', '$data.camas', textBoolean($data.cafe_da_manha), $data.preco)", 
                                 }
                             ]
                         }
@@ -1043,7 +1043,7 @@ var detalheHotelAbstrata =
                     [ 
                         {
                             name: 'item-avaliacao',
-                            tts: '$data.avaliacao + ". Autor: " + $data.autor'
+                            tts: "sprintf('%s. Autor: %s', '$data.avaliacao', '$data.autor')"
                         }
                     ] 
                 }
@@ -1056,7 +1056,7 @@ var detalheHotelConcreta =
 {
     name: 'hotel',
     head: GeralHead.concat([
-        {name: 'title', widget:'Title', value: '"Detalhe do hotel"'}
+        {name: 'title', widget:'Title', value: 'Detalhe do hotel'}
     ]),
     maps: [
         { name: "container-center", window: "WaiContent", class:"container" },
@@ -1114,7 +1114,7 @@ var detalheHotelConcreta =
 
                         //café da manhã
                         { name:'dt-cafe', tag:'dt', value:"Café da manhã:" },
-                        { name:'dd-cafe', tag:'dd', value: '$data.cafe_manha ? "Sim" : "Não"' },
+                        { name:'dd-cafe', tag:'dd', value: '$data.cafe_da_manha ? "Sim" : "Não"' },
 
                         //preço
                         { name:'dt-preco', tag:'dt', value:"Preço:" },
