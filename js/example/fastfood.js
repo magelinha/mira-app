@@ -185,7 +185,7 @@ var landingAbstrata = {
                                     tts: 
                                     {
                                         "pt-BR": "sprintf('Item: %s. Quantidade: %d. Preço: %s. ', '$data.item', $data.quantidade, textCurrency($data.total))",
-                                        "en-US": "sprintf('Item: %s. Quantity: %d. Price: %s. ', '$data.item', $data.quantidade, textCurrency($data.total)))"
+                                        "en-US": "sprintf('Item: %s. Quantity: %d. Price: %s. ', '$data.item', $data.quantidade, textCurrency($data.total))"
                                     }
                                 }
                             ]

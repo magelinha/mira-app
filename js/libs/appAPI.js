@@ -732,18 +732,20 @@ ActionAPI.SpeechAction.prototype.requestFocus = function(params){
         return;
     }
 
-    $container[0].focus();
+    setTimeout(function(){
+        $container[0].focus();
+    }, 0);
     
+    /*
     if($container.is("form"))
         return;
-
+    
     setTimeout(function(){
         var children = $container.children('div:visible, blockquote:visible, a:visible, li:visible, section:visible');
         if(children.length >= 1){
             $(children[0]).focus();
         }
-    },0);
-    
+    },0);*/
 };
 
 ActionAPI.SpeechAction.prototype.IsAppAction = function(text){
