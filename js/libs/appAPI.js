@@ -40,6 +40,49 @@ Number.prototype.formatMoney = function(places, symbol, thousand, decimal) {
     return symbol + negative + (j ? i.substr(0, j) + thousand : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (places ? decimal + Math.abs(number - i).toFixed(places).slice(2) : "");
 };
 
+window.textCurrency = function(param){
+    var value = parseFloat(param);
+
+    var intPart = Math.trunc(value);
+    var decimalPart = value % 1;
+    decimalPart = decimalPart.toFixed(2);
+    decimalPart = decimalPart > 0 ? Number(String(decimalPart).split('.')[1]) : 0;
+    
+    var text = {
+        "pt-BR" : "",
+        "en-US" : ""
+    };
+
+    if(intPart == 1){
+        text["pt-BR"] += intPart + " real";
+        text["en-US"] += intPart + " dollar";
+    }
+    else if(intPart > 1){
+        text["pt-BR"] += intPart + " reais";
+        text["en-US"] += intPart + " dollars";    
+    }
+
+    if(intPart > 0 && decimalPart > 0){
+        text["pt-BR"] += " e ";
+        text["en-US"] += " and ";    
+    }
+
+    if(decimalPart == 1){
+        text["pt-BR"] += decimalPart + " centavo";
+        text["en-US"] += decimalPart + " cent";
+    }
+    else if(decimalPart > 1){
+        text["pt-BR"] += decimalPart + " centavos";
+        text["en-US"] += decimalPart + " cents";    
+    }
+
+    return text[appApi.currentLanguage];
+};
+
+window.textBoolean = function(value){
+    return value ? "Sim" : "Não";
+};
+
 Date.prototype.isValid = function () {
     // An invalid date object returns NaN for getTime() and NaN is the only
     // object not strictly equal to itself.

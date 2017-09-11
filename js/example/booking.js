@@ -906,7 +906,7 @@ var getParamsURL = function(){
 
 };
 
-var filterHoteis = function(){
+var filterHoteis = function(message){
     var bairros = new Array(), 
         status = new Array(),
         $bairros = $("#filtro-bairro").children(),
@@ -949,6 +949,11 @@ var filterHoteis = function(){
             $el.hide();
         }
     });
+
+    if(_.isUndefined(message))
+        appApi.tts("O filtro foi aplicado.");
+    else if(_.isString(message))
+        appApi.tts(message);
 
 }
 
@@ -1020,7 +1025,7 @@ var detalheHotelAbstrata =
                             [
                                 { 
                                     name: 'item-quarto',
-                                    tts: '$data.tipo + ". Quantidade de camas: " + $data.camas + ". Café da manhã: " + ($data.cafe_manha ? "Sim" : "Não") + ". Preço: " + $data.preco', 
+                                    tts: "sprintf('%s. Quantidade de camas: %d. Café da manhã: %s, Preço:%s. ', '$data.tpo', $data.camas, textBoolean($data.cafe_manha), $data.preco)", 
                                 }
                             ]
                         }
@@ -1245,28 +1250,26 @@ if(typeof define === 'function') {
             window.MarcarBairro = function(params){
                 var $bairros = $("#filtro-bairro").children();
                 CheckItens($bairros, params['bairro']);
-                filterHoteis();
+                filterHoteis(false);
             }
 
             window.MarcarStatus = function(params){
                 var $status = $("#filtro-status").children();
                 CheckItens($status, params['status']);  
-                filterHoteis();
+                filterHoteis(false);
             }
 
             window.CleanFilterStatus = function(){
                 var $status = $("#filtro-status").children();
                 UncheckAllItens($status);
 
-                appApi.tts("Os filtros por status foram desconsiderados.");   
-                filterHoteis();
+                filterHoteis("Os filtros por status foram desconsiderados.");
             }
 
             window.CleanFilterBairro = function(){
                 var $bairros = $("#filtro-bairro").children();
                 UncheckAllItens($bairros);
-                appApi.tts("Os filtros por bairro foram desconsiderados.");    
-                filterHoteis();
+                filterHoteis("Os filtros por bairro foram desconsiderados.");
             }
 
             window.CleanFilters = function(params){
@@ -1276,9 +1279,7 @@ if(typeof define === 'function') {
                 var $status = $("#filtro-status").children();
                 UncheckAllItens($status);
 
-                appApi.tts("Todos os filtros foram desconsiderados.");   
-
-                filterHoteis();
+                filterHoteis("Todos os filtros foram desconsiderados.");
             }
 
         };

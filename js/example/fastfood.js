@@ -772,45 +772,6 @@ if(typeof define === 'function') {
                 button.click();    
             }
 
-            window.textCurrency = function(param){
-                var value = parseFloat(param);
-
-                var intPart = Math.trunc(value);
-                var decimalPart = value % 1;
-                decimalPart = decimalPart.toFixed(2);
-                decimalPart = decimalPart > 0 ? Number(String(decimalPart).split('.')[1]) : 0;
-                
-                var text = {
-                    "pt-BR" : "",
-                    "en-US" : ""
-                };
-
-                if(intPart == 1){
-                    text["pt-BR"] += intPart + " real";
-                    text["en-US"] += intPart + " dollar";
-                }
-                else if(intPart > 1){
-                    text["pt-BR"] += intPart + " reais";
-                    text["en-US"] += intPart + " dollars";    
-                }
-
-                if(intPart > 0 && decimalPart > 0){
-                    text["pt-BR"] += " e ";
-                    text["en-US"] += " and ";    
-                }
-
-                if(decimalPart == 1){
-                    text["pt-BR"] += decimalPart + " centavo";
-                    text["en-US"] += decimalPart + " cent";
-                }
-                else if(decimalPart > 1){
-                    text["pt-BR"] += decimalPart + " centavos";
-                    text["en-US"] += decimalPart + " cents";    
-                }
-
-                return text[appApi.currentLanguage];
-            }
-
             window.AdicionarGrupoItem = function(options){
                 var valid = appApi.setValue(options.result.parameters);
                 !valid ? appApi.tts(valid.error) : appApi.tts(options.result.fulfillment.speech);
