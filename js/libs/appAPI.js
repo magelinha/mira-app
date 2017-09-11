@@ -884,10 +884,11 @@ ActionAPI.SpeechAction.prototype.SpeakInitialMessage = function(titleInterface, 
         "en-US": this.titleMessage["en-US"][abstractName]
     };
 
+    /*
     if(messages[this.currentLanguage] && messages[this.currentLanguage].length){
         this.tts(messages[this.currentLanguage]);
         return;
-    }
+    }*/
 
     //Cria uma mensagem com base nos parâmetros passados
     var initialMessage = {

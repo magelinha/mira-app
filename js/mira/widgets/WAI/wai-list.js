@@ -16,8 +16,8 @@ define([
     };
 
     var messageBaseMult = {
-        "pt-BR": "%d registros. ",
-        "en-US": "%d records. "
+        "pt-BR": "%s com %d registros. ",
+        "en-US": "%s with %d records. "
     };
 
     var hasEntity = function($env){
@@ -89,7 +89,7 @@ define([
                 text = messageBaseOne[appApi.currentLanguage];
             }
             else{
-                text = sprintf(messageBaseMult[appApi.currentLanguage], lenChildren);
+                text = sprintf(messageBaseMult[appApi.currentLanguage], message[appApi.currentLanguage], lenChildren);
             }
             
             if(tts){
@@ -109,7 +109,6 @@ define([
             if(!children.length)
                 return;
 
-            console.log('adicionou um elemento na lista');
             var child = children.last();
 
             child.keydown(function(e){
@@ -160,8 +159,8 @@ define([
         //Lista com conteúdo genérico. A navegação é apenas com próximo ou anterior.
         Content: function($parent, name, $context, options, callback, ignored_options){
             var message = {
-                "pt-BR": "Fale próximo ou anterior para navegar na lista.",
-                "en-US": "Say next or previous to browse the list."
+                "pt-BR": "Lista de Navegação",
+                "en-US": "Navigation List"
             };
 
             defaultContent(message, $parent, name, $context, options, callback, ignored_options);
@@ -172,8 +171,8 @@ define([
         //Lista com conteúdo que pode ser selecionado. A naveagação é festa através de próximo, anterior ou selecionar.
         Select: function($parent, name, $context, options, callback, ignored_options){
             var message = {
-                "pt-BR": "Fale próximo ou anterior para navegar na lista e selecionar para selecionar o item desejado.",
-                "en-US": "Say next or previous to browse the list and select to select the desired item."
+                "pt-BR": "Lista de seleção",
+                "en-US": "Selection List"
             };
 
             defaultContent(message, $parent, name, $context, options, callback, ignored_options);    
@@ -182,8 +181,8 @@ define([
         //Lista com conteúdo que pode ser selecionado. A naveagação é festa através de próximo, anterior ou marcar.
         Check: function($parent, name, $context, options, callback, ignored_options){
             var message = {
-                "pt-BR": "Fale próximo ou anterior para navegar na lista e marcar para marcar o item desejado.",
-                "en-US": "Say next or previous to browse the list and mark to mark the desired item."
+                "pt-BR": "Lista de Marcação",
+                "en-US": "Mark List"
             };
 
             defaultContent(message, $parent, name, $context, options, callback, ignored_options);

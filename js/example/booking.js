@@ -47,7 +47,7 @@ var generateNumber = function(value){
 var landingAbstrata = 
 {
     name:'landing',
-    title: 'Pesquisa de hotéis',
+    title: { "pt-BR": "Busca de hotéis", "en-US": "Search Hotels" },
     widgets : [
         { 
             name: "container-center", children:
@@ -453,7 +453,7 @@ var landingConcreta =
 var hoteisAbstrata = 
 {
     name:'hoteis',
-    title: 'Lista de hotéis',
+    title: { "pt-BR": "Listagem de hotéis", "en-US": "Hotels List" },
     options: ['hoteis', 'filtro-bairro', 'filtro-status', 'buscar-hoteis'],
     widgets : [
         {
@@ -745,7 +745,7 @@ var hoteisAbstrata =
                             [
                                 { 
                                     name: 'item-hotel',
-                                    tts:'"Nome: " + $data.nome + ". Bairro: " + $data.bairro + ". Nota: " + $data.nota.toString() + ". Status: " + $data.status + ". Quantidade de avaliações: " + $data.avaliacoes.length.toString()', 
+                                    tts:"sprintf('Nome:%s. Bairro:%s. Nota:%.2f. Status:%s. Quantidade de Avaliações:%d', '$data.nome', '$data.bairro', $data.nota, '$data.status', $data.avaliacoes.length)", 
                                 }
                             ]
                         }
@@ -811,7 +811,7 @@ var hoteisConcreta =
 {
     name: 'hoteis',
     head: GeralHead.concat([
-        {name: 'title', widget:'Title', value: '"Hotéis"'}
+        {name: 'title', widget:'Title', value: "Hotéis"}
     ]),
     maps: [
         { name: "container-center", window: "WaiContent", class:"container" },
