@@ -190,7 +190,7 @@ var landingAbstrata = {
                                 }
                             ]
                         },
-                        { name: "limpar-lista", bind: { "pt-BR": "Limpar", "en-US": "Clear" }, title: { "pt-BR":"Limpar lista de pedidos", "en-US":"Clear list of order" } },
+                        { name: "limpar-lista", bind: { "pt-BR": "Limpar", "en-US": "Clear" }, title: { "pt-BR":"Desfazer Pedido", "en-US":"Clear list of order" } },
                         { name: "cadastrar-pedido", bind: { "pt-BR": "Comprar", "en-US": "Purchase" }, title: { "pt-BR":"Efetuar compra", "en-US":"Purchase" } },
                         { 
                             name:"valor-total", 
