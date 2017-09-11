@@ -1,27 +1,5 @@
 [
 	{
-		"name" : "Rio de Janeiro",
-		"img" : "imgs/tcc/rio.jpg",
-		"link" : "api/buscarHoteis",
-		"descricao": "Rio de Janeiro",
-		"synonym" :
-		[
-			"Cidade maravilhosa", "Rio", "Cidade maravilhosa"	
-		]
-	},
-
-	{
-		"name" : "São Paulo",
-		"img" : "imgs/tcc/sp.jpg",
-		"link" : "api/buscarHoteis",
-		"descricao": "São Paulo",
-		"synonym" :
-		[
-			"Sampa"
-		]
-	},
-
-	{
 		"name" : "Belo Horizonte",
 		"img" : "imgs/tcc/bh.jpg",
 		"link" : "api/buscarHoteis",
@@ -31,7 +9,6 @@
 			"BH"
 		]
 	},
-
 	{
 		"name" : "Brasília",
 		"img" : "imgs/tcc/brasilia.jpg",
@@ -40,31 +17,31 @@
 		"synonym" : []
 		
 	},
-
 	{
 		"name" : "Buenos Aires",
 		"link" : "api/buscarHoteis",
 		"synonym" : []
 	},
-
 	{
-		"name" : "Curitiba",
+		"name" : "Búzios",
 		"link" : "api/buscarHoteis",
 		"synonym" : []
-	},
-
-	{
-		"name" : "Nice",
-		"link" : "api/buscarHoteis",
-		"synonym" : []
-	},
-
+	}
 	{
 		"name" : "Cambridge",
 		"link" : "api/buscarHoteis",
 		"synonym" : []
 	},
-
+	{
+		"name" : "Curitiba",
+		"link" : "api/buscarHoteis",
+		"synonym" : []
+	},
+	{
+		"name" : "Nice",
+		"link" : "api/buscarHoteis",
+		"synonym" : []
+	},
 	{
 		"name" : "Nova York",
 		"link" : "api/buscarHoteis",
@@ -73,15 +50,29 @@
 			"Nova Iorque", "New York"
 		]
 	},
-
 	{
 		"name" : "Paris",
 		"link" : "api/buscarHoteis",
 		"synonym" : []
 	},
 	{
-		"name" : "Búzios",
+		"name" : "Rio de Janeiro",
+		"img" : "imgs/tcc/rio.jpg",
 		"link" : "api/buscarHoteis",
-		"synonym" : []
+		"descricao": "Rio de Janeiro",
+		"synonym" :
+		[
+			"Cidade maravilhosa", "Rio", "Cidade maravilhosa"	
+		]
+	},
+	{
+		"name" : "São Paulo",
+		"img" : "imgs/tcc/sp.jpg",
+		"link" : "api/buscarHoteis",
+		"descricao": "São Paulo",
+		"synonym" :
+		[
+			"Sampa"
+		]
 	}
 ]

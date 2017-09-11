@@ -44,7 +44,7 @@ Date.prototype.isValid = function () {
     // An invalid date object returns NaN for getTime() and NaN is the only
     // object not strictly equal to itself.
     return this.getTime() === this.getTime();
-}; 
+};
 
 ActionAPI.SpeechAction = function(conf){
     //Acesso ao API.ai
@@ -141,6 +141,8 @@ ActionAPI.SpeechAction = function(conf){
             "en-US": ["Select", "Select item", "select this"]
         },
     };
+
+    this.canTTS = true;
     
     this.lastMessage = "";
 
@@ -240,7 +242,7 @@ ActionAPI.SpeechAction.prototype.SendJson = function(query, contexts){
     @text: texto a ser transoformado em fala
 */
 ActionAPI.SpeechAction.prototype.tts = function(text){
-    if(!text.length)
+    if(!text.length || !this.canTTS)
         return;
 
     var _this = this;
@@ -557,6 +559,14 @@ ActionAPI.SpeechAction.prototype.Init = function() {
     //this.InitRecorder();
     this.InitAPIAi();
     this.ConfigureObserver();
+
+    //Configura para desativar o tts via comando do teclado
+    $(document).keydown(function(e){
+        if(e.ctrlKey && e.altKey && e.which == 84){
+            console.log("mudou o estado do canTTS");
+            appApi.canTTS = !appApi.canTTS;
+        }
+    });
 };
 
 //Métodos a serem executados pelo APP
@@ -565,11 +575,11 @@ ActionAPI.SpeechAction.prototype.nextItem = function(){
     var index = currentElement.index();
     var parent = currentElement.parent();
     var allChildren = parent.children();
-    var children = parent.children('div:visible, blockquote:visible, a:visible, li:visible, section:visible');
+    var children = parent.children('div:visible, blockquote:visible, a:visible, li:visible, section:visible, tr:visible');
     
     index = allChildren.length == (index - 1) ? 0 : index + 1;
 
-    while(!$(allChildren[index]).is('div:visible, blockquote:visible, a:visible, li:visible, section:visible')){
+    while(!$(allChildren[index]).is('div:visible, blockquote:visible, a:visible, li:visible, section:visible, tr:visible')){
         index = allChildren.length == (index - 1) ? 0 : index + 1;
     }
 

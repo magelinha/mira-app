@@ -47,7 +47,7 @@ var generateNumber = function(value){
 var landingAbstrata = 
 {
     name:'landing',
-    title: 'Página Inicial',
+    title: 'Pesquisa de hotéis',
     widgets : [
         { 
             name: "container-center", children:
@@ -453,7 +453,7 @@ var landingConcreta =
 var hoteisAbstrata = 
 {
     name:'hoteis',
-    title: 'Listagem de hotéis',
+    title: 'Lista de hotéis',
     options: ['hoteis', 'filtro-bairro', 'filtro-status', 'buscar-hoteis'],
     widgets : [
         {

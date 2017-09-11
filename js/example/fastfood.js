@@ -48,8 +48,8 @@ window.ChangeCurrentValue = function(){
         else{
             appApi.tts("Seu pedido está pronto.");
         }
-        
-    }, 20000)
+
+    }, 30000)
 }
 
 //---------------------------------------------------------------------------------------- landing ----------------------------------------------------------------------------------------
@@ -419,13 +419,13 @@ var landingConcreta =
                     name: "item-edit", tag:"td", 
                     widget: "WaiContent", class: "text-center",
                     children:
-                    [{ name: "btn-edit", widget:"WaiContent", "aria-hidden": true, tag:"i", class:"fa fa-pencil fa-lg btn-action", events:{ click: "EvtEditItem"}}]
+                    [{ name: "btn-edit", widget:"WaiContent", "aria-hidden": true, "aria-labelledby":"header-item-edit", tag:"i", class:"fa fa-pencil fa-lg btn-action", events:{ click: "EvtEditItem"}}]
                 },
                 { 
                     name: "item-remove", tag:"td", 
                     widget: "WaiContent", class: "text-center",
                     children:
-                    [{ name: "btn-remove", widget:"WaiContent", "aria-hidden": true, tag:"i", class:"fa fa-trash fa-lg btn-action", events:{ click: "EvtRemoveItem"}}]
+                    [{ name: "btn-remove", widget:"WaiContent", "aria-hidden": true, "aria-labelledby":"header-item-remove", tag:"i", class:"fa fa-trash fa-lg btn-action", events:{ click: "EvtRemoveItem"}}]
                 }
             ]
         },
