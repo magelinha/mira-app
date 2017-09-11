@@ -1245,23 +1245,27 @@ if(typeof define === 'function') {
             window.MarcarBairro = function(params){
                 var $bairros = $("#filtro-bairro").children();
                 CheckItens($bairros, params['bairro']);
+                filterHoteis();
             }
 
             window.MarcarStatus = function(params){
                 var $status = $("#filtro-status").children();
-                CheckItens($status, params['status']);
+                CheckItens($status, params['status']);  
                 filterHoteis();
             }
 
             window.CleanFilterStatus = function(){
                 var $status = $("#filtro-status").children();
                 UncheckAllItens($status);
+
+                appApi.tts("Os filtros por status foram desconsiderados.");   
                 filterHoteis();
             }
 
             window.CleanFilterBairro = function(){
                 var $bairros = $("#filtro-bairro").children();
-                UncheckAllItens($bairros);    
+                UncheckAllItens($bairros);
+                appApi.tts("Os filtros por bairro foram desconsiderados.");    
                 filterHoteis();
             }
 
@@ -1271,6 +1275,8 @@ if(typeof define === 'function') {
 
                 var $status = $("#filtro-status").children();
                 UncheckAllItens($status);
+
+                appApi.tts("Todos os filtros foram desconsiderados.");   
 
                 filterHoteis();
             }
