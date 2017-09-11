@@ -63,7 +63,9 @@
 					"autor": "João Paulo",
 					"avaliacao": "Ótima localização, em frente a praia de Copacabana. Café da manha perfeito, vista da piscina excelente, assim como o bar da mesma. Problemas com os elevadores, que são pequenos e lentos. O que te faz esperar mais que o necessário"
 				}
-			]
+			],
+			"qtdAvaliacoes": 5
+
 		},
 
 		{
@@ -126,7 +128,8 @@
 					"autor": "Mateus",
 					"avaliacao": "Excelente localização, apesar de não termos feitos tantas atividades assim em Copacabana. Rua super conhecida, facilidade para táxi e uber... hotel muito bem estruturado, no último andar tem um bar com piscina, bem bacana para um esquenta antes da balada. Quarto e acomodações muito boas."
 				}
-			]
+			],
+			"qtdAvaliacoes": 6
 		},
 
 		{
@@ -181,7 +184,8 @@
 					"autor": "Henrique",
 					"avaliacao": "Excelente opção para o casal que busque um final de semana romântico diferente, com muito conforto, privacidade e o melhor atendimento do Rio de Janeiro. O quarto é sensacional, com peças de design, e muito funcional. Gostei do cuidado com os mínimos detalhes, e a belíssima vista do Arporador."
 				}
-			]
+			],
+			"qtdAvaliacoes": 4
 		},
 
 		{
@@ -228,7 +232,8 @@
 					"autor": "Mariana",
 					"avaliacao": "avaliação do autor 6 sobre o hotel 4."
 				}
-			]
+			],
+			"qtdAvaliacoes": 2
 		},
 
 		{
@@ -296,7 +301,8 @@
 					"autor": "César",
 					"avaliacao": "Comida muito boa e excelente recepção"
 				}
-			]
+			],
+			"qtdAvaliacoes": 7
 		},
 
 		{
@@ -356,7 +362,8 @@
 					"autor": "João Paulo",
 					"avaliacao": "avaliação do autor 5 sobre o hotel 1."
 				}
-			]
+			],
+			"qtdAvaliacoes": 5
 		},
 
 		{
@@ -419,7 +426,8 @@
 					"autor": "autor 6",
 					"avaliacao": "avaliação do autor 6 sobre o hotel 2."
 				}
-			]
+			],
+			"qtdAvaliacoes": 6
 		},
 
 		{
@@ -474,7 +482,8 @@
 					"autor": "autor 4",
 					"avaliacao": "avaliação do autor 4 sobre o hotel 3."
 				}
-			]
+			],
+			"qtdAvaliacoes": 4
 		},
 
 		{
@@ -521,7 +530,8 @@
 					"autor": "autor 6",
 					"avaliacao": "avaliação do autor 6 sobre o hotel 4."
 				}
-			]
+			],
+			"qtdAvaliacoes": 2
 		},
 
 		{
@@ -609,7 +619,8 @@
 					"autor": "autor 12",
 					"avaliacao": "avaliação do autor 12 sobre o hotel 5."
 				}
-			]
+			],
+			"qtdAvaliacoes": 12
 		}
 	]
 }

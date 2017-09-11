@@ -745,7 +745,7 @@ var hoteisAbstrata =
                             [
                                 { 
                                     name: 'item-hotel',
-                                    tts:"sprintf('Nome:%s. Bairro:%s. Nota:%.2f. Status:%s. Quantidade de Avaliações:%d', '$data.nome', '$data.bairro', $data.nota, '$data.status', $data.avaliacoes.length)", 
+                                    tts:"sprintf('Nome:%s. Bairro:%s. Nota:%f. Status:%s. Quantidade de Avaliações:%d', '$data.nome', '$data.bairro', $data.nota, '$data.status', $data.qtdAvaliacoes)", 
                                 }
                             ]
                         }
