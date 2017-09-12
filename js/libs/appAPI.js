@@ -864,7 +864,7 @@ ActionAPI.SpeechAction.prototype.ExecuteAppAction = function(action){
             break;
 
         case "optionsView": 
-            _this.SpeakInitialMessage();
+            _this.SpeakInitialMessage(mira.interface.abstract.get("title"), mira.interface.abstract.get("name"));
             break;
 
         case "nextItem": 
