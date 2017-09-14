@@ -295,16 +295,18 @@ define([
             Helper.build_attributes($element[0], atrs, context);
             $element.prop('tabindex', 0);
 
-            var value = _.isObject(options.value) ? options.value[appApi.currentLanguage] : options.value;
-            $element.text(Helper.build_value(value, context));
-            
-            if(_.isObject(options.value)){
-                $element.update = function(){
-                    var valueToUpdate = _.isObject(options.value) ? options.value[appApi.currentLanguage] : options.value;
-                    $element.text(Helper.build_value(valueToUpdate, context));
-                }
+            if(options.value){
+                var value = _.isObject(options.value) ? options.value[appApi.currentLanguage] : options.value;
+                $element.text(Helper.build_value(value, context));
+                
+                if(_.isObject(options.value)){
+                    $element.update = function(){
+                        var valueToUpdate = _.isObject(options.value) ? options.value[appApi.currentLanguage] : options.value;
+                        $element.text(Helper.build_value(valueToUpdate, context));
+                    }
 
-                appApi.widgets.push($element);
+                    appApi.widgets.push($element);
+                }
             }
 
             if(tts){

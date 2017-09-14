@@ -419,13 +419,37 @@ var landingConcreta =
                     name: "item-edit", tag:"td", 
                     widget: "WaiContent", class: "text-center",
                     children:
-                    [{ name: "btn-edit", widget:"WaiContent", "aria-hidden": true, "aria-labelledby":"header-item-edit", tag:"i", class:"fa fa-pencil fa-lg btn-action", events:{ click: "EvtEditItem"}}]
+                    [
+                        { 
+                            name: "btn-edit", 
+                            widget:"WaiButton", 
+                            tag:"button", 
+                            class: "btn btn-xs btn-primary",
+                            events:{ click: "EvtEditItem"},
+                            children: 
+                            [
+                                { name: 'icon-edit', "aria-hidden": true, "aria-labelledby":"header-item-edit", tag:"i", class:"fa fa-pencil fa-lg btn-action" }
+                            ]
+                        }
+                    ]
                 },
                 { 
                     name: "item-remove", tag:"td", 
                     widget: "WaiContent", class: "text-center",
                     children:
-                    [{ name: "btn-remove", widget:"WaiContent", "aria-hidden": true, "aria-labelledby":"header-item-remove", tag:"i", class:"fa fa-trash fa-lg btn-action", events:{ click: "EvtRemoveItem"}}]
+                    [
+                        { 
+                            name: "btn-remove", 
+                            widget:"WaiButton", 
+                            tag:"button", 
+                            class: "btn btn-xs btn-danger",
+                            events:{ click: "EvtRemoveItem"},
+                            children:
+                            [
+                                { name: 'icon-edit', "aria-hidden": true, "aria-labelledby":"header-item-remove", widget: "WaiContent", tag:"i", class:"fa fa-trash fa-lg btn-action" }
+                            ]
+                        }
+                    ]
                 }
             ]
         },
