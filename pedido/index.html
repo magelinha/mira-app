@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Screen - Multipurpose Template By Bootstrapious.com</title>
+    <title>O presente mais aguardado</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/font-awesome-animation.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/jquery.bxslider.min.css">
     <!-- Google fonts - Montserrat for headings, Cardo for copy-->
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Montserrat:400,700|Cardo:400,400italic,700">
     <!-- onepage scroll stylesheet-->
@@ -98,6 +99,35 @@
           <div class="content">
             <div class="container clearfix">
               <div class="row">
+                <div class="col-md-6"> 
+                  <h2 class="heading">Momentos marcantes</h2>
+                  <p class="lead">Podemos fazer um livro com ótimas histórias.</p>
+                  <p>
+                    Passando em todos esses anos ao seu lado consigo lembrar de muitos momentos marcantes. O que dizer da nossa viagem para Aracajú, conhecendo a Foz do Rio São Francisco?! E os choros de alegria com os presentes ganhos?! Ainda tem as idas aos jogos do Fluminense, cantando na vitória e derrota, mesmo tendo que aturar gente fazendo vídeo ao vivo para o Facebook na hora do jogo. Não tem como esquecer da viagem para Cabo Frio / Arraial do Cabo. 
+                  </p>
+                  <p>
+                    Momentos marcantes assim nos dá forças para pensar num futuro brilhante, regado a muitas brincadeiras e alegrias.
+                  </p>
+                </div>
+                <div class="col-md-5 col-md-offset-1">
+                  <ul id="slider">
+                    <li><img src="img/img5.jpg" /></li>
+                    <li><img src="img/img6.jpg" /></li>
+                    <li><img src="img/img7.jpg" /></li>
+                    <li><img src="img/img8.jpg" /></li>
+                    <li><img src="img/img9.jpg" /></li>
+                    <li><img src="img/img10.jpg" /></li>
+                    <li><img src="img/img11.jpg" /></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="page5">
+          <div class="content">
+            <div class="container clearfix">
+              <div class="row">
                 <div class="col-md-12 text-center">
                   <h2 class="heading">O grande desejo</h2>
                   <p class="text-center">Você sempre gostou de presentes, então chegou a hora de te dar um dos mais desejado.</p>
@@ -124,6 +154,15 @@
     <script src="js/jquery.cookie.js"></script>
     <script src="js/jquery.onepage-scroll.js"></script>
     <script src="js/front.js"></script>
+    <script src="js/jquery.bxslider.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $("#slider").bxSlider({
+          adaptiveHeight: true
+        });  
+      });
+      
+    </script>
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID.-->
     <script>
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
