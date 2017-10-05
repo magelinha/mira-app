@@ -137,8 +137,8 @@
                   <p><img src="img/img4.png" alt="" class="img-responsive img-circle"></p>
                   <h2 class="">Você quer casar comigo?</h2>
                   <div>
-                    <button class="btn btn-success btn-sim"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Sim</button>
-                    <button class="btn btn-danger btn-sim"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Sim</button>
+                    <button type="button" data-toggle="modal" data-target="#modal-sim" class="btn btn-success btn-sim"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Sim</button>
+                    <button type="button" data-toggle="modal" data-target="#modal-sim" class="btn btn-danger btn-sim"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Sim</button>
                   </div>
                 </div>
               </div>
@@ -147,6 +147,26 @@
         </section>
       </div>
     </div>
+    <div id="modal-sim" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Parabéns</h4>
+          </div>
+          <div class="modal-body">
+            <div class="text-center">
+              <img src="img/modal.png" alt="casal" class="img-responsive" />
+              <h2 class="text-danger">Te amo muito</h2>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
     <!-- Javascript files-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="js/jquery-1.11.0.min.js"><\/script>')</script>
@@ -159,7 +179,7 @@
       $(document).ready(function(){
         $("#slider").bxSlider({
           adaptiveHeight: true
-        });  
+        });
       });
       
     </script>
