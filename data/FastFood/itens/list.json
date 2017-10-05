@@ -88,8 +88,8 @@
 		"price": 4.3,
 		"name": {
 			"pt-BR": { 
-				"value": "Regrigerante lata",
-				"synonyms": ["Regrigerantes lata"]
+				"value": "Refrigerante lata",
+				"synonyms": ["Refrigerantes lata"]
 			},
 			"en-US": { 
 				"value": "Soda",
