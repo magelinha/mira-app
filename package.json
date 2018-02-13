@@ -4,9 +4,6 @@
   "scripts":{
     "start": "node js/mira/server.js"
   },
-  "engines":{
-  	"node":"8.9.4"
-  },
   "description": "Criar interfaces multiplataformas para API REST utilizando modelos javascript",
   "dependencies": {
     "node-record-lpcm16": "0.2.0",
