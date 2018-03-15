@@ -504,10 +504,11 @@ var ajaxSetup = {
 
 var configAPIAi = {
     defaultLanguage: "pt-BR",
+    projectId: 'apresentacao-pt',
     tokens: 
     {
-        "pt-BR": "17dde376a370484b89a00c8c71cb8d78",
-        "en-US": "c9139162143c4836b87c21dbce326362"
+        "pt-BR": "c9139162143c4836b87c21dbce326362",
+        "en-US": "17dde376a370484b89a00c8c71cb8d78"
     }
 };
 

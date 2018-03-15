@@ -35,27 +35,10 @@ define([
             var _this = this;
             var text = null;
             this.$el.empty();
-            
-            //Limpa os títulos definidos no AppApi para gerar uma nova mensagem de texto
-            var abstractName = "";
-            if(appApi){
-                abstractName = this.abstract.get("name");
-                appApi.titles["pt-BR"][abstractName] = [];
-                appApi.titles["en-US"][abstractName] = [];
-            }
 
             var $head = $('head');
             this.concrete.buildHead($head, this.model, this.$env);
-            this.abstract.getHtml(this.$el, this.concrete, this.model, this.$env, abstractName);
-
-            console.log(_this.currentView, _this.abstract.get("name"));
-
-            if(appApi && _this.currentView !== _this.abstract.get("name")){
-                setTimeout(function(){
-                    _this.currentView = abstractName;
-                    appApi.SpeakInitialMessage(_this.abstract.get("title"), _this.abstract.get("name"));
-                }, 201);
-            }
+            this.abstract.getHtml(this.$el, this.concrete, this.model, this.$env);
                 
 
             return this;

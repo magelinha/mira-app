@@ -10,17 +10,28 @@ var optimist = require('optimist');
 var fs = require('fs');
 var cache = require('memory-cache');
 var rdfstore = require('rdfstore');
+var uuid = require('uuid-v4');
+var bodyParser = require('body-parser');
 
 var Rule = require('./models/rule.js');
 var Selection = require('./models/selection.js');
+
 
 // start do servidor
 var server = express();
 
 // para exibir o log
 server.use(morgan());
+server.use(
+    bodyParser.urlencoded({
+        extended: false
+    })
+);
 // criando servidor para arquivos estaticos
 server.use(express.static(path.normalize(__dirname + '/../..'),  { maxAge: 60 * 60 * 1000 }));
+
+var dialogFlowFunctions = require('./dialogflow/dialogFlowFunctions.js');
+dialogFlowFunctions.Init(server);
 
 var preparer_mira_app = function(app){
 
@@ -136,13 +147,11 @@ server.get('/api/:folder/:id', function (req, res, next) {
 
 //implementador por joão victor
 server.get('/api/:folder/:subfolder/:id', function (req, res, next) {
-    console.log(req.query);
     var folder = req.params.folder;
     var subfolder = req.params.subfolder;
     var id = req.params.id;
     var file_path = path.normalize(__dirname + '/../..') + '/data/' + folder + '/' + subfolder + '/' + id + '.json';
 
-    console.log(file_path);
     var file;
     fs.readFile(file_path, 'utf8', function (err, data) {
         if (err) throw err;
@@ -191,86 +200,3 @@ try {
 } catch (e){
     console.log('erro ao abrir arquivos para https');
 }*/
-
-/************************* Funções para o dialogflow ****************************/
-
-const dialogflow = require('dialogflow');
-
-/*
-    Detecta uma intenção através de um streaming de áudio.
-    Params:
-    @projectId: Id do projeto no dialogFlow [Requered]
-    @sessionId: Sessão gerada pelo criação das queries [Optional] [Default: new uuid()]
-    @filename: Path do arquivo onde será salvo o speech recognition [Optional] [Default: '/audios/recognition.wav']
-    @encoding: Tipo de codificação do áudio [Optional] [Default: 'AUDIO_ENCODING_LINEAR16']
-    @sampleRateHertz: Frequência do áudio [Optional][Default: 160000]
-
-*/
-function streamingDetectIntent(projectId, sessionId, filename, encoding, sampleRateHertz, languageCode) {
-  
-  // [START dialogflow_detect_intent_streaming]
-  // Imports the Dialogflow library
-  const dialogflow = require('dialogflow');
-
-  // Instantiates a sessison client
-  const sessionClient = new dialogflow.SessionsClient();
-
-  // The path to the local file on which to perform speech recognition, e.g.
-  // /path/to/audio.raw const filename = '/path/to/audio.raw';
-
-  // The encoding of the audio file, e.g. 'AUDIO_ENCODING_LINEAR16'
-  // const encoding = 'AUDIO_ENCODING_LINEAR16';
-
-  // The sample rate of the audio file in hertz, e.g. 16000
-  // const sampleRateHertz = 16000;
-
-  // The BCP-47 language code to use, e.g. 'en-US'
-  // const languageCode = 'en-US';
-  let sessionPath = sessionClient.sessionPath(projectId, sessionId);
-
-  const initialStreamRequest = {
-    session: sessionPath,
-    queryParams: {
-      session: sessionClient.sessionPath(projectId, sessionId),
-    },
-    queryInput: {
-      audioConfig: {
-        audioEncoding: encoding,
-        sampleRateHertz: sampleRateHertz,
-        languageCode: languageCode,
-      },
-      singleUtterance: true,
-    },
-  };
-
-  // Create a stream for the streaming request.
-  const detectStream = sessionClient
-    .streamingDetectIntent()
-    .on('error', console.error)
-    .on('data', data => {
-      if (data.recognitionResult) {
-        console.log(
-          `Intermediate transcript: ${data.recognitionResult.transcript}`
-        );
-      } else {
-        console.log(`Detected intent:`);
-        logQueryResult(sessionClient, data.queryResult);
-      }
-    });
-
-  // Write the initial stream request to config for audio input.
-  detectStream.write(initialStreamRequest);
-
-  // Stream an audio file from disk to the Conversation API, e.g.
-  // "./resources/audio.raw"
-  pump(
-    fs.createReadStream(filename),
-    // Format the audio stream into the request format.
-    through2.obj((obj, _, next) => {
-      next(null, {inputAudio: obj});
-    }),
-    detectStream
-  );
-  // [END dialogflow_detect_intent_streaming]
-}
-

@@ -11,6 +11,19 @@
     };
 })(jQuery);
 
+var encodedString = function(object){
+    var encodedString = '';
+    for (var prop in object) {
+        if (object.hasOwnProperty(prop)) {
+            if (encodedString.length > 0) {
+                encodedString += '&';
+            }
+            encodedString += encodeURI(prop + '=' + object[prop]);
+        }
+    }
+    return encodedString;
+}
+
 
 var appApi = null;
 var ActionAPI = window.ActionAPI || {};
@@ -90,19 +103,7 @@ Date.prototype.isValid = function () {
 };
 
 ActionAPI.SpeechAction = function(conf){
-    //Acesso ao API.ai
-    //SERVER_PROTO : 'wss',
-    //SERVER_DOMAIN:  'api-ws.api.ai',
-    //SERVER_PORT:  '4435',
-    //SERVER_VERSION:  '20150910',
-    //READING_INTERVAL: 1000
-    //ACCESS_TOKEN:  '1351a6de0c914e3fbf3a2e9d5522f680',
-    //LANG:  'pt-BR',
-    //TIME_ZONE : 'GMT+3',
-    this.ServerProto = "wss";
-    this.ServerDomain = "api-ws.api.ai";
-    this.ServerPort = "4435";
-    this.ServerVersion = "20150910";
+    this.projectId = conf.projectId;
     this.tokens = conf.tokens;
     this.defaultLanguage = conf.defaultLanguage;
     this.validsLanguages = ['pt-BR', 'en-US'];
@@ -133,72 +134,13 @@ ActionAPI.SpeechAction = function(conf){
         },
     ];
 
-    this.appActions = 
-    {
-
-        changeLanguage: 
-        {
-            "pt-BR": ["Mudar linguagem para Inglês"],
-            "en-US": ["Change language to Portuguese"]
-        },
-
-        optionsView:
-        {
-            "pt-BR": ["Minhas opções", "O que posso fazer", "Opções", "Onde estou"],
-            "en-US": ["My options", "What do I do", "Options", "Where I am"]
-        },
-
-        repeat: 
-        {
-            "pt-BR": ["Repetir", "Repita"],
-            "en-US": ["Repeat"]
-        },
-
-        nextItem: 
-        {
-            "pt-BR": ["Próximo", "Próximo Item", "Avançar"],
-            "en-US": ["Next", "Next Item"]
-        },
-
-        prevItem: 
-        {
-            "pt-BR": ["Anterior", "Item anterior", "Voltar"],
-            "en-US": ["Previous"]
-        },
-
-        checkItem: 
-        {
-            "pt-BR": ["Marcar", "Marcar item", "Marcar esse", "Marcar este"],
-            "en-US": ["Check", "Check item", "check this"]
-        },
-
-        uncheckItem: 
-        {
-            "pt-BR": ["Desmarcar", "Desmarcar item", "Desmarcar esse", "Desmarcar este"],
-            "en-US": ["Uncheck", "Uncheck item", "Uncheck this"]
-        },
-
-        selectItem: 
-        {
-            "pt-BR": ["Selecionar", "Selecionar item", "Selecionar esse", "Selecionar este"],
-            "en-US": ["Select", "Select item", "select this"]
-        },
-    };
-
     this.canTTS = true;
-    
-    this.lastMessage = "";
 
     //Controle de audio capitado do microfone
     this.audioContext = null;
 
-    //Rensável por transforma o audio em blob
+    //Renponsável por transformar o audio em blob
     this.recorder = null;
-
-    //Faz a comunicação com o API.ai
-    this.apiAi = null;
-
-    this.sessionId = null;
 
     this.isProcessing = false;
 
@@ -248,36 +190,7 @@ ActionAPI.SpeechAction = function(conf){
 
     this.MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
     this.observer = null;
-};
-
-/*
-    Gera um Id para ser usado no API.ai
-*/
-ActionAPI.SpeechAction.prototype.GenerateId = function(length) {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for (var i = 0; i < length; i++) {
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-    }
-    return text;
-};
-
-/*
-    Enviar uma query para ser executada no API.ai
-    @query: fala em formato de texto informado pelo usuário
-    @contexts: contextos a serem usados no API.ai
-*/
-ActionAPI.SpeechAction.prototype.SendJson = function(query, contexts){
-    var queryJson = {
-        "v": this.ServerVersion,
-        "query": query,
-        "timezone": this.GetTimeZone(),
-        "lang": this.currentLanguage,
-        "contexts" : contexts,
-        "sessionId": this.sessionId
-    };
-
-    this.apiAi.sendJson(queryJson);
+    this.speak = null;
 };
 
 /*
@@ -285,11 +198,16 @@ ActionAPI.SpeechAction.prototype.SendJson = function(query, contexts){
     @text: texto a ser transoformado em fala
 */
 ActionAPI.SpeechAction.prototype.tts = function(text){
+
     if(!text.length || !this.canTTS)
         return;
 
     var _this = this;
-    _this.lastMessage = text;
+    _this.speak.text = text;
+    _this.lang = _this.currentLanguage;
+
+    window.speechSynthesis.speak(_this.speak);
+
 
     var getVoice = function(){
         switch(_this.currentLanguage){
@@ -324,15 +242,13 @@ ActionAPI.SpeechAction.prototype.InitRecorder = function(){
     _this.recorder = new (window.SpeechRecognition || window.webkitSpeechRecognition 
                             || window.mozSpeechRecognition || window.msSpeechRecognition)();
 
-    _this.recorder.continuous = true;
+    _this.recorder.continuous = false;
     _this.recorder.interimResults = false;
     this.recorder.maxAlternatives = 1;
     _this.recorder.lang = _this.currentLanguage;
     _this.final_transcript = '';
 
     _this.recorder.onresult = function(event){
-        console.log(this);
-
         var interim_transcript = '';
         for (var i = event.resultIndex; i < event.results.length; ++i) {
             console.log(event.results[i]);
@@ -345,11 +261,7 @@ ActionAPI.SpeechAction.prototype.InitRecorder = function(){
         
         if(_this.final_transcript.length > 0){
             //Verifica se o comando foi para alterar a linguagem;
-            console.log(_this.final_transcript.trim())
-            if(!_this.IsAppAction(_this.final_transcript.trim())){
-                _this.CallRequest(_this.final_transcript.trim());
-            }
-            
+            _this.CallRequestQuery(_this.final_transcript.trim());
             _this.final_transcript = '';
         }
     };
@@ -379,171 +291,87 @@ ActionAPI.SpeechAction.prototype.InitRecorder = function(){
     _this.recorder.start();
 }
 
-ActionAPI.SpeechAction.prototype.CallRequest = function(text){
-    var _this = this;
-    _this.apiAi.textRequest(text)
-        .then(_this.OnApiResult)
-        .catch(function(error){
-            console.log(error);
-        });
-}
-
-/*
-    Criar um instância de comunicação com o API.ai
-*/
-ActionAPI.SpeechAction.prototype.InitAPIAi = function(){
+ActionAPI.SpeechAction.prototype.InitSpeak = function(){
     var _this = this;
 
-    /*Funções padrão */
-    if (_this.recorder) {
-        _this.recorder.canDestroy = true;
-        _this.recorder.stop();
-    }
-
-    _this.apiAi = new ApiAi.ApiAiClient({ 
-        accessToken: _this.tokens[_this.currentLanguage], 
-        lang: _this.currentLanguage == "en-US" ? "en" : _this.currentLanguage
-    });
-
-    _this.InitRecorder();
+    _this.speak = new SpeechSynthesisUtterance();
+    var voices = window.speechSynthesis.getVoices();
+    _this.speak.voiceURI = "native";
 }
 
-
-ActionAPI.SpeechAction.prototype.AjaxCurl = function(url, type, data, callback){
-    var finalUrl = this.apiAi.getApiBaseUrl() + (url || "") + "?v=" + this.apiAi.getApiVersion();
-    this.ajax(type, finalUrl, data, null)
-        .then(callback || function(xhr){
-
-        })
-        .catch(function(xhr){
-            console.log(xhr);
-        });
-
-    /*var request = new ApiAi.EventRequest(this.apiAi, {});
-    request.uri = this.apiAi.getApiBaseUrl() + url;
-    request.requestMethod = type;
-    var promise = request.perform();
-
-    if(callback)
-        promise.then(callback);*/
-}
-
-ActionAPI.SpeechAction.prototype.ajax = function(method, url, args, options) {
-    //variáveis internas para poder fazer o ajax
-    var headers = {
-            Authorization: "Bearer " + this.apiAi.getAccessToken(),
+ActionAPI.SpeechAction.prototype.CallRequestQuery = function(text){
+    var _this = this;
+    var data = {
+      projectId: _this.projectId,
+      lang: _this.currentLanguage,
+      text: text  
     };
-
-    var XMLHttpFactories = [
-        () => new XMLHttpRequest(),
-        () => new window["ActiveXObject"]("Msxml2.XMLHTTP"),
-        () => new window["ActiveXObject"]("Msxml3.XMLHTTP"),
-        () => new window["ActiveXObject"]("Microsoft.XMLHTTP")
-    ];
-
-    var createXMLHTTPObject = function() {
-        let xmlhttp = null;
-        for (const i of XMLHttpFactories) {
-            try {
-                xmlhttp = i();
-            }
-            catch (e) {
-                continue;
-            }
-            break;
-        }
-        return xmlhttp;
-    };
-
-    // Creating a promise
-    return new Promise((resolve, reject) => {
-        // Instantiates the XMLHttpRequest
-        const client = createXMLHTTPObject();
-        let uri = url;
-        let payload = null;
-        // Add given payload to get request
-        if (args && (method === "GET")) {
-            uri += "?";
-            let argcount = 0;
-            for (const key in args) {
-                if (args.hasOwnProperty(key)) {
-                    if (argcount++) {
-                        uri += "&";
-                    }
-                    uri += encodeURIComponent(key) + "=" + encodeURIComponent(args[key]);
-                }
-            }
-        }
-        else if (args) {
-            if (!headers) {
-                headers = {};
-            }
-            headers["Content-Type"] = "application/json; charset=utf-8";
-            payload = JSON.stringify(args);
-        }
-        for (const key in options) {
-            if (key in client) {
-                client[key] = options[key];
-            }
-        }
-        // hack: method[method] is somewhat like .toString for enum Method
-        // should be made in normal way
-        client.open(method, uri, true);
-        // Add given headers
-        if (headers) {
-            for (const key in headers) {
-                if (headers.hasOwnProperty(key)) {
-                    client.setRequestHeader(key, headers[key]);
-                }
-            }
-        }
-        payload ? client.send(payload) : client.send();
-        client.onload = () => {
-            if (client.status >= 200 && client.status < 300) {
-                // Performs the function "resolve" when this.status is equal to 2xx
-                resolve(JSON.parse(client.responseText));
-            }
-            else {
-                // Performs the function "reject" when this.status is different than 2xx
-                reject(client);
-            }
-        };
-        client.onerror = () => {
-            reject(client);
-        };
-    });
+    
+    _this.AjaxRequest('POST', '/query', data, _this.OnApiResult);
 }
 
-ActionAPI.SpeechAction.prototype.RegisterEntityByLanguage = function(entityValues, lang){
+ActionAPI.SpeechAction.prototype.CallRequestEvent = function(eventName){
     var _this = this;
-    var valuesToSave = entityValues[lang];
-    var token = _this.tokens[lang];
+    var data = {
+      projectId: _this.projectId,
+      lang: _this.currentLanguage,
+      eventName: eventName  
+    };
+    
+    _this.AjaxRequest('POST', '/event', data, _this.OnApiResult);
+}
 
-    if(!valuesToSave.entries.length)
-        return;
 
-    _this.AjaxCurl("entities", "GET", null, function(data){
-        var exists = _.find(data, function(x){ return x.name == valuesToSave.name; })
-        var type = "POST";
-        var url = "entities"
-        var options = {};
-        if(exists){
-            valuesToSave.id = exists.id;
-            url += "/" + exists.id + "/entries";
+ActionAPI.SpeechAction.prototype.AjaxRequest = function(method, url, data, callback) {
+    $.ajax({
+        url: url,
+        type: method,
+        data:data,
+        success: function(data){
+            if(callback)
+                callback(data);
+        },
+
+        error: function(err){
+            console.log(err);
         }
-
-        _this.AjaxCurl(url, type, exists ? valuesToSave.entries : valuesToSave, function(data){
-            console.log('entidades registradas com sucesso');
-        });
     });
-
 }
 
 ActionAPI.SpeechAction.prototype.RegisterEntity = function(entityValues){
-    var _this = this;
     
-    _this.RegisterEntityByLanguage(entityValues, "pt-BR");
-    _this.RegisterEntityByLanguage(entityValues, "en-US");
+    var _this = this;
+    var findEntity = function(entity){
+        return this.name == entity.name;
+    }
+
+    var entitiesToRegister = entityValues["pt-BR"];
+
+    var entitiesUS = entityValues["en-US"] && entityValues["en-US"].length >= 0 ? entityValues["en-US"] : [];
+    entitiesUS.forEach(function(entity){
+        var exists = entitiesToRegister.find(findEntity(entity));
+        if(exists){
+            Array.prototype.push.apply(exists.synonys, entity.synonys);
+            exists.synonys.push(entity.value);
+        }
+    });
+
+    var request = {
+        entities: entitiesToRegister,
+        projectId: _this.projectId
+    };
+
+    console.log(request);
+
+    _this.AjaxRequest('POST', '/entity/register', request, function(data){
+        if(data.success){
+            console.log('entidades salvas com sucesso.');
+        }
+        else{
+            console.log('erro ao salvar entidades: ', data);
+        }
+    });
+    
 }
 
 /*
@@ -598,10 +426,9 @@ ActionAPI.SpeechAction.prototype.ConfigureObserver = function(){
     Inicia a aplicaçao permitindo o controle por voz
 */
 ActionAPI.SpeechAction.prototype.Init = function() {
-    this.sessionId = this.GenerateId(32);
-    //this.InitRecorder();
-    this.InitAPIAi();
     this.ConfigureObserver();
+    this.InitRecorder();
+    this.InitSpeak();
 
     //Configura para desativar o tts via comando do teclado
     $(document).keydown(function(e){
@@ -611,6 +438,8 @@ ActionAPI.SpeechAction.prototype.Init = function() {
         }
     });
 };
+
+
 
 //Métodos a serem executados pelo APP
 ActionAPI.SpeechAction.prototype.nextItem = function(){
@@ -682,9 +511,7 @@ ActionAPI.SpeechAction.prototype.changeLanguage = function(){
     document.documentElement.lang = this.currentLanguage;
     
     //Api.ai
-    this.InitAPIAi();
-    //this.InitRecorder();
-
+    
 
     this.tts(text);
     appApi.tts(this.messagesInterface[this.currentInterface][this.currentLanguage]);
@@ -692,10 +519,10 @@ ActionAPI.SpeechAction.prototype.changeLanguage = function(){
 };
 
 ActionAPI.SpeechAction.prototype.repeat = function(){
-    if(!this.lastMessage.length)
+    if(!this.speak || !this.speak.text || !this.speak.text.length)
         return;
 
-    this.tts(this.lastMessage);
+    this.tts(this.speak.text);
 };
 
 ActionAPI.SpeechAction.prototype.executeCommand = function(action, params){
@@ -864,7 +691,7 @@ ActionAPI.SpeechAction.prototype.ExecuteAppAction = function(action){
             break;
 
         case "optionsView": 
-            _this.SpeakInitialMessage(mira.interface.abstract.get("title"), mira.interface.abstract.get("name"));
+            //_this.SpeakInitialMessage(mira.interface.abstract.get("title"), mira.interface.abstract.get("name"));
             break;
 
         case "nextItem": 
@@ -888,39 +715,6 @@ ActionAPI.SpeechAction.prototype.ExecuteAppAction = function(action){
             break;
     }
 };
-
-ActionAPI.SpeechAction.prototype.RegisterTitle = function(param, abstractName, $context) {
-    var $data, $bind, $dataObj, $env;
-
-    var title = _.isObject(param) ? param[this.currentLanguage] : param; 
-    
-    if($context != null){
-        $data = $context.$data; $bind = $context.$bind; $dataObj = $context.$dataObj;  $env = $context.$env;
-    }
-    if(title && appApi){
-        var matches = title.match(/(\$\w+\.\w+)|(\$\w+)\w+/g);
-        if(matches != null){
-            title = eval(title);
-        }
-
-        if(_.isObject(title) && title["pt-BR"]){
-            if(this.titles["pt-BR"][abstractName].indexOf(title["pt-BR"]) < 0 )
-                this.titles["pt-BR"][abstractName].push(title["pt-BR"]);
-
-            if(this.titles["en-US"][abstractName].indexOf(title["en-US"]) < 0 )
-                this.titles["en-US"][abstractName].push(title["en-US"]);
-
-        }
-        else if(_.isString(title)){
-            if(this.titles["pt-BR"][abstractName].indexOf(title) < 0 )
-                this.titles["pt-BR"][abstractName].push(title);
-
-            if(this.titles["en-US"][abstractName].indexOf(title) < 0 )
-                this.titles["en-US"][abstractName].push(title);
-        }
-    }
-};
-
 
 ActionAPI.SpeechAction.prototype.SpeakInitialMessage = function(titleInterface, abstractName){
     //Verifica se já não há uma mensagem criada

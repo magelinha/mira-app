@@ -8,8 +8,8 @@ var entities =
 var intents = 
 [
 	{
-		name: "projeto",
-		action: "RequestFocus",
+		name: "area",
+		action: "AccessArea",
 		phrases: 
 	    {
 	        "pt-BR": 
@@ -29,34 +29,8 @@ var intents =
 	            { 
 	            	phrase: "Detalhes do projeto",
 	            	entities:[{ type: "menu", value: "Detalhes do projeto", principal: "Projeto", alias:"menu" }] 
-	            }
-	        ],
-	        "en-US": 
-	        [
-	        	{ 
-	            	phrase: "Project", 
-	            	entities:[{ type: "menu", value: "Project", alias:"menu" }] 
-	            }, 
+	            },
 	            { 
-	            	phrase: "Informações",
-	            	entities:[{ type: "menu", value: "Informations of project", principal: "Project", alias:"menu" }] 
-	            }, 
-	            { 
-	            	phrase: "Details of project",
-	            	entities:[{ type: "menu", value: "Details of project", principal: "Project", alias:"menu" }] 
-	            }
-	        ]
-	    },
-	    params: [ {name: "container", value: "projeto" } ]
-	},
-	{
-		name: "desenvolvedor",
-		action: "RequestFocus",
-		phrases: 
-	    {
-	        "pt-BR": 
-	        [
-	        	{ 
 	            	phrase: "Desenvolvedor", 
 	            	entities:[{ type: "menu", value: "Desenvolvedor", alias:"menu" }] 
 	            }, 
@@ -71,34 +45,8 @@ var intents =
 	            { 
 	            	phrase: "Autor",
 	            	entities:[{ type: "menu", value: "Autor", principal: "Desenvolvedor", alias:"menu" }] 
-	            }
-	        ],
-	        "en-US": 
-	        [
-	        	{ 
-	            	phrase: "Developer", 
-	            	entities:[{ type: "menu", value: "Developer", alias:"menu" }] 
-	            }, 
+	            },
 	            { 
-	            	phrase: "Who did",
-	            	entities:[{ type: "menu", value: "Quem fez", principal: "Developer", alias:"menu" }] 
-	            }, 
-	            { 
-	            	phrase: "Author",
-	            	entities:[{ type: "menu", value: "Author", principal: "Developer", alias:"menu" }] 
-	            }
-	        ]
-	    },
-	    params: [ {name: "container", value: "desenvolvedor-biografia" } ]
-	},
-	{
-		name: "colaboradores",
-		action: "RequestFocus",
-		phrases: 
-	    {
-	        "pt-BR": 
-	        [
-	        	{ 
 	            	phrase: "Colaboradores", 
 	            	entities:[{ type: "menu", value: "Colaboradores", alias:"menu" }] 
 	            }, 
@@ -113,7 +61,31 @@ var intents =
 	        ],
 	        "en-US": 
 	        [
-		        { 
+	        	{ 
+	            	phrase: "Project", 
+	            	entities:[{ type: "menu", value: "Project", alias:"menu" }] 
+	            }, 
+	            { 
+	            	phrase: "Informations",
+	            	entities:[{ type: "menu", value: "Informations of project", principal: "Project", alias:"menu" }] 
+	            }, 
+	            { 
+	            	phrase: "Details of project",
+	            	entities:[{ type: "menu", value: "Details of project", principal: "Project", alias:"menu" }] 
+	            },
+	            { 
+	            	phrase: "Developer", 
+	            	entities:[{ type: "menu", value: "Developer", alias:"menu" }] 
+	            }, 
+	            { 
+	            	phrase: "Who did",
+	            	entities:[{ type: "menu", value: "Quem fez", principal: "Developer", alias:"menu" }] 
+	            }, 
+	            { 
+	            	phrase: "Author",
+	            	entities:[{ type: "menu", value: "Author", principal: "Developer", alias:"menu" }] 
+	            },
+	            { 
 	            	phrase: "Members", 
 	            	entities:[{ type: "menu", value: "Members", alias:"menu" }] 
 	            }, 
@@ -123,7 +95,7 @@ var intents =
 	            }
 	        ]
 	    },
-	    params: [ {name: "container", value: "colaboradores" } ]
+	    params: [ {name: "container", value: "projeto" } ]
 	},
 	{
 		name: "exemplos",

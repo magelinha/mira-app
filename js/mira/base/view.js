@@ -44,13 +44,6 @@ define([
                 old_$el.hide();
             }
 
-            //Registra o título
-            var title = esse.widget.get("title");
-            if(appApi && title){
-                var $context = { $data: $data };
-                appApi.RegisterTitle(title , esse.widget.get("interface"), $context);
-            }
-
             this.widget.buildWidget(esse.$parent, this.concrete, $data, this.$env, function(options){
                 esse.setElement(options.$element || options.$children);
                 esse.widget.buildChildren(esse.$el, esse.concrete, esse.model, esse.$env);

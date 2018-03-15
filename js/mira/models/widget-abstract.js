@@ -92,19 +92,6 @@
                         }
                     }
 
-                    var tts = esse.get('tts');
-                    var entity = esse.get('entity');
-                    var title = esse.get("title");
-                    
-                    map.set('title', esse.get('title'));
-                    map.set('interface', esse.get("interface"));
-                    map.set('tts', tts);
-                    map.set('label', esse.get('label'));
-                    map.set('entity', entity);
-                    map.set('validation', esse.get('validation'));
-                    map.set('error', esse.get('error'));
-                    map.set('help', esse.get('help'));
-                    
                     map.getHtml($parent, $data, $env, $bind, map_callback);
                 }
             };
@@ -202,26 +189,18 @@
 
         getHtml: function($parent, concrete, $data, $env){
             var esse = this;
-            var currentInterface = esse.get("interface");
-
-            var title = this.get("title");
-            if(appApi && title && currentInterface){
-                var $context = { $data: $data.attributes };
-                appApi.RegisterTitle(title, currentInterface, $context);
-            }
 
             var anchor = Helper.buildAnchor();
             var temp = Helper.buildAnchor();
             var structure = concrete.findStructure(this.get('name'));
             if(structure){
-                structure.set("interface", currentInterface);
                 structure.prepare(this.get('children'), esse);
                 
                 esse = structure;
             }
 
             this.buildWidget(temp, concrete, $data, $env, function(options){
-                esse.buildChildren(options.$children, concrete, $data, $env, currentInterface);               
+                esse.buildChildren(options.$children, concrete, $data, $env);               
                 $parent.append(temp.children());
             });
         },

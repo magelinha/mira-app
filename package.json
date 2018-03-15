@@ -23,7 +23,12 @@
     "rdfstore": "0.9.5",
     "request": "~2.36.0",
     "requirejs": "~2.1.11",
-    "underscore": "~1.6.0"
+    "underscore": "~1.6.0",
+    "dialogflow": "latest",
+    "uuid-v4": "latest",
+    "body-parser": "latest",
+    "zip-dir": "latest",
+    "rimraf":"latest"
   },
   "devDependencies": {},
   "repository": {

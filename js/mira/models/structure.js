@@ -42,53 +42,18 @@
 
         prepare: function(abstracts, itemWidget){
             var name = this.get("name");
-            var abstract = null;
-            
-            var findAbstract = function(items){
-                items.each(function(item){
-                    if(item.get('name') == name){
-                        
-                        abstract = item;
-                        return;
-                    }
-
-                    var children = item.get("children");
-                    if(children)
-                        findAbstract(children);
-                });
-            };
 
             if(!this.original){
                 this.original = _.clone(this.attributes);
             }
             
             this.abstract = abstracts.findWhere({name: this.get('name')});
-            findAbstract(abstracts);
-            var tts = abstract ? abstract.get("tts") : undefined;
             this.get('children').invoke('prepare', abstracts, itemWidget);
             if(this.abstract) {
                 this.attributes = _.defaults(this.original, this.abstract.attributes);
-                //this.set("tts", tts);
             } else {
                 this.attributes = this.original
             }
-
-            var title = abstract ? abstract.get('title') : undefined;
-            var label = abstract ? abstract.get('label') : undefined;
-            var entity = abstract ? abstract.get('entity') : undefined;
-            var validation = abstract ? abstract.get('validation') : undefined;
-            var error = abstract ? abstract.get('error') : undefined;
-            var help = abstract ? abstract.get('help') : undefined;
-            var interfaceModel = itemWidget ? itemWidget.get('interface') : undefined;
-
-            this.set("tts",tts);
-            this.set('title', title);
-            this.set('label', label);
-            this.set('entity', entity);
-            this.set('validation', validation);
-            this.set('error', error);
-            this.set('help', help);
-            this.set('interface', interfaceModel);
 
             if(itemWidget)
                 this.abstract = itemWidget;
