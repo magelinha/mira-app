@@ -690,7 +690,6 @@ if(typeof define === 'function') {
         return function BookingMira() {
             var app = new Mira.Application(interface_abstracts, concrete_interface, rules, selection, configAPIAi);
             Mira.Widget.setDefault('BootstrapSimple');
-
             ChangeCurrentValue();
 
             window.selecionados = new Mira.Api.Collection([]);

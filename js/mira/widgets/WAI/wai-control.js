@@ -91,7 +91,8 @@ define([
         var tts = options.tts;
         var label = options.label;
         if(tag != "option" && !label || (_.isString(label) && !label.length)){
-            throw "O widget "+ name + " não possui o atributo Label válido";
+            console.warn("O widget "+ name + " não possui o atributo Label válido");
+            label = "xxx";
         }
 
         var id = Helper.get_valid_id(name, $parent);
@@ -153,7 +154,8 @@ define([
         var tts = options.tts;
 
         if(!options.label || !options.label.length){
-            throw "O widget "+ name + " não possui o atributo Label válido";
+            console.warn("O widget "+ name + " não possui o atributo Label válido");
+            label = "xxx";
         }
 
         var id = Helper.get_valid_id(name, $parent);
@@ -199,7 +201,8 @@ define([
             var tts = options.tts;
             var label = options.label;
             if(!label || (_.isString(label) && !label.length)){
-                throw "O widget "+ name + " não possui o atributo Label válido";
+                console.warn("O widget "+ name + " não possui o atributo Label válido");
+                label = "xxx";
             }
 
             var id = Helper.get_valid_id(name);

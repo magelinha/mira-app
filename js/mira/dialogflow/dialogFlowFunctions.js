@@ -6,8 +6,9 @@ const dialogflow = require('dialogflow');
 const sessionClient = new dialogflow.SessionsClient();
 
 const grpc = require('grpc');
-const structjson = require('./dialogflow/structjson.js');
+const structjson = require('./structjson.js');
 const prompt = require('prompt');
+const uuid = require('uuid-v4')
 const sessionId = uuid();
 const fs = require('fs');
 const zipFolder = require('zip-dir');
@@ -251,7 +252,7 @@ function UpdateEntityType(projectId, entityToUpdate) {
 }
 
 
-function Init = function(server){
+var Init = function(server){
     /************************* Criação das requisições ****************************/
     server.route('/dialogflow/import', function(res, req){
         res.render('dialogflow/import/index.html');
@@ -516,12 +517,12 @@ function GetInternalActions(text, lang){
     return null;
 }
 
-module.exports {
+module.exports = {
     DetectTextIntent,
     DetectEventIntent,
     CreateEntityTypes,
     ListEntityTypes,
-    ClearEntiCyTypes,
+    ClearEntityTypes,
     RegisterEntityTypes,
     DeleteEntityType,
     ShowEntityTypes,

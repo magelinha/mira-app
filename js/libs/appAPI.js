@@ -238,7 +238,35 @@ ActionAPI.SpeechAction.prototype.startRecording = function(){
     Criar um instância para a captação de audio
 */
 ActionAPI.SpeechAction.prototype.InitRecorder = function(){
+    
     var _this = this;
+    var constraints = window.constraints = {
+      audio: true,
+      video: false
+    };
+
+
+    navigator.mediaDevices
+        .getUserMedia(constraints)
+        .then(function(stream){
+            define(['hark'], function(harkModule){
+                var hark = require('./hark.js');
+
+                var options = {};
+                _this.recorder = hark(stream, options);
+                
+                _this.recorder.on('speaking', function(){
+                    console.log('speaking');
+                });
+
+                _this.recorder.on('stopped_speaking', function(){
+                    console.log('stopped speaking');
+                });
+            })
+
+        });
+
+    /*var _this = this;
     _this.recorder = new (window.SpeechRecognition || window.webkitSpeechRecognition 
                             || window.mozSpeechRecognition || window.msSpeechRecognition)();
 
@@ -288,7 +316,7 @@ ActionAPI.SpeechAction.prototype.InitRecorder = function(){
             _this.startRecording();
     }
 
-    _this.recorder.start();
+    _this.recorder.start();*/
 }
 
 ActionAPI.SpeechAction.prototype.InitSpeak = function(){
