@@ -136,11 +136,16 @@ ActionAPI.SpeechAction = function(conf){
 
     this.canTTS = true;
 
+    this.limitRecorder = 5;
+
     //Controle de audio capitado do microfone
-    this.audioContext = null;
+    this.audioContext = new AudioContext;
+    this.audioStream = null;
 
     //Renponsável por transformar o audio em blob
     this.recorder = null;
+
+    this.lastText = '';
 
     this.isProcessing = false;
 
@@ -198,125 +203,74 @@ ActionAPI.SpeechAction = function(conf){
     @text: texto a ser transoformado em fala
 */
 ActionAPI.SpeechAction.prototype.tts = function(text){
-
+    var _this = this;
     if(!text.length || !this.canTTS)
         return;
 
-    var _this = this;
-    _this.speak.text = text;
-    _this.lang = _this.currentLanguage;
+    if(this.recorder)
+        _this.recorder.stopRecording(false);
 
-    window.speechSynthesis.speak(_this.speak);
+    _this.lastText = text;
 
-
-    var getVoice = function(){
-        switch(_this.currentLanguage){
-            case "pt-BR": return "Brazilian Portuguese Female";
-            case "en-US": return "UK English Female"; 
-        }
-    }
-
-    responsiveVoice.speak(text, getVoice());    
+    speechRs.speechinit('Google português do Brasil',function(e){
+        speechRs.speak(text, function() {
+            if(_this.recorder)
+                _this.startRecording();
+        }, false);     
+     });
 }
 
-/*
-    Inicia a gravação de um áudio
-*/
 ActionAPI.SpeechAction.prototype.startRecording = function(){
-    //if(this.isProcessing)
-    //    return;
     var _this = this;
-    try{
-        _this.recorder.start();    
-    }catch(e){
+    _this.recorder.record();
 
-    }
+    setTimeout(function(){
+        _this.stopRecording(true);
+    }, 5000);
 };
+
+ActionAPI.SpeechAction.prototype.stopRecording = function(toExport) {
+    var _this = this;
+    _this.recorder.stop();
+    _this.audioStream.getAudioTracks()[0].stop();
+
+    if(toExport) {
+        //Cria a requisição
+        _this.recorder.exportWAV(function(blob){
+            var link = document.createElement("a");
+            link.download = name;
+            link.href = window.URL.createObjectURL(blob);
+            console.log(link.href);
+            link.click();
+        }, "audio/wav");
+    }
+
+    _this.recorder.clear();
+    
+};
+
 
 
 /*
     Criar um instância para a captação de audio
 */
 ActionAPI.SpeechAction.prototype.InitRecorder = function(){
-    
     var _this = this;
-    var constraints = window.constraints = {
-      audio: true,
-      video: false
-    };
-
 
     navigator.mediaDevices
-        .getUserMedia(constraints)
-        .then(function(stream){
-            define(['hark'], function(harkModule){
-                var hark = require('./hark.js');
+        .getUserMedia({video:false, audio: true})
+        .then(stream => {
+            _this.audioStream = stream;
 
-                var options = {};
-                _this.recorder = hark(stream, options);
-                
-                _this.recorder.on('speaking', function(){
-                    console.log('speaking');
-                });
+            var mic = _this.audioContext.createMediaStreamSource(stream);
 
-                _this.recorder.on('stopped_speaking', function(){
-                    console.log('stopped speaking');
-                });
-            })
-
+            require(['libs/recorder'], function(Recorder){
+                _this.recorder = new Recorder(mic);    
+            });
+        })
+        .catch(error => {
+            console.log(error);
         });
-
-    /*var _this = this;
-    _this.recorder = new (window.SpeechRecognition || window.webkitSpeechRecognition 
-                            || window.mozSpeechRecognition || window.msSpeechRecognition)();
-
-    _this.recorder.continuous = false;
-    _this.recorder.interimResults = false;
-    this.recorder.maxAlternatives = 1;
-    _this.recorder.lang = _this.currentLanguage;
-    _this.final_transcript = '';
-
-    _this.recorder.onresult = function(event){
-        var interim_transcript = '';
-        for (var i = event.resultIndex; i < event.results.length; ++i) {
-            console.log(event.results[i]);
-            if (event.results[i].isFinal) {
-                _this.final_transcript += event.results[i][0].transcript;
-            } else {
-                interim_transcript += event.results[i][0].transcript;
-            }
-        }
-        
-        if(_this.final_transcript.length > 0){
-            //Verifica se o comando foi para alterar a linguagem;
-            _this.CallRequestQuery(_this.final_transcript.trim());
-            _this.final_transcript = '';
-        }
-    };
-
-    _this.recorder.onstart = function(event){
-        //console.log('iniciou o recorder');
-    };
-
-    _this.recorder.onerror = function(event){
-        if(event.error == "not-allowed"){
-            if(_this.recorder){
-                _this.recorder.canDestroy = true;
-                _this.recorder = null;    
-            }
-
-            return;
-        }
-
-        _this.InitRecorder();
-    };
-
-    _this.recorder.onend = function(event){
-        if(_this.recorder && !_this.recorder.canDestroy)
-            _this.startRecording();
-    }
-
-    _this.recorder.start();*/
 }
 
 ActionAPI.SpeechAction.prototype.InitSpeak = function(){
@@ -454,6 +408,8 @@ ActionAPI.SpeechAction.prototype.ConfigureObserver = function(){
     Inicia a aplicaçao permitindo o controle por voz
 */
 ActionAPI.SpeechAction.prototype.Init = function() {
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
     this.ConfigureObserver();
     this.InitRecorder();
     this.InitSpeak();
@@ -465,6 +421,8 @@ ActionAPI.SpeechAction.prototype.Init = function() {
             appApi.canTTS = !appApi.canTTS;
         }
     });
+
+    this.tts("Teste inicial");
 };
 
 
@@ -547,10 +505,8 @@ ActionAPI.SpeechAction.prototype.changeLanguage = function(){
 };
 
 ActionAPI.SpeechAction.prototype.repeat = function(){
-    if(!this.speak || !this.speak.text || !this.speak.text.length)
-        return;
-
-    this.tts(this.speak.text);
+    var text = this.lastText.length ? this.lastText : "Não há fala para ser repetida.";
+    this.tts(this.lastText);
 };
 
 ActionAPI.SpeechAction.prototype.executeCommand = function(action, params){

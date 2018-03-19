@@ -133,6 +133,7 @@ server.get('/api/:folder', function (req, res, next) {
 server.get('/api/:folder/:id', function (req, res, next) {
     var folder = req.params.folder;
     var id = req.params.id;
+
     var file_path = isInt(id) ? 
                     path.normalize(__dirname + '/../..') + '/data/' + folder + '/' + id + '.json' :
                     path.normalize(__dirname + '/../..') + '/data/' + folder + '/' + id + '/' + 'list.json';

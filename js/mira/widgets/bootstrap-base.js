@@ -53,7 +53,8 @@ define([
         });
 
         _.each(raw_types, function(type){
-            if(options[type] != undefined){
+            //Se for opt group, não pode considerar o valor de label com uma classe
+            if(options[type] != undefined && options.tag != 'optgroup'){
                 as_array(options[type], function(val){
                     classes.push(type + '-' + val);
                 });
@@ -61,7 +62,7 @@ define([
         });
 
         _.each(repeat_types, function(type){
-            if(options[type] != undefined){
+            if(options[type] != undefined && options.tag != 'optgroup'){
                 as_array(options[type], function(val){
                     classes.push(type);
                 });
@@ -83,7 +84,15 @@ define([
 
         Simple: function($parent, name, $context, options, callback){
             var new_options = _.clone(options);
-            new_options.class = get_bootstrap_class(options, options.class);
+            var value_class = get_bootstrap_class(options, options.class);
+            
+            if(value_class.length)
+                new_options.class = get_bootstrap_class(options, options.class);
+
+            if(options.tag == 'optgroup'){
+                ignored_options = ignored_options.filter(attr => attr !== 'label'); 
+            }
+
             SimpleHtml($parent, name, $context, new_options, callback, ignored_options)
         },
 

@@ -43,11 +43,28 @@
         prepare: function(abstracts, itemWidget){
             var name = this.get("name");
 
+            var abstract = null;
+            
+            var findAbstract = function(items){
+                items.each(function(item){
+                    if(item.get('name') == name){
+                        abstract = item;
+                        return;
+                    }
+
+                    var children = item.get("children");
+                    if(children)
+                        findAbstract(children);
+                });
+            };
+
             if(!this.original){
                 this.original = _.clone(this.attributes);
             }
             
             this.abstract = abstracts.findWhere({name: this.get('name')});
+
+            findAbstract(abstracts);
             this.get('children').invoke('prepare', abstracts, itemWidget);
             if(this.abstract) {
                 this.attributes = _.defaults(this.original, this.abstract.attributes);
@@ -55,8 +72,15 @@
                 this.attributes = this.original
             }
 
+            if(abstract){
+                this.set('datasource', abstract.get('datasource'));  
+                this.abstract = abstract;
+                return;
+            }
+
             if(itemWidget)
                 this.abstract = itemWidget;
+            
         }
 
 

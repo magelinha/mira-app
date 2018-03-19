@@ -1,0 +1,17 @@
+[
+	{
+		"id": 1,
+		"nome": "Hambúrguer",
+		"preco": 5
+	},
+	{
+		"id": 2,
+		"nome": "Misto Quente",
+		"preco": 3.5	
+	},
+	{
+		"id": 3,
+		"nome": "Cachorro Quente",
+		"preco": 2.75
+	}
+]

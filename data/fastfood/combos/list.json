@@ -1,0 +1,22 @@
+[
+	{
+		"id": 9,
+		"nome": "Primavera (1 Hambúrguer + 1 Milk Shake)",
+		"preco": 11
+	},
+	{
+		"id": 10,
+		"nome": "Verão (2 Mistos Quentes + 1 Suco Natural)",
+		"preco": 7.5
+	},
+	{
+		"id": 11,
+		"nome": "Outono (1 Hambúrguer + 1 Cachorro Quente + 2 Refrigerantes)",
+		"preco": 12.5
+	},
+	{
+		"id": 12,
+		"nome": "Inverno (2 Hambúrgueres + 2 Refrigerantes)",
+		"preco": 10
+	}
+]

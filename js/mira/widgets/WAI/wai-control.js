@@ -25,17 +25,6 @@ define([
 
     }
 
-
-
-    var templateGroup = '<div class="form-group">\
-                                        <label class="col-sm-2 control-label"><%= _.isString(label) ? label : label[appApi.currentLanguage] %></label>\
-                                        <div class="col-sm-10">\
-                                        <% if(help && help.length > 0) {%>\
-                                            <span class="help-block"><%=help%></span>\
-                                        <% } %>\
-                                        </div>\
-                                    </div>';
-
     var templateInput = '<input type="<%=type%>" class="form-control" />';
 
     var templateRadio = '<div class="<%=type%>" tabindex="0">\
@@ -88,29 +77,12 @@ define([
 
 
     var generateGeneralInput = function(tag, $parent, name, $context, options, callback, ignored_options){
-        var tts = options.tts;
-        var label = options.label;
-        if(tag != "option" && !label || (_.isString(label) && !label.length)){
-            console.warn("O widget "+ name + " não possui o atributo Label válido");
-            label = "xxx";
-        }
-
         var id = Helper.get_valid_id(name, $parent);
-        //Template dos grupo e input
-        var $group = $(_.template(templateGroup, { 
-                        id: id,
-                        help: options.help, 
-                        label: label
-                    }));
-
+        
         var $input = $('<' + tag + ' />');
-        $input[0].validation = options.validation;
-        $input[0].errorMessage = options.error;
-        $input[0].helpMessage = options.help;
         
         //Id do input e o atributo for da label
         $input.prop('id', id);
-        $group.children('label').prop('for', id);
 
         //Determina as propriedades básicas do elemento
         var atrs = Helper.omit_params(options,ignored_options);
@@ -119,27 +91,13 @@ define([
         $input.prop('tabindex', 0);
         $input.prop('aria-required', options.required || false);
         $input.attr('required', options.required || false);
-        configureElementByTag(tag, $input);
-
-        //Configura a label do controle após a mudança de linguagem
-        if(_.isObject(label)){
-            $input.update = function(){
-                $group.find('label').html(label[appApi.currentLanguage]);
-            }
-
-            appApi.widgets.push($input);
-        }
-
-        if(tts){
-            Helper.tts_on_focus($input, tts, context);
-        }
+        //configureElementByTag(tag, $input);
 
         if(options.events) {
             Helper.build_events($input, options.events, context);
         }
 
-        $group.children('div').prepend($input);
-        $parent.append($group);
+        $parent.append($input);
 
         if(callback){
             callback({
@@ -151,13 +109,6 @@ define([
     };
 
     var generateRadioOrCheckbox = function(tag, $parent, name, $context, options, callback, ignored_options){
-        var tts = options.tts;
-
-        if(!options.label || !options.label.length){
-            console.warn("O widget "+ name + " não possui o atributo Label válido");
-            label = "xxx";
-        }
-
         var id = Helper.get_valid_id(name, $parent);
         //Template dos grupo e input
         var atrs = Helper.omit_params(options,ignored_options);
@@ -168,7 +119,7 @@ define([
                         type: tag,
                         name: name,
                         value: Helper.build_value(options.value, context) || '',
-                        label: Helper.build_value(options.label, context)
+                        label: Helper.build_value(options.text, context)
                     }));
 
         var $input = $group.find('input');
@@ -176,10 +127,6 @@ define([
 
         //Determina as propriedades básicas do elemento
         $input.prop('tabindex', 0);
-
-        if(tts){
-            Helper.tts_on_focus($group, tts, context);
-        }
 
         if(options.events) {
             Helper.build_events($input, options.events, context);
@@ -198,29 +145,10 @@ define([
 
     return {
         Input: function($parent, name, $context, options, callback, ignored_options){
-            var tts = options.tts;
-            var label = options.label;
-            if(!label || (_.isString(label) && !label.length)){
-                console.warn("O widget "+ name + " não possui o atributo Label válido");
-                label = "xxx";
-            }
-
             var id = Helper.get_valid_id(name);
-
-            //Template dos grupo e input
-            var $group = $(_.template(templateGroup, { 
-                            id: id,
-                            help: options.help, 
-                            label: label
-                        }));
 
             var $input = $(_.template(templateInput, {type: options.type || 'text'}));
             $input.prop('id', id);
-            $group.children('label').prop('for', id);
-            $input[0].validation = options.validation;
-            $input[0].errorMessage = options.error;
-            $input[0].helpMessage = options.help;
-
             //Determina as propriedades básicas do elemento
             var atrs = Helper.omit_params(options,ignored_options);
 
@@ -228,27 +156,12 @@ define([
             Helper.build_attributes($input[0], atrs, context);
             $input.prop('tabindex', 0);
             $input.prop('aria-required', options.required || false);
-
-
-            //Configura a label do controle após a mudança de linguagem
-            if(_.isObject(label)){
-                $input.update = function(){
-                    $group.find('label').html(label[appApi.currentLanguage]);
-                }
-
-                appApi.widgets.push($input);
-            }
-
-            if(tts){
-                Helper.tts_on_focus($input, tts, context);
-            }
-
+            
             if(options.events) {
                 Helper.build_events($input, options.events, context);
             }
 
-            $group.children('div').prepend($input);
-            $parent.append($group);
+            $parent.append($input);
 
             if(callback){
                 callback({
@@ -280,7 +193,6 @@ define([
         },
 
         Button: function($parent, name, $context, options, callback, ignored_options){
-            var tts = options.tts;
             if(options.value === "$bind")
                 options.value = $context.$bind;
 
@@ -312,10 +224,6 @@ define([
                 }
             }
 
-            if(tts){
-                Helper.tts_on_focus($element, tts, context);
-            }
-
             if(options.events) {
                 Helper.build_events($element, options.events, context);
             }
@@ -333,8 +241,6 @@ define([
         },
 
         Option: function($parent, name, $context, options, callback, ignored_options){
-            var tts = options.tts;
-
             var $element = $('<option />');
             
             //Id do input e o atributo for da label
@@ -359,10 +265,6 @@ define([
                 }
 
                 appApi.widgets.push($element);
-            }
-
-            if(tts){
-                Helper.tts_on_focus($element, tts, context);
             }
 
             $parent.append($element);

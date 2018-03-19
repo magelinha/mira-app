@@ -55,23 +55,53 @@ window.ChangeCurrentValue = function(){
 //---------------------------------------------------------------------------------------- landing ----------------------------------------------------------------------------------------
 var landingAbstrata = {
     name: "landing",
-    title: { "pt-BR": "Fast Food UAI - Área de pedidos", "en-US": "Fast Food UAI - Order area" },
     widgets: [
         { 
             name: "container-center" , children:
             [
-                { name: "tutorial", title: "Tutorial", bind: "tutorial", tts: "$bind"},
                 {
                     name: "section-add-item",
                     children: [
+                        { name: 'titulo-formulario' },
                         {
                             name: "adicionar-item",
-                            title:
-                            {
-                                "pt-BR": "Adicionar Item",
-                                "en-US": "Add Item"
-                            },
                             children: [
+                                { 
+                                    name: 'cardapio',
+                                    children:
+                                    [
+                                        { 
+                                            name: 'sanduiches', 
+                                            datasource:'url:<%= "/api/fastfood/sanduiches" %>',
+                                            children:
+                                            [   
+                                                {name: 'sanduiche' }
+                                            ]
+                                        },
+                                        { 
+                                            name: 'bebidas',
+                                            datasource:'url:<%= "/api/fastfood/bebidas" %>',
+                                            children:
+                                            [   
+                                                {name: 'bebida' }
+                                            ]
+                                        },
+                                        { 
+                                            name: 'combos',
+                                            datasource:'url:<%= "/api/fastfood/combos" %>' ,
+                                            children:
+                                            [   
+                                                {name: 'combo' }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    name: 'quantidade'
+                                },
+
+                                /*
+
                                 {
                                     name: "alimento",
                                     label: "Alimento",
@@ -149,7 +179,8 @@ var landingAbstrata = {
                                             }
                                         }
                                     ]
-                                },
+                                },*/
+
                                 {
                                     name: "confirmar",
                                     bind: {
@@ -163,12 +194,23 @@ var landingAbstrata = {
                 },
                 {
                     name: "section-itens",
-                    title:
-                    {
-                        "pt-BR": "Itens do Pedido",
-                        "en-US": "Items of List"
-                    },
                     children: [
+                        { name: 'titulo-pedido'},
+                        {
+                            name: 'pedido',
+                            children: 
+                            [
+                                {
+                                    name: 'itens', datasource:'selecionados',
+                                    children: 
+                                    [
+                                        { name: 'item' }
+                                    ]
+                                }
+                            ]
+                        }
+
+                        /*
                         {
                             name: "lista-itens",      
                             tts: 
@@ -189,16 +231,26 @@ var landingAbstrata = {
                                     }
                                 }
                             ]
-                        },
-                        { name: "limpar-lista", bind: { "pt-BR": "Limpar", "en-US": "Clear" }, title: { "pt-BR":"Desfazer Pedido", "en-US":"Clear list of order" } },
-                        { name: "cadastrar-pedido", bind: { "pt-BR": "Comprar", "en-US": "Purchase" }, title: { "pt-BR":"Efetuar compra", "en-US":"Purchase" } },
+                        },*/
+                        
+                    ]
+                },
+                {
+                    name: 'section-acoes',
+                    children:
+                    [
+                        { name: "confirmar-pedido", bind: { "pt-BR": "Comprar", "en-US": "Purchase" }},
+                        { name: "cancelar-pedido", bind: { "pt-BR": "Cancelar", "en-US": "Cancelar" }},
+                        
                         { 
                             name:"valor-total", 
                             bind: "_.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0)",
                             tts: "textCurrency($bind)"
                         }
                     ]
+
                 },
+
                 {
                     name: "content-edit-item",
                     children:[
@@ -206,8 +258,8 @@ var landingAbstrata = {
                             name: "form-edit-item",
                             children:[
                                 { name: "item-to-edit", label: "Item" },
-                                { 
-                                    name: "nova-quantidade", 
+                                { name: "nova-quantidade" }
+                                    /*
                                     label: "Nova Quantidade",
                                     validation: function(value){
                                         
@@ -257,8 +309,8 @@ var landingAbstrata = {
                                                 "en-US": "The value informed is not a number."
                                             }
                                         }
-                                    ]
-                                }
+                                    ]*/
+                                
                             ]
                         },
                         { name: "confirmar-edicao", bind: { "pt-BR": "Confirmar", "en-US": "Confirm" }},
@@ -277,41 +329,103 @@ var landingConcreta =
     ]),
     structure: 
     [
-        //Estrututa para a tabela
+        //Estrutura para o formulário
         {
-            name: "section-itens", children:
+            name: 'adicionar-item', 
+            children: 
             [
-                {
-                    name: "block-table", children:
+                { 
+                    name: 'form-group', 
+                    children:
                     [
-                        {
-                            name:"table-itens", children:
+                        { name: 'label-item' },
+                        { 
+                            name: 'container-field',
+                            children: 
                             [
-                                { name:"table-header" },
-                                { name: "lista-itens", children:
+                                {
+                                    name: 'cardapio',
+                                    children: 
                                     [
-                                        { name: "item-informado" }
-                                    ]
+                                        { 
+                                            name: 'sanduiches', 
+                                            children:
+                                            [
+                                                { name: 'sanduiche' }
+                                            ]
+                                        },
+                                        { 
+                                            name: 'bebidas', 
+                                            children:
+                                            [
+                                                { name: 'bebida' }
+                                            ]
+                                        },
+                                        { 
+                                            name: 'combos', 
+                                            children:
+                                            [
+                                                { name: 'combo' }
+                                            ]
+                                        }
+                                    ] 
                                 }
                             ]
                         }
                     ]
                 },
-                {
-                    name: "block-total", children:
+                { 
+                    name: 'form-group', 
+                    children:
                     [
-                        { name:"valor-total" },
+                        { name: 'label-quantidade' },
                         { 
-                            name:"block-buttons", children:
+                            name: 'container-field',
+                            children: 
                             [
-                                { name:"limpar-lista" },
-                                { name:"cadastrar-pedido" }
+                                { name: 'quantidade'}
                             ]
                         }
                     ]
                 }
             ]
         },
+
+
+        //Estrututa para a lista de itens do pedido
+        {
+            name: 'pedido',
+            children:
+            [
+                { name: 'cabecalho' },
+                { 
+                    name: 'itens',
+                    children: 
+                    [
+                        { name: 'item' },
+                    ]
+                }
+            ]
+        },
+
+        //estrutura para os botões
+        {
+            name: 'section-acoes', 
+            children:
+            [
+                {
+                    name: 'container-botoes',
+                    children:
+                    [
+                        {name: 'confirmar-pedido' },
+                        {name: 'cancelar-pedido' },
+                    ]
+                },
+                { name: 'valor-total' }
+            ]
+
+        },
+
         //Estrutura para o modal
         {
             name: "content-edit-item", children:
@@ -357,10 +471,8 @@ var landingConcreta =
         
         //Sessões    
         { name: "section-add-item", widget: "WaiContent", tag: "section", class:"row" },
-        { name: "section-itens", widget: "WaiContent", tag: "section", class:"row" },
-        { name: "block-table", widget: "WaiContent", class:"col-sm-8"},
-        { name: "block-total", widget: "WaiContent", class:"col-sm-4"},
-        { name: "block-buttons", widget: "WaiContent", class:"row text-center"},
+        { name: "section-itens", widget: "WaiContent", tag: "section", class:"col-sm-8" },
+        { name: "section-acoes", widget: "WaiContent", tag: "section", class:"col-sm-4" },
 
         //modal
         { name: "content-edit-item", widget: "WaiContent", tabindex: "-1", role:"dialog", class: "modal fade" },
@@ -372,45 +484,61 @@ var landingConcreta =
         { name: "modal-footer", widget: "WaiContent", class: "modal-footer" },
 
         //Formulário edição
-        { name: "form-edit-item", widget: "WaiForm", class: "form-horizontal", events: { submit: "EvtSubmitEdit"}},
+        { name: "form-edit-item", widget: "WaiContent", tag:'form', class: "form-horizontal", events: { submit: "EvtSubmitEdit"}},
         { name: "item-to-edit", widget: "WaiStatic" },
         { name: "nova-quantidade", widget: "WaiInput" },
         { name: "confirmar-edicao", widget: "WaiButton", class:"btn btn-primary", value: "$bind", events: { click: "EvtConfirmEdit" } },
         { name: "cancelar-edicao", widget: "WaiButton", class:"btn btn-default", value: "$bind", events: { click: "EvtCancelEdit" } },
 
 
-        //tutorial 
-        { name: "tutorial", widget: "WaiContent", value: "$bind", class:"alert alert-info" },
-
         //Formulário
-        { name: "adicionar-item", widget: "WaiForm", class: "form-horizontal", events:{ submit: "AdicionarItem" } },
-        { name: "alimento", widget: "WaiSelect" },
-        { name: "option-item", tag:"option", widget:"WaiOption", value:"$data.id", text:"$data.name" },
+        { name: "titulo-formulario", tag:'h2', widget: 'WaiContent', value: "Adicionar Item ao Pedido" },
+        { name: "adicionar-item", widget: "WaiContent", tag: 'form', class: "form-horizontal", events:{ submit: "AdicionarItem" } },
+        { name: 'form-group', widget:'WaiContent', class: 'form-group' },
+        { name: 'container-field', widget:'WaiContent', class:'col-sm-10' },
+        
+        //Cardápio
+        { name: "label-item", tag: 'label', for:"cardapio", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Item" },
+        { name: "cardapio", widget: "WaiSelect", class:'form-control' },
+        { name: "sanduiches", tag:"optgroup", label:"Sanduíches" },
+        { name: "sanduiche", tag:"option", widget:"WaiOption", value:"$data.id", text:"sprintf('%s - %s', $data.nome, $data.preco.formatMoney())" },
+        { name: "bebidas", tag:"optgroup", label:"Bebidas" },
+        { name: "bebida", tag:"option", widget:"WaiOption", value:"$data.id", text:"sprintf('%s - %s', $data.nome, $data.preco.formatMoney())" },
+        { name: "combos", tag:"optgroup", label:"Combos" },
+        { name: "combo", tag:"option", widget:"WaiOption", value:"$data.id", text:"sprintf('%s - %s', $data.nome, $data.preco.formatMoney())" },
+
+        { name: "label-quantidade", tag: 'label', for:"quantidade", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Quantidade" },
         { name: "quantidade", widget: "WaiInput" },
         { name: "confirmar", widget: "WaiButton", value:"$bind", type:"submit", class:"btn btn-primary pull-right" },
         
-        /* Lista de itens */
-        { name: "table-itens", tag: "table", widget:"WaiContent", class:"table table-bordered table-hover" },
+        //Pedido
+        { name: "titulo-pedido", tag:'h2', widget: 'WaiContent', value: "Pedido" },
+        { name: 'pedido', tag: 'table', class:'table table-bordered'},
+
+        //Cabeçalho
         { 
-            //Cabeçalho
-            name: "table-header", tag: "thead", widget: "WaiContent", children:
+            name: 'cabecalho', tag: 'thead',
+            children: 
             [
                 { 
-                    name: "tr-head", tag:"tr", widget: "WaiContent", children:
+                    name: 'cabecalho-row', tag: 'tr', 
+                    children: 
                     [
-                        { name: "header-item-selected", tag:"th", widget: "WaiContent", value: "Item" },
-                        { name: "header-item-quantidade", tag:"th", widget: "WaiContent", value: { "pt-BR":"Quantidade", "en-US":"Quantity" } },
-                        { name: "header-item-total", tag:"th", widget: "WaiContent", value: { "pt-BR": "Total (R$)", "en-US": "Total (US$)"} },
-                        { name: "header-item-edit", tag:"th", widget: "WaiContent", value: { "pt-BR": "Editar", "en-US": "Edit"} },
-                        { name: "header-item-remove", tag:"th", widget: "WaiContent", value: { "pt-BR": "Remover", "en-US": "Remove"} },
+                        { name: 'cabecalho-item-text', tag:'th', value: 'Item' },
+                        { name: 'cabecalho-quantidade-text', tag:'th', value: 'Quantidade' },
+                        { name: 'cabecalho-total-text', tag:'th', value: 'Total' },
+                        { name: 'cabecalho-editar-text', tag:'th', value: 'Editar' },
+                        { name: 'cabecalho-remover-text', tag:'th', value: 'Remover' },
                     ]
-                }
-            ]
+                },
+            ] 
         },
 
-        { name: "lista-itens", tag:"tbody", widget: "WaiListContent" },
+        //Corpo
+        { name: 'itens', tag: 'tbody', widget: 'WaiContent' },
         { 
-            name: "item-informado", tag:"tr", widget: "WaiContent", children:
+            name: 'item', tag: 'tr', 
+            children:
             [
                 { name: "item-name", tag:"td", widget: "WaiContent", value: "$data.item"},
                 { name: "item-quantidade", tag:"td", widget: "WaiContent", value: "$data.quantidade"},
@@ -450,12 +578,12 @@ var landingConcreta =
                             ]
                         }
                     ]
-                }
+                }    
             ]
         },
 
         { 
-            name: "valor-total", widget: "", class:"row text-center", children:
+            name: "valor-total", class:"row text-center", children:
             [
                 { name: "label-total", widget: "WaiContent", tag:"strong", value: "Total: " },
                 { name: "total-value", widget: "WaiContent", tag:"span", value: "$bind.formatMoney()" },
@@ -463,8 +591,9 @@ var landingConcreta =
         },
 
         //Operações da view
-        { name: "limpar-lista", widget: "WaiButton", class: "btn btn-danger btn-lg", value: "$bind", events: { click: "LimparLista"}},
-        { name: "cadastrar-pedido", tag:"a", widget:"WaiButton", class: "btn btn-success btn-lg", value: "$bind", events:{ click: "EvtCadastrarPedido" }, href:"navigate('fastfood/gerarPedido')" },
+        { name: 'container-botoes', widget: 'WaiContent', class: 'row text-center', style: 'margin: 10% 0 5% 0;'},
+        { name: "confirmar-pedido", tag:"a", widget:"WaiButton", class: "btn btn-success btn-lg", value: "$bind", events:{ click: "EvtCadastrarPedido" }, href:"navigate('fastfood/gerarPedido')", style: "margin-right: 10px;" },
+        { name: "cancelar-pedido", widget: "WaiButton", class: "btn btn-danger btn-lg", value: "$bind", events: { click: "LimparLista"} },
     ]
 };
 //---------------------------------------------------------------------------------------- Fim: landing ----------------------------------------------------------------------------------------
