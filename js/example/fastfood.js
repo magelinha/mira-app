@@ -803,6 +803,7 @@ var ajaxSetup = {
 
 var configAPIAi = {
     defaultLanguage: 'pt-BR',
+    projectId: 'newagent-596a4',
     tokens: {
         "pt-BR": "14e4103ed77f4ce28f3c8ace6176f8eb",
         "en-US": "31674df025dd4d14843970fbfc38f524"

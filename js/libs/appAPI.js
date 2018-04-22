@@ -208,7 +208,7 @@ ActionAPI.SpeechAction.prototype.tts = function(text){
         return;
 
     if(this.recorder)
-        _this.recorder.stopRecording(false);
+        _this.stopRecording(false);
 
     _this.lastText = text;
 
@@ -223,9 +223,12 @@ ActionAPI.SpeechAction.prototype.tts = function(text){
 ActionAPI.SpeechAction.prototype.startRecording = function(){
     var _this = this;
     _this.recorder.record();
+    console.log('iniciou a gravação');    
 
     setTimeout(function(){
+        console.log('parou a gravação');
         _this.stopRecording(true);
+
     }, 5000);
 };
 
@@ -236,20 +239,43 @@ ActionAPI.SpeechAction.prototype.stopRecording = function(toExport) {
 
     if(toExport) {
         //Cria a requisição
-        _this.recorder.exportWAV(function(blob){
-            var link = document.createElement("a");
-            link.download = name;
-            link.href = window.URL.createObjectURL(blob);
-            console.log(link.href);
-            link.click();
+        _this.recorder.exportMonoWAV(function(blob){
+
+            var reader = new FileReader;
+            reader.onload = function(file){
+                var audio = btoa(file.target.result);
+                var config = {
+                    rate: _this.audioContext.sampleRate,
+                    audio: audio,
+                    projectId: _this.projectId,
+                    language: _this.currentLanguage
+                };
+                
+                _this.AjaxRequest('POST', '/audio', config, null,  function(data){
+                    /*
+                    *Aqui será recebido um objeto no modelo 
+                    *{
+                    *   action: '',
+                    *   message: '',
+                    *   params: {},
+                    *   queryText: ''
+                    *}
+                    */
+                    
+                    if (data.success && data.action && data.action.length)
+                        _this.executeCommand(data.action, data.params);
+
+                    _this.tts(data.message);
+
+                });
+            };
+
+            reader.readAsBinaryString(blob);
         }, "audio/wav");
     }
 
-    _this.recorder.clear();
-    
+    _this.recorder.clear();  
 };
-
-
 
 /*
     Criar um instância para a captação de audio
@@ -263,22 +289,13 @@ ActionAPI.SpeechAction.prototype.InitRecorder = function(){
             _this.audioStream = stream;
 
             var mic = _this.audioContext.createMediaStreamSource(stream);
-
-            require(['libs/recorder'], function(Recorder){
-                _this.recorder = new Recorder(mic);    
-            });
+            _this.recorder = new Recorder(mic, {
+                workerPath: 'js/libs/recorderWorker.js'
+            });    
         })
         .catch(error => {
             console.log(error);
         });
-}
-
-ActionAPI.SpeechAction.prototype.InitSpeak = function(){
-    var _this = this;
-
-    _this.speak = new SpeechSynthesisUtterance();
-    var voices = window.speechSynthesis.getVoices();
-    _this.speak.voiceURI = "native";
 }
 
 ActionAPI.SpeechAction.prototype.CallRequestQuery = function(text){
@@ -289,7 +306,7 @@ ActionAPI.SpeechAction.prototype.CallRequestQuery = function(text){
       text: text  
     };
     
-    _this.AjaxRequest('POST', '/query', data, _this.OnApiResult);
+    _this.AjaxRequest('POST', '/query', data, null, _this.OnApiResult);
 }
 
 ActionAPI.SpeechAction.prototype.CallRequestEvent = function(eventName){
@@ -300,12 +317,12 @@ ActionAPI.SpeechAction.prototype.CallRequestEvent = function(eventName){
       eventName: eventName  
     };
     
-    _this.AjaxRequest('POST', '/event', data, _this.OnApiResult);
+    _this.AjaxRequest('POST', '/event', data, null, _this.OnApiResult);
 }
 
 
-ActionAPI.SpeechAction.prototype.AjaxRequest = function(method, url, data, callback) {
-    $.ajax({
+ActionAPI.SpeechAction.prototype.AjaxRequest = function(method, url, data, config, callback) {
+    var configBase = {
         url: url,
         type: method,
         data:data,
@@ -317,7 +334,12 @@ ActionAPI.SpeechAction.prototype.AjaxRequest = function(method, url, data, callb
         error: function(err){
             console.log(err);
         }
-    });
+    };
+
+    if(config)
+        configBase = _.extend(configBase, config);
+
+    $.ajax(configBase);
 }
 
 ActionAPI.SpeechAction.prototype.RegisterEntity = function(entityValues){
@@ -345,7 +367,7 @@ ActionAPI.SpeechAction.prototype.RegisterEntity = function(entityValues){
 
     console.log(request);
 
-    _this.AjaxRequest('POST', '/entity/register', request, function(data){
+    _this.AjaxRequest('POST', '/entity/register', request, null, function(data){
         if(data.success){
             console.log('entidades salvas com sucesso.');
         }
@@ -412,7 +434,6 @@ ActionAPI.SpeechAction.prototype.Init = function() {
 
     this.ConfigureObserver();
     this.InitRecorder();
-    this.InitSpeak();
 
     //Configura para desativar o tts via comando do teclado
     $(document).keydown(function(e){
@@ -428,7 +449,7 @@ ActionAPI.SpeechAction.prototype.Init = function() {
 
 
 //Métodos a serem executados pelo APP
-ActionAPI.SpeechAction.prototype.nextItem = function(){
+window.NextItem = function(){
     var currentElement = $(document.activeElement);
     var index = currentElement.index();
     var parent = currentElement.parent();
@@ -445,7 +466,7 @@ ActionAPI.SpeechAction.prototype.nextItem = function(){
     next.focus();
 };
 
-ActionAPI.SpeechAction.prototype.prevItem = function(){
+window.PrevItem = function(){
     var currentElement = $(document.activeElement);
     var parent = currentElement.parent();
     var index = currentElement.index();
@@ -462,7 +483,7 @@ ActionAPI.SpeechAction.prototype.prevItem = function(){
     prev.focus();
 };
 
-ActionAPI.SpeechAction.prototype.selectItem = function(){
+window.SelectItem = function(){
     var currentElement = $(document.activeElement);
     
     if(!currentElement.length){
@@ -473,7 +494,7 @@ ActionAPI.SpeechAction.prototype.selectItem = function(){
     currentElement.click();
 };
 
-ActionAPI.SpeechAction.prototype.checkItem = function(){
+window.CheckItem = function(){
     var currentElement = $(document.activeElement);
     if(currentElement.is('input')){
         currentElement.prop('checked', true).change(); 
@@ -482,7 +503,7 @@ ActionAPI.SpeechAction.prototype.checkItem = function(){
     }
 };
 
-ActionAPI.SpeechAction.prototype.uncheckItem = function(){
+window.UncheckItem = function(){
     var currentElement = $(document.activeElement);
     if(currentElement.is('input')){
         currentElement.prop('checked', false).change(); 
@@ -491,38 +512,21 @@ ActionAPI.SpeechAction.prototype.uncheckItem = function(){
     }
 };
 
-ActionAPI.SpeechAction.prototype.changeLanguage = function(){
+window.ChangeLanguage = function(){
     this.currentLanguage = this.currentLanguage == "pt-BR" ? "en-US" : "pt-BR";
     var text = this.currentLanguage == "pt-BR" ? "A linguagem foi alterada para Português." : "The current Language is English.";
     document.documentElement.lang = this.currentLanguage;
-    
-    //Api.ai
-    
 
     this.tts(text);
     appApi.tts(this.messagesInterface[this.currentInterface][this.currentLanguage]);
-    //document.documentElement.lang = this.currentLanguage;
 };
 
-ActionAPI.SpeechAction.prototype.repeat = function(){
+window.Repeat = function(){
     var text = this.lastText.length ? this.lastText : "Não há fala para ser repetida.";
     this.tts(this.lastText);
 };
 
-ActionAPI.SpeechAction.prototype.executeCommand = function(action, params){
-    if(typeof(window[action]) != "undefined"){
-        window[action](params);
-        return;
-    }
-
-    try{
-        eval(action + ';');
-    }catch(ex){
-        console.error(ex);
-    }
-};
-
-ActionAPI.SpeechAction.prototype.setValue = function(params){
+window.SetValue = function(params){
     var formatDate = function(date){
         var day = date.getDate();
         var month = date.getMonth() + 1;
@@ -542,16 +546,6 @@ ActionAPI.SpeechAction.prototype.setValue = function(params){
         
         var $input = $('#'+ key);
         var input = $input[0];
-        
-        console.log(input.validation(value));
-        var validate = input.validation(value);
-
-        if(!validate.success){
-            var errorMessage = typeof(input.errorMessage) == "string" ? input.errorMessage :
-                                _.find(input.errorMessage, function(error) { error.name == validate.error}) || input.errorMessage[0];
-
-            return errorMessage + ' ' + input.helpMessage || '';
-        }   
 
         if($input.is("select")){
             var option = $input.find("option").filter(function(){
@@ -573,11 +567,12 @@ ActionAPI.SpeechAction.prototype.setValue = function(params){
     return true;
 };
 
-ActionAPI.SpeechAction.prototype.confirmForm = function(){
+window.ConfirmForm = function(params){
     $('form').submit();
 };
 
-ActionAPI.SpeechAction.prototype.requestFocus = function(params){
+window.RequestFocus = function(params){
+    console.log(params);
     var value = params['container'];
 
     var $container = $('#' + value);
@@ -589,114 +584,19 @@ ActionAPI.SpeechAction.prototype.requestFocus = function(params){
     setTimeout(function(){
         $container[0].focus();
     }, 0);
-    
-    /*
-    if($container.is("form"))
-        return;
-    
-    setTimeout(function(){
-        var children = $container.children('div:visible, blockquote:visible, a:visible, li:visible, section:visible');
-        if(children.length >= 1){
-            $(children[0]).focus();
-        }
-    },0);*/
 };
 
-ActionAPI.SpeechAction.prototype.IsAppAction = function(text){
-    var _this = this;
-    
-    for(var key in _this.appActions){
-        var isAction = _.find(_this.appActions[key][_this.currentLanguage], function(x){ return x.toUpperCase() == text.toUpperCase(); });
-        
-        if(isAction){
-            _this.ExecuteAppAction(key);
-            return true;
-        }
-    }
-
-    return false;
-}
-
-ActionAPI.SpeechAction.prototype.OnApiResult = function(data){
-    var _this = appApi;
-    console.log("> ON RESULT", data);
-    //console.log(data);
-    var status = data.status;
-    var code;
-    var responseSpeech;
-
-    if (!(status && (code = status.code) && isFinite(parseFloat(code)) && code < 300 && code > 199)) {
-        _this.tts("Houve um erro ao processar a fala. Tente novamente.")
+ActionAPI.SpeechAction.prototype.executeCommand = function(action, params){
+    console.log(action);
+    if(typeof(window[action]) != "undefined"){
+        window[action](params);
         return;
     }
-    var speechResponse = true;
 
-    responseSpeech = (data.result.fulfillment) ? data.result.fulfillment.speech : data.result.speech;
-
-    if(data.result.action != 'input.unknown' && data.result.action != 'Fallback' && !data.result.actionIncomplete ) {
-        var action = data.result.action.toUpperCase();
-         switch(action){
-            case 'SETVALUE':
-                var messageError = _this.setValue(data.result.parameters);
-                if(messageError.length)
-                    responseSpeech = messageError;
-
-                break;
-
-            case 'SUBMIT':
-                _this.confirmForm();
-                break;
-
-            case 'REQUESTFOCUS':
-                _this.requestFocus(data.result.parameters);
-                break;
-
-            default:
-                _this.executeCommand(data.result.action, data);
-                speechResponse = false;
-                break;
-        }
-    }
-
-    // Use Text To Speech service to play text.
-    if(responseSpeech && speechResponse){
-        _this.tts(responseSpeech);
-    }
-};
-
-ActionAPI.SpeechAction.prototype.ExecuteAppAction = function(action){
-    var _this = this;
-    switch(action){
-        case "changeLanguage": 
-            _this.changeLanguage();
-            break;
-        case "repeat": 
-            _this.repeat();
-            break;
-
-        case "optionsView": 
-            //_this.SpeakInitialMessage(mira.interface.abstract.get("title"), mira.interface.abstract.get("name"));
-            break;
-
-        case "nextItem": 
-            _this.nextItem();
-            break;
-
-        case "prevItem": 
-            _this.prevItem();
-            break;
-
-        case "checkItem": 
-            _this.checkItem();
-            break;
-
-        case "uncheckItem": 
-            _this.uncheckItem();
-            break;
-
-        case "selectItem": 
-            _this.selectItem();
-            break;
+    try{
+        eval(action + ';');
+    }catch(ex){
+        console.error(ex);
     }
 };
 

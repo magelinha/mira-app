@@ -5,7 +5,7 @@
 const dialogflow = require('dialogflow');
 const sessionClient = new dialogflow.SessionsClient();
 
-const grpc = require('grpc');
+//const grpc = require('grpc');
 const structjson = require('./structjson.js');
 const prompt = require('prompt');
 const uuid = require('uuid-v4')
@@ -13,15 +13,15 @@ const sessionId = uuid();
 const fs = require('fs');
 const zipFolder = require('zip-dir');
 const rimraf = require('rimraf');
+const webhook = require('./dialogflow/webhook.js');
 
-function DetectTextIntent(projectId, queries, languageCode) {
-    if (!queries || !queries.length) 
+function DetectTextIntent(projectId, query, languageCode) {
+    if (!query || !query.length) 
         return;
-
 
     // The path to identify the agent that owns the created intent.
     const sessionPath = sessionClient.sessionPath(projectId, sessionId);
-
+    
     let promise;
 
     const request = {
@@ -249,6 +249,34 @@ function UpdateEntityType(projectId, entityToUpdate) {
         .catch(err => {
             console.error('Failed to update entity type', err);
         });
+};
+
+var RequestTextIntent = function(params){
+    var result = {};
+    //Verifica se algum frase foi informada
+    if(!params.text || !params.text.length){
+        result = {
+            success: false,
+            errorMessage: 'A frase não foi informada' 
+        };
+
+        return result;
+    }
+
+    //Verifica se a mensagem informada é uma ação interna
+    var internalAction = GetInternalActions(params.text, params.lang);
+    if(internalAction){
+        result = {
+            success: true,
+            action: internalAction
+        };
+
+        return result;
+    }
+
+
+    //Retorna a requisição vinda do dialogFlow
+    return  DetectTextIntent(params.projectId, params.text, params.lang);
 }
 
 
@@ -256,35 +284,6 @@ var Init = function(server){
     /************************* Criação das requisições ****************************/
     server.route('/dialogflow/import', function(res, req){
         res.render('dialogflow/import/index.html');
-    });
-
-    server.post("/query", function(req, res) {
-        //Verifica se algum frase foi informada
-        if(!req.body.text || !req.body.text.length){
-            return res.json({
-                success: false,
-                errorMessage: 'A frase não foi informada' 
-            });
-        }
-
-        //Verifica se a mensagem informada é uma ação interna
-        var internalAction = GetInternalActions(req.body.text, req.body.lang);
-        if(internalAction){
-            return res.json({
-                success: true,
-                action: internalAction
-            })
-        }
-
-        //Retorna a requisição vinda do dialogFlow
-        let promise;
-        promise = detectTextIntent(req.body.projectId, req.body.text, req.body.lang);
-        promise
-            .then(response => {
-                res.json(Object.assign({},{success: true},response));
-            }).catch(error => {
-                res.json(Object.assign({},{success: true},error));
-            });
     });
 
     server.post("/event", function(req, res) {
@@ -297,6 +296,60 @@ var Init = function(server){
                 res.json(Object.assign({},{success: true},response));
             }).catch(error => {
                 res.json(Object.assign({},{success: true},error));
+            });
+    });
+
+    server.post("/audio", function(req, res) {
+        
+        // The path to identify the agent that owns the created intent.
+        const sessionPath = sessionClient.sessionPath(req.body.projectId, sessionId);
+
+        const request = {
+            session: sessionPath,
+            queryInput: {
+                audioConfig: {
+                    audioEncoding: req.body.encoding ? req.body.encoding : 'AUDIO_ENCODING_LINEAR16',
+                    languageCode: req.body.language,
+                },
+            },
+            inputAudio: req.body.audio,
+        };
+
+        sessionClient.detectIntent(request)
+            .then(responses => {
+                var response = responses[0];
+                console.log(response.queryResult.parameters);
+
+                var data = {
+                    message: response.queryResult.fulfillmentText,
+                    action: response.queryResult.action,
+                    queryText: response.queryResult.queryText //Apenas para debug
+                };
+
+                //mapeia os parametros
+                if(response.queryResult.parameters && response.queryResult.parameters.fields){
+
+                    var params = new Object();
+
+                    Object
+                        .keys(response.queryResult.parameters.fields)
+                        .map(function(key){
+                            params[key] = response.queryResult.parameters.fields[key][response.queryResult.parameters.fields[key]['kind']];
+                        });
+
+                    console.log(params);
+
+                    data.params = params;
+                }
+                
+
+                var result = Object.assign({},{success: true}, data);
+                res.json(result);
+            })
+            .catch(error => {
+                var result = Object.assign({},{success: false}, error);
+                console.log('deu erro');
+                res.json(result);
             });
     });
 
@@ -424,6 +477,8 @@ var Init = function(server){
                 res.json(Object.assign({},{success: true},error));
             });
     });
+
+    webhook.Init(server);
 }
 
 /************************* Apoio para o DialogFlow Plugin ****************************/
@@ -518,15 +573,6 @@ function GetInternalActions(text, lang){
 }
 
 module.exports = {
-    DetectTextIntent,
-    DetectEventIntent,
-    CreateEntityTypes,
-    ListEntityTypes,
-    ClearEntityTypes,
-    RegisterEntityTypes,
-    DeleteEntityType,
-    ShowEntityTypes,
-    GetEntityType,
-    UpdateEntityType,
+    RequestTextIntent,
     Init
 };
