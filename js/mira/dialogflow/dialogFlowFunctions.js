@@ -13,7 +13,7 @@ const sessionId = uuid();
 const fs = require('fs');
 const zipFolder = require('zip-dir');
 const rimraf = require('rimraf');
-const webhook = require('./dialogflow/webhook.js');
+const webhook = require('./webhook.js');
 
 function DetectTextIntent(projectId, query, languageCode) {
     if (!query || !query.length) 

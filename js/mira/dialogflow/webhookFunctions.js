@@ -51,7 +51,7 @@ var getIntent = function(intentName){
 	});
 };
 
-module.exports {
+module.exports = {
 	AddIntentAction,
     Init
 };

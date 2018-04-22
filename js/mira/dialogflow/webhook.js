@@ -107,7 +107,6 @@ var formatPrice = function(param){
 
 var Init = function(server){
 	webhookFunctions.Init(server);
-
 	webhookFunctions.AddIntentAction('cardapio.bebidas', function(params) {
 		var speech = "As bebidas são: ";
 		bebidas.forEach(function(bebida){
@@ -135,4 +134,8 @@ var Init = function(server){
 		return speech;
 	});
 };
+
+module.exports = {
+	Init
+}
 
