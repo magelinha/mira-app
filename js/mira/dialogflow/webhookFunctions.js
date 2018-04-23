@@ -22,6 +22,8 @@ var Init = function(server, source) {
 	source = source && source.length ? source : "mira-app";
 	server.post('/fastfood', function(req, res){
 
+		console.log(req.body);
+
 		var intentName = req.body.result.intent.displayName;
 		var params = req.body.result.parameters;
 
