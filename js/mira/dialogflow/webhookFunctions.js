@@ -19,9 +19,13 @@ var AddIntentAction = function (intent, action) {
 };
 
 var Init = function(server, source) {
+	source = source && source.length ? source : "mira-app";
 	server.post('/fastfood', function(req, res){
+
 		var intentName = req.body.result.intent.displayName;
 		var params = req.body.result.parameters;
+
+		console.log(req.body.result);
 		
 		var intentObj = getIntent(intentName);
 		if(!intentObj)

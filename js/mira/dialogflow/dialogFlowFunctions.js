@@ -318,8 +318,7 @@ var Init = function(server){
         sessionClient.detectIntent(request)
             .then(responses => {
                 var response = responses[0];
-                console.log(response.queryResult.parameters);
-
+                
                 var data = {
                     message: response.queryResult.fulfillmentText,
                     action: response.queryResult.action,
@@ -327,8 +326,7 @@ var Init = function(server){
                 };
 
                 //mapeia os parametros
-                if(response.queryResult.parameters && response.queryResult.parameters.fields){
-
+                if(response.queryResult.parameters && response.queryResult.parameters.fields) {
                     var params = new Object();
 
                     Object
@@ -337,17 +335,14 @@ var Init = function(server){
                             params[key] = response.queryResult.parameters.fields[key][response.queryResult.parameters.fields[key]['kind']];
                         });
 
-                    console.log(params);
-
                     data.params = params;
                 }
-                
 
-                var result = Object.assign({},{success: true}, data);
+                var result = Object.assign({}, { success: true }, data);
                 res.json(result);
             })
             .catch(error => {
-                var result = Object.assign({},{success: false}, error);
+                var result = Object.assign({}, { success: false }, error);
                 console.log('deu erro');
                 res.json(result);
             });
