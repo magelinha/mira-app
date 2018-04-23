@@ -31,17 +31,13 @@ var Init = function(server, source) {
 		if(!intentObj)
 		{
 			result = {
-				speech: errorText,
-				displayText: errorText,
-				source: source
+				fulfillmentText: errorText
 			};
 		}
 		else {
 			var speech = intentObj.action(params);
 			result = {
-				speech: speech,
-				displayText: speech,
-				source: source
+				fulfillmentText: speech
 			};
 		}
 
