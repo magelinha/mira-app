@@ -45,6 +45,8 @@ var Init = function(server, source) {
 			};
 		}
 
+		console.log(result);
+
 		return res.json(result);
 	});
 };
