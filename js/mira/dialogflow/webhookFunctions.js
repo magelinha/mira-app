@@ -24,15 +24,12 @@ var Init = function(server, source) {
 
 		console.log(req.body);
 
-		var intentName = req.body.result.intent.displayName;
-		var params = req.body.result.parameters;
-
-		console.log(req.body.result);
+		var intentName = req.body.queryResult.intent.displayName;
+		var params = req.body.queryResult.parameters;
 		
 		var intentObj = getIntent(intentName);
 		if(!intentObj)
 		{
-			var error = ''
 			res.json({
 				speech: errorText,
 				displayText: errorText,
