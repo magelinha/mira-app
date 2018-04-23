@@ -38,8 +38,12 @@ var Init = function(server, source) {
 		}
 
 		var speech = intentObj.action(params);
-		var jsonResult = Object.assign({}, {source: source}, {speech: speech, displayText: speech });
-		res.json(jsonResult);
+		console.log(speech);
+		res.json({
+			speech: speech,
+			displayText: speech,
+			source: source
+		});
 	});
 };
 
