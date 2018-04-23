@@ -36,25 +36,17 @@ var Init = function(server, source) {
 				displayText: errorText,
 				source: source
 			};
-
-			console.log('deu errado');
-			console.log(result);
-			res.json(result);
-
-			return;
+		}
+		else {
+			var speech = intentObj.action(params);
+			result = {
+				speech: speech,
+				displayText: speech,
+				source: source
+			};
 		}
 
-		var speech = intentObj.action(params);
-		result = {
-			speech: speech,
-			displayText: speech,
-			source: source
-		};
-
-		console.log('deu certo');
-		console.log(result);
-
-		res.json(result);
+		return res.json(result);
 	});
 };
 

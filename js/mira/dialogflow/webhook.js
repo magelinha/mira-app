@@ -110,7 +110,7 @@ var Init = function(server){
 	webhookFunctions.AddIntentAction('cardapio.bebidas', function(params) {
 		var speech = "As bebidas são: ";
 		bebidas.forEach(function(bebida){
-			speech += `{bebida.nome} - {formatPrice(bebida.preco)}.`;
+			speech += `${bebida.nome} - ${formatPrice(bebida.preco)}.`;
 		});
 
 		return speech;
@@ -119,7 +119,7 @@ var Init = function(server){
 	webhookFunctions.AddIntentAction('cardapio.sanduices', function(params) {
 		var speech = "Os sanduíches são: ";
 		bebidas.forEach(function(sanduice){
-			speech += `{sanduice.nome} - {formatPrice(sanduice.preco)}.`;
+			speech += `${sanduice.nome} - ${formatPrice(sanduice.preco)}.`;
 		});
 
 		return speech;
@@ -128,7 +128,7 @@ var Init = function(server){
 	webhookFunctions.AddIntentAction('cardapio.combos', function(params) {
 		var speech = "Os combos são: ";
 		bebidas.forEach(function(combo){
-			speech += `{combo.nome} - {formatPrice(combo.preco)}.`;
+			speech += `${combo.nome} - ${formatPrice(combo.preco)}.`;
 		});
 
 		return speech;
