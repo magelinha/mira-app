@@ -26,6 +26,7 @@ var Init = function(server, source) {
 		var params = req.body.queryResult.parameters;
 		
 		var intentObj = getIntent(intentName);
+		console.log(intentName);
 		var result = {};
 
 		if(!intentObj)

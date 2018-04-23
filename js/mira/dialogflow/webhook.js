@@ -125,7 +125,7 @@ var Init = function(server){
 		return speech;
 	});
 
-	webhookFunctions.AddIntentAction('cardapio.sanduices', function(params) {
+	webhookFunctions.AddIntentAction('cardapio.combos', function(params) {
 		var speech = "Os combos são: ";
 		bebidas.forEach(function(combo){
 			speech += `{combo.nome} - {formatPrice(combo.preco)}.`;
