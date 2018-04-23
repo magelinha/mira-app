@@ -41,7 +41,7 @@ const storage = new Storage({
 });
 
 // Makes an authenticated API request.
-/*
+
 storage
   .getBuckets()
   .then((results) => {
@@ -55,7 +55,7 @@ storage
   .catch((err) => {
     console.error('ERROR:', err);
   });
-*/
+
 
 // criando servidor para arquivos estaticos
 server.use(express.static(path.normalize(__dirname + '/../..'),  { maxAge: 60 * 60 * 1000 }));
