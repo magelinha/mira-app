@@ -26,24 +26,34 @@ var Init = function(server, source) {
 		var params = req.body.queryResult.parameters;
 		
 		var intentObj = getIntent(intentName);
+		var result = {};
+
 		if(!intentObj)
 		{
-			res.json({
+			result = {
 				speech: errorText,
 				displayText: errorText,
 				source: source
-			});
+			};
+
+			console.log('deu errado');
+			console.log(result);
+			res.json(result);
 
 			return;
 		}
 
 		var speech = intentObj.action(params);
-		console.log(speech);
-		res.json({
+		result = {
 			speech: speech,
 			displayText: speech,
 			source: source
-		});
+		};
+
+		console.log('deu certo');
+		console.log(result);
+
+		res.json(result);
 	});
 };
 
