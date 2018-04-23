@@ -22,8 +22,6 @@ var Init = function(server, source) {
 	source = source && source.length ? source : "mira-app";
 	server.post('/fastfood', function(req, res){
 
-		console.log(req.body);
-
 		var intentName = req.body.queryResult.intent.displayName;
 		var params = req.body.queryResult.parameters;
 		
@@ -46,7 +44,7 @@ var Init = function(server, source) {
 };
 
 var getIntent = function(intentName){
-	if(!intentName || !intent.length)
+	if(!intentName || !intentName.length)
 		return null;
 
 	intents.find(function(element){
