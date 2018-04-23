@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "newagent-596a4",
+  "private_key_id": "1793e5ed1dd695ce6dbc376ee63aa4033f296fba",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDPaZhTukQFPjNE\np/YiHVcqwC3cUll179VXMaNBsKdhSJ68goTdHh8tD/tMid5wcYCBDBQkCDGhh/yF\nU/1nWx25VkRyz+3WeOJh92KCKAp4e0DHlXFb7xSNYPeB8HljNySfxUSFnneInHnS\nhvU6gfxD8cDf1pxJ6/nv5cGaE1IQ1kVeXC7H+na+kH3Wb3ubn9bYkNMVqv4+xO40\nTa5WITeOSqac40pd9HSqjQSB/nd+Xz14348v1GU2BgCt28e1Cy2dP4PxxwvYjHmK\ntgl55Cmellk7B0kyN8x+MxSJoon73t4Ohr9q9x+Qa44OdNe70XFuR74K62Ml/Pe3\nkRhUibHhAgMBAAECggEAAzoXuTzBhGndcxTgZNM7SRJcnEwJMYcp1O2UJkhc8Evo\nkVMABW8rqcAxBxWxiOMRLmDNWuqoOATFOl9ORtqBbcHgdn9S6lZu4jqOtSrxj8KO\nJVTHQtiHQ7RVoXdH8jHYT2aKrIAEyNKzaAG6xL5jOfzjxO/CNnm2BaQX1SF2EkY1\n9dqOKxDZ8EbY9BeP6Fd5sD3bS4hhct3WbZ2Go28+Iw2DnIwRdYKRIDmAYY8Onhvs\nEKCmYCmwmzP2ik4Z6bpLGMfXK5sJ/ENpOAlGMfOJLN9JyzhlpXNRkKOcwvlkWhn4\n/8tHkfJkkHRuJsX8QzZuxiG1uhvgfFBimOdciMYzIQKBgQD2+q6to4OJMptMc1fO\nHxKCv6Gbp/Kgjv3/kRDDfLz2yRSz39pdO1wbi/NeOpynd492za/MpK+Y1Ru2eAyk\n+B7OG79q6moy373JsBUqsCHWYhbAp/VugBVR+Y+IBUIxHaidEtCYiW8bqRWi6afN\n8LcKuejielMXFdvlJ+RPe5XGUQKBgQDW/PQk/+23ME6kfNra/Hi7pEzDZeSPNh+M\nsyE8VQsasKXKjSkP45nJ/2dghzua8h6Zvt+KmfDKRXfVdPMkKW3YWO++R42oiHp0\n3XxwIkxiIq2wXIn+ozRlH/IQv3ck7dKNflMrT+MWzcJK4HmMLQkEjOS3BDgc0Dt1\nGPWUbvD+kQKBgQCdiVsgYNtHCSOsCSqpzIIXKjrgOal2pp73hEWoHAnAdJSjA5ea\nvoFLBOLwaPyBia7V/e8z3pwvJUfvBPYzyByGJYbcoLeqybKaUpm9x+ldgOW4b6oK\nmOKAjmnyPkBxadSilFy/33Iit6CYcOfbYb6vtdQJmjMj14qSyfZEiLUJcQKBgAnz\nEPV5Zq34rVsNcC98SbYdZ3QPjiFWluUzERGyud3VWQbju4fBt8dSa51bBNYp6GKj\nI8NNVoh16JLXY71DsZK2ovnCY/rtvgUUjwK9g51zD2i/D5/aO72GWfSOd9wcqYbk\n1sKFYvQWN6yxcM6c8vLj9l3F8zbaKDZGHm9tJvgRAoGAfYLJMgynvhQg7d+WaP8j\n2EPcYVJFsBsWqYyYDN03m2tEG9flqPKvdHfUMLWvLGs8PXG7g9Y5wLTUqfFvlLaB\noFpWuTGSTZbCzq1iGk3MumSI+N7m4g/HMSbzmnbzMHtI039W/h6uKy4a+buSyQYX\niroEJdk+T+UUURiuIMTkj/I=\n-----END PRIVATE KEY-----\n",
+  "client_email": "fastfoodservice@newagent-596a4.iam.gserviceaccount.com",
+  "client_id": "108009139932099892855",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/fastfoodservice%40newagent-596a4.iam.gserviceaccount.com"
+}

@@ -5,6 +5,5 @@ node_modules
 npm-debug.log
 command.bat
 /docs/site
-/js/mira/dialogflow/keys
 documentacao
 temp

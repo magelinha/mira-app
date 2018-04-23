@@ -28,7 +28,8 @@
     "uuid-v4": "latest",
     "body-parser": "latest",
     "zip-dir": "latest",
-    "rimraf":"latest"
+    "rimraf":"latest",
+    "@google-cloud/storage": "latest"
   },
   "devDependencies": {},
   "repository": {
