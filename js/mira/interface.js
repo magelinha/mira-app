@@ -40,7 +40,7 @@ define([
             this.concrete.buildHead($head, this.model, this.$env);
             this.abstract.getHtml(this.$el, this.concrete, this.model, this.$env);
                 
-
+            appApi.InitialMessage(`welcome-${this.abstract.get('name')}`);
             return this;
         }
 

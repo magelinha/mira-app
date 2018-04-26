@@ -442,11 +442,17 @@ ActionAPI.SpeechAction.prototype.Init = function() {
             appApi.canTTS = !appApi.canTTS;
         }
     });
-
-    this.tts("Teste inicial");
 };
 
+ActionAPI.SpeechAction.prototype.InitialMessage = function(welcomeIntent) {
+    var _this = this;
+    var config = {
+        projectId: _this.projectId,
+        intentName: welcomeIntent
+    };
 
+    _this.AjaxRequest('POST', '/landing', config, null,  function(data){    
+}
 
 //Métodos a serem executados pelo APP
 window.NextItem = function(){

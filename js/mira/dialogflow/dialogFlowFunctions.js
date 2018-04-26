@@ -128,6 +128,17 @@ function ClearEntityTypes(projectId) {
     });
 }
 
+function GetIntent(projectId, intentName){
+    let promise;
+
+    promise = ListIntents(projectId)
+        .then(intents => {
+            return intents.find(intent => {
+                return intent.name == intentName;
+            })
+        });
+}
+
 function RegisterEntityTypes(projectId, entities){
     var promises = [];
 
@@ -345,6 +356,25 @@ var Init = function(server){
                 var result = Object.assign({}, { success: false }, error);
                 console.log('deu erro');
                 res.json(result);
+            });
+    });
+
+    server.post("/initial-message", function(req, res) {
+        
+        var intentName = req.body.intentName;
+
+        let promise;
+        promise = GetIntent(req.body.projectId, intentName);
+
+        promise
+            .then(response => {
+                res.json({
+                    success: true,
+                    initialMessage: response.messages[0].text[0] 
+                });
+            })
+            .catch(error => {
+                res.json(res.json(Object.assign({}, {success: true}, error)));  
             });
     });
 
