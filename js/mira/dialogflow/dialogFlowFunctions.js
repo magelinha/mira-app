@@ -117,6 +117,26 @@ function ListEntityTypes(projectId) {
         });
 }
 
+function ListIntents(projectId){
+    const intentsClient = new dialogflow.IntentsClient();
+    const agentPath = intentsClient.projectAgentPath(projectId);
+
+    const request = {
+        parent: agentPath
+    };
+
+    console.log(request);
+
+    return intentsClient.listIntents(request)
+        .then(responses => {
+            return responses[0];
+        })
+        .catch(error => {
+            console.error("Error ao acessar intenções", error);
+        });
+
+}
+
 function ClearEntityTypes(projectId) {
     // List all entity types then delete all of them.
     return ListEntityTypes(projectId).then(entityTypes => {
@@ -129,12 +149,10 @@ function ClearEntityTypes(projectId) {
 }
 
 function GetIntent(projectId, intentName){
-    let promise;
-
-    promise = ListIntents(projectId)
+    return  ListIntents(projectId)
         .then(intents => {
             return intents.find(intent => {
-                return intent.name == intentName;
+                return intent.displayName == intentName;
             })
         });
 }
@@ -347,7 +365,7 @@ var Init = function(server){
                         });
 
                     data.params = params;
-                }
+                }                
 
                 var result = Object.assign({}, { success: true }, data);
                 res.json(result);
@@ -367,14 +385,14 @@ var Init = function(server){
         promise = GetIntent(req.body.projectId, intentName);
 
         promise
-            .then(response => {
+            .then(intent => {
                 res.json({
                     success: true,
-                    initialMessage: response.messages[0].text[0] 
+                    initialMessage: intent.messages[0].text.text[0]
                 });
             })
             .catch(error => {
-                res.json(res.json(Object.assign({}, {success: true}, error)));  
+                res.json(Object.assign({}, {success: false}, error));  
             });
     });
 

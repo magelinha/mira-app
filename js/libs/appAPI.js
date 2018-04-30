@@ -229,13 +229,12 @@ ActionAPI.SpeechAction.prototype.startRecording = function(){
         console.log('parou a gravação');
         _this.stopRecording(true);
 
-    }, 5000);
+    }, 3000);
 };
 
 ActionAPI.SpeechAction.prototype.stopRecording = function(toExport) {
     var _this = this;
     _this.recorder.stop();
-    _this.audioStream.getAudioTracks()[0].stop();
 
     if(toExport) {
         //Cria a requisição
@@ -264,9 +263,8 @@ ActionAPI.SpeechAction.prototype.stopRecording = function(toExport) {
                     
                     if (data.success && data.action && data.action.length)
                         _this.executeCommand(data.action, data.params);
-
-                    _this.tts(data.message);
-
+                        
+                    data.message.length ? _this.tts(data.message) : _this.startRecording();
                 });
             };
 
@@ -451,7 +449,12 @@ ActionAPI.SpeechAction.prototype.InitialMessage = function(welcomeIntent) {
         intentName: welcomeIntent
     };
 
-    _this.AjaxRequest('POST', '/landing', config, null,  function(data){    
+    _this.AjaxRequest('POST', '/initial-message', config, null,  function(data){
+        if(data.success){
+            console.log(data);
+            _this.tts(data.initialMessage);
+        }
+    });
 }
 
 //Métodos a serem executados pelo APP
