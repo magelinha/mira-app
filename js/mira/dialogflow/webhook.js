@@ -135,6 +135,12 @@ var Init = function(server){
 
 		return speech;
 	});
+
+	webhookFunctions.AddIntentAction('valor-alterado', function(params) {
+		console.log(params);
+		var speech = "Os combos são: ";
+		return "";
+	});
 };
 
 module.exports = {
