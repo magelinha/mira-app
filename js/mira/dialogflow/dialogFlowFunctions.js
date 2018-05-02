@@ -42,7 +42,7 @@ function DetectTextIntent(projectId, query, languageCode) {
 function DetectEventIntent(projectId, eventName, languageCode, params) {
     // The path to identify the agent that owns the created intent.
     const sessionPath = sessionClient.sessionPath(projectId, sessionId);
-
+    
     // The text query request.
     const request = {
         session: sessionPath,
@@ -54,10 +54,10 @@ function DetectEventIntent(projectId, eventName, languageCode, params) {
             },
         },
     };
-
-    let promise;
     
-    promise = sessionClient.detectIntent(request);
+    console.log(request);
+
+    return sessionClient.detectIntent(request);
 }
 
 
@@ -317,9 +317,19 @@ var Init = function(server){
 
     server.post("/event", function(req, res) {
 
+        console.log('parametros');
+        var params = {};
+        Object.keys(req.body).forEach(key => {
+            if(key == 'projectId' ||key == 'eventName' || key == 'lang')
+                return;
+            params[key] = req.body[key];
+        });
+
+        console.log(params);
+
         //Retorna a requisição vinda do dialogFlow
         let promise;
-        promise = DetectEventIntent(req.body.projectId, req.body.eventName, req.body.lang, req.body.params);
+        promise = DetectEventIntent(req.body.projectId, req.body.eventName, req.body.lang, params);
         promise
             .then(response => {
                 res.json(Object.assign({},{success: true},response));

@@ -312,25 +312,20 @@ ActionAPI.SpeechAction.prototype.CallRequestEvent = function(eventName, params){
     var data = {
       projectId: _this.projectId,
       lang: _this.currentLanguage,
-      eventName: eventName,
-      params:  params
+      eventName: eventName
     };
+
+    if(params){
+        data = Object.assign({}, data, params);
+    }
+
+    console.log(data);
     
     _this.AjaxRequest('POST', '/event', data, null, function(response){
-        /*
-        *Aqui será recebido um objeto no modelo 
-        *{
-        *   action: '',
-        *   message: '',
-        *   params: {},
-        *   queryText: ''
-        *}
-        */
-        
         if (response.success && response.action && response.action.length)
             _this.executeCommand(response.action, response.params);
             
-        if(response.message.length)
+        if(response.message && response.message.length)
             _this.tts(response.message);
     });
 }

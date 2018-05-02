@@ -503,11 +503,11 @@ var landingConcreta =
         { name: "cardapio", widget: "WaiSelect", class:'form-control', events: { change: "AlterarValor" } },
         { name: "empty_value", widget: "WaiOption", tag: "option", value: "0", text: ""},
         { name: "sanduiches", tag:"optgroup", label:"Sanduíches" },
-        { name: "sanduiche", tag:"option", widget:"WaiOption", value:"$data.id", text:"sprintf('%s - %s', $data.nome, $data.preco.formatMoney())" },
+        { name: "sanduiche", tag:"option", widget:"WaiOption", value:"$data.id", text:"$data.nome" },
         { name: "bebidas", tag:"optgroup", label:"Bebidas" },
-        { name: "bebida", tag:"option", widget:"WaiOption", value:"$data.id", text:"sprintf('%s - %s', $data.nome, $data.preco.formatMoney())" },
+        { name: "bebida", tag:"option", widget:"WaiOption", value:"$data.id", text:"$data.nome" },
         { name: "combos", tag:"optgroup", label:"Combos" },
-        { name: "combo", tag:"option", widget:"WaiOption", value:"$data.id", text:"sprintf('%s - %s', $data.nome, $data.preco.formatMoney())" },
+        { name: "combo", tag:"option", widget:"WaiOption", value:"$data.id", text:"$data.nome" },
 
         { name: "label-quantidade", tag: 'label', for:"quantidade", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Quantidade" },
         { name: "quantidade", widget: "WaiInput", events:{ change: "AlterarValor"} },
@@ -1110,6 +1110,41 @@ if(typeof define === 'function') {
                 window.appApi.CallRequestEvent("valor-alterado", params);
             };
 
+            window.SetValueItem = function(options){
+                var value = "";
+                for(var key in options){
+                    if(options[key] && options[key].length){
+                        value = options[key];
+                        break;
+                    }
+                }
+
+                var params = {
+                    cardapio: value
+                };
+
+                SetValue(params);
+            };
+
+            window.SetValueItemQuantidade = function(options){
+                var value = "";
+                for(var key in options){
+                    if(key == "quantidade")
+                        continue;
+
+                    if(options[key] && options[key].length){
+                        value = options[key];
+                        break;
+                    }
+                }
+
+                var params = {
+                    cardapio: value,
+                    quantidade: options.quantidade
+                };
+
+                SetValue(params);
+            };
         };
     });
 } else {
