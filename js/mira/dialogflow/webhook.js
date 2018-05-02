@@ -136,6 +136,19 @@ var Init = function(server){
 		return speech;
 	});
 
+	webhookFunctions.AddIntentAction('efetuar-pedido.item', function(params) {
+		console.log(params);
+		var value = "";
+		for(var key in params){
+			if(params[key] && params[key].length){
+				value = params[key];
+				break;
+			}
+		}
+
+		return `Entendi. Você quer ${value}`;
+	});
+
 	webhookFunctions.AddIntentAction('valor-alterado', function(params) {
 		console.log(params);
 		var speech = "Os combos são: ";

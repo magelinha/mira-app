@@ -319,7 +319,7 @@ var Init = function(server){
 
         //Retorna a requisição vinda do dialogFlow
         let promise;
-        promise = detectEventIntent(req.body.projectId, req.body.eventName, req.body.lang, req.body.params);
+        promise = DetectEventIntent(req.body.projectId, req.body.eventName, req.body.lang, req.body.params);
         promise
             .then(response => {
                 res.json(Object.assign({},{success: true},response));
