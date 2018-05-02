@@ -150,9 +150,20 @@ var Init = function(server){
 	});
 
 	webhookFunctions.AddIntentAction('valor-alterado', function(params) {
-		console.log(params);
-		var speech = "Os combos são: ";
-		return "";
+		var fieldItem = params["field-item"];
+		var fieldQuantidade = params["field-quantidade"];
+		
+		//Se preencher ambos os campos, então inclui o pedido na lista
+		if(fieldItem && fieldQuantidade){
+			return "";	
+		}
+
+		//Se um dos campos estiver preenchido, informa qual campo falta preencher
+		if(fieldItem){
+			return "informe a quantidade desejada.";
+		}
+
+		return "Informe o item desejado."
 	});
 };
 
