@@ -126,7 +126,6 @@ var Init = function(server){
 	});
 
 	webhookFunctions.AddIntentAction('cardapio.combos', function(params) {
-		console.log(params);
 		var speech = "Os combos são: ";
 
 		combos.forEach(function(combo){
@@ -137,7 +136,6 @@ var Init = function(server){
 	});
 
 	webhookFunctions.AddIntentAction('efetuar-pedido.item', function(params) {
-		console.log(params);
 		var value = "";
 		for(var key in params){
 			if(params[key] && params[key].length){
@@ -150,6 +148,7 @@ var Init = function(server){
 	});
 
 	webhookFunctions.AddIntentAction('valor-alterado', function(params) {
+		console.log('parametros do valor alterado');
 		console.log(params);
 		
 		var fieldItem = parseInt(params["item"]);
