@@ -50,7 +50,6 @@ var getIntent = function(intentName){
 		return null;
 
 	return intents.find(function(element){
-		console.log(element, intentName);
 		return element.intent == intentName
 	});
 };
