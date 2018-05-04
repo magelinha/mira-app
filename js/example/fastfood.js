@@ -1107,6 +1107,8 @@ if(typeof define === 'function') {
                     "quantidade": fieldQuantidade
                 };
 
+                console.log(params);
+
                 window.appApi.CallRequestEvent("valor-alterado", params);
             };
 

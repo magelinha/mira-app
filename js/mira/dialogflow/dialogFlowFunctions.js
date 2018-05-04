@@ -52,11 +52,9 @@ function DetectEventIntent(projectId, eventName, languageCode, params) {
                 parameters: structjson.jsonToStructProto(params || {}),
                 languageCode: languageCode,
             },
-        },
+        }
     };
-
-    console.log(request.queryInput.event.parameters);
-
+    
     return sessionClient.detectIntent(request);
 }
 
@@ -308,6 +306,22 @@ var RequestTextIntent = function(params){
     return  DetectTextIntent(params.projectId, params.text, params.lang);
 }
 
+var  proccessResponse = function(response){
+    
+    var data = {
+        message: response.queryResult.fulfillmentText,
+        action: response.queryResult.action,
+        queryText: response.queryResult.queryText //Apenas para debug
+    };
+
+    //mapeia os parametros
+    if(response.queryResult.parameters && response.queryResult.parameters.fields) {
+        data.params = structjson.structProtoToJson(response.queryResult.parameters);
+    }                
+
+    return Object.assign({}, { success: true }, data);
+}
+
 
 var Init = function(server){
     /************************* Criação das requisições ****************************/
@@ -325,14 +339,14 @@ var Init = function(server){
             params[key] = req.body[key];
         });
 
-        console.log(params);
-
         //Retorna a requisição vinda do dialogFlow
         let promise;
         promise = DetectEventIntent(req.body.projectId, req.body.eventName, req.body.lang, params);
         promise
             .then(response => {
-                res.json(Object.assign({},{success: true},response[0]));
+                console.log(response[0]);
+                var result = proccessResponse(response[0]);
+                res.json(result);
             }).catch(error => {
                 res.json(Object.assign({},{success: true},error));
             });
@@ -356,28 +370,7 @@ var Init = function(server){
 
         sessionClient.detectIntent(request)
             .then(responses => {
-                var response = responses[0];
-                
-                var data = {
-                    message: response.queryResult.fulfillmentText,
-                    action: response.queryResult.action,
-                    queryText: response.queryResult.queryText //Apenas para debug
-                };
-
-                //mapeia os parametros
-                if(response.queryResult.parameters && response.queryResult.parameters.fields) {
-                    var params = new Object();
-
-                    Object
-                        .keys(response.queryResult.parameters.fields)
-                        .map(function(key){
-                            params[key] = response.queryResult.parameters.fields[key][response.queryResult.parameters.fields[key]['kind']];
-                        });
-
-                    data.params = params;
-                }                
-
-                var result = Object.assign({}, { success: true }, data);
+                var result = proccessResponse(responses[0]);
                 res.json(result);
             })
             .catch(error => {

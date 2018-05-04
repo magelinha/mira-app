@@ -21,7 +21,6 @@ var AddIntentAction = function (intent, action) {
 var Init = function(server, source) {
 	source = source || "mira-app";
 	server.post('/fastfood', function(req, res){
-
 		var intentName = req.body.queryResult.intent.displayName;
 		var params = req.body.queryResult.parameters;
 		
