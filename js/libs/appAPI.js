@@ -318,8 +318,6 @@ ActionAPI.SpeechAction.prototype.CallRequestEvent = function(eventName, params){
     if(params){
         data = Object.assign({}, data, params);
     }
-
-    console.log(data);
     
     _this.AjaxRequest('POST', '/event', data, null, function(response){
         if (response.success && response.action && response.action.length)

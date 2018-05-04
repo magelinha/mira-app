@@ -44,8 +44,6 @@ const JSON_SIMPLE_VALUE_KINDS = new Set([
 function jsonValueToProto(value) {
   const valueProto = {};
 
-  console.log(value, typeof(value));
-
   if (value === null) {
     valueProto.kind = 'nullValue';
     valueProto.nullValue = 'NULL_VALUE';
@@ -62,6 +60,7 @@ function jsonValueToProto(value) {
   } else {
     console.warn('Unsupported value type ', typeof value);
   }
+
   return valueProto;
 }
 

@@ -1103,8 +1103,8 @@ if(typeof define === 'function') {
                 var fieldQuantidade = $("#quantidade").val().length;
 
                 var params = {
-                    "field-item": fieldItem,
-                    "field-quantidade": fieldQuantidade
+                    "item": fieldItem,
+                    "quantidade": fieldQuantidade
                 };
 
                 window.appApi.CallRequestEvent("valor-alterado", params);

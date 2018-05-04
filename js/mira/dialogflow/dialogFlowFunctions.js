@@ -54,8 +54,8 @@ function DetectEventIntent(projectId, eventName, languageCode, params) {
             },
         },
     };
-    
-    console.log(request);
+
+    console.log(request.queryInput.event.parameters);
 
     return sessionClient.detectIntent(request);
 }
@@ -332,7 +332,7 @@ var Init = function(server){
         promise = DetectEventIntent(req.body.projectId, req.body.eventName, req.body.lang, params);
         promise
             .then(response => {
-                res.json(Object.assign({},{success: true},response));
+                res.json(Object.assign({},{success: true},response[0]));
             }).catch(error => {
                 res.json(Object.assign({},{success: true},error));
             });

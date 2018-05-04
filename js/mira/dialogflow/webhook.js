@@ -152,8 +152,8 @@ var Init = function(server){
 	webhookFunctions.AddIntentAction('valor-alterado', function(params) {
 		console.log(params);
 		
-		var fieldItem = parseInt(params["field-item"]);
-		var fieldQuantidade = parseInt(params["field-quantidade"]);
+		var fieldItem = parseInt(params["item"]);
+		var fieldQuantidade = parseInt(params["quantidade"]);
 		
 		//Se preencher ambos os campos, então inclui o pedido na lista
 		if(fieldItem && fieldQuantidade){
