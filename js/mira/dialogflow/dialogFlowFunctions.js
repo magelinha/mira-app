@@ -55,6 +55,8 @@ function DetectEventIntent(projectId, eventName, languageCode, params) {
         }
     };
     
+    console.log(request);
+    
     return sessionClient.detectIntent(request);
 }
 
@@ -344,7 +346,6 @@ var Init = function(server){
         promise = DetectEventIntent(req.body.projectId, req.body.eventName, req.body.lang, params);
         promise
             .then(response => {
-                console.log(response[0]);
                 var result = proccessResponse(response[0]);
                 res.json(result);
             }).catch(error => {

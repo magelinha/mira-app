@@ -147,24 +147,14 @@ var Init = function(server){
 		return `Entendi. Você quer ${value}`;
 	});
 
-	webhookFunctions.AddIntentAction('valor-alterado', function(params) {
-		console.log('parametros do valor alterado');
-		console.log(params);
-		
-		var fieldItem = parseInt(params["item"]);
-		var fieldQuantidade = parseInt(params["quantidade"]);
-		
-		//Se preencher ambos os campos, então inclui o pedido na lista
-		if(fieldItem && fieldQuantidade){
-			return "";	
-		}
 
-		//Se um dos campos estiver preenchido, informa qual campo falta preencher
-		if(fieldItem){
-			return "informe a quantidade desejada.";
-		}
-
-		return "Informe o item desejado."
+	webhookFunctions.AddIntentAction('efetuar-pedido.item-quantidade', function(params){
+		var quantidade = parseInt(params.quantidade);
+		var item = params.item;
+		
+		return 
+			quantidade > 1 ? `${quantidade} unidades do item ${item} foram adicionados no pedido` :
+			`${quantidade} unidade do item ${item} foi adicionada no pedido`;
 	});
 };
 
