@@ -152,8 +152,8 @@ var Init = function(server){
 		console.log(params);
 		
 		var quantidade = parseInt(params.quantidade);
-		var item = params.item;
-
+		var item = params.item.combo || params.item.bebida || params.item.sanduice;
+		console.log(item);
 		return 
 			quantidade > 1 ? `${quantidade} unidades do item ${item} foram adicionados no pedido` :
 			`${quantidade} unidade do item ${item} foi adicionada no pedido`;
