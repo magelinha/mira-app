@@ -151,12 +151,19 @@ var Init = function(server){
 	webhookFunctions.AddIntentAction('efetuar-pedido.item-quantidade', function(params){
 		console.log(params);
 		
-		var quantidade = parseInt(params.quantidade);
-		var item = params.item.combo || params.item.bebida || params.item.sanduice;
+		var quantidade = params.quantidade;
+		var item = '';
+		if(params.item){
+			Object.keys(params.item).forEach(key => {
+				if(params.item[key])
+					item = params.item[key];
+			});
+		}
+		
 		console.log(item);
 		return 
-			quantidade > 1 ? `${quantidade} unidades do item ${item} foram adicionados no pedido` :
-			`${quantidade} unidade do item ${item} foi adicionada no pedido`;
+			quantidade > 1 ? `Entendi. Você quer ${quantidade} unidades do item ${item}.` :
+			`Entendi. Você quer ${quantidade} unidade do item ${item}.`;
 	});
 };
 
