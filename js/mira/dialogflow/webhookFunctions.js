@@ -23,6 +23,7 @@ var Init = function(server, source) {
 	server.post('/fastfood', function(req, res){
 		var intentName = req.body.queryResult.intent.displayName;
 		var params = req.body.queryResult.parameters;
+		var currentText = req.body.queryResult.fulfillmentText;
 		
 		var intentObj = getIntent(intentName);
 		var result = {};
@@ -35,6 +36,9 @@ var Init = function(server, source) {
 		}
 		else {
 			var speech = intentObj.action(params);
+			if(!speech || !speech.length)
+				speech = currentText;
+				
 			result = {
 				fulfillmentText: speech
 			};

@@ -1,6 +1,8 @@
 "use strict";
 
 var webhookFunctions = require('./webhookFunctions');
+var jsonfile = require('jsonfile');
+var pathPedidos = '../../data/pedidos.json';
 
 const bebidas = 
 [
@@ -103,6 +105,65 @@ var formatPrice = function(param){
     }
 
     return text;
+};
+
+var novoPedido = function(){
+	//Faz a leitura do arquivo
+	pedidos = jsonfile.writeFileSync(pathPedidos, {itens:[]});
+};
+
+var getItem = function(nome, tipo){
+	var toSearch = [];
+	if(tipo == 'bebidas'){
+		toSearch = bebidas;
+	} else if(tipo == 'sanduiches'){
+		toSearch = sanduices;
+	}
+	else{
+		toSearch = combos;
+	}
+
+	return toSearch.find(it => it.nome == nome);
+}
+
+var getPedidos = function(){
+	return jsonfile.readFileSync(pathPedidos);
+}
+
+var setPedidos = function(pedidos){
+	return jsonfile.writeFileSync(pathPedidos, pedidos);
+}
+
+var removeItem = function(item){
+	//busca do parâmetro qual o item a ser removido
+	var item = '';
+	var tipo = typeof(params.item);
+	if(tipo === 'object'){
+		Object.keys(params.item).forEach(key => {
+			if(params.item[key])
+				item = params.item[key];
+		});
+	} else if(tipo === 'string'){
+		item = params.item;
+	}
+
+	//faz a leitura do arquivo para verificar quais os itens do pedido
+	var pedidos = jsonfile.readFileSync(pathPedidos);
+	
+	//verifica se o item a ser excluído está no pedido
+	var exists = pedidos.itens.find(it => it.nome == item);
+
+	//Se não encontrou o item, informa para o usuário
+	if(!exists)
+		return `O item ${item} não foi encontrado na lista de pedidos`;
+	
+	//caso tenha encontrado, remove da lista
+	pedidos.itens.filter(it => it.nome == item)
+
+	//reescreve no arquivo json
+	jsonfile.writeFileSync(pathPedidos, pedidos);
+
+	return item;
 }
 
 var Init = function(server){
@@ -149,22 +210,81 @@ var Init = function(server){
 
 
 	webhookFunctions.AddIntentAction('efetuar-pedido.item-quantidade', function(params){
+		
 		console.log(params);
 		
 		var quantidade = params.quantidade;
+		var nome = '';
+		var tipo = '';
+
+		if(!params.item)
+			return;
+
+		Object.keys(params.item).forEach(key => {
+			if(params.item[key]){
+				nome = params.item[key];
+				tipo = key;
+				return;
+			}
+		});
+		
+		//Adiciona o item no pedido
+		var item = getItem(nome, tipo);
+		
+		var pedidos = getPedidos();
+
+		//verifica se já existe algum item na lista
+		var index = pedidos.itens.findIndex(it => it.nome == item.nome);
+		if(index >= 0){
+			pedidos.itens[index].quantidade += quantidade;
+			pedidos.itens[index].total = pedidos.itens[index].preco * quantidade;
+		}
+		else{
+			var toAdd = Object.assign({}, item, {quantidade: quantidade, total: item.preco * quantidade});
+			pedidos.itens.push(toAdd);
+		}
+		
+		setPedidos(pedidos);
+
+		return 
+			quantidade > 1 ? `Entendi. Você quer ${quantidade} unidades do item ${item}.` :
+			`Entendi. Você quer ${quantidade} unidade do item ${item}.`;
+	});
+
+	webhookFunctions.AddIntentAction('welcome-landing', function(params){
+		novoPedido();
+	});
+
+	webhookFunctions.AddIntentAction('pedido.novo-pedido', function(params){
+		novoPedido();
+	});
+
+	webhookFunctions.AddIntentAction('pedido.alterar-item', function(params){
 		var item = '';
 		if(params.item){
 			Object.keys(params.item).forEach(key => {
 				if(params.item[key])
 					item = params.item[key];
 			});
-		}
-		
-		console.log(item);
-		return 
-			quantidade > 1 ? `Entendi. Você quer ${quantidade} unidades do item ${item}.` :
-			`Entendi. Você quer ${quantidade} unidade do item ${item}.`;
+		};
+
+		return `Vamos alterar o item ${item}. Qual a nova quantidade desejada?`;
 	});
+
+	webhookFunctions.AddIntentAction('pedido.excluir-item-especifico', function(params){
+		var item = removeItem(params.item);
+
+		//Informa ao usuário que o item foi removido com sucesso
+		return `O item ${item} foi removido do pedido.`;
+	});
+
+	webhookFunctions.AddIntentAction('pedido.excluir-item', function(params){
+		var item = removeItem(params.item);
+
+		//Informa ao usuário que o item foi removido com sucesso
+		return `O item ${item} foi removido do pedido.`;
+	});
+
 };
 
 module.exports = {
