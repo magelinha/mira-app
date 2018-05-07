@@ -259,7 +259,7 @@ var Init = function(server){
 		novoPedido();
 	});
 
-	webhookFunctions.AddIntentAction('pedido.alterar-item', function(params){
+	webhookFunctions.AddIntentAction('pedido.alterar-item-event', function(params){
 		var item = '';
 		if(params.item){
 			Object.keys(params.item).forEach(key => {
