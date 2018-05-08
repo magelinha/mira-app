@@ -23,7 +23,7 @@ var BaseURL = '';
 var Init = function(server, source) {
 	source = source || "mira-app";
 	server.post('/fastfood', function(req, res){
-		BaseURL = req.hostname;
+		BaseURL = 'https://mira-app.herokuapp.com/';
 
 		var intentName = req.body.queryResult.intent.displayName;
 		var params = req.body.queryResult.parameters;

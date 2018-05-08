@@ -167,7 +167,7 @@ var removeItem = function(item){
 
 var Init = function(server){
 	webhookFunctions.Init(server);
-	pathPedidos = webhookFunctions.BaseURL + '/data/pedidos.json';
+	pathPedidos = webhookFunctions.BaseURL + 'data/pedidos.json';
 
 	webhookFunctions.AddIntentAction('cardapio.bebidas', function(params) {
 		var speech = "As bebidas são: ";
