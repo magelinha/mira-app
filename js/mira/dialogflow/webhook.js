@@ -278,11 +278,22 @@ var Init = function(server){
 		return `O item ${item} foi removido do pedido.`;
 	});
 
-	webhookFunctions.AddIntentAction('pedido.excluir-item', function(params){
+	webhookFunctions.AddIntentAction('pedido.excluir-item-event', function(params){
 		var item = removeItem(params.item);
 
 		//Informa ao usuário que o item foi removido com sucesso
 		return `O item ${item} foi removido do pedido.`;
+	});
+	
+
+	webhookFunctions.AddIntentAction('pedido.total', function(params){
+		var pedidos = getPedidos();
+		var total = 0; 
+		pedidos.itens.forEach(item => total += item.total);
+
+		var totalMoeda = formatPrice(total);
+
+		return `O total do pedido é ${totalMoeda}`;
 	});
 
 };
