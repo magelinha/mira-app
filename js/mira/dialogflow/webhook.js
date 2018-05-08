@@ -1,8 +1,7 @@
 "use strict";
-
 var webhookFunctions = require('./webhookFunctions');
 var jsonfile = require('jsonfile');
-var pathPedidos = '../../data/pedidos.json';
+var pathPedidos = '';
 
 const bebidas = 
 [
@@ -168,6 +167,8 @@ var removeItem = function(item){
 
 var Init = function(server){
 	webhookFunctions.Init(server);
+	pathPedidos = webhookFunctions.BaseURL + '/data/pedidos.json';
+
 	webhookFunctions.AddIntentAction('cardapio.bebidas', function(params) {
 		var speech = "As bebidas são: ";
 		bebidas.forEach(function(bebida){

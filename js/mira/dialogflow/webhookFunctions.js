@@ -18,9 +18,13 @@ var AddIntentAction = function (intent, action) {
 	intents.push(obj);
 };
 
+var BaseURL = '';
+
 var Init = function(server, source) {
 	source = source || "mira-app";
 	server.post('/fastfood', function(req, res){
+		BaseURL = req.hostname;
+
 		var intentName = req.body.queryResult.intent.displayName;
 		var params = req.body.queryResult.parameters;
 		var currentText = req.body.queryResult.fulfillmentText;
@@ -59,5 +63,6 @@ var getIntent = function(intentName){
 
 module.exports = {
 	AddIntentAction,
-    Init
+	Init,
+	BaseURL
 };
