@@ -29,6 +29,7 @@
     "body-parser": "latest",
     "zip-dir": "latest",
     "rimraf":"latest",
+    "jsonfile": "latest",
     "@google-cloud/storage": "latest"
   },
   "devDependencies": {},

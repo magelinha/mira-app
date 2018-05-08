@@ -452,19 +452,9 @@ ActionAPI.SpeechAction.prototype.Init = function() {
     });
 };
 
-ActionAPI.SpeechAction.prototype.InitialMessage = function(welcomeIntent) {
+ActionAPI.SpeechAction.prototype.InitialMessage = function(welcomeEvent) {
     var _this = this;
-    var config = {
-        projectId: _this.projectId,
-        intentName: welcomeIntent
-    };
-
-    _this.AjaxRequest('POST', '/initial-message', config, null,  function(data){
-        if(data.success){
-            console.log(data);
-            _this.tts(data.initialMessage);
-        }
-    });
+    _this.CallRequestEvent(welcomeEvent);
 }
 
 //Métodos a serem executados pelo APP
