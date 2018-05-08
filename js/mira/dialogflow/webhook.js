@@ -107,8 +107,8 @@ var formatPrice = function(param){
 };
 
 var novoPedido = function(){
-	//Faz a leitura do arquivo
-	pedidos = jsonfile.writeFileSync(pathPedidos, {itens:[]});
+	var pedidos = { itens:[] };
+	setPedidos(pedidos);
 };
 
 var getItem = function(nome, tipo){
