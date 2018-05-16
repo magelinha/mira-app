@@ -139,7 +139,7 @@ ActionAPI.SpeechAction = function(conf){
     this.limitRecorder = 5;
 
     //Controle de audio capitado do microfone
-    this.audioContext = new AudioContext;
+    this.audioContext = null;
     this.audioStream = null;
 
     //Renponsável por transformar o audio em blob
@@ -196,6 +196,7 @@ ActionAPI.SpeechAction = function(conf){
     this.MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
     this.observer = null;
     this.speak = null;
+    this.currentContext = [];
 };
 
 /*
@@ -207,22 +208,31 @@ ActionAPI.SpeechAction.prototype.tts = function(text){
     if(!text.length || !this.canTTS)
         return;
 
-    if(this.recorder)
+
+    if(this.recorder){
         _this.stopRecording(false);
+    }
+    else{
+        console.log('ainda não carregou o recording');
+    }
 
     _this.lastText = text;
 
     speechRs.speechinit('Google português do Brasil',function(e){
         speechRs.speak(text, function() {
-            if(_this.recorder)
+            if(_this.recorder){
                 _this.startRecording();
+            }
+                
         }, false);     
      });
 }
 
 ActionAPI.SpeechAction.prototype.startRecording = function(){
     var _this = this;
+
     _this.recorder.record();
+
     console.log('iniciou a gravação');    
 
     setTimeout(function(){
@@ -247,7 +257,8 @@ ActionAPI.SpeechAction.prototype.stopRecording = function(toExport) {
                     rate: _this.audioContext.sampleRate,
                     audio: audio,
                     projectId: _this.projectId,
-                    language: _this.currentLanguage
+                    language: _this.currentLanguage,
+                    context: _this.currentContext
                 };
                 
                 _this.AjaxRequest('POST', '/audio', config, null,  function(data){
@@ -261,18 +272,25 @@ ActionAPI.SpeechAction.prototype.stopRecording = function(toExport) {
                     *}
                     */
                     
+                    //Caso tenha falado algo, seta a contexto do resultado
+                    if(data.queryText && data.queryText.length){
+                        _this.currentContext = data.context
+                    }
+
+
                     if (data.success && data.action && data.action.length)
                         _this.executeCommand(data.action, data.params);
                         
+                    
                     data.message.length ? _this.tts(data.message) : _this.startRecording();
                 });
             };
 
             reader.readAsBinaryString(blob);
         }, "audio/wav");
-    }
 
-    _this.recorder.clear();  
+        _this.recorder.clear();
+    } 
 };
 
 /*
@@ -284,8 +302,8 @@ ActionAPI.SpeechAction.prototype.InitRecorder = function(){
     navigator.mediaDevices
         .getUserMedia({video:false, audio: true})
         .then(stream => {
+            this.audioContext = new AudioContext();
             _this.audioStream = stream;
-
             var mic = _this.audioContext.createMediaStreamSource(stream);
             _this.recorder = new Recorder(mic, {
                 workerPath: 'js/libs/recorderWorker.js'
@@ -312,7 +330,8 @@ ActionAPI.SpeechAction.prototype.CallRequestEvent = function(eventName, params){
     var data = {
       projectId: _this.projectId,
       lang: _this.currentLanguage,
-      eventName: eventName
+      eventName: eventName,
+      context: _this.currentContext
     };
 
     if(params){
@@ -554,7 +573,7 @@ window.SetValue = function(params){
         var value = params[key];
         
         var $input = $('#'+ key);
-        var input = $input[0];
+        //var input = $input[0];
 
         if($input.is("select")){
             var option = $input.find("option").filter(function(){

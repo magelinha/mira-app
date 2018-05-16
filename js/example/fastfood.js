@@ -1107,7 +1107,7 @@ if(typeof define === 'function') {
                     "quantidade": fieldQuantidade
                 };
 
-                window.appApi.CallRequestEvent("valor_alterado", params);
+                //window.appApi.CallRequestEvent("valor_alterado", params);
             };
 
             window.SetValueItem = function(options){
@@ -1128,11 +1128,12 @@ if(typeof define === 'function') {
 
             window.SetValueItemQuantidade = function(options){
                 var value = "";
-                for(var key in options){
+                console.log(options);
+                for(var key in options.item){
                     if(key == "quantidade")
                         continue;
 
-                    if(options[key] && options[key].length){
+                    if(options.item[key] && options.item[key].length){
                         value = options[key];
                         break;
                     }
@@ -1143,6 +1144,7 @@ if(typeof define === 'function') {
                     quantidade: options.quantidade
                 };
 
+                console.log(params)
                 SetValue(params);
             };
         };

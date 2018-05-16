@@ -221,12 +221,14 @@ var Init = function(server){
 		if(!params.item)
 			return;
 
-		Object.keys(params.item).forEach(key => {
+		Object.keys(params.item).some(key => {
 			if(params.item[key]){
 				nome = params.item[key];
 				tipo = key;
-				return;
+				return true;
 			}
+
+			return false;
 		});
 		
 		//Adiciona o item no pedido

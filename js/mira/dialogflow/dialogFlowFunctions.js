@@ -39,7 +39,8 @@ function DetectTextIntent(projectId, query, languageCode) {
     return promise;
 }
 
-function DetectEventIntent(projectId, eventName, languageCode, params) {
+function DetectEventIntent(projectId, eventName, languageCode, params, context) {
+    console.log(context);
     // The path to identify the agent that owns the created intent.
     const sessionPath = sessionClient.sessionPath(projectId, sessionId);
     
@@ -52,10 +53,11 @@ function DetectEventIntent(projectId, eventName, languageCode, params) {
                 parameters: structjson.jsonToStructProto(params || {}),
                 languageCode: languageCode,
             },
+        },
+        queryParameters: {
+            context: context
         }
     };
-    
-    console.log(request);
     
     return sessionClient.detectIntent(request);
 }
@@ -313,7 +315,8 @@ var  proccessResponse = function(response){
     var data = {
         message: response.queryResult.fulfillmentText,
         action: response.queryResult.action,
-        queryText: response.queryResult.queryText //Apenas para debug
+        queryText: response.queryResult.queryText, //Apenas para debug
+        context: response.queryResult.output_context
     };
 
     //mapeia os parametros
@@ -321,7 +324,8 @@ var  proccessResponse = function(response){
         data.params = structjson.structProtoToJson(response.queryResult.parameters);
     }                
 
-    return Object.assign({}, { success: true }, data);
+    var result = Object.assign({}, { success: true }, data)
+    return result;
 }
 
 
@@ -332,8 +336,6 @@ var Init = function(server){
     });
 
     server.post("/event", function(req, res) {
-
-        console.log('parametros');
         var params = {};
         Object.keys(req.body).forEach(key => {
             if(key == 'projectId' ||key == 'eventName' || key == 'lang')
@@ -343,7 +345,7 @@ var Init = function(server){
 
         //Retorna a requisição vinda do dialogFlow
         let promise;
-        promise = DetectEventIntent(req.body.projectId, req.body.eventName, req.body.lang, params);
+        promise = DetectEventIntent(req.body.projectId, req.body.eventName, req.body.lang, params, req.body.context);
         promise
             .then(response => {
                 var result = proccessResponse(response[0]);
@@ -367,6 +369,9 @@ var Init = function(server){
                 },
             },
             inputAudio: req.body.audio,
+            queryParameters: { 
+                contexts: req.body.context || []
+            }
         };
 
         sessionClient.detectIntent(request)
