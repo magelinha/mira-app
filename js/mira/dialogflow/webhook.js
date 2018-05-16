@@ -251,8 +251,8 @@ var Init = function(server){
 		setPedidos(pedidos);
 
 		var speech = 
-			quantidade > 1 ? `Entendi. Você quer ${quantidade} unidades do item ${item}.` :
-			`Entendi. Você quer ${quantidade} unidade do item ${item}.`;
+			quantidade > 1 ? `Entendi. Você quer ${quantidade} unidades do item ${nome}.` :
+			`Entendi. Você quer ${quantidade} unidade do item ${nome}.`;
 
 		console.log(speech);
 		return speech;
