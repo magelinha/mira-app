@@ -231,6 +231,7 @@ var Init = function(server){
 			return false;
 		});
 		
+		console.log(`nome: ${nome}, tipo: ${tipo}`);
 		//Adiciona o item no pedido
 		var item = getItem(nome, tipo);
 		
