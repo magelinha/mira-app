@@ -388,7 +388,14 @@ var landingConcreta =
                             ]
                         }
                     ]
-                }
+                },
+                { 
+                    name: 'form-group', 
+                    children:
+                    [
+                        { name: 'confirmar'}
+                    ]
+                },
             ]
         },
 
@@ -494,7 +501,7 @@ var landingConcreta =
 
         //Formulário
         { name: "titulo-formulario", tag:'h2', widget: 'WaiContent', value: "Adicionar Item ao Pedido" },
-        { name: "adicionar-item", widget: "WaiContent", tag: 'form', class: "form-horizontal", events:{ submit: "AdicionarItem" } },
+        { name: "adicionar-item", widget: "WaiContent", tag: 'form', class: "form-horizontal", events:{ submit: {event: 'item_adicionado', params: { item: '$("#cardapio option:selected").text()', quantidade: '$("#quantidade").val()'}} } },
         { name: 'form-group', widget:'WaiContent', class: 'form-group' },
         { name: 'container-field', widget:'WaiContent', class:'col-sm-10' },
         
@@ -511,7 +518,7 @@ var landingConcreta =
 
         { name: "label-quantidade", tag: 'label', for:"quantidade", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Quantidade" },
         { name: "quantidade", widget: "WaiInput", events:{ change: "AlterarValor"} },
-        { name: "confirmar", widget: "WaiButton", value:"$bind", type:"submit", class:"btn btn-primary pull-right" },
+        { name: "confirmar", widget: "WaiButton", value:"$bind", type:"submit", class:"btn btn-success pull-right" },
         
         //Pedido
         { name: "titulo-pedido", tag:'h2', widget: 'WaiContent', value: "Pedido" },
@@ -1134,7 +1141,7 @@ if(typeof define === 'function') {
                         continue;
 
                     if(options.item[key] && options.item[key].length){
-                        value = options[key];
+                        value = options.item[key];
                         break;
                     }
                 }
@@ -1144,7 +1151,6 @@ if(typeof define === 'function') {
                     quantidade: options.quantidade
                 };
 
-                console.log(params)
                 SetValue(params);
             };
         };

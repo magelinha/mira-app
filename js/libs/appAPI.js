@@ -576,6 +576,10 @@ window.SetValue = function(params){
         //var input = $input[0];
 
         if($input.is("select")){
+            //Se não passar um valor, desconsidera o setValue
+            if(!value || !value.length)
+                return;
+                
             var option = $input.find("option").filter(function(){
                 var valueOption =  $(this).html().toUpperCase();
                 return valueOption == value.toUpperCase(); 

@@ -42,7 +42,7 @@
         },
 
         build_events: function ($element, events, context) {
-
+            var _this = this;
             _.each(events, function(value, name){
 
                 var m = function($event, target){
@@ -53,7 +53,18 @@
                         });
 
                         if(_.isFunction(value)){
+                            //Se for uma função, apenas a executa
                             value(all_context);
+                        } else if(_.isObject(value)){
+                            //Se for um Object, indica que é um evento do API.ai
+                            
+                            //processa os parâmetros
+                            var params = {};
+                            Object.keys(value.params || {}).forEach(key => {
+                                params[key] = _this.eval_with_context(value.params[key], all_context);
+                            });
+
+                            appApi.CallRequestEvent(value.event, params);
                         } else if(context.$env
                             && context.$env.events
                             && context.$env.events[value]) {
