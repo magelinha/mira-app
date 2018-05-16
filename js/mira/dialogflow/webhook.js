@@ -113,9 +113,9 @@ var novoPedido = function(){
 
 var getItem = function(nome, tipo){
 	var toSearch = [];
-	if(tipo == 'bebidas'){
+	if(tipo == 'bebida'){
 		toSearch = bebidas;
-	} else if(tipo == 'sanduiches'){
+	} else if(tipo == 'sanduiche'){
 		toSearch = sanduices;
 	}
 	else{
