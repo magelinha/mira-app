@@ -250,9 +250,12 @@ var Init = function(server){
 		
 		setPedidos(pedidos);
 
-		return 
+		var speech = 
 			quantidade > 1 ? `Entendi. Você quer ${quantidade} unidades do item ${item}.` :
 			`Entendi. Você quer ${quantidade} unidade do item ${item}.`;
+
+		console.log(speech);
+		return speech;
 	});
 
 	webhookFunctions.AddIntentAction('welcome-landing', function(params){
