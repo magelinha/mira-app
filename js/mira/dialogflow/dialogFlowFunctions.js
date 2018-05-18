@@ -352,8 +352,8 @@ var Init = function(server){
                 res.json(result);
             }).catch(error => {
                 console.log("erro ao detectar eventos");
-                console.log(error);
-                res.json(Object.assign({},{success: true},error));
+                console.error(error);
+                //res.json(Object.assign({},{success: true},error));
             });
     });
 
