@@ -1152,7 +1152,8 @@ if(typeof define === 'function') {
                 };
 
                 SetValue(params);
-                app.$env.$dataObj.trigger("change");
+                if(typeof(params.cardapio) != 'undefined' && typeof(params.quantidade) != 'undefined')
+                    app.$env.$dataObj.trigger("change");
             };
         };
     });
