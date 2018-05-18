@@ -40,7 +40,7 @@ function DetectTextIntent(projectId, query, languageCode) {
 }
 
 function DetectEventIntent(projectId, eventName, languageCode, params, context) {
-    console.log(context);
+    console.log(eventName);
     // The path to identify the agent that owns the created intent.
     const sessionPath = sessionClient.sessionPath(projectId, sessionId);
     
@@ -351,6 +351,8 @@ var Init = function(server){
                 var result = proccessResponse(response[0]);
                 res.json(result);
             }).catch(error => {
+                console.log("erro ao detectar eventos");
+                console.log(error);
                 res.json(Object.assign({},{success: true},error));
             });
     });
