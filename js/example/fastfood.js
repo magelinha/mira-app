@@ -201,7 +201,7 @@ var landingAbstrata = {
                             children: 
                             [
                                 {
-                                    name: 'itens', datasource:'selecionados',
+                                    name: 'itens', datasource:'url:<%= "/pedido" %>',
                                     children: 
                                     [
                                         { name: 'item' }
@@ -1152,6 +1152,7 @@ if(typeof define === 'function') {
                 };
 
                 SetValue(params);
+                app.$env.$dataObj.trigger("change");
             };
         };
     });

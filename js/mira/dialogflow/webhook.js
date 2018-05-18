@@ -169,6 +169,11 @@ var Init = function(server){
 	webhookFunctions.Init(server);
 	pathPedidos = webhookFunctions.BaseURL + 'data/pedidos.json';
 
+	server.get('/pedido', (req, res) => {
+		var pedidos = getPedidos();
+		res.json(pedidos.itens);
+	});
+
 	webhookFunctions.AddIntentAction('cardapio.bebidas', function(params) {
 		var speech = "As bebidas são: ";
 		bebidas.forEach(function(bebida){
@@ -251,15 +256,15 @@ var Init = function(server){
 		setPedidos(pedidos);
 
 		var speech = 
-			quantidade > 1 ? `Entendi. Você quer ${quantidade} unidades do item ${nome}.` :
-			`Entendi. Você quer ${quantidade} unidade do item ${nome}.`;
+			quantidade > 1 ? `${quantidade} unidades do item ${nome} foram adicionadas ao pedido.` :
+			`${quantidade} unidade do item ${nome} foi adicionada ao pedido.`;
 
 		console.log(speech);
 		return speech;
 	});
 
 	webhookFunctions.AddIntentAction('welcome-landing', function(params){
-		novoPedido();
+		//novoPedido();
 	});
 
 	webhookFunctions.AddIntentAction('pedido.novo-pedido', function(params){
