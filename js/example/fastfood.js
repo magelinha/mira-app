@@ -549,7 +549,7 @@ var landingConcreta =
             name: 'item', tag: 'tr', 
             children:
             [
-                { name: "item-name", tag:"td", widget: "WaiContent", value: "$data.item"},
+                { name: "item-name", tag:"td", widget: "WaiContent", value: "$data,nome"},
                 { name: "item-quantidade", tag:"td", widget: "WaiContent", value: "$data.quantidade"},
                 { name: "item-preco", tag:"td", widget: "WaiContent", value: "$data.total.formatMoney()"},
                 { 
@@ -832,139 +832,8 @@ if(typeof define === 'function') {
             ChangeCurrentValue();
 
             window.selecionados = new Mira.Api.Collection([]);
-            window.numero = 0;
-            window.tutorial = {
-                "pt-BR": `Bem vindo ao Fast Food UAI, onde você poderá fazer o pedido do alimento desejado sem enfrentar filas.
-                Para fazer o pedido siga os seguintes passos. Informe o item desejado e quantidade. Depois clique em "Adicionar".
-                Você poderá limpar a lista de pedidos clicando em "Limpar".
-                Para finalizar o pedido, clique em "Cadastrar". Com isso o número do pedido será gerado, então é so aguardar. Bom apetite.`,
 
-                "en-US": `Welcome to Fast Food UAI, You'll can do order of food desired without queues. To order follow the steps. 
-                Select food desired and the quantity. After click in "Add". You'll can clean the list of order clicking in "Clean".
-                To finish order click in "Register". The number of order will be generated. Enjoy.`
-            };
-
-            var messages = {
-                "pt-BR": 
-                [
-                    {
-                        name: "add",
-                        message: "Adicionamos o item ao pedido. O valor total até o momento é %s"
-                    },
-                    {
-                        name: "edit",
-                        message: "Atualizamos seu pedido. O valor total até o momento é %s"
-                    },
-                    {
-                        name: "clear",
-                        message: "Desconsideramos os itens pedidos. Vamos começar novamente."
-                    },
-                    {
-                        name: "remove",
-                        message: "Removemos o item do pedido. O valor total até o momento é %s."
-                    },
-                    {
-                        name: "cancelEdit",
-                        message: "Ok. Não alteramos o item do pedido."
-                    }
-                ],
-                "en-US": 
-                [
-                    {
-                        name: "add",
-                        message:"Item added successfully. The total amount so far is %s."
-                    },
-                    {
-                        name: "edit",
-                        message:"Item updated successfully. The total amount so far is %s."
-                    },
-                    {
-                        name: "clear",
-                        message:"List successfully cleaned."
-                    },
-                    {
-                        name: "remove",
-                        message: "'Item removed successfully. The total amount so far is %s."
-                    },
-                    {
-                        name: "cancelEdit",
-                        message: "Edition canceled."
-                    }
-
-                ]
-                
-            }
-
-            var GetItemSelecionado = function(idItem, quantidade, options){
-                //Busca o item
-                var alimentos = !_.isArray(options.$env.collections.alimento) ? options.$env.collections.alimento.models : 
-                                    options.$env.collections.alimento[1].models;
-                console.log(options);
-
-                var alimento = _.find(alimentos, function(x){ return x.get("id") == idItem });
-                var valueAlimento = alimento.get("name");
-                var itemValue = {};
-                for(var key in valueAlimento)
-                    itemValue[key] = valueAlimento[key].value;
-
-                //Gera o item selecioando
-                var itemSelecionado = {
-                    idItem: idItem,
-                    item: itemValue,
-                    quantidade: quantidade,
-                    total: quantidade * alimento.get("price")
-                };
-
-                return itemSelecionado;
-            };
-
-            var ActionGrid = function(index, message){
-                var currentElement = $(document.activeElement);
-                console.log(currentElement);
-                var button;
-                if(currentElement.is("tr")){
-                    button = currentElement.children().eq(index).children();
-                }else if(currentElement.is("td")){
-                    button = currentElement.parents("tr").children().eq(index).children();
-                }else{
-                    appApi.tts(message);
-                    return;
-                }
-                
-                button.click();    
-            }
-
-            window.AdicionarGrupoItem = function(options){
-                var valid = appApi.setValue(options.result.parameters);
-                !valid ? appApi.tts(valid.error) : appApi.tts(options.result.fulfillment.speech);
-                $("#confirmar").click();
-            }
-
-            window.AdicionarItem = function(options){
-                var idItem = options.$element.find("#alimento").val();
-                var quantidade = parseInt(options.$element.find("#quantidade").val());
-                var itemSelecionado = GetItemSelecionado(idItem, quantidade, options);
-
-                var selecionado = window.selecionados.find(function(x){ return x.get("idItem") == itemSelecionado.idItem });
-                
-                if(selecionado){
-                    selecionado.set("quantidade", selecionado.get("quantidade") + itemSelecionado.quantidade);
-                    selecionado.set("total", selecionado.get("total") + itemSelecionado.total);
-                }else{
-                    window.selecionados.add(itemSelecionado);
-                }
-
-                var total = _.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0);
-                var currentAmount = textCurrency(total);
-                appApi.tts(
-                    sprintf(
-                        _.find(messages[appApi.currentLanguage], function(x){ return x.name == "add"}).message, 
-                        currentAmount
-                    )
-                );
-
-                options.$dataObj.trigger("change");
-            };
+            
 
             window.LimparLista = function(options){
                 window.selecionados = new Mira.Api.Collection([]);
@@ -976,47 +845,12 @@ if(typeof define === 'function') {
                 app.$env.$dataObj.trigger("change");
             };
 
-            window.CadastrarPedido = function(options){
-                $("#cadastrar-pedido")[0].click();
-            };
-
             window.NovoPedido = function(options){
                 options.$event.preventDefault();
                 window.location.href = "/?app=example/fastfood";
             };
 
-            window.EditarItem = function(options){
-                ActionGrid(3, "O item para atualização não foi encontrado.");
-            };
-
-            window.RemoverItem = function(options){
-                ActionGrid(4, "O item para remoção não foi encontrado.");
-            };
-
-            window.ListarOpcoes = function(options){
-                var alimentos = !_.isArray(mira.$env.collections.alimento) ? mira.$env.collections.alimento.models : 
-                                    mira.$env.collections.alimento[1].models;
-                var text = appApi.currentLanguage == "pt-BR" ? "Nosso cardápio tem os seguintes itens: " : "The options are: ";
-                
-                _.each(alimentos, function(alimento){
-                    text += alimento.get("name")[appApi.currentLanguage].value + " - " +  textCurrency(alimento.get("price"))  + ", ";
-                });
-
-                text += ".";
-
-                if(text.length)
-                    appApi.tts(text);
-            }
-
-            window.NovaQuantidade = function(options){
-                var valid = appApi.setValue(options.result.parameters);
-                if(valid){
-                    $("#confirmar-edicao").click();
-                }
-            }
-
             
-
             //Operações modal
             window.EvtEditItem = function(options){
                 var $button =  options.$element;
