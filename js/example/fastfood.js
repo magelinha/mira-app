@@ -549,7 +549,7 @@ var landingConcreta =
             name: 'item', tag: 'tr', 
             children:
             [
-                { name: "item-name", tag:"td", widget: "WaiContent", value: "$data,nome"},
+                { name: "item-name", tag:"td", widget: "WaiContent", value: "$data.nome"},
                 { name: "item-quantidade", tag:"td", widget: "WaiContent", value: "$data.quantidade"},
                 { name: "item-preco", tag:"td", widget: "WaiContent", value: "$data.total.formatMoney()"},
                 { 
