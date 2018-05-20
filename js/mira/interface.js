@@ -28,7 +28,11 @@ define([
             this.setModel($data);
             this.$env = $env;
             document.documentElement.lang = appApi ? appApi.currentLanguage : "pt-BR";
-            this.render()
+            this.render();
+
+            if(appApi){
+                appApi.InitialMessage(`welcome_${this.abstract.get('name')}`);
+            }
         },
 
         render: function(){
@@ -39,8 +43,6 @@ define([
             var $head = $('head');
             this.concrete.buildHead($head, this.model, this.$env);
             this.abstract.getHtml(this.$el, this.concrete, this.model, this.$env);
-                
-            appApi.InitialMessage(`welcome_${this.abstract.get('name')}`);
             return this;
         }
 

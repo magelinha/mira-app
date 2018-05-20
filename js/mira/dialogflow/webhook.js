@@ -264,6 +264,7 @@ var Init = function(server){
 	});
 
 	webhookFunctions.AddIntentAction('welcome-landing', function(params){
+		
 		//novoPedido();
 	});
 
