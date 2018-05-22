@@ -99,88 +99,6 @@ var landingAbstrata = {
                                 {
                                     name: 'quantidade'
                                 },
-
-                                /*
-
-                                {
-                                    name: "alimento",
-                                    label: "Alimento",
-                                    entity: { name: "alimento", key: "name" },
-                                    validation: function(value){
-                                        return { success: value != undefined && value.length > 0 };
-                                    },
-                                    datasource: "url:<%= \"/api/FastFood/itens\" %>",
-                                    children: [
-                                        {
-                                            name: "option-item",
-                                            error: 
-                                            {
-                                                name: "default",
-                                                message: {
-                                                    "pt-BR": "O item não foi informado",
-                                                    "en-US": "The item didn't informed"
-                                                }
-                                            }
-                                        }
-                                    ]
-                                },
-                                {
-                                    name: "quantidade",
-                                    label: {
-                                        "pt-BR": "Quantidade",
-                                        "en-US": "Quantity"
-                                    },
-                                    validation: function(value){
-                                        
-                                        //empty
-                                        if(value == "")
-                                            return { success: false, error: 'empty'};
-                                        
-                                        //Invalid
-                                        if(_.isNaN(value) || !Number.isInteger(parseInt(value)))
-                                            return { success: false, error: 'invalid'};
-
-                                        if(parseInt(value) > 3)
-                                            return { success: false, error: 'maxValue'};
-
-                                        if(parseInt(value) < 1)
-                                            return { success: false, error: 'minValue'};
-
-                                        return { success: true };
-
-                                    },
-                                    error: [
-                                        {
-                                            name: "empty",
-                                            message: {
-                                                "pt-BR": "A quantidade não foi informada",
-                                                "en-US": "The quantity didn't informed"
-                                            }
-                                        },
-                                        {
-                                            name: "maxValue",
-                                            message: {
-                                                "pt-BR": "A quantidade não pode ser maior que três.",
-                                                "en-US": "The quantity can not be greater than three."
-                                            }
-                                        },
-                                        {
-                                            name: "minValue",
-                                            message: {
-                                                "pt-BR": "A quantidade não pode ser menor que um.",
-                                                "en-US": "The amount can not be less than one."
-                                            }
-                                        },
-                                        {
-                                            name: "invalid",
-                                            message: {
-                                                "pt-BR": "O valor informado não é um número",
-                                                "en-US": "The value informed is not a number."
-                                            }
-                                        }
-                                    ]
-                                },*/
-
                                 {
                                     name: "confirmar",
                                     bind: {
@@ -209,30 +127,6 @@ var landingAbstrata = {
                                 }
                             ]
                         }
-
-                        /*
-                        {
-                            name: "lista-itens",      
-                            tts: 
-                            {
-                                "pt-BR": "Você pode Mudar Pedido ou Remover Pedido.",
-                                "en-US": "You can Edit Item or Delete Item."
-                            },
-                            datasource: "selecionados",
-                            children: 
-                            [
-                                {
-                                    name: "item-informado",
-                                    bind: "$data",
-                                    tts: 
-                                    {
-                                        "pt-BR": "sprintf('Item: %s. Quantidade: %d. Preço: %s. ', '$data.item', $data.quantidade, textCurrency($data.total))",
-                                        "en-US": "sprintf('Item: %s. Quantity: %d. Price: %s. ', '$data.item', $data.quantidade, textCurrency($data.total))"
-                                    }
-                                }
-                            ]
-                        },*/
-                        
                     ]
                 },
                 {
@@ -244,8 +138,7 @@ var landingAbstrata = {
                         
                         { 
                             name:"valor-total", 
-                            bind: "_.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0)",
-                            tts: "textCurrency($bind)"
+                            bind: '<%= "/total-pedido" %>',
                         }
                     ]
 
@@ -259,58 +152,6 @@ var landingAbstrata = {
                             children:[
                                 { name: "item-to-edit", label: "Item" },
                                 { name: "nova-quantidade" }
-                                    /*
-                                    label: "Nova Quantidade",
-                                    validation: function(value){
-                                        
-                                        //empty
-                                        if(value == "")
-                                            return { success: false, error: 'empty'};
-                                        
-                                        //Invalid
-                                        if(_.isNaN(value) || !Number.isInteger(parseInt(value)))
-                                            return { success: false, error: 'invalid'};
-
-                                        if(parseInt(value) > 3)
-                                            return { success: false, error: 'maxValue'};
-
-                                        if(parseInt(value) < 1)
-                                            return { success: false, error: 'minValue'};
-
-                                        return { success: true };
-
-                                    },
-                                    error: [
-                                        {
-                                            name: "empty",
-                                            message: {
-                                                "pt-BR": "A quantidade não foi informada",
-                                                "en-US": "The quantity didn't informed"
-                                            }
-                                        },
-                                        {
-                                            name: "maxValue",
-                                            message: {
-                                                "pt-BR": "A quantidade não pode ser maior que três.",
-                                                "en-US": "The quantity can not be greater than three."
-                                            }
-                                        },
-                                        {
-                                            name: "minValue",
-                                            message: {
-                                                "pt-BR": "A quantidade não pode ser menor que um.",
-                                                "en-US": "The amount can not be less than one."
-                                            }
-                                        },
-                                        {
-                                            name: "invalid",
-                                            message: {
-                                                "pt-BR": "O valor informado não é um número",
-                                                "en-US": "The value informed is not a number."
-                                            }
-                                        }
-                                    ]*/
-                                
                             ]
                         },
                         { name: "confirmar-edicao", bind: { "pt-BR": "Confirmar", "en-US": "Confirm" }},
@@ -546,7 +387,16 @@ var landingConcreta =
         //Corpo
         { name: 'itens', tag: 'tbody', widget: 'WaiContent' },
         { 
-            name: 'item', tag: 'tr', 
+            name: 'item', 
+            tag: 'tr', 
+            events: {
+                focus: {
+                    event: 'item_selecionado',
+                    params: {
+                        item: 'GetItemList(context.$element)'
+                    }
+                }
+            },
             children:
             [
                 { name: "item-name", tag:"td", widget: "WaiContent", value: "$data.nome"},
@@ -561,8 +411,16 @@ var landingConcreta =
                             name: "btn-edit", 
                             widget:"WaiButton", 
                             tag:"button", 
-                            class: "btn btn-xs btn-primary",
-                            events:{ click: "EvtEditItem"},
+                            class: "btn btn-xs btn-primary btn-editar",
+                            events:{ 
+                                click: {
+                                    func: "EvtEditItem",
+                                    event: "item_a_alterar",
+                                    params: {
+                                        item: 'GetItemToEdit(context.$element)'
+                                    }
+                                }
+                            },
                             children: 
                             [
                                 { name: 'icon-edit', "aria-hidden": true, "aria-labelledby":"header-item-edit", tag:"i", class:"fa fa-pencil fa-lg btn-action" }
@@ -579,7 +437,7 @@ var landingConcreta =
                             name: "btn-remove", 
                             widget:"WaiButton", 
                             tag:"button", 
-                            class: "btn btn-xs btn-danger",
+                            class: "btn btn-xs btn-danger btn-remover",
                             events:{ click: "EvtRemoveItem"},
                             children:
                             [
@@ -850,7 +708,32 @@ if(typeof define === 'function') {
                 window.location.href = "/?app=example/fastfood";
             };
 
-            
+            window.GetItemToEdit = function($element){
+                var result = {};
+                result.nome = $element.eq(0).text();
+                result.quantidade = $element.eq(1).text();
+                result.total = $element.eq(2).text();
+                return result;
+            }
+
+            window.GetItemToEdit = function($element){
+                return $element.parents('tr').eq(0).text();
+            }
+
+            window.EditarItem = function(){
+                var currentElement = $(document.activeElement);
+                //Verifica se o item selecionado é uma linha da tabela
+                if(!currentElement || currentElement.is('tr'))
+                    return;
+
+                var button = currentElement.find('.btn-editar');
+                
+                //Caso tenha achado o botão, força a click no mesmo para disparar o evento registrado
+                if(button.length){
+                    button.click();
+                }
+            };
+
             //Operações modal
             window.EvtEditItem = function(options){
                 var $button =  options.$element;

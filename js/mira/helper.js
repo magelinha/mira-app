@@ -64,6 +64,10 @@
                                 params[key] = _this.eval_with_context(value.params[key], all_context);
                             });
 
+                            //Chama a função implementada pelo controle
+                            window[value.func](all_context);
+
+                            //Chama o evento cadastrado no dialogflow 
                             appApi.CallRequestEvent(value.event, params);
                         } else if(context.$env
                             && context.$env.events

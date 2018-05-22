@@ -259,6 +259,7 @@ var Init = function(server){
 			quantidade > 1 ? `${quantidade} unidades do item ${nome} foram adicionadas ao pedido.` :
 			`${quantidade} unidade do item ${nome} foi adicionada ao pedido.`;
 
+		speech += "Você pode consultar o pedido, adicionar itens, ou concluir a compra."
 		console.log(speech);
 		return speech;
 	});
@@ -266,6 +267,13 @@ var Init = function(server){
 	webhookFunctions.AddIntentAction('welcome-landing', function(params){
 		
 		//novoPedido();
+	});
+
+	//#region Pedido
+
+	webhookFunctions.AddIntentAction('pedido.item-selecionado', function(params){
+		var speech = `${params.quantidade} ${params.quantidade > 1 ? 'unidades' : 'unidade'} de ${params.nome}. Total: ${formatPrice(param.total)}. Você pode alterar, excluir ou ir para o próximo item.`
+		return speech;
 	});
 
 	webhookFunctions.AddIntentAction('pedido.novo-pedido', function(params){
@@ -308,6 +316,8 @@ var Init = function(server){
 
 		return `O total do pedido é ${totalMoeda}`;
 	});
+
+	//#endregion
 
 };
 
