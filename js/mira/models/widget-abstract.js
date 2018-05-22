@@ -55,7 +55,7 @@
             var bind = this.get('bind');
 
             if(bind){
-                if(datasource.indexOf('url:') == 0) {
+                if(bind.indexOf('url:') == 0) {
                     var result;
 
                     var endpoint = _.template(bind.substring(4))
