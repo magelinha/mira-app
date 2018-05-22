@@ -55,6 +55,7 @@
             var bind = this.get('bind');
 
             if(bind){
+                console.log(bind);
                 if(bind.indexOf('url:') == 0) {
                     var result;
 
