@@ -369,6 +369,7 @@
                 var result = eval(text);
                 return _.isObject(result) && result[appApi.currentLanguage] ? result[appApi.currentLanguage] : result;     
             }catch(ex){
+                console.log('error ao processar texto ', text);
                 throw ex;
             }
         },
