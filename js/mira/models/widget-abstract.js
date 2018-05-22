@@ -65,7 +65,12 @@
                         parse: Api.Collection.prototype.parse
                     }))();
     
+                    
                     var promise = collection.fetch();
+                    
+                    setTimeout(() => {
+                        //Apenas faz o tempo passar para que o valor seja inserido corretamente na variável    
+                    }, 2000);
 
                     promise
                         .then(response => {
