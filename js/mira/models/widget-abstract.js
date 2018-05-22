@@ -53,7 +53,6 @@
 
         getBind: function($data, $dataObj, $env){
             var bind = this.get('bind');
-
             if(bind){
                 try{
                     return eval(bind);
