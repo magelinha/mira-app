@@ -203,7 +203,7 @@ ActionAPI.SpeechAction = function(conf){
     Transforma um texto em fala
     @text: texto a ser transoformado em fala
 */
-ActionAPI.SpeechAction.prototype.tts = function(text){
+ActionAPI.SpeechAction.prototype.tts = function(text, dontSaveLast){
     var _this = this;
     if(!text.length || !this.canTTS)
         return;
@@ -216,7 +216,8 @@ ActionAPI.SpeechAction.prototype.tts = function(text){
         console.log('ainda não carregou o recording');
     }
 
-    _this.lastText = text;
+    if(!dontSaveLast)
+        _this.lastText = text;
 
     speechRs.speechinit('Google português do Brasil',function(e){
         speechRs.speak(text, function() {
@@ -275,6 +276,10 @@ ActionAPI.SpeechAction.prototype.stopRecording = function(toExport) {
                     //Caso tenha falado algo, seta a contexto do resultado
                     if(data.queryText && data.queryText.length){
                         _this.currentContext = data.context
+                    }
+
+                    if(data.action == 'input.unknown'){
+                        _this.tts(data.message, true);
                     }
 
 

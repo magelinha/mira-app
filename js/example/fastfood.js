@@ -691,6 +691,8 @@ if(typeof define === 'function') {
 
             window.GetTotal = function(){
                 var rows = $("itens").children();
+
+                console.log(rows);
                 if(!rows.length)
                     return 0;
                 
