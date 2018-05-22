@@ -690,7 +690,7 @@ if(typeof define === 'function') {
             ChangeCurrentValue();
 
             window.GetTotal = function(){
-                var rows = $("itens").children();
+                var rows = $("#itens").children();
 
                 console.log(rows);
                 if(!rows.length)
