@@ -180,7 +180,8 @@ var Init = function(server){
 			.map(x => x.total)
 			.reduce((acc, current) => acc+current, 0);
 
-		res.json({total: total});
+		
+		res.json([{total: total}]);
 	})
 
 	webhookFunctions.AddIntentAction('cardapio.bebidas', function(params) {
