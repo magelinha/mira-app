@@ -55,6 +55,29 @@
             var bind = this.get('bind');
 
             if(bind){
+                if(datasource.indexOf('url:') == 0) {
+                    var result;
+
+                    var endpoint = _.template(datasource.substring(4))
+                    var collection = new (Api.Collection.extend({
+                        url: endpoint,
+                        parse: parse || Api.Collection.prototype.parse
+                    }))();
+    
+                    var promise = collection.fetch();
+
+                    promise
+                        .then(response => {
+                            result = response;
+                        })
+                        .catch(error => {
+                            console.log(e);
+                            console.log('Error on bind attr of widget abstract', this, this.get('bind'));        
+                        });
+
+                    return result;
+                }
+
                 try{
                     return eval(bind);
                 } catch (e){
