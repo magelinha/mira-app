@@ -56,7 +56,7 @@
 
             if(bind){
                 console.log(bind);
-                if(bind.indexOf('url:') == 0) {
+                if(_.isString(bind) && bind.indexOf('url:') == 0) {
                     var result;
 
                     var endpoint = _.template(bind.substring(4))
