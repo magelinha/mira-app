@@ -138,7 +138,7 @@ var landingAbstrata = {
                         
                         { 
                             name:"valor-total", 
-                            bind: 'url:<%= "/total-pedido" %>',
+                            bind: 'GetTotal()',
                         }
                     ]
 
@@ -453,7 +453,7 @@ var landingConcreta =
             name: "valor-total", class:"row text-center", children:
             [
                 { name: "label-total", widget: "WaiContent", tag:"strong", value: "Total: " },
-                { name: "total-value", widget: "WaiContent", tag:"span", value: "$bind.total.formatMoney()" },
+                { name: "total-value", widget: "WaiContent", tag:"span", value: "$bind.formatMoney()" },
             ]
         },
 
@@ -689,9 +689,15 @@ if(typeof define === 'function') {
             Mira.Widget.setDefault('BootstrapSimple');
             ChangeCurrentValue();
 
-            window.selecionados = new Mira.Api.Collection([]);
-
-            
+            window.GetTotal = function(){
+                var rows = $("itens").children();
+                if(!rows.length)
+                    return 0;
+                
+                return rows
+                    .map(row => parseFloat(row.eq(2)))
+                    .reduce((acc, current) => acc + current, 0.);
+            }
 
             window.LimparLista = function(options){
                 window.selecionados = new Mira.Api.Collection([]);

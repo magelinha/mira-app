@@ -55,31 +55,6 @@
             var bind = this.get('bind');
 
             if(bind){
-                console.log(bind);
-                if(_.isString(bind) && bind.indexOf('url:') == 0) {
-                    var result;
-
-                    var endpoint = _.template(bind.substring(4))
-                    var collection = new (Api.Collection.extend({
-                        url: endpoint,
-                        parse: Api.Collection.prototype.parse
-                    }))();
-    
-                    
-                    var promise = collection.fetch();
-                    
-                    setTimeout(() => {
-                        //Apenas faz o tempo passar para que o valor seja inserido corretamente na variável    
-                    }, 2000);
-
-                    promise
-                        .then(response => {
-                            result = response;
-                        });
-
-                    return result;
-                }
-
                 try{
                     return eval(bind);
                 } catch (e){
