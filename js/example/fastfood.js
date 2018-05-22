@@ -453,7 +453,7 @@ var landingConcreta =
             name: "valor-total", class:"row text-center", children:
             [
                 { name: "label-total", widget: "WaiContent", tag:"strong", value: "Total: " },
-                { name: "total-value", widget: "WaiContent", tag:"span", value: "$bind.formatMoney()" },
+                { name: "total-value", widget: "WaiContent", tag:"span", value: "$bind.total.formatMoney()" },
             ]
         },
 
