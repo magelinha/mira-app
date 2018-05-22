@@ -62,7 +62,7 @@
                     var endpoint = _.template(bind.substring(4))
                     var collection = new (Api.Collection.extend({
                         url: endpoint,
-                        parse: parse || Api.Collection.prototype.parse
+                        parse: Api.Collection.prototype.parse
                     }))();
     
                     var promise = collection.fetch();
