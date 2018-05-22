@@ -56,6 +56,7 @@
 
             if(bind){
                 try{
+                    console.log(bind);
                     return eval(bind);
                 } catch (e){
                     console.log(e);
