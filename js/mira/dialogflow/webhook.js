@@ -176,7 +176,7 @@ var Init = function(server){
 
 	server.get('/total-pedido', (req, res) => {
 		var pedidos = getPedidos();
-		var total = total.itens
+		var total = pedidos.itens
 			.map(x => x.total)
 			.reduce((acc, current) => acc+current, 0);
 

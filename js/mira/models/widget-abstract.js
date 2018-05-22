@@ -70,10 +70,6 @@
                     promise
                         .then(response => {
                             result = response;
-                        })
-                        .catch(error => {
-                            console.log(e);
-                            console.log('Error on bind attr of widget abstract', this, this.get('bind'));        
                         });
 
                     return result;
