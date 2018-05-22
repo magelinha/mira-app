@@ -174,6 +174,15 @@ var Init = function(server){
 		res.json(pedidos.itens);
 	});
 
+	server.get('/total-pedido', (req, res) => {
+		var pedidos = getPedidos();
+		var total = total.itens
+			.map(x => x.total)
+			.reduce((acc, current) => acc+current, 0);
+
+		res.json({total: total});
+	})
+
 	webhookFunctions.AddIntentAction('cardapio.bebidas', function(params) {
 		var speech = "As bebidas são: ";
 		bebidas.forEach(function(bebida){

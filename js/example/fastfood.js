@@ -138,7 +138,7 @@ var landingAbstrata = {
                         
                         { 
                             name:"valor-total", 
-                            bind: '<%= "/total-pedido" %>',
+                            bind: 'url:<%= "/total-pedido" %>',
                         }
                     ]
 
