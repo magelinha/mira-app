@@ -150,7 +150,7 @@
                         appApi.RegisterEntity(entities);
                     }
 
-                    var $bind1 = itemWidget.getBind($data.attributes, $data, $env);
+                    var $bind1 = itemWidget.getBind($data.attributes !== {} ? $data.attributes : mappedValues, $data, $env);
                     var structure = concrete.findStructure(itemWidget.get('name'));
                     if(structure){
                         structure.prepare(itemWidget.get('children'), itemWidget);

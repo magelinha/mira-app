@@ -131,7 +131,7 @@ var landingAbstrata = {
                 },
                 {
                     name: 'section-acoes',
-                    datasource: 'url:<%= "/total-pedido" %>',
+                    datasource:'url:<%= "/total-pedido" %>',
                     children:
                     [
                         { name: "confirmar-pedido", bind: { "pt-BR": "Comprar", "en-US": "Purchase" }},
@@ -269,9 +269,9 @@ var landingConcreta =
                     [
                         {name: 'confirmar-pedido' },
                         {name: 'cancelar-pedido' },
+                        { name: 'valor-total' }
                     ]
-                },
-                { name: 'valor-total' }
+                }
             ]
 
         },

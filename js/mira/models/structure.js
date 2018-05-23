@@ -46,6 +46,12 @@
             var abstract = null;
             
             var findAbstract = function(items){
+                //Caso a raiz da estrutura seja o próprio widget
+                if(name == itemWidget.get('name')){
+                    abstract = itemWidget;
+                    return;
+                }
+                    
                 items.each(function(item){
                     if(item.get('name') == name){
                         abstract = item;
