@@ -232,6 +232,7 @@ ActionAPI.SpeechAction.prototype.tts = function(text, dontSaveLast){
 ActionAPI.SpeechAction.prototype.startRecording = function(){
     var _this = this;
 
+    _this.SetStatusMicrophone(true);
     _this.recorder.record();
 
     console.log('iniciou a gravação');    
@@ -240,12 +241,13 @@ ActionAPI.SpeechAction.prototype.startRecording = function(){
         console.log('parou a gravação');
         _this.stopRecording(true);
 
-    }, 4500);
+    }, 4000);
 };
 
 ActionAPI.SpeechAction.prototype.stopRecording = function(toExport) {
     var _this = this;
     _this.recorder.stop();
+    _this.SetStatusMicrophone(false);
 
     if(toExport) {
         //Cria a requisição
@@ -319,6 +321,13 @@ ActionAPI.SpeechAction.prototype.InitRecorder = function(){
         });
 }
 
+ActionAPI.SpeechAction.prototype.SetStatusMicrophone = function(status){
+    var audioTracks = stream.getAudioTracks();
+    for (var i = 0, l = audioTracks.length; i < l; i++) {
+        audioTracks[i].enabled = status;
+    }
+}
+
 ActionAPI.SpeechAction.prototype.CallRequestQuery = function(text){
     var _this = this;
     var data = {
@@ -329,6 +338,7 @@ ActionAPI.SpeechAction.prototype.CallRequestQuery = function(text){
     
     _this.AjaxRequest('POST', '/query', data, null, _this.OnApiResult);
 }
+
 
 ActionAPI.SpeechAction.prototype.CallRequestEvent = function(eventName, params){
     var _this = this;
