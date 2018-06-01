@@ -322,7 +322,7 @@ ActionAPI.SpeechAction.prototype.InitRecorder = function(){
 }
 
 ActionAPI.SpeechAction.prototype.SetStatusMicrophone = function(status){
-    var audioTracks = stream.getAudioTracks();
+    var audioTracks = this.audioStream.getAudioTracks();
     for (var i = 0, l = audioTracks.length; i < l; i++) {
         audioTracks[i].enabled = status;
     }
