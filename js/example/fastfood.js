@@ -386,7 +386,7 @@ var landingConcreta =
         },
 
         //Corpo
-        { name: 'itens', tag: 'tbody', widget: 'WaiList' },
+        { name: 'itens', tag: 'tbody', widget: 'WaiListContent' },
         { 
             name: 'item', 
             tag: 'tr', 
