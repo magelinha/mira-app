@@ -623,6 +623,8 @@ window.RequestFocus = function(params){
     var value = params['container'];
 
     var $container = $('#' + value);
+    console.log($container);
+    
     if(!$container.length){
         console.log("Não encontrou o container para setar o foco.");
         return;
