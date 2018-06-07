@@ -82,7 +82,7 @@
                     }
                 };
 
-                $element.on(name, m);
+                $(document).on(name, $element, m);// $element.on(name, m);
             })
 
         },
