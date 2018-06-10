@@ -78,7 +78,7 @@ define([
             appApi.widgets.push($element);
         }
 
-        $element.focus(function(e){
+        $element.on('focus', function(e){
             var children = $element.children('div:visible, blockquote:visible, a:visible, li:visible, section:visible, tr:visible')
             var lenChildren = children.length;
             var text = '';

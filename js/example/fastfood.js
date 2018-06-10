@@ -390,6 +390,7 @@ var landingConcreta =
         { 
             name: 'item', 
             tag: 'tr', 
+            widget: 'WaiContent',
             events: {
                 focus: {
                     event: 'item_selecionado',
