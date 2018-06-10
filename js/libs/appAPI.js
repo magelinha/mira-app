@@ -287,11 +287,8 @@ ActionAPI.SpeechAction.prototype.stopRecording = function(toExport) {
 
                     if (data.success && data.action && data.action.length)
                         _this.executeCommand(data.action, data.params);
-                        
-                    if(!data.message)
-                        return;
-                        
-                    data.message.length ? _this.tts(data.message) : _this.startRecording();
+
+                    data.message && data.message.length ? _this.tts(data.message) : _this.startRecording();
                 });
             };
 
