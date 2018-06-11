@@ -349,7 +349,7 @@ var landingConcreta =
         
         //Cardápio
         { name: "label-item", tag: 'label', for:"cardapio", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Item" },
-        { name: "cardapio", widget: "WaiSelect", class:'form-control', events: { change: "AlterarValor" } },
+        { name: "cardapio", widget: "WaiSelect", class:'form-control' },
         { name: "empty_value", widget: "WaiOption", tag: "option", value: "0", text: ""},
         { name: "sanduiches", tag:"optgroup", label:"Sanduíches" },
         { name: "sanduiche", tag:"option", widget:"WaiOption", value:"$data.id", text:"$data.nome" },
@@ -359,7 +359,7 @@ var landingConcreta =
         { name: "combo", tag:"option", widget:"WaiOption", value:"$data.id", text:"$data.nome" },
 
         { name: "label-quantidade", tag: 'label', for:"quantidade", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Quantidade" },
-        { name: "quantidade", widget: "WaiInput", events:{ change: "AlterarValor"} },
+        { name: "quantidade", widget: "WaiInput" },
         { name: "confirmar", widget: "WaiButton", value:"$bind", type:"submit", class:"btn btn-success pull-right" },
         
         //Pedido
@@ -830,19 +830,6 @@ if(typeof define === 'function') {
                 $("#content-edit-item").modal('hide');
                 appApi.tts(_.find(messages[appApi.currentLanguage], function(x){ return x.name == "cancelEdit"}).message);
             }
-
-            //Vai no servidor para informar quais campos devem ser preenchidos
-            window.AlterarValor = function(options){
-                var fieldItem = $("#cardapio").val().length;
-                var fieldQuantidade = $("#quantidade").val().length;
-
-                var params = {
-                    "item": fieldItem,
-                    "quantidade": fieldQuantidade
-                };
-
-                //window.appApi.CallRequestEvent("valor_alterado", params);
-            };
 
             window.SetValueItem = function(options){
                 var value = "";

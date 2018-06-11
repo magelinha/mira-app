@@ -57,7 +57,8 @@
                             value(all_context);
                         } else if(_.isObject(value)){
                             //Se for um Object, indica que é um evento do API.ai
-                            
+                            $event.stopPropagation();
+
                             //processa os parâmetros
                             var params = {};
                             Object.keys(value.params || {}).forEach(key => {
@@ -65,7 +66,8 @@
                             });
 
                             //Chama a função implementada pelo controle
-                            window[value.func](all_context);
+                            if(value.func)
+                                window[value.func](all_context);
 
                             //Chama o evento cadastrado no dialogflow 
                             appApi.CallRequestEvent(value.event, params);
