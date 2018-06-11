@@ -144,6 +144,8 @@ ActionAPI.SpeechAction = function(conf){
 
     //Renponsável por transformar o audio em blob
     this.recorder = null;
+    this.VAD = null;
+    this.isTTS = false;
 
     this.lastText = '';
 
@@ -220,10 +222,12 @@ ActionAPI.SpeechAction.prototype.tts = function(text, dontSaveLast){
         _this.lastText = text;
 
     speechRs.speechinit('Google português do Brasil',function(e){
+        //Indica que uma fala do sistema está ativa, então não será gravada
+        _this.isTTS = true;
+        
         speechRs.speak(text, function() {
-            if(_this.recorder){
-                _this.startRecording();
-            }
+            //quando terminar o TTS, permite o navegador detectar uma nova fala
+            _this.isTTS = false;
                 
         }, false);     
      });
@@ -313,7 +317,21 @@ ActionAPI.SpeechAction.prototype.InitRecorder = function(){
             var mic = _this.audioContext.createMediaStreamSource(stream);
             _this.recorder = new Recorder(mic, {
                 workerPath: 'js/libs/recorderWorker.js'
-            });    
+            });
+
+            _this.VAD = new VAD({
+                source: mic,
+                voice_start: function(){
+                    if(!_this.isTTS)
+                        _this.startRecording();
+                },
+                voice_stop: function(){ 
+                    if(!_this.isTTS)
+                        _this.stopRecording(true);
+                } 
+            });
+
+
         })
         .catch(error => {
             console.log(error);
