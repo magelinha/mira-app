@@ -322,10 +322,12 @@ ActionAPI.SpeechAction.prototype.InitRecorder = function(){
             _this.VAD = new VAD({
                 source: mic,
                 voice_start: function(){
+                    console.log('está falando algo');
                     if(!_this.isTTS)
                         _this.startRecording();
                 },
                 voice_stop: function(){ 
+                    console.log('parou de falar algo');
                     if(!_this.isTTS)
                         _this.stopRecording(true);
                 } 
