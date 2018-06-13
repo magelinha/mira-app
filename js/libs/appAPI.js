@@ -237,13 +237,7 @@ ActionAPI.SpeechAction.prototype.startRecording = function(){
     _this.SetStatusMicrophone(true);
     _this.recorder.record();
 
-    console.log('iniciou a gravação');    
-
-    setTimeout(function(){
-        console.log('parou a gravação');
-        _this.stopRecording(true);
-
-    }, 4000);
+    console.log('iniciou a gravação');
 };
 
 ActionAPI.SpeechAction.prototype.stopRecording = function(toExport) {
@@ -290,7 +284,8 @@ ActionAPI.SpeechAction.prototype.stopRecording = function(toExport) {
                     if (data.success && data.action && data.action.length)
                         _this.executeCommand(data.action, data.params);
 
-                    data.message && data.message.length ? _this.tts(data.message) : _this.startRecording();
+                    //se tiver algo pra falar, chama o tts para informar a mensagem e ativa o microfone.
+                    data.message && data.message.length ? _this.tts(data.message) : _this.SetStatusMicrophone(true);;
                 });
             };
 
@@ -321,23 +316,12 @@ ActionAPI.SpeechAction.prototype.InitRecorder = function(){
             _this.audioStream = stream;
 
             var mic = _this.audioContext.createMediaStreamSource(stream);
-            
-            var bufferLen = 4096;
-            var processor = _this.audioContext.createScriptProcessor(bufferLen, 2, 2)
 
             _this.recorder = new Recorder(mic, {
-                workerPath: 'js/libs/recorderWorker.js',
-                scriptProcessor: processor,
-                audioContext: _this.audioContext
+                workerPath: 'js/libs/recorderWorker.js'
             });
-
-            var optionsHark = {
-                sourceNode: mic, 
-                audioContext: 
-                _this.audioContext,
-                scriptProcessor: processor
-            }
-            _this.hark = hark(stream, optionsHark);
+            
+            _this.hark = hark(stream, {});
 
             _this.hark.on('speaking', function(){
                 _this.startRecording();
@@ -353,47 +337,6 @@ ActionAPI.SpeechAction.prototype.InitRecorder = function(){
             console.log(error);
         });
     });
-    // require(['hark'], function(hark){
-    //     navigator.mediaDevices
-    //     .getUserMedia({video:false, audio: true})
-    //     .then(stream => {
-    //         this.audioContext = new AudioContext();
-    //         _this.audioStream = stream;
-    //         var mic = _this.audioContext.createMediaStreamSource(stream);
-    //         _this.recorder = new Recorder(mic, {
-    //             workerPath: 'js/libs/recorderWorker.js'
-    //         });
-
-
-    //         _this.hark = hark(stream);
-
-    //         _this.hark.on('speaking', function(){
-    //             console.log('ta falando algo');
-    //         });
-
-    //         _this.hark.on('stopped_speaking', function(){
-    //             console.log('parou de falar');
-    //         })
-    //         // _this.hark = new VAD({
-    //         //     source: mic,
-    //         //     voice_start: function(){
-    //         //         console.log('está falando algo');
-    //         //         // if(!_this.isTTS)
-    //         //         //     _this.startRecording();
-    //         //     },
-    //         //     voice_stop: function(){ 
-    //         //         console.log('parou de falar algo');
-    //         //         // if(!_this.isTTS)
-    //         //         //     _this.stopRecording(true);
-    //         //     } 
-    //         // });
-
-
-    //     })
-    //     .catch(error => {
-    //         console.log(error);
-    //     });
-    // });
 }
 
 ActionAPI.SpeechAction.prototype.SetStatusMicrophone = function(status){

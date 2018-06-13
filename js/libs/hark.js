@@ -15,6 +15,7 @@
       return maxVolume;
     }
     
+    
     var audioContextType;
     if (typeof window !== 'undefined') {
       audioContextType = window.AudioContext || window.webkitAudioContext;
@@ -39,21 +40,17 @@
     
       //Setup Audio Context
       if (!audioContext) {
-        audioContext = options.audioContext || new audioContextType();
+        audioContext = new audioContextType();
       }
       var sourceNode, fftBins, analyser;
     
       analyser = audioContext.createAnalyser();
-      analyser.fftSize = 4096;
+      analyser.fftSize = 512;
       analyser.smoothingTimeConstant = smoothing;
       fftBins = new Float32Array(analyser.frequencyBinCount);
     
       if (stream.jquery) stream = stream[0];
-
-      if(options.sourceNode){
-        sourceNode = options.sourceNode;
-        threshold = threshold || -50;
-      } else if (stream instanceof HTMLAudioElement || stream instanceof HTMLVideoElement) {
+      if (stream instanceof HTMLAudioElement || stream instanceof HTMLVideoElement) {
         //Audio Tag
         sourceNode = audioContext.createMediaElementSource(stream);
         if (typeof play === 'undefined') play = true;
@@ -65,12 +62,7 @@
       }
     
       sourceNode.connect(analyser);
-
-      if (play)
-        analyser.connect(audioContext.destination);
-      else if(options.scriptProcessor){
-        analyser.connect(options.scriptProcessor);
-      }
+      if (play) analyser.connect(audioContext.destination);
     
       harker.speaking = false;
     
@@ -121,7 +113,7 @@
           }
     
           var currentVolume = getMaxVolume(analyser, fftBins);
-
+    
           harker.emit('volume_change', currentVolume, threshold);
     
           var history = 0;

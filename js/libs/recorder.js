@@ -28,7 +28,7 @@ DEALINGS IN THE SOFTWARE.
     if(!this.context.createScriptProcessor){
       this.node = this.context.createJavaScriptNode(bufferLen, 2, 2);
     } else {
-      this.node = cfg.scriptProcessor || this.context.createScriptProcessor(bufferLen, 2, 2);
+      this.node = this.context.createScriptProcessor(bufferLen, 2, 2);
     }
    
     var worker = new Worker(config.workerPath || WORKER_PATH);
@@ -103,7 +103,7 @@ DEALINGS IN THE SOFTWARE.
     }
 
     source.connect(this.node);
-    var destination = cfg.audioContext ? cfg.audioContext.destination : this.context.destination;
+    var destination = this.context.destination;
     this.node.connect(destination);   // if the script node is not connected to an output the "onaudioprocess" event is not triggered in chrome.
   };
 
