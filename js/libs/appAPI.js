@@ -144,7 +144,7 @@ ActionAPI.SpeechAction = function(conf){
 
     //Renponsável por transformar o audio em blob
     this.recorder = null;
-    this.VAD = null;
+    this.hark = null;
     this.isTTS = false;
 
     this.lastText = '';
@@ -210,13 +210,8 @@ ActionAPI.SpeechAction.prototype.tts = function(text, dontSaveLast){
     if(!text.length || !this.canTTS)
         return;
 
-
-    if(this.recorder){
-        _this.stopRecording(false);
-    }
-    else{
-        console.log('ainda não carregou o recording');
-    }
+    //Ao iniciar a fala, desativa o microfone
+    _this.SetStatusMicrophone(false);
 
     if(!dontSaveLast)
         _this.lastText = text;
@@ -228,6 +223,9 @@ ActionAPI.SpeechAction.prototype.tts = function(text, dontSaveLast){
         speechRs.speak(text, function() {
             //quando terminar o TTS, permite o navegador detectar uma nova fala
             _this.isTTS = false;
+
+            //ao finalizar a fala, ativa o microfone
+            _this.SetStatusMicrophone(true);
                 
         }, false);     
      });
@@ -308,36 +306,94 @@ ActionAPI.SpeechAction.prototype.stopRecording = function(toExport) {
 */
 ActionAPI.SpeechAction.prototype.InitRecorder = function(){
     var _this = this;
+    
+    require.config({
+        paths: {
+            'hark': 'libs/hark'
+        }
+    });
 
-    navigator.mediaDevices
+    require(['hark'], function(hark){
+        navigator.mediaDevices
         .getUserMedia({video:false, audio: true})
         .then(stream => {
-            this.audioContext = new AudioContext();
+            _this.audioContext = new AudioContext();
             _this.audioStream = stream;
+
             var mic = _this.audioContext.createMediaStreamSource(stream);
+            
+            var bufferLen = 4096;
+            var processor = _this.audioContext.createScriptProcessor(bufferLen, 2, 2)
+
             _this.recorder = new Recorder(mic, {
-                workerPath: 'js/libs/recorderWorker.js'
+                workerPath: 'js/libs/recorderWorker.js',
+                scriptProcessor: processor,
+                audioContext: _this.audioContext
             });
 
-            _this.VAD = new VAD({
-                source: mic,
-                voice_start: function(){
-                    console.log('está falando algo');
-                    if(!_this.isTTS)
-                        _this.startRecording();
-                },
-                voice_stop: function(){ 
-                    console.log('parou de falar algo');
-                    if(!_this.isTTS)
-                        _this.stopRecording(true);
-                } 
+            var optionsHark = {
+                sourceNode: mic, 
+                audioContext: 
+                _this.audioContext,
+                scriptProcessor: processor
+            }
+            _this.hark = hark(stream, optionsHark);
+
+            _this.hark.on('speaking', function(){
+                _this.startRecording();
+                console.log('ta falando algo');
             });
 
-
+            _this.hark.on('stopped_speaking', function(){
+                _this.stopRecording(true);
+                console.log('parou de falar');
+            });
         })
         .catch(error => {
             console.log(error);
         });
+    });
+    // require(['hark'], function(hark){
+    //     navigator.mediaDevices
+    //     .getUserMedia({video:false, audio: true})
+    //     .then(stream => {
+    //         this.audioContext = new AudioContext();
+    //         _this.audioStream = stream;
+    //         var mic = _this.audioContext.createMediaStreamSource(stream);
+    //         _this.recorder = new Recorder(mic, {
+    //             workerPath: 'js/libs/recorderWorker.js'
+    //         });
+
+
+    //         _this.hark = hark(stream);
+
+    //         _this.hark.on('speaking', function(){
+    //             console.log('ta falando algo');
+    //         });
+
+    //         _this.hark.on('stopped_speaking', function(){
+    //             console.log('parou de falar');
+    //         })
+    //         // _this.hark = new VAD({
+    //         //     source: mic,
+    //         //     voice_start: function(){
+    //         //         console.log('está falando algo');
+    //         //         // if(!_this.isTTS)
+    //         //         //     _this.startRecording();
+    //         //     },
+    //         //     voice_stop: function(){ 
+    //         //         console.log('parou de falar algo');
+    //         //         // if(!_this.isTTS)
+    //         //         //     _this.stopRecording(true);
+    //         //     } 
+    //         // });
+
+
+    //     })
+    //     .catch(error => {
+    //         console.log(error);
+    //     });
+    // });
 }
 
 ActionAPI.SpeechAction.prototype.SetStatusMicrophone = function(status){

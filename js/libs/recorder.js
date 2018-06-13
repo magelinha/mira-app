@@ -26,9 +26,9 @@ DEALINGS IN THE SOFTWARE.
     var bufferLen = 4096;
     this.context = source.context;
     if(!this.context.createScriptProcessor){
-       this.node = this.context.createJavaScriptNode(bufferLen, 2, 2);
+      this.node = this.context.createJavaScriptNode(bufferLen, 2, 2);
     } else {
-       this.node = this.context.createScriptProcessor(bufferLen, 2, 2);
+      this.node = cfg.scriptProcessor || this.context.createScriptProcessor(bufferLen, 2, 2);
     }
    
     var worker = new Worker(config.workerPath || WORKER_PATH);
@@ -103,7 +103,8 @@ DEALINGS IN THE SOFTWARE.
     }
 
     source.connect(this.node);
-    this.node.connect(this.context.destination);   // if the script node is not connected to an output the "onaudioprocess" event is not triggered in chrome.
+    var destination = cfg.audioContext ? cfg.audioContext.destination : this.context.destination;
+    this.node.connect(destination);   // if the script node is not connected to an output the "onaudioprocess" event is not triggered in chrome.
   };
 
   Recorder.setupDownload = function(blob, filename){
