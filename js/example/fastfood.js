@@ -395,7 +395,7 @@ var landingConcreta =
                 focus: {
                     event: 'item_selecionado',
                     params: {
-                        item: 'GetItemList(context.$element)'
+                        item: 'GetItemToEdit(context.$element)'
                     }
                 }
             },
@@ -724,18 +724,6 @@ if(typeof define === 'function') {
                 result.quantidade = $element.eq(1).text();
                 result.total = $element.eq(2).text();
                 return result;
-            }
-
-            window.GetItemToEdit = function($element){
-                return $element.parents('tr').eq(0).text();
-            }
-
-            window.GetItemList = function($element) {
-                //busca os valores que serão informados
-                params = GetItemToEdit($element);
-
-                //chama o evento no dialogflow
-                appApi.CallRequestEvent('pedido.item-selecionado', params);
             }
 
             window.EditarItem = function(){
