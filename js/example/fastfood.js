@@ -730,6 +730,14 @@ if(typeof define === 'function') {
                 return $element.parents('tr').eq(0).text();
             }
 
+            window.GetItemList = function($element) {
+                //busca os valores que serão informados
+                params = GetItemToEdit($element);
+
+                //chama o evento no dialogflow
+                appApi.CallRequestEvent('pedido.item-selecionado', params);
+            }
+
             window.EditarItem = function(){
                 var currentElement = $(document.activeElement);
                 //Verifica se o item selecionado é uma linha da tabela
