@@ -720,9 +720,10 @@ if(typeof define === 'function') {
 
             window.GetItemToEdit = function($element){
                 var result = {};
-                result.nome = $element.eq(0).text();
-                result.quantidade = $element.eq(1).text();
-                result.total = $element.eq(2).text();
+                var values = $element.children();
+                result.nome = values.eq(0).text();
+                result.quantidade = values.eq(1).text();
+                result.total = values.eq(2).text();
                 return result;
             }
 
