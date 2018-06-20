@@ -43,6 +43,8 @@ DEALINGS IN THE SOFTWARE.
 
     this.node.onaudioprocess = function(e){
       if (!recording) return;
+
+      console.log('processando o audio');
       worker.postMessage({
         command: 'record',
         buffer: [

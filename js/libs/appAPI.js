@@ -234,9 +234,7 @@ ActionAPI.SpeechAction.prototype.tts = function(text, dontSaveLast){
 ActionAPI.SpeechAction.prototype.startRecording = function(){
     var _this = this;
 
-    _this.SetStatusMicrophone(true);
     _this.recorder.record();
-
     console.log('iniciou a gravação');
 };
 
@@ -249,6 +247,16 @@ ActionAPI.SpeechAction.prototype.stopRecording = function(toExport) {
         //Cria a requisição
         _this.recorder.exportMonoWAV(function(blob){
 
+            //Cria um elemento chamado save
+            var $link = $("#save");
+            if(!$link.length) {
+                $link = document.createElement('a');
+                $link.id = 'save';
+                $link.style.display = 'none';
+                document.body.appendChild($link);
+            }
+
+            Recorder.setupDownload(blob, "teste.wav");
             var reader = new FileReader;
             reader.onload = function(file){
                 var audio = btoa(file.target.result);
@@ -342,7 +350,7 @@ ActionAPI.SpeechAction.prototype.InitRecorder = function(){
 ActionAPI.SpeechAction.prototype.SetStatusMicrophone = function(status){
     if(this.audioStream == null)
         return;
-        
+
     var audioTracks = this.audioStream.getAudioTracks();
     for (var i = 0, l = audioTracks.length; i < l; i++) {
         audioTracks[i].enabled = status;
