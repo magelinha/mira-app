@@ -364,90 +364,91 @@ var landingConcreta =
         
         //Pedido
         { name: "titulo-pedido", tag:'h2', widget: 'WaiContent', value: "Pedido" },
-        { name: 'pedido', tag: 'table', class:'table table-bordered'},
+        { name: 'pedido', tag: 'div', class:'panel panel-primary'},
 
         //Cabeçalho
-        { 
-            name: 'cabecalho', tag: 'thead',
-            children: 
-            [
-                { 
-                    name: 'cabecalho-row', tag: 'tr', 
-                    children: 
-                    [
-                        { name: 'cabecalho-item-text', tag:'th', value: 'Item' },
-                        { name: 'cabecalho-quantidade-text', tag:'th', value: 'Quantidade' },
-                        { name: 'cabecalho-total-text', tag:'th', value: 'Total' },
-                        { name: 'cabecalho-editar-text', tag:'th', value: 'Editar' },
-                        { name: 'cabecalho-remover-text', tag:'th', value: 'Remover' },
-                    ]
-                },
-            ] 
-        },
+        { name: 'cabecalho', tag: 'panel-heading', value: "Itens do Pedido"},
 
         //Corpo
-        { name: 'itens', tag: 'tbody', widget: 'WaiListContent' },
+        { name: 'itens', tag: 'div', widget: 'WaiListContent' },
         { 
             name: 'item', 
-            tag: 'tr', 
+            tag: 'div', 
+            class:'item-pedido',
             widget: 'WaiContent',
             events: {
                 focus: {
                     event: 'item_selecionado',
                     params: {
-                        item: 'GetItemToEdit(context.$element)'
+                        item: 'GetSelectItem(context.$element)'
                     }
                 }
             },
             children:
             [
-                { name: "item-name", tag:"td", widget: "WaiContent", value: "$data.nome"},
-                { name: "item-quantidade", tag:"td", widget: "WaiContent", value: "$data.quantidade"},
-                { name: "item-preco", tag:"td", widget: "WaiContent", value: "$data.total.formatMoney()"},
+                //nome do item
+                { name: "item-name", tag:"div", widget: "WaiContent", value: "$data.nome"},
+                
+                //controles para aumentar a diminuir quantidade
                 { 
-                    name: "item-edit", tag:"td", 
-                    widget: "WaiContent", class: "text-center",
+                    name: "item-quantidade", 
+                    tag:"div", widget: "WaiContent", 
                     children:
                     [
                         { 
-                            name: "btn-edit", 
-                            widget:"WaiButton", 
-                            tag:"button", 
-                            class: "btn btn-xs btn-primary btn-editar",
-                            events:{ 
+                            name: "btn-minus", 
+                            tag: "i", 
+                            class: "fa fa-minus", 
+                            event:{
                                 click: {
-                                    func: "EvtEditItem",
-                                    event: "item_a_alterar",
-                                    params: {
-                                        item: 'GetItemToEdit(context.$element)'
+                                    action: "EvtMinus",
+                                    event: "reduzir_quantidade",
+                                    params:{
+                                        item: "GetSelectItem(context.$element.parent('.item-pedido'))"                                     
                                     }
                                 }
-                            },
-                            children: 
-                            [
-                                { name: 'icon-edit', "aria-hidden": true, "aria-labelledby":"header-item-edit", tag:"i", class:"fa fa-pencil fa-lg btn-action" }
-                            ]
-                        }
+                            }
+                        },
+                        {name: "qtd-field", widget:"WaiInput", value: "$data.quantidade"},
+                        { 
+                            name: "btn-plus", 
+                            tag: "i", 
+                            class: "fa fa-plus", 
+                            event:{
+                                click: {
+                                    action: "EvtPlus",
+                                    event: "aumentar_quantidade",
+                                    params:{
+                                        item: "GetSelectItem(context.$element.parent())"
+                                    }
+                                }
+                            }
+                        },
                     ]
                 },
+                //valor total
+                { name: "item-preco", tag:"div", widget: "WaiContent", value: "$data.total.formatMoney()"},
+                
+                //controle para remover o item
                 { 
-                    name: "item-remove", tag:"td", 
-                    widget: "WaiContent", class: "text-center",
+                    name: "btn-remove", 
+                    widget:"WaiButton", 
+                    tag:"button", 
+                    class: "btn btn-xs btn-danger btn-remover",
+                    events:{ 
+                        click: {
+                            action: "EvtRemoveItem",
+                            event: "remove_item",
+                            params:{
+                                item: "GetSelectItem(context.$element.parent('.item-pedido'))"
+                            }
+                        }
+                    },
                     children:
                     [
-                        { 
-                            name: "btn-remove", 
-                            widget:"WaiButton", 
-                            tag:"button", 
-                            class: "btn btn-xs btn-danger btn-remover",
-                            events:{ click: "EvtRemoveItem"},
-                            children:
-                            [
-                                { name: 'icon-edit', "aria-hidden": true, "aria-labelledby":"header-item-remove", widget: "WaiContent", tag:"i", class:"fa fa-trash fa-lg btn-action" }
-                            ]
-                        }
+                        { name: 'icon-edit', "aria-hidden": true, "aria-labelledby":"header-item-remove", widget: "WaiContent", tag:"i", class:"fa fa-trash fa-lg btn-action" }
                     ]
-                }    
+                }
             ]
         },
 
@@ -718,7 +719,7 @@ if(typeof define === 'function') {
                 window.location.href = "/?app=example/fastfood";
             };
 
-            window.GetItemToEdit = function($element){
+            window.GetSelectItem = function($element){
                 var result = {};
                 var values = $element.children();
                 result.nome = values.eq(0).text();
