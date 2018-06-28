@@ -422,7 +422,7 @@ var landingConcreta =
                         {
                             name: "container-field", tag:"div", widget:"WaiContent", class:"col-sm-8",
                             children:[
-                                {name: "qtd-field", widget:"WaiInput", value: "$data.quantidade", class:"col-sm-8"}
+                                {name: "qtd-field", widget:"WaiInput", value: "$data.quantidade"}
                             ]
                         },
                         {
@@ -431,7 +431,7 @@ var landingConcreta =
                                 { 
                                     name: "btn-plus", 
                                     widget: "WaiButton",
-                                    class: "btn btn-primary col-sm-2", 
+                                    class: "btn btn-primary btn-xs", 
                                     event:{
                                         click: {
                                             action: "EvtPlus",
