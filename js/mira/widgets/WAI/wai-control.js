@@ -162,7 +162,6 @@ define([
             }
 
             if(options.class){
-                $input.removeClass(options.class);
                 $input.addClass(options.class);
             }
 
