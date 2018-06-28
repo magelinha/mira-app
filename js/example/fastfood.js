@@ -387,7 +387,7 @@ var landingConcreta =
             children:
             [
                 //nome do item
-                { name: "item-name", tag:"div", class:"col-sm-5 container-dado-item border-container", widget: "WaiContent", value: "$data.nome"},
+                { name: "item-name", tag:"div", class:"col-sm-5 container-dado-item border-container label-bold", widget: "WaiContent", value: "$data.nome"},
                 
                 //controles para aumentar a diminuir quantidade
                 { 
@@ -450,11 +450,11 @@ var landingConcreta =
                     ]
                 },
                 //valor total
-                { name: "item-preco", tag:"div", widget: "WaiContent", value: "$data.total.formatMoney()", class:"col-sm-2 container-dado-item border-container"},
+                { name: "item-preco", tag:"div", widget: "WaiContent", value: "$data.total.formatMoney()", class:"col-sm-2 container-dado-item border-container label-bold"},
                 
                 //controle para remover o item
                 { 
-                    name:"container-remove", tag:"div", widget:"WaiContent", class:"col-sm-1",
+                    name:"container-remove", tag:"div", widget:"WaiContent", class:"col-sm-1 container-dado-item",
                     children:[
                         { 
                             name: "btn-remove", 

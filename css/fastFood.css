@@ -45,3 +45,11 @@ option, select {
 	line-height: 60px;
 }
 
+.input-qtd {
+	margin-top: 14px;	 
+}
+
+.label-bold {
+	font-weight: bold;
+	font-size: 15px;
+}
