@@ -32,3 +32,16 @@ option, select {
 	text-align: center;
 }
 
+.item-pedido {
+	height: 60px;
+}
+
+.border-container {
+	border-right: 1px solid #D3D3D3;
+}
+
+.container-dado-item {
+	height: 100%;
+	line-height: 60px;
+}
+
