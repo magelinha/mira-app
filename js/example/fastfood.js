@@ -22,7 +22,7 @@ var selection = [
 var GeralHead = [
     {name: 'main_css', widget:'Head', href:'css/bootstrap.css', tag: 'style'},
     {name: 'fontawesone_css', widget:'Head', href:'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', tag: 'style'},
-    {name: 'booking_css', widget:'Head', href:'css/fastFood.css', tag: 'style'},
+    {name: 'fastfood_css', widget:'Head', href:'css/fastFood.css', tag: 'style'},
     {name: 'viewport', widget:'Meta', content:'width=device-width, initial-scale=1'}
 ];
 
@@ -398,7 +398,7 @@ var landingConcreta =
                     children:
                     [
                         {
-                            name: "container-minus", tag:"div", widget: "WaiContent", class:"col-sm-2",
+                            name: "container-minus", tag:"div", widget: "WaiContent", class:"col-sm-3 btn-quantidade",
                             children:[
                                 { 
                                     name: "btn-minus", 
@@ -420,13 +420,13 @@ var landingConcreta =
                             ]
                         },
                         {
-                            name: "container-field", tag:"div", widget:"WaiContent", class:"col-sm-8",
+                            name: "container-field", tag:"div", widget:"WaiContent", class:"col-sm-6",
                             children:[
                                 {name: "qtd-field", widget:"WaiInput", value: "$data.quantidade"}
                             ]
                         },
                         {
-                            name:"container-plus", tag:"div", widget:"WaiContent", class:"col-sm-2",
+                            name:"container-plus", tag:"div", widget:"WaiContent", class:"col-sm-3 btn-quantidade",
                             children:[
                                 { 
                                     name: "btn-plus", 

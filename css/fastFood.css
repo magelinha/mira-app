@@ -26,3 +26,8 @@ option, select {
 #numero-pedido, #numero-atual {
 	font-weight: bold;
 }
+
+.btn-quantidade {
+	padding: 0 !important;
+}
+
