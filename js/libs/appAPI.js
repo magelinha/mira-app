@@ -626,7 +626,7 @@ window.SetValue = function(params){
                 
             var option = $input.find("option").filter(function(){
                 var valueOption =  $(this).html().toUpperCase();
-                return valueOption == value.toUpperCase(); 
+                return valueOption == value.toString().toUpperCase(); 
             });
             if(option.length){
                 $input.val(option.val());
