@@ -154,15 +154,13 @@ define([
 
             var context = Helper.build_context($context, options);
             Helper.build_attributes($input[0], atrs, context);
+            $input.addClass('form-control');
+            
             $input.prop('tabindex', 0);
             $input.prop('aria-required', options.required || false);
             
             if(options.events) {
                 Helper.build_events($input, options.events, context);
-            }
-
-            if(options.class){
-                $input.addClass(options.class);
             }
 
             //Insere o valor no campo
