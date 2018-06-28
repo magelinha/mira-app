@@ -171,7 +171,8 @@ define([
                     var value = Helper.build_value(options.value[appApi.currentLanguage], context);
                     $input.prop('value', value);
                 } else{
-                    $input.prop('value', options.value);
+                    var value = Helper.build_value(options.value, context);
+                    $input.prop('value', value);
                 }
     
                 $input.updateValue = function(){
@@ -179,6 +180,7 @@ define([
                         var value = Helper.build_value(options.value[appApi.currentLanguage], context);
                         $input.prop('value', value);
                     } else{
+                        var value = Helper.build_value(options.value, context);
                         $input.prop('value', options.value);
                     }
                 }
