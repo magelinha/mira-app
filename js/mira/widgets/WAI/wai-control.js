@@ -169,17 +169,17 @@ define([
     
                 if(_.isObject(options.value)){
                     var value = Helper.build_value(options.value[appApi.currentLanguage], context);
-                    $element.prop('value', value);
+                    $input.prop('value', value);
                 } else{
-                    $element.prop('value', options.value);
+                    $input.prop('value', options.value);
                 }
     
                 $element.updateValue = function(){
                     if(_.isObject(options.value)){
                         var value = Helper.build_value(options.value[appApi.currentLanguage], context);
-                        $element.prop('value', value);
+                        $input.prop('value', value);
                     } else{
-                        $element.prop('value', options.value);
+                        $input.prop('value', options.value);
                     }
                 }
             }
