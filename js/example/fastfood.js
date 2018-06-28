@@ -387,13 +387,13 @@ var landingConcreta =
             children:
             [
                 //nome do item
-                { name: "item-name", tag:"div", class:"col-sm-6", widget: "WaiContent", value: "$data.nome"},
+                { name: "item-name", tag:"div", class:"col-sm-5", widget: "WaiContent", value: "$data.nome"},
                 
                 //controles para aumentar a diminuir quantidade
                 { 
                     name: "item-quantidade", 
                     tag:"div", 
-                    class:"col-sm-3",
+                    class:"col-sm-4",
                     widget: "WaiContent", 
                     children:
                     [
@@ -450,26 +450,31 @@ var landingConcreta =
                     ]
                 },
                 //valor total
-                { name: "item-preco", tag:"div", widget: "WaiContent", value: "$data.total.formatMoney()"},
+                { name: "item-preco", tag:"div", widget: "WaiContent", value: "$data.total.formatMoney()", class:"col-sm-2"},
                 
                 //controle para remover o item
                 { 
-                    name: "btn-remove", 
-                    widget:"WaiButton", 
-                    tag:"button", 
-                    class: "btn btn-xs btn-danger btn-remover",
-                    events:{ 
-                        click: {
-                            action: "EvtRemoveItem",
-                            event: "remove_item",
-                            params:{
-                                item: "GetSelectItem(context.$element.parent('.item-pedido'))"
-                            }
+                    name:"container-remove", tag:"div", widget:"WaiContent", class:"col-sm-1",
+                    children:[
+                        { 
+                            name: "btn-remove", 
+                            widget:"WaiButton", 
+                            tag:"button", 
+                            class: "btn btn-xs btn-danger btn-remover",
+                            events:{ 
+                                click: {
+                                    action: "EvtRemoveItem",
+                                    event: "remove_item",
+                                    params:{
+                                        item: "GetSelectItem(context.$element.parent('.item-pedido'))"
+                                    }
+                                }
+                            },
+                            children:
+                            [
+                                { name: 'icon-edit', "aria-hidden": true, "aria-labelledby":"header-item-remove", widget: "WaiContent", tag:"i", class:"fa fa-trash fa-lg btn-action" }
+                            ]
                         }
-                    },
-                    children:
-                    [
-                        { name: 'icon-edit', "aria-hidden": true, "aria-labelledby":"header-item-remove", widget: "WaiContent", tag:"i", class:"fa fa-trash fa-lg btn-action" }
                     ]
                 }
             ]
