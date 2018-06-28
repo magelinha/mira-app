@@ -161,6 +161,29 @@ define([
                 Helper.build_events($input, options.events, context);
             }
 
+            //Insere o valor no campo
+            if(options.value){
+                if(options.value === "$bind"){
+                    options.value = $context.$bind;
+                }
+    
+                if(_.isObject(options.value)){
+                    var value = Helper.build_value(options.value[appApi.currentLanguage], context);
+                    $element.prop('value', value);
+                } else{
+                    $element.prop('value', options.value);
+                }
+    
+                $element.updateValue = function(){
+                    if(_.isObject(options.value)){
+                        var value = Helper.build_value(options.value[appApi.currentLanguage], context);
+                        $element.prop('value', value);
+                    } else{
+                        $element.prop('value', options.value);
+                    }
+                }
+            }
+
             $parent.append($input);
 
             if(callback){
