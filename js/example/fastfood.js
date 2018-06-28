@@ -367,10 +367,10 @@ var landingConcreta =
         { name: 'pedido', tag: 'div', class:'panel panel-primary'},
 
         //Cabeçalho
-        { name: 'cabecalho', tag: 'panel-heading', value: "Itens do Pedido"},
+        { name: 'cabecalho', tag: 'div', class: 'panel-heading', value: "Itens do Pedido"},
 
         //Corpo
-        { name: 'itens', tag: 'div', widget: 'WaiListContent' },
+        { name: 'itens', tag: 'div', class:'panel-body', widget: 'WaiListContent' },
         { 
             name: 'item', 
             tag: 'div', 
@@ -451,7 +451,6 @@ var landingConcreta =
                 }
             ]
         },
-
         { 
             name: "valor-total", class:"row text-center", children:
             [
