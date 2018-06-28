@@ -397,41 +397,56 @@ var landingConcreta =
                     widget: "WaiContent", 
                     children:
                     [
-                        { 
-                            name: "btn-minus", 
-                            widget: "WaiButton",
-                            class: "btn btn-primary col-sm-2", 
-                            event:{
-                                click: {
-                                    action: "EvtMinus",
-                                    event: "reduzir_quantidade",
-                                    params:{
-                                        item: "GetSelectItem(context.$element.parent('.item-pedido'))"                                     
-                                    }
-                                }
-                            },
+                        {
+                            name: "container-minus", tag:"div", widget: "WaiContent", class:"col-sm-2",
                             children:[
-                                { name: "icon-minus", tag:"i", class:"fa fa-minus"}
+                                { 
+                                    name: "btn-minus", 
+                                    widget: "WaiButton",
+                                    class: "btn btn-primary btn-xs", 
+                                    event:{
+                                        click: {
+                                            action: "EvtMinus",
+                                            event: "reduzir_quantidade",
+                                            params:{
+                                                item: "GetSelectItem(context.$element.parent('.item-pedido'))"                                     
+                                            }
+                                        }
+                                    },
+                                    children:[
+                                        { name: "icon-minus", tag:"i", class:"fa fa-minus"}
+                                    ]
+                                }
                             ]
                         },
-                        {name: "qtd-field", widget:"WaiInput", value: "$data.quantidade", class:"col-sm-8"},
-                        { 
-                            name: "btn-plus", 
-                            widget: "WaiButton",
-                            class: "btn btn-primary col-sm-2", 
-                            event:{
-                                click: {
-                                    action: "EvtPlus",
-                                    event: "aumentar_quantidade",
-                                    params:{
-                                        item: "GetSelectItem(context.$element.parent('.item-pedido'))"                                     
-                                    }
-                                }
-                            },
+                        {
+                            name: "container-field", tag:"div", widget:"WaiContent", class:"col-sm-8",
                             children:[
-                                { name: "icon-plus", tag:"i", class:"fa fa-plus"}
+                                {name: "qtd-field", widget:"WaiInput", value: "$data.quantidade", class:"col-sm-8"}
                             ]
                         },
+                        {
+                            name:"container-plus", tag:"div", widget:"WaiContent", class:"col-sm-2",
+                            children:[
+                                { 
+                                    name: "btn-plus", 
+                                    widget: "WaiButton",
+                                    class: "btn btn-primary col-sm-2", 
+                                    event:{
+                                        click: {
+                                            action: "EvtPlus",
+                                            event: "aumentar_quantidade",
+                                            params:{
+                                                item: "GetSelectItem(context.$element.parent('.item-pedido'))"                                     
+                                            }
+                                        }
+                                    },
+                                    children:[
+                                        { name: "icon-plus", tag:"i", class:"fa fa-plus"}
+                                    ]
+                                }
+                            ]
+                        }
                     ]
                 },
                 //valor total
