@@ -161,6 +161,11 @@ define([
                 Helper.build_events($input, options.events, context);
             }
 
+            if(options.class){
+                $input.removeClass(options.class);
+                $input.addClass(options.class);
+            }
+
             //Insere o valor no campo
             if(options.value){
                 if(options.value === "$bind"){

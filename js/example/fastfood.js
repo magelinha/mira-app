@@ -422,7 +422,7 @@ var landingConcreta =
                         {
                             name: "container-field", tag:"div", widget:"WaiContent", class:"col-sm-6",
                             children:[
-                                {name: "qtd-field", widget:"WaiInput", value: "$data.quantidade"}
+                                {name: "qtd-field", widget:"WaiInput", value: "$data.quantidade", class:"input-qtd"}
                             ]
                         },
                         {

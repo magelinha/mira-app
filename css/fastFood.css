@@ -33,8 +33,7 @@ option, select {
 }
 
 .item-pedido {
-	height: 60px;
-	border-bottom: 1px solid #D3D3D3;
+	height: 60px;	
 }
 
 .border-container {
@@ -47,7 +46,7 @@ option, select {
 }
 
 .input-qtd {
-	margin-top: 14px;	 
+	margin-top: 14px;
 }
 
 .label-bold {
