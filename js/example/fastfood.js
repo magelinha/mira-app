@@ -387,18 +387,20 @@ var landingConcreta =
             children:
             [
                 //nome do item
-                { name: "item-name", tag:"div", widget: "WaiContent", value: "$data.nome"},
+                { name: "item-name", tag:"div", class:"col-sm-6", widget: "WaiContent", value: "$data.nome"},
                 
                 //controles para aumentar a diminuir quantidade
                 { 
                     name: "item-quantidade", 
-                    tag:"div", widget: "WaiContent", 
+                    tag:"div", 
+                    class:"col-sm-3",
+                    widget: "WaiContent", 
                     children:
                     [
                         { 
                             name: "btn-minus", 
-                            tag: "i", 
-                            class: "fa fa-minus", 
+                            widget: "WaiButton",
+                            class: "btn btn-primary col-sm-2", 
                             event:{
                                 click: {
                                     action: "EvtMinus",
@@ -407,22 +409,28 @@ var landingConcreta =
                                         item: "GetSelectItem(context.$element.parent('.item-pedido'))"                                     
                                     }
                                 }
-                            }
+                            },
+                            children:[
+                                { name: "icon-minus", tag:"i", class:"fa fa-minus"}
+                            ]
                         },
-                        {name: "qtd-field", widget:"WaiInput", value: "$data.quantidade"},
+                        {name: "qtd-field", widget:"WaiInput", value: "$data.quantidade", class:"col-sm-8"},
                         { 
                             name: "btn-plus", 
-                            tag: "i", 
-                            class: "fa fa-plus", 
+                            widget: "WaiButton",
+                            class: "btn btn-primary col-sm-2", 
                             event:{
                                 click: {
                                     action: "EvtPlus",
                                     event: "aumentar_quantidade",
                                     params:{
-                                        item: "GetSelectItem(context.$element.parent())"
+                                        item: "GetSelectItem(context.$element.parent('.item-pedido'))"                                     
                                     }
                                 }
-                            }
+                            },
+                            children:[
+                                { name: "icon-plus", tag:"i", class:"fa fa-plus"}
+                            ]
                         },
                     ]
                 },
