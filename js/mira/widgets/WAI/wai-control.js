@@ -174,7 +174,7 @@ define([
                     $input.prop('value', options.value);
                 }
     
-                $element.updateValue = function(){
+                $input.updateValue = function(){
                     if(_.isObject(options.value)){
                         var value = Helper.build_value(options.value[appApi.currentLanguage], context);
                         $input.prop('value', value);
