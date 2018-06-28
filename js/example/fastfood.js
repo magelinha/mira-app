@@ -398,7 +398,7 @@ var landingConcreta =
                     children:
                     [
                         {
-                            name: "container-minus", tag:"div", widget: "WaiContent", class:"col-sm-3 btn-quantidade",
+                            name: "container-minus", tag:"div", widget: "WaiContent", class:"col-sm-2 btn-quantidade",
                             children:[
                                 { 
                                     name: "btn-minus", 
@@ -426,7 +426,7 @@ var landingConcreta =
                             ]
                         },
                         {
-                            name:"container-plus", tag:"div", widget:"WaiContent", class:"col-sm-3 btn-quantidade",
+                            name:"container-plus", tag:"div", widget:"WaiContent", class:"col-sm-2 btn-quantidade",
                             children:[
                                 { 
                                     name: "btn-plus", 
