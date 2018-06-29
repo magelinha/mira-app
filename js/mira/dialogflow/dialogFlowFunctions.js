@@ -386,8 +386,6 @@ var Init = function(server){
 
         sessionClient.detectIntent(request)
             .then(responses => {
-                console.log(responses);
-
                 var result = proccessResponse(responses[0]);
                 res.json(result);
             })

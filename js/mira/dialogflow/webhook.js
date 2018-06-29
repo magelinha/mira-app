@@ -287,7 +287,7 @@ var Init = function(server){
 	webhookFunctions.AddIntentAction('pedido.item-selecionado', function(params){
 		var speech = params.quantidade > 1 ?
 			`${params.quantidade} unidades de ${params.nome}. Total: ${formatPrice(params.total)}. Você pode alterar a quantidade, remover o item ou navegar para outro item.` :
-			`${params.quantidade} unidade de ${params.nome}. Total: ${formatPrice(params.total)}. Você pode alterar a quantidade, remover o item ou navegar para outro item.``;
+			`${params.quantidade} unidade de ${params.nome}. Total: ${formatPrice(params.total)}. Você pode alterar a quantidade, remover o item ou navegar para outro item.`;
 
 		return speech;
 	});
