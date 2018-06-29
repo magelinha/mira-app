@@ -23,6 +23,7 @@
 function jsonToStructProto(json) {
   const fields = {};
   for (let k in json) {
+    console.log(k);
     fields[k] = jsonValueToProto(json[k]);
   }
 
