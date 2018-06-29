@@ -279,16 +279,24 @@ ActionAPI.SpeechAction.prototype.stopRecording = function(toExport) {
                     *}
                     */
                     
-                    //Caso tenha falado algo, seta a contexto do resultado
-                    if(data.queryText && data.queryText.length){
-                        _this.currentContext = data.context
+                    
+                    if(!data.queryText || !data.queryText.length){
+                        console.log("erro na fala");
+                        //Caso tenha gerado o audio, mas o queryText foi errado, indica que houve algo errado com a fala
+                        _this.tts("Não entendi o que foi dito. Repita por favor", true);
+                        return;
                     }
 
+                    //Caso tenha falado algo, seta a contexto do resultado
+                    _this.currentContext = data.context
+
+                    //Se a ação a ser executa é input.unknown, indica que o dialogflow não conseguiu identificar a intenção
                     if(data.action == 'input.unknown'){
                         _this.tts(data.message, true);
+                        return;
                     }
 
-
+                    //Caso tenha que executar alguma ação, a faz
                     if (data.success && data.action && data.action.length)
                         _this.executeCommand(data.action, data.params);
 
