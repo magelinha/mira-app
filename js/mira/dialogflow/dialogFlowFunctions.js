@@ -337,6 +337,7 @@ var Init = function(server){
 
     server.post("/event", function(req, res) {
         var params = {};
+        console.log(req.body);
         Object.keys(req.body).forEach(key => {
             if(key == 'projectId' ||key == 'eventName' || key == 'lang')
                 return;
