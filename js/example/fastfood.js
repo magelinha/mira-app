@@ -769,8 +769,10 @@ if(typeof define === 'function') {
                 var result = {};
                 var values = $element.children();
                 result.nome = values.eq(0).text();
-                result.quantidade = values.eq(1).text();
+                result.quantidade = values.eq(1).find('.input-qtd').val();
                 result.total = values.eq(2).text();
+
+                console.log(result);
                 return result;
             }
 
