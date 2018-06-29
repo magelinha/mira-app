@@ -599,7 +599,7 @@ function getInternalPhrases(lang){
     var phrases = [];
 
     Object.keys(appActions).forEach(key => {
-        phrases.push(appActions[keys][lang]);
+        phrases.push(appActions[key][lang]);
     });
 
     return phrases;
