@@ -76,9 +76,7 @@ const combos =
 ];
 
 var formatPrice = function(param){
-	if(_.isString(param)){
-		param = param.replace("R$", "");
-	}
+	param = param.replace("R$","");
 	var value = parseFloat(param);
 
     var intPart = Math.trunc(value);
