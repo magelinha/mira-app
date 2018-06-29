@@ -321,7 +321,7 @@ var  proccessResponse = function(response){
 
     var internalIntent = GetInternalActions(response.queryResult.queryText, response.queryResult.language_code);
     console.log(internalIntent);
-    
+
     if(internalIntent){
         data.action = internalIntent;
         data.message = "";
@@ -627,6 +627,7 @@ function restoreAgent(projectId, data) {
 
 
 function GetInternalActions(text, lang){
+    console.log(text, lang);
     var textUpper = text.toUpperCase();
     //Retorna todas as propriedades do objeto
     var keys = Object.keys(appActions);
