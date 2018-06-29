@@ -34,6 +34,7 @@ option, select {
 
 .item-pedido {
 	height: 60px;	
+	margin-bottom: 10px;
 }
 
 .border-container {
@@ -47,6 +48,7 @@ option, select {
 
 .input-qtd {
 	margin-top: 14px;
+	text-align: center;
 }
 
 .label-bold {

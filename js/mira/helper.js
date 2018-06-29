@@ -66,8 +66,8 @@
                             });
 
                             //Chama a função implementada pelo controle
-                            if(value.func)
-                                window[value.func](all_context);
+                            if(value.action)
+                                window[value.action](all_context);
 
                             //Chama o evento cadastrado no dialogflow 
                             appApi.CallRequestEvent(value.event, params);
