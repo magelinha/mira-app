@@ -372,6 +372,7 @@ var Init = function(server){
                 audioConfig: {
                     audioEncoding: req.body.encoding ? req.body.encoding : 'AUDIO_ENCODING_LINEAR16',
                     languageCode: req.body.language,
+                    phrase_hints: getInternalPhrases(req.body.language),
                 },
             },
             inputAudio: req.body.audio,
@@ -383,7 +384,7 @@ var Init = function(server){
         sessionClient.detectIntent(request)
             .then(responses => {
                 console.log(responses);
-                
+
                 var result = proccessResponse(responses[0]);
                 res.json(result);
             })
@@ -593,6 +594,16 @@ const appActions =
         "en-US": ["Select", "Select item", "select this"]
     },
 };
+
+function getInternalPhrases(lang){
+    var phrases = [];
+
+    Object.keys(appActions).forEach(key => {
+        phrases.push(appActions[keys][lang]);
+    });
+
+    return phrases;
+}
 
 function restoreAgent(projectId, data) {
     // Instantiates agent client
