@@ -320,8 +320,11 @@ var  proccessResponse = function(response){
     };
 
     var internalIntent = GetInternalActions(response.queryResult.queryText, response.queryResult.language_code);
-    if(internalIntent)
-        data.action = internalIntent.action;
+    if(internalIntent){
+        data.action = internalIntent;
+        data.message = "";
+    }
+        
 
     //mapeia os parametros
     if(response.queryResult.parameters && response.queryResult.parameters.fields) {
