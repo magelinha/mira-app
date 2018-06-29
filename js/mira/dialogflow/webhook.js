@@ -282,8 +282,11 @@ var Init = function(server){
 	//#region Pedido
 
 	webhookFunctions.AddIntentAction('pedido.item-selecionado', function(params){
+		params.nome = params["item[nome]"];
+		params.quantidade = params["item[quantidade]"];
+		params.total = params["item[total]"];
 		console.log(params);
-		
+
 		var speech = params.quantidade > 1 ?
 			`${params.quantidade} unidades de ${params.nome}. Total: ${formatPrice(params.total)}. Você pode alterar, excluir ou ir para o próximo item.` :
 			`${params.quantidade} unidade de ${params.nome}. Total: ${formatPrice(params.total)}.`;

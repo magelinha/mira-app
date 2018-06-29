@@ -340,7 +340,6 @@ var Init = function(server){
         Object.keys(req.body).forEach(key => {
             if(key == 'projectId' ||key == 'eventName' || key == 'lang')
                 return;
-            console.log(key, req.body[key]);
             params[key] = req.body[key];
         });
 
