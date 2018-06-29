@@ -84,7 +84,9 @@ var formatPrice = function(param){
     var decimalPart = value % 1;
     decimalPart = decimalPart.toFixed(2);
     decimalPart = decimalPart > 0 ? Number(String(decimalPart).split('.')[1]) : 0;
-    
+	
+	console.log(intPart);
+	console.log(decimalPart);
     var text = '';
 
     if(intPart == 1){
