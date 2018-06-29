@@ -77,6 +77,7 @@ const combos =
 
 var formatPrice = function(param){
 	param = param.replace("R$","");
+	console.log(param);
 	var value = parseFloat(param);
 
     var intPart = Math.trunc(value);
