@@ -319,6 +319,10 @@ var  proccessResponse = function(response){
         context: response.queryResult.output_context
     };
 
+    var internalIntent = GetInternalActions(response.queryResult.queryText, response.queryResult.language_code);
+    if(internalIntent)
+        data.action = internalIntent.action;
+
     //mapeia os parametros
     if(response.queryResult.parameters && response.queryResult.parameters.fields) {
         data.params = structjson.structProtoToJson(response.queryResult.parameters);
@@ -337,14 +341,11 @@ var Init = function(server){
 
     server.post("/event", function(req, res) {
         var params = {};
-        console.log(req.body);
         Object.keys(req.body).forEach(key => {
             if(key == 'projectId' ||key == 'eventName' || key == 'lang')
                 return;
             params[key] = req.body[key];
         });
-
-        console.log(params);
 
         //Retorna a requisição vinda do dialogFlow
         let promise;
