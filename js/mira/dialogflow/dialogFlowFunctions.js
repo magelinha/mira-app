@@ -344,6 +344,8 @@ var Init = function(server){
             params[key] = req.body[key];
         });
 
+        console.log(params);
+
         //Retorna a requisição vinda do dialogFlow
         let promise;
         promise = DetectEventIntent(req.body.projectId, req.body.eventName, req.body.lang, params, req.body.context);
