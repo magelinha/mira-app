@@ -310,7 +310,7 @@ var RequestTextIntent = function(params){
     return  DetectTextIntent(params.projectId, params.text, params.lang);
 }
 
-var  proccessResponse = function(response){
+var  proccessResponse = function(response, lang){
     
     var data = {
         message: response.queryResult.fulfillmentText,
@@ -319,8 +319,8 @@ var  proccessResponse = function(response){
         context: response.queryResult.output_context
     };
 
-    var internalIntent = GetInternalActions(response.queryResult.queryText, response.queryResult.language_code);
-    console.log(response.queryResult);
+    var internalIntent = GetInternalActions(response.queryResult.queryText, lang || response.queryResult.language_code);
+    console.log(internalIntent);
 
     if(internalIntent){
         data.action = internalIntent;
@@ -357,7 +357,7 @@ var Init = function(server){
         promise = DetectEventIntent(req.body.projectId, req.body.eventName, req.body.lang, params, req.body.context);
         promise
             .then(response => {
-                var result = proccessResponse(response[0]);
+                var result = proccessResponse(response[0], req.body.lang);
                 res.json(result);
             }).catch(error => {
                 console.log("erro ao detectar eventos");
@@ -388,7 +388,7 @@ var Init = function(server){
 
         sessionClient.detectIntent(request)
             .then(responses => {
-                var result = proccessResponse(responses[0]);
+                var result = proccessResponse(responses[0], req.body.language);
                 res.json(result);
             })
             .catch(error => {
