@@ -320,6 +320,8 @@ var  proccessResponse = function(response){
     };
 
     var internalIntent = GetInternalActions(response.queryResult.queryText, response.queryResult.language_code);
+    console.log(internalIntent);
+    
     if(internalIntent){
         data.action = internalIntent;
         data.message = "";
