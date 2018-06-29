@@ -63,6 +63,7 @@
                             var params = {};
                             Object.keys(value.params || {}).forEach(key => {
                                 params[key] = _this.eval_with_context(value.params[key], all_context);
+                                console.log(key, params[key]);
                             });
 
                             //Chama a função implementada pelo controle
