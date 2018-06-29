@@ -77,17 +77,16 @@ const combos =
 
 var formatPrice = function(param){
 	param = param.replace("R$","");
+	param = param.replace(",",".");
 	console.log(param);
 	var value = parseFloat(param);
 
-    var intPart = Math.trunc(value);
+	var intPart = Math.trunc(value);
     var decimalPart = value % 1;
     decimalPart = decimalPart.toFixed(2);
     decimalPart = decimalPart > 0 ? Number(String(decimalPart).split('.')[1]) : 0;
 	
-	console.log(intPart);
-	console.log(decimalPart);
-    var text = '';
+	var text = '';
 
     if(intPart == 1){
         text += intPart + " real";
