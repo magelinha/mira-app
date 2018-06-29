@@ -282,9 +282,6 @@ var Init = function(server){
 	//#region Pedido
 
 	webhookFunctions.AddIntentAction('pedido.item-selecionado', function(params){
-		params.nome = params["item[nome]"];
-		params.quantidade = params["item[quantidade]"];
-		params.total = params["item[total]"];
 		console.log(params);
 
 		var speech = params.quantidade > 1 ?

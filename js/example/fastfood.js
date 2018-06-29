@@ -399,7 +399,9 @@ var landingConcreta =
                 focus: {
                     event: 'item_selecionado',
                     params: {
-                        item: 'GetSelectItem(context.$element)'
+                        nome: 'GetSelectItem(context.$element).nome',
+                        quantidade: 'GetSelectItem(context.$element).quantidade',
+                        total: 'GetSelectItem(context.$element).total'
                     }
                 }
             },
