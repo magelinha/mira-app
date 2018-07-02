@@ -532,6 +532,7 @@ ActionAPI.SpeechAction.prototype.InitialMessage = function(welcomeEvent) {
 
 //Métodos a serem executados pelo APP
 window.NextItem = function(){
+    console.log('executou o nextItem');
     var currentElement = $(document.activeElement);
     var index = currentElement.index();
     var parent = currentElement.parent();

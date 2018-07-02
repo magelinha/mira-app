@@ -549,49 +549,49 @@ var Init = function(server){
 const appActions = 
 {
 
-    changeLanguage: 
+    ChangeLanguage: 
     {
         "pt-BR": ["Mudar linguagem para Inglês"],
         "en-US": ["Change language to Portuguese"]
     },
 
-    optionsView:
+    OptionsView:
     {
         "pt-BR": ["Minhas opções", "O que posso fazer", "Opções", "Onde estou"],
         "en-US": ["My options", "What do I do", "Options", "Where I am"]
     },
 
-    repeat: 
+    Repeat: 
     {
         "pt-BR": ["Repetir", "Repita"],
         "en-US": ["Repeat"]
     },
 
-    nextItem: 
+    NextItem: 
     {
         "pt-BR": ["Próximo", "Próximo Item", "Avançar"],
         "en-US": ["Next", "Next Item"]
     },
 
-    prevItem: 
+    PrevItem: 
     {
         "pt-BR": ["Anterior", "Item anterior", "Voltar"],
         "en-US": ["Previous"]
     },
 
-    checkItem: 
+    CheckItem: 
     {
         "pt-BR": ["Marcar", "Marcar item", "Marcar esse", "Marcar este"],
         "en-US": ["Check", "Check item", "check this"]
     },
 
-    uncheckItem: 
+    UncheckItem: 
     {
         "pt-BR": ["Desmarcar", "Desmarcar item", "Desmarcar esse", "Desmarcar este"],
         "en-US": ["Uncheck", "Uncheck item", "Uncheck this"]
     },
 
-    selectItem: 
+    SelectItem: 
     {
         "pt-BR": ["Selecionar", "Selecionar item", "Selecionar esse", "Selecionar este"],
         "en-US": ["Select", "Select item", "select this"]
