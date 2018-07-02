@@ -424,13 +424,13 @@ var landingConcreta =
                                 { 
                                     name: "btn-minus", 
                                     widget: "WaiButton",
-                                    class: "btn btn-primary btn-xs", 
-                                    event:{
+                                    class: "btn btn-primary btn-xs bnt-minus", 
+                                    events:{
                                         click: {
                                             action: "EvtMinus",
                                             event: "reduzir_quantidade",
                                             params:{
-                                                item: "GetSelectItem(context.$element.parent('.item-pedido'))"                                     
+                                                item: "GetSelectItem(context.$element.parent('.item-pedido')).nome"
                                             }
                                         }
                                     },
@@ -443,7 +443,22 @@ var landingConcreta =
                         {
                             name: "container-field", tag:"div", widget:"WaiContent", class:"col-sm-6",
                             children:[
-                                {name: "qtd-field", widget:"WaiInput", value: "$data.quantidade", class:"input-qtd"}
+                                {
+                                    name: "qtd-field", 
+                                    widget:"WaiInput", 
+                                    value: "$data.quantidade", 
+                                    class:"input-qtd",
+                                    events: {
+                                        change: {
+                                            action: "SetTotal",
+                                            event: "editar_item",
+                                            params: {
+                                                nome: "GetSelectItem(context.$element.parent('.item-pedido')).nome",
+                                                quantidade: "GetSelectItem(context.$element.parent('.item-pedido')).quantidade",
+                                            }
+                                        }
+                                    }
+                                }
                             ]
                         },
                         {
@@ -452,8 +467,8 @@ var landingConcreta =
                                 { 
                                     name: "btn-plus", 
                                     widget: "WaiButton",
-                                    class: "btn btn-primary btn-xs", 
-                                    event:{
+                                    class: "btn btn-primary btn-xs btn-plus", 
+                                    events:{
                                         click: {
                                             action: "EvtPlus",
                                             event: "aumentar_quantidade",
@@ -471,7 +486,7 @@ var landingConcreta =
                     ]
                 },
                 //valor total
-                { name: "item-preco", tag:"div", widget: "WaiContent", value: "$data.total.formatMoney()", class:"col-sm-2 container-dado-item border-container label-bold"},
+                { name: "item-preco", tag:"div", widget: "WaiContent", value: "$data.total.formatMoney()", class:"col-sm-2 container-dado-item border-container label-total-item label-bold"},
                 
                 //controle para remover o item
                 { 
@@ -493,7 +508,7 @@ var landingConcreta =
                             },
                             children:
                             [
-                                { name: 'icon-edit', "aria-hidden": true, "aria-labelledby":"header-item-remove", widget: "WaiContent", tag:"i", class:"fa fa-trash fa-lg btn-action" }
+                                { name: 'icon-remove', "aria-hidden": true, "aria-labelledby":"header-item-remove", widget: "WaiContent", tag:"i", class:"fa fa-trash fa-lg btn-action" }
                             ]
                         }
                     ]
@@ -510,8 +525,35 @@ var landingConcreta =
 
         //Operações da view
         { name: 'container-botoes', widget: 'WaiContent', class: 'row text-center', style: 'margin: 10% 0 5% 0;'},
-        { name: "confirmar-pedido", tag:"a", widget:"WaiButton", class: "btn btn-success btn-lg", value: "$bind", events:{ click: "EvtCadastrarPedido" }, href:"navigate('fastfood/gerarPedido')", style: "margin-right: 10px;" },
-        { name: "cancelar-pedido", widget: "WaiButton", class: "btn btn-danger btn-lg", value: "$bind", events: { click: "LimparLista"} },
+        { 
+            name: "confirmar-pedido", 
+            tag:"a", 
+            widget:"WaiButton", 
+            class: "btn btn-success btn-lg", 
+            value: "$bind", 
+            href:"navigate('fastfood/gerarPedido')", 
+            style: "margin-right: 10px;",
+            events:{ 
+                click: {
+                    action: "EvtCadastrarPedido",
+                    event: "cadastrar_pedido"
+                }
+
+            },  
+        },
+        { 
+            name: "cancelar-pedido", 
+            widget: "WaiButton", 
+            class: "btn btn-danger btn-lg", 
+            value: "$bind", 
+            events: 
+            { 
+                click: {
+                    action: "EvtCancelarPedido",
+                    event: "cancelar_pedido"
+                }
+            }
+        },
     ]
 };
 //---------------------------------------------------------------------------------------- Fim: landing ----------------------------------------------------------------------------------------
@@ -740,25 +782,9 @@ if(typeof define === 'function') {
             Mira.Widget.setDefault('BootstrapSimple');
             ChangeCurrentValue();
 
-            window.GetTotal = function(){
-                var rows = $("#itens").children();
-
-                console.log(rows);
-                if(!rows.length)
-                    return 0;
-                
-                return rows
-                    .map(row => parseFloat(row.eq(2)))
-                    .reduce((acc, current) => acc + current, 0.);
-            }
-
+            //#region Funções cadastradas no DialogFlow
+            
             window.LimparLista = function(options){
-                window.selecionados = new Mira.Api.Collection([]);
-                
-                appApi.tts(
-                    _.find(messages[appApi.currentLanguage], function(x){ return x.name == "clear"}).message
-                );   
-
                 app.$env.$dataObj.trigger("change");
             };
 
@@ -766,118 +792,6 @@ if(typeof define === 'function') {
                 options.$event.preventDefault();
                 window.location.href = "/?app=example/fastfood";
             };
-
-            window.GetSelectItem = function($element){
-                var result = {};
-                var values = $element.children();
-                result.nome = values.eq(0).text();
-                result.quantidade = values.eq(1).find('.input-qtd').val();
-                result.total = values.eq(2).text();
-
-                console.log(result);
-                return result;
-            }
-
-            window.EditarItem = function(){
-                var currentElement = $(document.activeElement);
-                //Verifica se o item selecionado é uma linha da tabela
-                if(!currentElement || currentElement.is('tr'))
-                    return;
-
-                var button = currentElement.find('.btn-editar');
-                
-                //Caso tenha achado o botão, força a click no mesmo para disparar o evento registrado
-                if(button.length){
-                    button.click();
-                }
-            };
-
-            //Operações modal
-            window.EvtEditItem = function(options){
-                var $button =  options.$element;
-                var values = $button.parents("tr").children();
-                var item = values.eq(0).text();
-                var oldQuantity = values.eq(1).text();
-                
-                $("#item-to-edit").text(item);
-                $("#nova-quantidade").val(oldQuantity);
-
-                var $modal = $("#content-edit-item").modal({ show: false });
-                $modal.on('shown.bs.modal', function () {
-                    $('#form-edit-item').focus();
-                });
-                
-                $modal.modal('show');
-            };
-
-            window.EvtRemoveItem = function(options){
-                var selected = options.$element.parents("tr").children().eq(0).text();
-                var idItem = $("option").filter(function(){
-                    return $(this).text() === selected;
-                }).val();
-                
-                var selecionado = window.selecionados.find(function(x){ return x.get("idItem") == idItem });
-                window.selecionados.remove(selecionado);
-
-                //Mensagem indicando que salvou com sucesso
-                appApi.tts(
-                    sprintf(
-                        _.find(messages[appApi.currentLanguage], function(x){ return x.name == "remove"}).message, 
-                        textCurrency(
-                            _.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0)
-                        )
-                    )
-                );
-
-                app.$env.$dataObj.trigger("change");
-            };
-
-            window.EvtConfirmEdit = function(options){
-                $("#form-edit-item").submit();
-            };
-
-            window.EvtSubmitEdit = function(options){
-                var newQuantity = parseInt($("#nova-quantidade").val());
-                var selected = $("#item-to-edit").text();
-                var idItem = $("option").filter(function(){
-                    return $(this).text() === selected;
-                }).val();
-                
-                var itemSelecionado = GetItemSelecionado(idItem, newQuantity, options);
-
-                var selecionado = window.selecionados.find(function(x){ return x.get("idItem") == itemSelecionado.idItem });
-                
-                if(selecionado){
-                    selecionado.set("quantidade", itemSelecionado.quantidade);
-                    selecionado.set("total", itemSelecionado.total);
-                }
-
-                var total = _.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0);
-                var currentAmount = textCurrency(total);
-                appApi.tts(
-                    sprintf(
-                        _.find(messages[appApi.currentLanguage], function(x){ return x.name == "edit"}).message, 
-                        currentAmount
-                    )
-                );
-
-                options.$dataObj.trigger("change");
-            };
-
-            window.EvtCadastrarPedido = function(options){
-                var size = window.selecionados.size();
-
-                if(size <= 0){
-                    options.$event.preventDefault();
-                    appApi.tts("Você não escolheu os itens para o pedido.");
-                    return;
-                }
-            };
-
-            window.EvtCancelEdit = function(options){
-                $("#content-edit-item").modal('hide');
-                appApi.tts(_.find(messages[appApi.currentLanguage], function(x){ return x.name == "cancelEdit"}).message);
-            }
 
             window.SetValueItem = function(options){
                 var value = "";
@@ -920,6 +834,135 @@ if(typeof define === 'function') {
                 if(!incomplete)
                     app.$env.$dataObj.trigger("change");
             };
+
+            window.EditarItem = function(options){
+                var quantidade = parseInt(options.quantidade);
+                if(_.isNaN(quantidade))
+                    return;
+                
+                var $currentElement = $(document.activeElement);
+                var $fieldQtd = $currentElement.find('.input-qtd');
+                $fieldQtd.val(quantidade);
+                $fieldQtd.change();
+            }
+
+            window.AumentarQuantidade = function(){
+                ChangeAmount('.btn-minus');
+            }
+
+            window.ReduzirQuaantidade = function(){
+                ChangeAmount('.btn-plus');
+            }
+
+            //#endregion
+
+            //#region Eventos dos controles
+
+            window.EvtRemoveItem = function(options){
+                //remove o item do pedido
+                var $itemPedido = options.$element.parent(".item-pedido");
+                $itemPedido.remove();
+
+                //recalcula o total
+                RefreshTotalPedido();
+            };
+
+            //Diminui a quantidade de um determinado item
+            window.EvtMinus = function(options){
+                var $fieldQtd = GetFieldQtd(options);
+                var $itemPedido = options.$element.parent('.item-pedido');
+                var selectedItem = GetSelectItem($itemPedido);
+
+                if(selectedItem.quantidade <= 1)
+                    return;
+
+                $fieldQtd.val(currentQtd - 1);
+                selectedItem.quantidade = currentQtd - 1;
+
+                var item = selectedItem.nome;
+
+                //recalcula o total do item
+                $.get('/total-item', {item: item, quantidade: quantidade}, function(data){
+                    //altera o texto com o total do item e calcula o total do pedido
+                    $itemPedido.find('.label-total-item').text(data.formatMoney());
+
+                    RefreshTotalPedido();
+                }).fail(function(error){
+                    console.log(error);
+                });
+            };
+
+            window.EvtPlus = function(options){
+                var $fieldQtd = GetFieldQtd(options);
+                var $itemPedido = options.$element.parent('.item-pedido');
+                var selectedItem = GetSelectItem($itemPedido);
+
+                $fieldQtd.val(currentQtd + 1);
+                selectedItem.quantidade = currentQtd + 1;
+
+                var item = selectedItem.nome;
+
+                //recalcula o total do item
+                $.get('/total-item', {item: item, quantidade: quantidade}, function(data){
+                    //altera o texto com o total do item e calcula o total do pedido
+                    $itemPedido.find('.label-total-item0').text(data.formatMoney());
+
+                    //Calcula o total do pedido
+                    RefreshTotalPedido();
+
+                }).fail(function(error){
+                    console.log(error);
+                });
+            };
+
+            window.EvtCadastrarPedido = function(options){
+                options.$event.preventDefault();
+
+                //Se o pedido estiver vazio, não registra o mesmo
+                if($('.item-pedido').length <= 0)
+                    return;
+
+                window.location.href = options.$element.prop('href');
+            }
+
+            //#endregion
+
+            //#region Funções auxiliares
+
+            window.GetSelectItem = function($element){
+                var result = {};
+                var values = $element.children();
+                result.nome = values.eq(0).text();
+                result.quantidade = values.eq(1).find('.input-qtd').val();
+                result.total = values.eq(2).text();
+
+                console.log(result);
+                return result;
+            }
+
+            window.GetFieldQtd = function(options){
+                return options.$element.params('.item-pedido').find('.input-qtd');
+            }
+
+            window.ChangeAmount = function(classItem){
+                var $currentElement = $(document.activeElement);
+                var $button = $currentElement.find(classItem);
+                $button.click();
+            }
+
+            window.RefreshTotalPedido = function(){
+                //Calcula o total do pedido
+                var total = 0;
+                $('.label-total-item').forEach($element => {
+                    total += parseFloat($element.text().replace("R$", "").replace(",", "."));
+                });
+
+                //informa o valor total do item
+                $("#total-value").text(total.formatMoney());
+            }
+
+            //#endregion
+            
         };
     });
 } else {

@@ -297,15 +297,87 @@ var Init = function(server){
 	});
 
 	webhookFunctions.AddIntentAction('pedido.alterar-item-event', function(params){
-		var item = '';
-		if(params.item){
-			Object.keys(params.item).forEach(key => {
-				if(params.item[key])
-					item = params.item[key];
-			});
-		};
+		var nome = params.nome;
+		var quantidade = params.quantidade;
 
-		return `Vamos alterar o item ${item}. Qual a nova quantidade desejada?`;
+		//Atualiza o pedido corrente
+		var pedido = getPedidos();
+
+		var msg = "";
+
+		//Informa qual a nova quantidade do item
+		pedido.forEach(itemPedido => {
+			if(itemPedido.item != nome)
+				return;
+
+			if(itemPedido.quantidade == quantidade){
+				msg = "A quantidade informada é a mesma já informada no pedido";
+				return;
+			}
+
+			itemPedido.total = itemPedido.preco * quantidade;
+			msg = `A nova quantidade do item ${itemPedido.item} é ${quantidade}.`;
+			
+		});
+
+		setPedidos(pedido);
+
+		return msg;
+	});
+
+	webhookFunctions.AddIntentAction('pedido.reduzir-quantidade-event', function(params){
+		var nome = params.nome;
+
+		//Atualiza o pedido corrente
+		var pedido = getPedidos();
+
+		var msg = "";
+
+		//Informa qual a nova quantidade do item
+		pedido.forEach(itemPedido => {
+			if(itemPedido.item != nome)
+				return;
+			
+			if(itemPedido.quantidade <= 1){
+				msg = "A quantidade mínima é 1";
+				return;
+			}
+
+			var quantidade = itemPedido.quantidade - 1;
+
+			itemPedido.total = itemPedido.preco * quantidade;
+			itemPedido.quantidade = quantidade;
+
+			msg = `A nova quantidade do item ${itemPedido.item} é ${quantidade}.`;
+		});
+
+		setPedidos(pedido);
+		return msg;
+	});
+
+	webhookFunctions.AddIntentAction('pedido.aumentar-quantidade-event', function(params){
+		var nome = params.nome;
+
+		//Atualiza o pedido corrente
+		var pedido = getPedidos();
+
+		var msg = "";
+
+		//Informa qual a nova quantidade do item
+		pedido.forEach(itemPedido => {
+			if(itemPedido.item != nome)
+				return;
+
+			var quantidade = itemPedido.quantidade + 1;
+
+			itemPedido.total = itemPedido.preco * quantidade;
+			itemPedido.quantidade = quantidade;
+
+			msg = `A nova quantidade do item ${itemPedido.item} é ${quantidade}.`;
+		});
+
+		setPedidos(pedido);
+		return msg;
 	});
 
 	webhookFunctions.AddIntentAction('pedido.excluir-item-especifico', function(params){

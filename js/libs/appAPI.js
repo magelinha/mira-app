@@ -675,6 +675,10 @@ window.RequestFocus = function(params){
     }, 0);
 };
 
+window.ClickElement = function($element){
+    $element.click();
+}
+
 ActionAPI.SpeechAction.prototype.executeCommand = function(action, params){
     console.log(action);
     if(typeof(window[action]) != "undefined"){
