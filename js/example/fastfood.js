@@ -354,9 +354,10 @@ var landingConcreta =
                     event: 'item_adicionado', 
                     params: { 
                         item: '$("#cardapio option:selected").text()', 
-                        quantidade: '$("#quantidade").val()'}
-                    } 
+                        quantidade: '$("#quantidade").val()'
+                    }
                 } 
+            } 
         },
         { name: 'form-group', widget:'WaiContent', class: 'form-group' },
         { name: 'container-field', widget:'WaiContent', class:'col-sm-10' },

@@ -363,7 +363,7 @@
             var $dataObj = context.$dataObj;
 
             //var reg = new RegExp('(\\$\\w+\\.\\w+)|(\\$\w+)', 'g');
-            var matches = text.match(/(\$\w+\.\w+)|(\$\w+)\w+/g);
+            var matches = text.match(/(\$\w+\.\w+)|(\$\w+)\w+|(\$\(\")|(\$\(\')/g);
 
             if(matches == null)
                 return text;
