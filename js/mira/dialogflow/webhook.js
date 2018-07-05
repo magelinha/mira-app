@@ -128,6 +128,15 @@ var getItem = function(nome, tipo){
 	return toSearch.find(it => it.nome == nome);
 }
 
+var getItemByName = function(nome){
+	var item = getItem(nome, 'bebida') || getItem(nome, 'sanduiche') || getItem(nome, 'combos');
+
+	if(!item)
+		console.error(`Não foi possível encontrar o item com nome ${nome}`);
+
+	return item;
+}
+
 var getPedidos = function(){
 	return jsonfile.readFileSync(pathPedidos);
 }
@@ -167,6 +176,31 @@ var removeItem = function(item){
 
 	return item;
 }
+
+var adicionarItem = function(item, quantidade){
+	var pedidos = getPedidos();
+
+	//verifica se já existe algum item na lista
+	var index = pedidos.itens.findIndex(it => it.nome == item.nome);
+	if(index >= 0){
+		pedidos.itens[index].quantidade += quantidade;
+		pedidos.itens[index].total = pedidos.itens[index].preco * quantidade;
+	}
+	else{
+		var toAdd = Object.assign({}, item, {quantidade: quantidade, total: item.preco * quantidade});
+		pedidos.itens.push(toAdd);
+	}
+	
+	setPedidos(pedidos);
+
+	var speech = 
+		quantidade > 1 ? `${quantidade} unidades do item ${nome} foram adicionadas ao pedido.` :
+		`${quantidade} unidade do item ${nome} foi adicionada ao pedido.`;
+
+	speech += "Você pode consultar o pedido, adicionar itens, ou concluir a compra."
+	console.log(speech);
+	return speech;
+};
 
 var Init = function(server){
 	webhookFunctions.Init(server);
@@ -249,32 +283,16 @@ var Init = function(server){
 			return false;
 		});
 		
-		console.log(`nome: ${nome}, tipo: ${tipo}`);
-		//Adiciona o item no pedido
 		var item = getItem(nome, tipo);
+
+		return adicionarItem(item, quantidade);
+	});
+
+	webhookFunctions.AddIntentAction('efetuar-pedido.item-adicionado', function(params){
+		var quantidade = params.quantidade;
+		var item = getItemByName(params.item);
 		
-		var pedidos = getPedidos();
-
-		//verifica se já existe algum item na lista
-		var index = pedidos.itens.findIndex(it => it.nome == item.nome);
-		if(index >= 0){
-			pedidos.itens[index].quantidade += quantidade;
-			pedidos.itens[index].total = pedidos.itens[index].preco * quantidade;
-		}
-		else{
-			var toAdd = Object.assign({}, item, {quantidade: quantidade, total: item.preco * quantidade});
-			pedidos.itens.push(toAdd);
-		}
-		
-		setPedidos(pedidos);
-
-		var speech = 
-			quantidade > 1 ? `${quantidade} unidades do item ${nome} foram adicionadas ao pedido.` :
-			`${quantidade} unidade do item ${nome} foi adicionada ao pedido.`;
-
-		speech += "Você pode consultar o pedido, adicionar itens, ou concluir a compra."
-		console.log(speech);
-		return speech;
+		return adicionarItem(item, quantidade);
 	});
 
 	webhookFunctions.AddIntentAction('welcome-landing', function(params){
