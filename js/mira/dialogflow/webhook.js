@@ -289,6 +289,7 @@ var Init = function(server){
 	});
 
 	webhookFunctions.AddIntentAction('efetuar-pedido.item-adicionado', function(params){
+		console.log(params);
 		var quantidade = params.quantidade;
 		var item = getItemByName(params.item);
 		
