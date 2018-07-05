@@ -56,6 +56,8 @@
                             //Se for uma função, apenas a executa
                             value(all_context);
                         } else if(_.isObject(value)){
+                            $event.preventDefault();
+                            
                             //Se for um Object, indica que é um evento do API.ai
                             $event.stopPropagation();
 

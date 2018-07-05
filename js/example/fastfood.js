@@ -350,7 +350,6 @@ var landingConcreta =
             class: "form-horizontal", 
             events:{ 
                 submit: {
-                    action: 'EvtSubmitForm',
                     event: 'item_adicionado', 
                     params: { 
                         item: '$("#cardapio option:selected").text()', 
@@ -925,16 +924,6 @@ if(typeof define === 'function') {
                     return;
 
                 window.location.href = options.$element.prop('href');
-            }
-
-            window.EvtSubmitForm = function(options){
-                //Evita que o submit seja executado
-                options.$event.preventDefault();
-                
-                setTimeout(function(){
-                    //depois de 1 segundo, alerta ao MIRA que a coleção foi modificada
-                    app.$env.$dataObj.trigger("change"); 
-                }, 1000);
             }
 
             //#endregion
