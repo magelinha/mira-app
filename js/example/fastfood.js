@@ -350,6 +350,7 @@ var landingConcreta =
             class: "form-horizontal", 
             events:{ 
                 submit: {
+                    action: 'EvtSubmitForm',
                     event: 'item_adicionado', 
                     params: { 
                         item: '$("#cardapio option:selected").text()', 
@@ -924,6 +925,10 @@ if(typeof define === 'function') {
                     return;
 
                 window.location.href = options.$element.prop('href');
+            }
+
+            window.EvtSubmitForm = function(options){
+                app.$env.$dataObj.trigger("change");
             }
 
             //#endregion
