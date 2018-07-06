@@ -403,10 +403,11 @@ ActionAPI.SpeechAction.prototype.CallRequestEvent = function(eventName, params){
 
 
 ActionAPI.SpeechAction.prototype.AjaxRequest = function(method, url, data, config, callback) {
+    var json = JSON.stringify(data);
     var configBase = {
         url: url,
         type: method,
-        data:data,
+        data:json,
         success: function(data){
             if(callback)
                 callback(data);
