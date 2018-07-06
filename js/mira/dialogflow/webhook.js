@@ -194,7 +194,7 @@ var adicionarItem = function(item, quantidade){
 	setPedidos(pedidos);
 
 	var nome = item.nome;
-	
+
 	var speech = 
 		quantidade > 1 ? `${quantidade} unidades do item ${nome} foram adicionadas ao pedido.` :
 		`${quantidade} unidade do item ${nome} foi adicionada ao pedido.`;
@@ -268,7 +268,7 @@ var Init = function(server){
 		
 		console.log(params);
 		
-		var quantidade = params.quantidade;
+		var quantidade = parseInt(params.quantidade);
 		var nome = '';
 		var tipo = '';
 
@@ -292,7 +292,7 @@ var Init = function(server){
 
 	webhookFunctions.AddIntentAction('efetuar-pedido.item-adicionado', function(params){
 		console.log(params);
-		var quantidade = params.quantidade;
+		var quantidade = parseInt(params.quantidade);
 		var item = getItemByName(params.item);
 		
 		return adicionarItem(item, quantidade);
