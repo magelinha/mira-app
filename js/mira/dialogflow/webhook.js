@@ -325,22 +325,24 @@ var Init = function(server){
 		var msg = "";
 
 		//Informa qual a nova quantidade do item
-		pedido.forEach(itemPedido => {
-			if(itemPedido.item != nome)
+		pedido.itens.forEach(item => {
+			if(item.nome != nome)
 				return;
-
-			if(itemPedido.quantidade == quantidade){
+				
+			if(item.quantidade == quantidade){
 				msg = "A quantidade informada é a mesma já informada no pedido";
 				return;
 			}
 
-			itemPedido.total = itemPedido.preco * quantidade;
-			msg = `A nova quantidade do item ${itemPedido.item} é ${quantidade}.`;
-			
+			item.total = item.preco * quantidade;
+			item.quantidade = quantidade;
+
+			msg = `A nova quantidade do item ${item.nome} é ${quantidade}.`;
 		});
 
-		setPedidos(pedido);
+		msg = msg == "" ? "O item a ter sua quantidade alterada não foi encontrado" : msg; 
 
+		setPedidos(pedido);
 		return msg;
 	});
 
@@ -353,22 +355,24 @@ var Init = function(server){
 		var msg = "";
 
 		//Informa qual a nova quantidade do item
-		pedido.forEach(itemPedido => {
-			if(itemPedido.item != nome)
+		pedido.itens.forEach(item => {
+			if(item.nome != nome)
 				return;
-			
-			if(itemPedido.quantidade <= 1){
+				
+			if(item.quantidade <= 1){
 				msg = "A quantidade mínima é 1";
 				return;
 			}
 
-			var quantidade = itemPedido.quantidade - 1;
+			var quantidade = item.quantidade - 1;
 
-			itemPedido.total = itemPedido.preco * quantidade;
-			itemPedido.quantidade = quantidade;
+			item.total = item.preco * quantidade;
+			item.quantidade = quantidade;
 
-			msg = `A nova quantidade do item ${itemPedido.item} é ${quantidade}.`;
+			msg = `A nova quantidade do item ${item.nome} é ${quantidade}.`;
 		});
+
+		msg = msg == "" ? "O item a ter sua quantidade reduzida não foi encontrado" : msg; 
 
 		setPedidos(pedido);
 		return msg;
@@ -383,17 +387,19 @@ var Init = function(server){
 		var msg = "";
 
 		//Informa qual a nova quantidade do item
-		pedido.forEach(itemPedido => {
-			if(itemPedido.item != nome)
+		pedido.itens.forEach(item => {
+			if(item.nome != nome)
 				return;
 
-			var quantidade = itemPedido.quantidade + 1;
+			var quantidade = item.quantidade + 1;
 
-			itemPedido.total = itemPedido.preco * quantidade;
-			itemPedido.quantidade = quantidade;
+			item.total = item.preco * quantidade;
+			item.quantidade = quantidade;
 
-			msg = `A nova quantidade do item ${itemPedido.item} é ${quantidade}.`;
+			msg = `A nova quantidade do item ${item.nome} é ${quantidade}.`;
 		});
+
+		msg = msg == "" ? "O item a ter sua quantidade aumentada não foi encontrado" : msg; 
 
 		setPedidos(pedido);
 		return msg;
