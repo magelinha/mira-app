@@ -184,7 +184,7 @@ var adicionarItem = function(item, quantidade){
 	var index = pedidos.itens.findIndex(it => it.nome == item.nome);
 	if(index >= 0){
 		pedidos.itens[index].quantidade += quantidade;
-		pedidos.itens[index].total = pedidos.itens[index].preco * quantidade;
+		pedidos.itens[index].total += pedidos.itens[index].preco * quantidade;
 	}
 	else{
 		var toAdd = Object.assign({}, item, {quantidade: quantidade, total: item.preco * quantidade});
