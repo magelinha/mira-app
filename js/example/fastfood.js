@@ -401,9 +401,9 @@ var landingConcreta =
                 focus: {
                     event: 'item_selecionado',
                     params: {
-                        nome: 'GetSelectItem(context.$element.parent(".item-pedido")).nome',
-                        quantidade: 'GetSelectItem(context.$element.parent(".item-pedido")).quantidade',
-                        total: 'GetSelectItem(context.$element.parent(".item-pedido")).total'
+                        nome: 'GetSelectItem(context.$element).nome',
+                        quantidade: 'GetSelectItem(context.$element).quantidade',
+                        total: 'GetSelectItem(context.$element).total'
                     }
                 }
             },
@@ -432,7 +432,7 @@ var landingConcreta =
                                             action: "EvtMinus",
                                             event: "reduzir_quantidade",
                                             params:{
-                                                item: "GetSelectItem(context.$element.parent('.item-pedido')).nome"
+                                                item: "GetSelectItem(context.$element.parents('.item-pedido')).nome"
                                             }
                                         }
                                     },
@@ -455,8 +455,8 @@ var landingConcreta =
                                             action: "SetTotal",
                                             event: "editar_item",
                                             params: {
-                                                nome: "GetSelectItem(context.$element.parent('.item-pedido')).nome",
-                                                quantidade: "GetSelectItem(context.$element.parent('.item-pedido')).quantidade",
+                                                nome: "GetSelectItem(context.$element.parents('.item-pedido')).nome",
+                                                quantidade: "GetSelectItem(context.$element.parents('.item-pedido')).quantidade",
                                             }
                                         }
                                     }
@@ -475,7 +475,7 @@ var landingConcreta =
                                             action: "EvtPlus",
                                             event: "aumentar_quantidade",
                                             params:{
-                                                item: "GetSelectItem(context.$element.parent('.item-pedido'))"                                     
+                                                item: "GetSelectItem(context.$element.parents('.item-pedido')).nome"
                                             }
                                         }
                                     },
@@ -504,7 +504,7 @@ var landingConcreta =
                                     action: "EvtRemoveItem",
                                     event: "item_removido",
                                     params:{
-                                        item: "GetSelectItem(context.$element.parent('.item-pedido')).nome"
+                                        item: "GetSelectItem(context.$element.parents('.item-pedido')).nome"
                                     }
                                 }
                             },
