@@ -319,6 +319,8 @@ var  proccessResponse = function(response, lang){
         context: response.queryResult.output_context
     };
 
+    console.log(response);
+
     var internalIntent = GetInternalActions(response.queryResult.queryText, lang || response.queryResult.language_code);
     console.log(internalIntent);
 
