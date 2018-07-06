@@ -504,7 +504,7 @@ var landingConcreta =
                                     action: "EvtRemoveItem",
                                     event: "item_removido",
                                     params:{
-                                        item: "GetSelectItem(context.$element.parent('.item-pedido'))"
+                                        item: "GetSelectItem(context.$element.parent('.item-pedido')).nome"
                                     }
                                 }
                             },

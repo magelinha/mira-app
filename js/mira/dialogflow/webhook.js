@@ -145,19 +145,7 @@ var setPedidos = function(pedidos){
 	return jsonfile.writeFileSync(pathPedidos, pedidos);
 }
 
-var removeItem = function(item){
-	//busca do parâmetro qual o item a ser removido
-	var nome = '';
-	var tipo = typeof(item);
-	if(tipo === 'object'){
-		Object.keys(item).forEach(key => {
-			if(item[key])
-				nome = item[key];
-		});
-	} else if(tipo === 'string'){
-		nome = params.item;
-	}
-
+var removeItem = function(nome){
 	//faz a leitura do arquivo para verificar quais os itens do pedido
 	var pedidos = jsonfile.readFileSync(pathPedidos);
 	
@@ -165,8 +153,16 @@ var removeItem = function(item){
 	var exists = pedidos.itens.find(it => it.nome == nome);
 
 	//Se não encontrou o item, informa para o usuário
-	if(!exists)
-		return `O item ${item} não foi encontrado na lista de pedidos`;
+	var result = {
+		success: true,
+		message: ""
+	}
+
+	if(!exists){
+		result.success = false;
+		result.message = `O item ${nome} não foi encontrado na lista de pedidos`;
+		return result;
+	}
 	
 	//caso tenha encontrado, remove da lista
 	pedidos.itens.filter(it => it.nome == nome)
@@ -174,7 +170,7 @@ var removeItem = function(item){
 	//reescreve no arquivo json
 	jsonfile.writeFileSync(pathPedidos, pedidos);
 
-	return nome;
+	return result;
 }
 
 var adicionarItem = function(item, quantidade){
@@ -404,19 +400,23 @@ var Init = function(server){
 	});
 
 	webhookFunctions.AddIntentAction('pedido.excluir-item-especifico', function(params){
-		console.log(params);
-		var item = removeItem(params.item);
+		var nome = "";
+		Object.keys(params.item).forEach(key => {
+			if(params.item[key])
+				nome = params.item[key];
+		});
 
-		//Informa ao usuário que o item foi removido com sucesso
-		return `O item ${item} foi removido do pedido.`;
+		var result = removeItem(nome);
+
+		//Informa ao usuário que o item foi removido com sucesso ou a mensagem de erro, caso tenha ocorrido
+		return result.success ? `O item ${item} foi removido do pedido.` : result.message;
 	});
 
 	webhookFunctions.AddIntentAction('pedido.excluir-item-event', function(params){
-		console.log(params);
-		var item = removeItem(params.item);
+		var result = removeItem(params.item);
 
-		//Informa ao usuário que o item foi removido com sucesso
-		return `O item ${item} foi removido do pedido.`;
+		//Informa ao usuário que o item foi removido com sucesso ou a mensagem de erro, caso tenha ocorrido
+		return result.success ? `O item ${item} foi removido do pedido.` : result.message;
 	});
 	
 
