@@ -196,7 +196,7 @@ var adicionarItem = function(item, quantidade){
 		quantidade > 1 ? `${quantidade} unidades do item ${nome} foram adicionadas ao pedido.` :
 		`${quantidade} unidade do item ${nome} foi adicionada ao pedido.`;
 
-	speech += "Você pode consultar o pedido, adicionar itens, ou concluir a compra."
+	speech += "Você pode consultar a lista de pedidos a qualquer momento."
 	console.log(speech);
 	return speech;
 };
@@ -304,8 +304,8 @@ var Init = function(server){
 
 	webhookFunctions.AddIntentAction('pedido.item-selecionado', function(params){
 		var speech = params.quantidade > 1 ?
-			`${params.quantidade} unidades de ${params.nome}. Total: ${formatPrice(params.total)}. Você pode alterar a quantidade, remover o item ou navegar para outro item.` :
-			`${params.quantidade} unidade de ${params.nome}. Total: ${formatPrice(params.total)}. Você pode alterar a quantidade, remover o item ou navegar para outro item.`;
+			`${params.quantidade} unidades de ${params.nome}. Total: ${formatPrice(params.total)}. Você pode aumentar ou diminuir a quantidade, removê-lo do pedido, ou ir para o próximo item.` :
+			`${params.quantidade} unidade de ${params.nome}. Total: ${formatPrice(params.total)}. Você pode aumentar ou diminuir a quantidade, removê-lo do pedido, ou ir para o próximo item.`;
 
 		return speech;
 	});
