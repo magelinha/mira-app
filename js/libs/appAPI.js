@@ -392,7 +392,7 @@ ActionAPI.SpeechAction.prototype.CallRequestEvent = function(eventName, params){
 
     console.log(params);
     
-    _this.AjaxRequest('POST', '/event', data, null, function(response){
+    return _this.AjaxRequest('POST', '/event', data, null, function(response){
         if (response.success && response.action && response.action.length)
             _this.executeCommand(response.action, response.params);
             
@@ -420,7 +420,7 @@ ActionAPI.SpeechAction.prototype.AjaxRequest = function(method, url, data, confi
     if(config)
         configBase = _.extend(configBase, config);
 
-    $.ajax(configBase);
+    return $.ajax(configBase);
 }
 
 ActionAPI.SpeechAction.prototype.RegisterEntity = function(entityValues){

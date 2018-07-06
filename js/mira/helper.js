@@ -68,12 +68,12 @@
                                 console.log(key, params[key]);
                             });
 
-                            //Chama a função implementada pelo controle
-                            if(value.action)
-                                window[value.action](all_context);
-
                             //Chama o evento cadastrado no dialogflow 
-                            appApi.CallRequestEvent(value.event, params);
+                            appApi.CallRequestEvent(value.event, params).done(function(){
+                                //Chama a função implementada pelo controle
+                                if(value.action)
+                                    window[value.action](all_context);
+                            });
                         } else if(context.$env
                             && context.$env.events
                             && context.$env.events[value]) {
