@@ -147,31 +147,34 @@ var setPedidos = function(pedidos){
 
 var removeItem = function(item){
 	//busca do parâmetro qual o item a ser removido
-	var item = '';
-	var tipo = typeof(params.item);
+	var nome = '';
+	var tipo = typeof(item);
 	if(tipo === 'object'){
-		
+		Object.keys(params.item).forEach(key => {
+			if(params.item[key])
+				nome = params.item[key];
+		});
 	} else if(tipo === 'string'){
-		item = params.item;
+		nome = params.item;
 	}
 
 	//faz a leitura do arquivo para verificar quais os itens do pedido
 	var pedidos = jsonfile.readFileSync(pathPedidos);
 	
 	//verifica se o item a ser excluído está no pedido
-	var exists = pedidos.itens.find(it => it.nome == item);
+	var exists = pedidos.itens.find(it => it.nome == nome);
 
 	//Se não encontrou o item, informa para o usuário
 	if(!exists)
 		return `O item ${item} não foi encontrado na lista de pedidos`;
 	
 	//caso tenha encontrado, remove da lista
-	pedidos.itens.filter(it => it.nome == item)
+	pedidos.itens.filter(it => it.nome == nome)
 
 	//reescreve no arquivo json
 	jsonfile.writeFileSync(pathPedidos, pedidos);
 
-	return item;
+	return nome;
 }
 
 var adicionarItem = function(item, quantidade){
@@ -196,7 +199,7 @@ var adicionarItem = function(item, quantidade){
 		quantidade > 1 ? `${quantidade} unidades do item ${nome} foram adicionadas ao pedido.` :
 		`${quantidade} unidade do item ${nome} foi adicionada ao pedido.`;
 
-	speech += "Você pode consultar a lista de pedidos a qualquer momento."
+	speech += "Você pode consultar o seu pedido a qualquer momento."
 	console.log(speech);
 	return speech;
 };
@@ -304,8 +307,10 @@ var Init = function(server){
 
 	webhookFunctions.AddIntentAction('pedido.item-selecionado', function(params){
 		var speech = params.quantidade > 1 ?
-			`${params.quantidade} unidades de ${params.nome}. Total: ${formatPrice(params.total)}. Você pode aumentar ou diminuir a quantidade, removê-lo do pedido, ou ir para o próximo item.` :
-			`${params.quantidade} unidade de ${params.nome}. Total: ${formatPrice(params.total)}. Você pode aumentar ou diminuir a quantidade, removê-lo do pedido, ou ir para o próximo item.`;
+			`${params.quantidade} unidades de ${params.nome}. Total: ${formatPrice(params.total)}.` :
+			`${params.quantidade} unidade de ${params.nome}. Total: ${formatPrice(params.total)}.`;
+
+		speech += "Você pode aumentar ou diminuir a quantidade, removê-lo do pedido, ou ir para o próximo item.";
 
 		return speech;
 	});
@@ -406,7 +411,7 @@ var Init = function(server){
 	});
 
 	webhookFunctions.AddIntentAction('pedido.excluir-item-event', function(params){
-		removeItem(params.item);
+		var item = removeItem(params.item);
 
 		//Informa ao usuário que o item foi removido com sucesso
 		return `O item ${item} foi removido do pedido.`;
