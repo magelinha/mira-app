@@ -388,6 +388,8 @@ var Init = function(server){
             }
         };
 
+        console.log(request.queryParameters);
+
         sessionClient.detectIntent(request)
             .then(responses => {
                 var result = proccessResponse(responses[0], req.body.language);
