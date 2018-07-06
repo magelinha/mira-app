@@ -370,7 +370,9 @@ var Init = function(server){
 
     server.post("/audio", function(req, res) {
         
-        // The path to identify the agent that owns the created intent.
+        // The path to identify the agent that owns the created 
+        console.log(req.body);
+        
         const sessionPath = sessionClient.sessionPath(req.body.projectId, sessionId);
 
         const request = {
