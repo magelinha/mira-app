@@ -404,6 +404,7 @@ var Init = function(server){
 	});
 
 	webhookFunctions.AddIntentAction('pedido.excluir-item-especifico', function(params){
+		console.log(params);
 		var item = removeItem(params.item);
 
 		//Informa ao usuário que o item foi removido com sucesso
@@ -411,6 +412,7 @@ var Init = function(server){
 	});
 
 	webhookFunctions.AddIntentAction('pedido.excluir-item-event', function(params){
+		console.log(params);
 		var item = removeItem(params.item);
 
 		//Informa ao usuário que o item foi removido com sucesso
