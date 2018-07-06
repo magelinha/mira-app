@@ -866,7 +866,7 @@ if(typeof define === 'function') {
 
             window.EvtRemoveItem = function(options){
                 //remove o item do pedido
-                var $itemPedido = options.$element.parent(".item-pedido");
+                var $itemPedido = options.$element.parents(".item-pedido");
                 $itemPedido.remove();
 
                 //recalcula o total
@@ -876,16 +876,17 @@ if(typeof define === 'function') {
             //Diminui a quantidade de um determinado item
             window.EvtMinus = function(options){
                 var $fieldQtd = GetFieldQtd(options);
-                var $itemPedido = options.$element.parent('.item-pedido');
+                var $itemPedido = options.$element.parents('.item-pedido');
                 var selectedItem = GetSelectItem($itemPedido);
 
-                if(selectedItem.quantidade <= 1)
+                var item = selectedItem.nome;
+                var quantidade = selectedItem.quantidade;
+
+                if(quantidade <= 1)
                     return;
 
-                $fieldQtd.val(currentQtd - 1);
-                selectedItem.quantidade = currentQtd - 1;
-
-                var item = selectedItem.nome;
+                quantidade--;
+                $fieldQtd.val(quantidade);
 
                 //recalcula o total do item
                 $.get('/total-item', {item: item, quantidade: quantidade}, function(data){
@@ -900,22 +901,22 @@ if(typeof define === 'function') {
 
             window.EvtPlus = function(options){
                 var $fieldQtd = GetFieldQtd(options);
-                var $itemPedido = options.$element.parent('.item-pedido');
+                var $itemPedido = options.$element.parents('.item-pedido');
                 var selectedItem = GetSelectItem($itemPedido);
 
-                $fieldQtd.val(currentQtd + 1);
-                selectedItem.quantidade = currentQtd + 1;
-
+                var quantidade = selectedItem.quantidade + 1;
                 var item = selectedItem.nome;
+
+                //Atualiza o campo de texto
+                $fieldQtd.val(quantidade);
 
                 //recalcula o total do item
                 $.get('/total-item', {item: item, quantidade: quantidade}, function(data){
                     //altera o texto com o total do item e calcula o total do pedido
-                    $itemPedido.find('.label-total-item0').text(data.formatMoney());
+                    $itemPedido.find('.label-total-item').text(data.formatMoney());
 
                     //Calcula o total do pedido
                     RefreshTotalPedido();
-
                 }).fail(function(error){
                     console.log(error);
                 });
