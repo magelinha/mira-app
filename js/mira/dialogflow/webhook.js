@@ -165,7 +165,7 @@ var removeItem = function(nome){
 	}
 	
 	//caso tenha encontrado, remove da lista
-	pedidos.itens.filter(it => it.nome == nome)
+	pedidos.itens.filter(it => it.nome != nome)
 
 	//reescreve no arquivo json
 	jsonfile.writeFileSync(pathPedidos, pedidos);
