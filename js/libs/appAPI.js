@@ -407,7 +407,9 @@ ActionAPI.SpeechAction.prototype.AjaxRequest = function(method, url, data, confi
     var configBase = {
         url: url,
         type: method,
-        data:json,
+        data: json,
+        contentType : 'application/json',
+        dataType: 'json',
         success: function(data){
             if(callback)
                 callback(data);
