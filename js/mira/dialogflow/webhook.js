@@ -193,6 +193,8 @@ var adicionarItem = function(item, quantidade){
 	
 	setPedidos(pedidos);
 
+	var nome = item.nome;
+	
 	var speech = 
 		quantidade > 1 ? `${quantidade} unidades do item ${nome} foram adicionadas ao pedido.` :
 		`${quantidade} unidade do item ${nome} foi adicionada ao pedido.`;
