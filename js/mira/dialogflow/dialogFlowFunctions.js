@@ -316,12 +316,12 @@ var  proccessResponse = function(response, lang){
         message: response.queryResult.fulfillmentText,
         action: response.queryResult.action,
         queryText: response.queryResult.queryText, //Apenas para debug
-        context: response.queryResult.output_context
+        context: response.queryResult.outputContexts
     };
 
     console.log(response);
 
-    var internalIntent = GetInternalActions(response.queryResult.queryText, lang || response.queryResult.language_code);
+    var internalIntent = GetInternalActions(response.queryResult.queryText, lang || response.queryResult.languageCode);
     console.log(internalIntent);
 
     if(internalIntent){
