@@ -150,9 +150,9 @@ var removeItem = function(item){
 	var nome = '';
 	var tipo = typeof(item);
 	if(tipo === 'object'){
-		Object.keys(params.item).forEach(key => {
-			if(params.item[key])
-				nome = params.item[key];
+		Object.keys(item).forEach(key => {
+			if(item[key])
+				nome = item[key];
 		});
 	} else if(tipo === 'string'){
 		nome = params.item;
