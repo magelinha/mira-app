@@ -150,10 +150,7 @@ var removeItem = function(item){
 	var item = '';
 	var tipo = typeof(params.item);
 	if(tipo === 'object'){
-		Object.keys(params.item).forEach(key => {
-			if(params.item[key])
-				item = params.item[key];
-		});
+		
 	} else if(tipo === 'string'){
 		item = params.item;
 	}
@@ -409,7 +406,7 @@ var Init = function(server){
 	});
 
 	webhookFunctions.AddIntentAction('pedido.excluir-item-event', function(params){
-		var item = removeItem(params.item);
+		removeItem(params.item);
 
 		//Informa ao usuário que o item foi removido com sucesso
 		return `O item ${item} foi removido do pedido.`;

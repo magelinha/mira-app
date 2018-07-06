@@ -401,9 +401,9 @@ var landingConcreta =
                 focus: {
                     event: 'item_selecionado',
                     params: {
-                        nome: 'GetSelectItem(context.$element).nome',
-                        quantidade: 'GetSelectItem(context.$element).quantidade',
-                        total: 'GetSelectItem(context.$element).total'
+                        nome: 'GetSelectItem(context.$element.parent(".item-pedido")).nome',
+                        quantidade: 'GetSelectItem(context.$element.parent(".item-pedido")).quantidade',
+                        total: 'GetSelectItem(context.$element.parent(".item-pedido")).total'
                     }
                 }
             },
@@ -502,7 +502,7 @@ var landingConcreta =
                             events:{ 
                                 click: {
                                     action: "EvtRemoveItem",
-                                    event: "remove_item",
+                                    event: "item_removido",
                                     params:{
                                         item: "GetSelectItem(context.$element.parent('.item-pedido'))"
                                     }
@@ -854,6 +854,10 @@ if(typeof define === 'function') {
 
             window.ReduzirQuaantidade = function(){
                 ChangeAmount('.btn-plus');
+            }
+
+            window.RemoverItemEspecifico = function(){
+                app.$env.$dataObj.trigger("change");
             }
 
             //#endregion
