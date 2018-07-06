@@ -319,10 +319,7 @@ var  proccessResponse = function(response, lang){
         context: response.queryResult.outputContexts
     };
 
-    console.log(response);
-
     var internalIntent = GetInternalActions(response.queryResult.queryText, lang || response.queryResult.languageCode);
-    console.log(internalIntent);
 
     if(internalIntent){
         data.action = internalIntent;
@@ -572,13 +569,13 @@ const appActions =
 
     NextItem: 
     {
-        "pt-BR": ["Próximo", "Próximo Item", "Avançar"],
+        "pt-BR": ["Ir para o próximo", "Próximo", "Próximo Item", "Avançar"],
         "en-US": ["Next", "Next Item"]
     },
 
     PrevItem: 
     {
-        "pt-BR": ["Anterior", "Item anterior", "Voltar"],
+        "pt-BR": ["Ir para o anterior", "Anterior", "Item anterior", "Voltar"],
         "en-US": ["Previous"]
     },
 

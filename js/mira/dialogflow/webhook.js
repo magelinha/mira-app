@@ -409,14 +409,14 @@ var Init = function(server){
 		var result = removeItem(nome);
 
 		//Informa ao usuário que o item foi removido com sucesso ou a mensagem de erro, caso tenha ocorrido
-		return result.success ? `O item ${item} foi removido do pedido.` : result.message;
+		return result.success ? `O item ${nome} foi removido do pedido.` : result.message;
 	});
 
 	webhookFunctions.AddIntentAction('pedido.excluir-item-event', function(params){
 		var result = removeItem(params.item);
 
 		//Informa ao usuário que o item foi removido com sucesso ou a mensagem de erro, caso tenha ocorrido
-		return result.success ? `O item ${item} foi removido do pedido.` : result.message;
+		return result.success ? `O item ${params.item} foi removido do pedido.` : result.message;
 	});
 	
 
