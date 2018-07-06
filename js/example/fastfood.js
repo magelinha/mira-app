@@ -432,7 +432,7 @@ var landingConcreta =
                                             action: "EvtMinus",
                                             event: "reduzir_quantidade",
                                             params:{
-                                                item: "GetSelectItem(context.$element.parents('.item-pedido')).nome"
+                                                item: "GetSelectItem(context.$element.closest('.item-pedido')).nome"
                                             }
                                         }
                                     },
@@ -455,8 +455,8 @@ var landingConcreta =
                                             action: "SetTotal",
                                             event: "editar_item",
                                             params: {
-                                                nome: "GetSelectItem(context.$element.parents('.item-pedido')).nome",
-                                                quantidade: "GetSelectItem(context.$element.parents('.item-pedido')).quantidade",
+                                                nome: "GetSelectItem(context.$element.closest('.item-pedido')).nome",
+                                                quantidade: "GetSelectItem(context.$element.closest('.item-pedido')).quantidade",
                                             }
                                         }
                                     }
@@ -475,7 +475,7 @@ var landingConcreta =
                                             action: "EvtPlus",
                                             event: "aumentar_quantidade",
                                             params:{
-                                                item: "GetSelectItem(context.$element.parents('.item-pedido')).nome"
+                                                item: "GetSelectItem(context.$element.closest('.item-pedido')).nome"
                                             }
                                         }
                                     },
@@ -504,7 +504,7 @@ var landingConcreta =
                                     action: "EvtRemoveItem",
                                     event: "item_removido",
                                     params:{
-                                        item: "GetSelectItem(context.$element.parents('.item-pedido')).nome"
+                                        item: "GetSelectItem(context.$element.closest('.item-pedido')).nome"
                                     }
                                 }
                             },
@@ -866,7 +866,7 @@ if(typeof define === 'function') {
 
             window.EvtRemoveItem = function(options){
                 //remove o item do pedido
-                var $itemPedido = options.$element.parents(".item-pedido");
+                var $itemPedido = options.$element.closest(".item-pedido");
                 $itemPedido.remove();
 
                 //recalcula o total
@@ -876,7 +876,7 @@ if(typeof define === 'function') {
             //Diminui a quantidade de um determinado item
             window.EvtMinus = function(options){
                 var $fieldQtd = GetFieldQtd(options);
-                var $itemPedido = options.$element.parents('.item-pedido');
+                var $itemPedido = options.$element.closest('.item-pedido');
                 var selectedItem = GetSelectItem($itemPedido);
 
                 var item = selectedItem.nome;
@@ -901,7 +901,7 @@ if(typeof define === 'function') {
 
             window.EvtPlus = function(options){
                 var $fieldQtd = GetFieldQtd(options);
-                var $itemPedido = options.$element.parents('.item-pedido');
+                var $itemPedido = options.$element.closest('.item-pedido');
                 var selectedItem = GetSelectItem($itemPedido);
 
                 var quantidade = selectedItem.quantidade + 1;
