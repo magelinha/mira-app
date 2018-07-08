@@ -888,13 +888,19 @@ if(typeof define === 'function') {
                 quantidade--;
                 $fieldQtd.val(quantidade);
 
-                //recalcula o total do item
-                $.get('/total-item', {item: item, quantidade: quantidade}, function(data){
-                    //altera o texto com o total do item e calcula o total do pedido
-                    $itemPedido.find('.label-total-item').text(data.total.formatMoney());
+                var params = JSON.stringify({item: item, quantidade: quantidade});
 
-                    RefreshTotalPedido();
-                }).fail(function(error){
+                //recalcula o total do item
+                $.get({
+                    url: 'total-item',
+                    data: params,
+                    success: (data) => {
+                        $itemPedido.find('.label-total-item').text(data.total.formatMoney());
+                        RefreshTotalPedido();
+                    },
+                    dataType: 'json'
+                })
+                .fail(function(error){
                     console.log(error);
                 });
             };
@@ -910,14 +916,18 @@ if(typeof define === 'function') {
                 //Atualiza o campo de texto
                 $fieldQtd.val(quantidade);
 
+                var params = JSON.stringify({item: item, quantidade: quantidade});
                 //recalcula o total do item
-                $.get('/total-item', {item: item, quantidade: quantidade}, function(data){
-                    //altera o texto com o total do item e calcula o total do pedido
-                    $itemPedido.find('.label-total-item').text(data.total.formatMoney());
-
-                    //Calcula o total do pedido
-                    RefreshTotalPedido();
-                }).fail(function(error){
+                $.get({
+                    url: 'total-item',
+                    data: params,
+                    success: (data) => {
+                        $itemPedido.find('.label-total-item').text(data.total.formatMoney());
+                        RefreshTotalPedido();
+                    },
+                    dataType: 'json'
+                })
+                .fail(function(error){
                     console.log(error);
                 });
             };
