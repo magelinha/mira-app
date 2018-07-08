@@ -891,7 +891,7 @@ if(typeof define === 'function') {
                 var params = {item: item, quantidade: quantidade};
 
                 //recalcula o total do item
-                appApi.AjaxRequest('GET', '/total-item', params, null, function(data){
+                appApi.AjaxRequest('POST', '/total-item', params, null, function(data){
                     $itemPedido.find('.label-total-item').text(data.total.formatMoney());
                     RefreshTotalPedido();
                 });
@@ -909,9 +909,9 @@ if(typeof define === 'function') {
                 $fieldQtd.val(quantidade);
 
                 var params = {item: item, quantidade: quantidade};
-                
+
                 //recalcula o total do item
-                appApi.AjaxRequest('GET', '/total-item', params, null, function(data){
+                appApi.AjaxRequest('POST', '/total-item', params, null, function(data){
                     $itemPedido.find('.label-total-item').text(data.total.formatMoney());
                     RefreshTotalPedido();
                 });

@@ -219,9 +219,9 @@ var Init = function(server){
 		res.json([{total: total}]);
 	});
 
-	server.get('/total-item', (req, res) => {
+	server.post('/total-item', (req, res) => {
 		console.log(req.body);
-		
+
 		var nome = req.body.item;
 		var quantidade = req.body.quantidade;
 
