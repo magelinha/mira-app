@@ -952,7 +952,7 @@ if(typeof define === 'function') {
             }
 
             window.GetFieldQtd = function(options){
-                return options.$element.params('.item-pedido').find('.input-qtd');
+                return options.$element.closest('.item-pedido').find('.input-qtd');
             }
 
             window.ChangeAmount = function(classItem){
