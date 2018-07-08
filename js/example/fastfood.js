@@ -959,8 +959,8 @@ if(typeof define === 'function') {
             window.RefreshTotalPedido = function(){
                 //Calcula o total do pedido
                 var total = 0;
-                $('.label-total-item').each(() => {
-                    var $element = $(this);
+                $('.label-total-item').each((index, element) => {
+                    var $element = $(element);
                     total += parseFloat($element.text().replace("R$", "").replace(",", "."));
                 });
 
