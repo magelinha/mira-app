@@ -891,7 +891,7 @@ if(typeof define === 'function') {
                 //recalcula o total do item
                 $.get('/total-item', {item: item, quantidade: quantidade}, function(data){
                     //altera o texto com o total do item e calcula o total do pedido
-                    $itemPedido.find('.label-total-item').text(data.formatMoney());
+                    $itemPedido.find('.label-total-item').text(data.total.formatMoney());
 
                     RefreshTotalPedido();
                 }).fail(function(error){
@@ -913,7 +913,7 @@ if(typeof define === 'function') {
                 //recalcula o total do item
                 $.get('/total-item', {item: item, quantidade: quantidade}, function(data){
                     //altera o texto com o total do item e calcula o total do pedido
-                    $itemPedido.find('.label-total-item').text(data.formatMoney());
+                    $itemPedido.find('.label-total-item').text(data.total.formatMoney());
 
                     //Calcula o total do pedido
                     RefreshTotalPedido();

@@ -217,7 +217,21 @@ var Init = function(server){
 
 		
 		res.json([{total: total}]);
-	})
+	});
+
+	server.get('/total-item', (req, res) => {
+		var pedidos = getPedidos();
+		var nome = req.body.item;
+		var quantidade = req.body.quantidade;
+
+		var item = getItemByName(nome);
+
+		var result = {
+			total: item.preco * parseItem(quantidade)
+		};
+
+		res.json(result);
+	});
 
 	webhookFunctions.AddIntentAction('cardapio.bebidas', function(params) {
 		var speech = "As bebidas são: ";
