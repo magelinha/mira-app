@@ -880,7 +880,7 @@ if(typeof define === 'function') {
                 var selectedItem = GetSelectItem($itemPedido);
 
                 var item = selectedItem.nome;
-                var quantidade = selectedItem.quantidade;
+                var quantidade = parseInt(selectedItem.quantidade);
 
                 if(quantidade <= 1)
                     return;
@@ -904,7 +904,7 @@ if(typeof define === 'function') {
                 var $itemPedido = options.$element.closest('.item-pedido');
                 var selectedItem = GetSelectItem($itemPedido);
 
-                var quantidade = selectedItem.quantidade + 1;
+                var quantidade = parseInt(selectedItem.quantidade) + 1;
                 var item = selectedItem.nome;
 
                 //Atualiza o campo de texto
