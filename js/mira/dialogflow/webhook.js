@@ -316,7 +316,7 @@ var Init = function(server){
 	});
 
 	webhookFunctions.AddIntentAction('pedido.alterar-item-event', function(params){
-		var nome = params.nome.toUpper();
+		var nome = params.nome.toUpperCase();
 		var quantidade = params.quantidade;
 
 		//Atualiza o pedido corrente
@@ -326,7 +326,7 @@ var Init = function(server){
 
 		//Informa qual a nova quantidade do item
 		pedido.itens.forEach(item => {
-			var itemName = item.nome.toUpper();
+			var itemName = item.nome.toUpperCase();
 			if(itemName != nome)
 				return;
 				
@@ -348,7 +348,7 @@ var Init = function(server){
 	});
 
 	webhookFunctions.AddIntentAction('pedido.reduzir-quantidade-event', function(params){
-		var nome = params.nome.toUpper();
+		var nome = params.nome.toUpperCase();
 
 		//Atualiza o pedido corrente
 		var pedido = getPedidos();
@@ -357,7 +357,7 @@ var Init = function(server){
 
 		//Informa qual a nova quantidade do item
 		pedido.itens.forEach(item => {
-			var itemName = item.nome.toUpper();
+			var itemName = item.nome.toUpperCase();
 			if(itemName != nome)
 				return;
 				
@@ -384,7 +384,7 @@ var Init = function(server){
 		console.log(params);
 
 
-		var nome = params.nome.toUpper();
+		var nome = params.nome.toUpperCase();
 
 		//Atualiza o pedido corrente
 		var pedido = getPedidos();
@@ -393,7 +393,7 @@ var Init = function(server){
 
 		//Informa qual a nova quantidade do item
 		pedido.itens.forEach(item => {
-			var itemName = item.nome.toUpper();
+			var itemName = item.nome.toUpperCase();
 			if(itemName != nome)
 				return;
 
