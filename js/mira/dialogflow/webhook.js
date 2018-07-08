@@ -381,6 +381,9 @@ var Init = function(server){
 	});
 
 	webhookFunctions.AddIntentAction('pedido.aumentar-quantidade-event', function(params){
+		console.log(params);
+
+		
 		var nome = params.item.toUpper();
 
 		//Atualiza o pedido corrente
