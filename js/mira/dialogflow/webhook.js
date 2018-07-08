@@ -228,7 +228,7 @@ var Init = function(server){
 		var item = getItemByName(nome);
 
 		var result = {
-			total: item.preco * parseItem(quantidade)
+			total: item.preco * parseInt(quantidade)
 		};
 
 		res.json(result);
