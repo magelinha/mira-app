@@ -348,7 +348,7 @@ var Init = function(server){
 	});
 
 	webhookFunctions.AddIntentAction('pedido.reduzir-quantidade-event', function(params){
-		var nome = params.item.toUpper();
+		var nome = params.nome.toUpper();
 
 		//Atualiza o pedido corrente
 		var pedido = getPedidos();
@@ -383,8 +383,8 @@ var Init = function(server){
 	webhookFunctions.AddIntentAction('pedido.aumentar-quantidade-event', function(params){
 		console.log(params);
 
-		
-		var nome = params.item.toUpper();
+
+		var nome = params.nome.toUpper();
 
 		//Atualiza o pedido corrente
 		var pedido = getPedidos();

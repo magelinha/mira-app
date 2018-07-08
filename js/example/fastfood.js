@@ -432,7 +432,7 @@ var landingConcreta =
                                             action: "EvtMinus",
                                             event: "reduzir_quantidade",
                                             params:{
-                                                item: "GetSelectItem(context.$element.closest('.item-pedido')).nome"
+                                                nome: "GetSelectItem(context.$element.closest('.item-pedido')).nome"
                                             }
                                         }
                                     },
@@ -475,7 +475,7 @@ var landingConcreta =
                                             action: "EvtPlus",
                                             event: "aumentar_quantidade",
                                             params:{
-                                                item: "GetSelectItem(context.$element.closest('.item-pedido')).nome"
+                                                nome: "GetSelectItem(context.$element.closest('.item-pedido')).nome"
                                             }
                                         }
                                     },
