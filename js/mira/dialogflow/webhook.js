@@ -220,6 +220,8 @@ var Init = function(server){
 	});
 
 	server.get('/total-item', (req, res) => {
+		console.log(req.body);
+		
 		var nome = req.body.item;
 		var quantidade = req.body.quantidade;
 
