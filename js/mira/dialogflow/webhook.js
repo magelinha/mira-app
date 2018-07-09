@@ -321,7 +321,8 @@ var Init = function(server){
 			`${params.quantidade} unidades de ${params.nome}. Total: ${formatPrice(params.total)}.` :
 			`${params.quantidade} unidade de ${params.nome}. Total: ${formatPrice(params.total)}.`;
 
-		speech += "Você pode aumentar ou diminuir a quantidade, removê-lo do pedido, ou ir para o próximo item.";
+		if(params.view == "landing")
+			speech += "Você pode aumentar ou diminuir a quantidade, removê-lo do pedido, ou ir para o próximo item.";
 
 		return speech;
 	});
@@ -465,7 +466,10 @@ var Init = function(server){
 			"O pedido deve ter pelo menos um item.";
 	});
 
-	
+	webhookFunctions.AddIntentAction('proximo-item', function(params){
+		var numeroAtual = params.numeroAtual;
+		return `O pedido de número ${numeroAtual+1} está pronto.`;
+	});
 
 	//#endregion
 

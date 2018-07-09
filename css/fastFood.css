@@ -55,3 +55,14 @@ option, select {
 	font-weight: bold;
 	font-size: 15px;
 }
+.title-numero {
+	font-size: 15px;
+}
+
+.numero-atual {
+	font-size: 30px;
+}
+
+.numero-pedido {
+	font-size: 25px;
+}

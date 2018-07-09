@@ -27,29 +27,24 @@ var GeralHead = [
 ];
 
 window.ChangeCurrentValue = function(){
-    //De 5 em 5 Segundos, atualiza o número do pedido
+    //De 15 em 15 Segundos, atualiza o número do pedido
     setInterval(function(){
-        var $element = $("#numero-atual");
-        if(!$element.length)
+
+        var $atual = $("#value-numero-atual");
+        var $pedido = $("#value-numero-pedido");
+
+        if(!$atual.length || !$pedido.length)
             return;
 
+        var valueAtual = parseInt($atual.text());
+        var valuePedido = parseInt($pedido.text());
 
-        var currentValue = parseInt($element.html());
-        if(_.isNaN(currentValue))
-            return;
+        var params = {numeroAtual: valueAtual, numeroPedido: valuePedido};
+        appApi.CallRequestEvent("proximo_item", params).done(function(){
+            $atual.text(valueAtual + 1);
+        });
 
-        var nextValue = (currentValue + 1);
-        $element.html(nextValue.toString());
-
-        var numeroPedido = parseInt($("numero-pedido").html());
-        if(numeroPedido != nextValue){
-            appApi.tts("Pedido de número" + nextValue + " está pronto.");
-        }
-        else{
-            appApi.tts("Seu pedido está pronto.");
-        }
-
-    }, 30000)
+    }, 15000)
 }
 
 //---------------------------------------------------------------------------------------- landing ----------------------------------------------------------------------------------------
@@ -402,7 +397,8 @@ var landingConcreta =
                     params: {
                         nome: 'GetSelectItem(context.$element).nome',
                         quantidade: 'GetSelectItem(context.$element).quantidade',
-                        total: 'GetSelectItem(context.$element).total'
+                        total: 'GetSelectItem(context.$element).total',
+                        view: 'landing'
                     }
                 }
             },
@@ -585,9 +581,11 @@ var pedidoAbstrata = {
                                 "pt-BR": "Número do pedido",
                                 "en-US": "Number of Order"
                             }
-                        }
+                        },
+                        { name: "novo-pedido" }
                     ]
                 },
+                
 
                 {
                     name: "section-itens",
@@ -603,23 +601,22 @@ var pedidoAbstrata = {
                                     [
                                         { name: 'item' }
                                     ]
+                                },
+                                {
+                                    name: "section-total",
+                                    datasource:'url:<%= "/total-pedido" %>',
+                                    children:
+                                    [
+                                        { 
+                                            name:"valor-total", 
+                                            bind: '$data.total',
+                                        }
+                                    ]
                                 }
                             ]
                         }
                     ]
-                },
-                {
-                    name: 'section-acoes',
-                    datasource:'url:<%= "/total-pedido" %>',
-                    children:
-                    [
-                        { name: "novo-pedido", bind: { "pt-BR": "Novo Pedido", "en-US": "New Order" }},
-                        { 
-                            name:"valor-total", 
-                            bind: '$data.total',
-                        }
-                    ]
-                },
+                }
             ]
         }
     ]
@@ -632,24 +629,6 @@ var pedidoConcreta =
     ]),
     structure: 
     [
-        {
-            name: "section-numero-pedido", children:
-            [
-                {
-                    name: "container-numero", children:
-                    [
-                        { name: "numero-pedido" }
-                    ]
-                },
-                {
-                    name: "container-numero", children:
-                    [
-                        { name: "numero-atual" }
-                    ]
-                }
-            ]
-        },
-
         //Estrututa para a lista de itens do pedido
         {
             name: 'pedido',
@@ -662,43 +641,38 @@ var pedidoConcreta =
                     [
                         { name: 'item' },
                     ]
-                }
-            ]
-        },
-
-        //estrutura para os botões
-        {
-            name: 'section-acoes', 
-            children:
-            [
+                },
                 {
-                    name: 'container-botoes',
+                    name: "section-total",
                     children:
                     [
-                        {name: 'confirmar-pedido' },
-                        {name: 'cancelar-pedido' },
-                        { name: 'valor-total' }
+                        { name:"valor-total"}
                     ]
                 }
             ]
-        },
+        }
     ],
     maps: 
     [   
         { name: "container-center", widget:"WaiContent", class:"container"},
         { name: "section-numero-pedido", widget: "WaiContent", class:"text-center row" },
-        { name: "section-itens", widget: "WaiContent" },
         { name: "section-itens", widget: "WaiContent", tag: "section", class:"row" },
-        { name: "block-table", widget: "WaiContent", class:"col-sm-8"},
-        { name: "block-total", widget: "WaiContent", class:"col-sm-4"},
-        { name: "block-buttons", widget: "WaiContent", class:"row text-center"},
-        { name: "container-numero", widget: "WaiContent", class: "col-sm-4" },
         { 
-            name: "numero-atual", widget: "WaiContent", class:"alert alert-info", value:"$bind"
+            name: "numero-atual", widget: "WaiContent", 
+            children:[
+                { name: "label-numero-atual", widget: "WaiContent", value:"Úlitmo pedido chamado:", tag:"p", class:"label-bold title-numero" },
+                { name: "value-numero-atual", widget: "WaiContent", value:"$bind", class:"label-bold numero-atual", tag:"p" },
+            ]
         },
         { 
-            name: "numero-pedido", widget: "WaiContent", class:"alert alert-success", value:"$bind"
+            name: "numero-pedido", widget: "WaiContent", 
+            children:[
+                { name: "label-numero-pedido", widget: "WaiContent", value:"Seu pedido:", tag:"p", class:"label-bold title-numero" },
+                { name: "value-numero-pedido", widget: "WaiContent", value:"$bind", tag:"p", class:"label-bold numero-pedido" },
+            ]
         },
+
+        { name: "section-total", widget: "WaiContent" },
 
         //Pedido
         { name: "titulo-pedido", tag:'h2', widget: 'WaiContent', value: "Pedido" },
@@ -720,7 +694,8 @@ var pedidoConcreta =
                     params: {
                         nome: 'GetSelectItem(context.$element).nome',
                         quantidade: 'GetSelectItem(context.$element).quantidade',
-                        total: 'GetSelectItem(context.$element).total'
+                        total: 'GetSelectItem(context.$element).total',
+                        view: 'pedido'
                     }
                 }
             },
@@ -744,17 +719,7 @@ var pedidoConcreta =
                                     name: "qtd-field", 
                                     widget:"WaiInput", 
                                     value: "$data.quantidade", 
-                                    class:"input-qtd",
-                                    events: {
-                                        change: {
-                                            action: "SetTotal",
-                                            event: "editar_item",
-                                            params: {
-                                                nome: "GetSelectItem(context.$element.closest('.item-pedido')).nome",
-                                                quantidade: "GetSelectItem(context.$element.closest('.item-pedido')).quantidade",
-                                            }
-                                        }
-                                    }
+                                    class:"input-qtd"
                                 }
                             ]
                         }
@@ -762,7 +727,7 @@ var pedidoConcreta =
                 },
 
                 //valor total
-                { name: "item-preco", tag:"div", widget: "WaiContent", value: "$data.total.formatMoney()", class:"col-sm-2 container-dado-item border-container label-total-item label-bold"},
+                { name: "item-preco", tag:"div", widget: "WaiContent", value: "$data.total.formatMoney()", class:"col-sm-2 container-dado-item label-total-item label-bold"},
                 
             ]
         },
@@ -774,9 +739,6 @@ var pedidoConcreta =
                 { name: "label-total", widget: "WaiContent", tag:"span", value: "$bind.formatMoney()" },
             ]
         },
-
-        //Operações da view
-        { name: 'container-botoes', widget: 'WaiContent', class: 'row text-center', style: 'margin: 10% 0 5% 0;'},
         { 
             name: "novo-pedido", 
             tag:"a", 
