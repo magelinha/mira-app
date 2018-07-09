@@ -480,8 +480,10 @@ var Init = function(server){
 	});
 
 	webhookFunctions.AddIntentAction('proximo-item', function(params){
-		var numeroAtual = params.numeroAtual;
-		return `O pedido de número ${numeroAtual+1} está pronto.`;
+		var numeroAtual = params.numeroAtual + 1;
+		var pedido = params.numeroPedido;
+		
+		return numeroAtual == pedido ? `Seu pedido está pronto` : `O pedido de número ${numeroAtual+1} está pronto.`;
 	});
 
 	webhookFunctions.AddIntentAction('ultimo-pedido', function(params){

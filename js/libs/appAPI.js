@@ -395,7 +395,7 @@ ActionAPI.SpeechAction.prototype.CallRequestEvent = function(eventName, params){
     return _this.AjaxRequest('POST', '/event', data, null, function(response){
         //Se a ação a ser executa é input.unknown, indica que o dialogflow não conseguiu identificar a intenção
         if(data.action == 'input.unknown'){
-            console.log(params);
+            console.log(data);
             _this.tts(data.message, true);
             return;
         }
