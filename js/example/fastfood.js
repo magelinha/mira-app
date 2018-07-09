@@ -790,11 +790,6 @@ if(typeof define === 'function') {
                 app.$env.$dataObj.trigger("change");
             };
 
-            window.NovoPedido = function(options){
-                options.$event.preventDefault();
-                window.location.href = "/?app=example/fastfood";
-            };
-
             window.SetValueItem = function(options){
                 var value = "";
                 for(var key in options){
