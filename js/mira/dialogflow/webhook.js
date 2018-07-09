@@ -457,6 +457,16 @@ var Init = function(server){
 		return `O total do pedido é ${totalMoeda}`;
 	});
 
+	webhookFunctions.AddIntentAction('pedido.cadastrar-pedido', function(params){
+		var pedidos = getPedidos();
+
+		return pedidos.itens.length > 0 ? 
+			"Estamos gerando o número do seu pedido. Aguarde." : 
+			"O pedido deve ter pelo menos um item.";
+	});
+
+	
+
 	//#endregion
 
 };
