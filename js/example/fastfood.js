@@ -931,6 +931,10 @@ if(typeof define === 'function') {
                 app.$env.$dataObj.trigger("change");
             }
 
+            window.EvtCancelarPedido = function(options){
+                app.$env.$dataObj.trigger("change");
+            }
+
             //#endregion
 
             //#region Funções auxiliares
