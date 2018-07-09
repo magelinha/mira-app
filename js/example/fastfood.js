@@ -13,7 +13,7 @@ var selection = [
     },
 
     {
-        when: "window.selecionados.length <= 0",
+        when: "_.isUndefined($data.numero)",
         abstract: 'landing'
     },
      
