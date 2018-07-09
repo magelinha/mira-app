@@ -195,7 +195,7 @@ var adicionarItem = function(item, quantidade){
 		quantidade > 1 ? `${quantidade} unidades do item ${nome} foram adicionadas ao pedido.` :
 		`${quantidade} unidade do item ${nome} foi adicionada ao pedido.`;
 
-	speech += "Você pode consultar o seu pedido a qualquer momento."
+	speech += "Você pode consultar o seu pedido, ou finalizar a compra a qualquer momento."
 	console.log(speech);
 	return speech;
 };
