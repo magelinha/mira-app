@@ -745,15 +745,7 @@ var pedidoConcreta =
             widget:"WaiButton", 
             class: "btn btn-success btn-lg", 
             value: "$bind", 
-            href:"navigate('fastfood/')", 
-            style: "margin-right: 10px;",
-            events:{ 
-                click: {
-                    action: "EvtCadastrarPedido",
-                    event: "cadastrar_pedido"
-                }
-
-            },  
+            href:"navigate('fastfood/')"  
         },
     ]
 };
