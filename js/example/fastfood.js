@@ -613,7 +613,7 @@ var pedidoAbstrata = {
                                     [
                                         { 
                                             name:"valor-total", 
-                                            bind: '$data.total',
+                                            bind:"$data.total",
                                         }
                                     ]
                                 }

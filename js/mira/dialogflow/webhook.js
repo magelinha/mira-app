@@ -204,6 +204,19 @@ var Init = function(server){
 	webhookFunctions.Init(server);
 	pathPedidos = webhookFunctions.BaseURL + 'data/pedidos.json';
 
+	server.get('/fastfood/gerarPedido', function(req, res, next){
+		var pedidos = getPedidos();
+		pedidos.numero = Math.floor(Math.random() * (100 - 11 + 1)) + 11;
+		pedidos.atual = pedido.numero - 10;
+		setPedidos(pedidos);
+
+		var numeroPedido = {
+			numero: pedidos.numero
+		};
+	
+		res.json(numeroPedido);
+	});
+
 	server.get('/pedido', (req, res) => {
 		var pedidos = getPedidos();
 		res.json(pedidos.itens);
@@ -470,6 +483,21 @@ var Init = function(server){
 		var numeroAtual = params.numeroAtual;
 		return `O pedido de número ${numeroAtual+1} está pronto.`;
 	});
+
+	webhookFunctions.AddIntentAction('ultimo-pedido', function(params){
+		var pedido = getPedidos();
+
+		return pedido.atual ? `O último pedido chamado foi o ${pedido.atual}.` : 
+		"Você ainda não finalizou a compra do seu pedido.";
+	});
+
+	webhookFunctions.AddIntentAction('meu-pedido', function(params){
+		var pedido = getPedidos();
+
+		return pedido.numero ? `O número do seu pedido é ${pedido.numero}.` : 
+			"Você ainda não finalizou a compra do seu pedido.";
+	});
+
 
 	//#endregion
 

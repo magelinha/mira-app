@@ -191,14 +191,6 @@ server.get('/api/:folder/:subfolder/:id', function (req, res, next) {
     });
 });
 
-server.get('/fastfood/gerarPedido', function(req, res, next){
-    var numeroPedido = {
-        numero: Math.floor(Math.random() * (100 - 11 + 1)) + 11 
-    };
-
-    res.json(numeroPedido);
-});
-
 
 var isInt = function(value) {
   var x = parseFloat(value);
