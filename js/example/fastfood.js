@@ -273,7 +273,6 @@ var landingConcreta =
                     ]
                 }
             ]
-
         },
 
         //Estrutura para o modal
@@ -574,7 +573,6 @@ var pedidoAbstrata = {
                         {
                             name: "numero-atual",
                             bind: "$data.numero - 10",
-                            tts: "$bind",
                             title: {
                                 "pt-BR": "Número Atual",
                                 "en-US": "Current Number"
@@ -583,7 +581,6 @@ var pedidoAbstrata = {
                         {
                             name: "numero-pedido",
                             bind: "$data.numero",
-                            tts: "$bind",
                             title: {
                                 "pt-BR": "Número do pedido",
                                 "en-US": "Number of Order"
@@ -591,39 +588,38 @@ var pedidoAbstrata = {
                         }
                     ]
                 },
+
                 {
                     name: "section-itens",
-                    title:
-                    {
-                        "pt-BR": "Itens do Pedido",
-                        "en-US": "List of Items"
-                    },
                     children: [
+                        { name: 'titulo-pedido'},
                         {
-                            name: "lista-itens",
-                            
-                            datasource: "selecionados",
+                            name: 'pedido',
                             children: 
                             [
                                 {
-                                    name: "item-informado",
-                                    bind: "$data",
-                                    tts: 
-                                    {
-                                        "pt-BR": "sprintf('Item: %s. Quantidade: %d. Preço: %s', '$data.item', $data.quantidade, textCurrency($data.total))",
-                                        "en-US": "sprintf('Item: %s. Quantity: %d. Price: %s', '$data.item', $data.quantidade, textCurrency($data.total))"
-                                    }
+                                    name: 'itens', datasource:'url:<%= "/pedido" %>',
+                                    children: 
+                                    [
+                                        { name: 'item' }
+                                    ]
                                 }
                             ]
-                        },
-                        { name: "novo-pedido", bind: { "pt-BR": "Novo Pedido", "en-US": "New Order" }, title: { "pt-BR":"Novo pedido", "en-US":"New order" } },
-                        { 
-                            name:"valor-total", 
-                            bind: "_.reduce(selecionados.models, function(memory, selecionado){ return memory + selecionado.get('total'); }, 0)",
-                            tts: "$bind"
                         }
                     ]
-                }
+                },
+                {
+                    name: 'section-acoes',
+                    datasource:'url:<%= "/total-pedido" %>',
+                    children:
+                    [
+                        { name: "novo-pedido", bind: { "pt-BR": "Novo Pedido", "en-US": "New Order" }},
+                        { 
+                            name:"valor-total", 
+                            bind: '$data.total',
+                        }
+                    ]
+                },
             ]
         }
     ]
@@ -653,40 +649,39 @@ var pedidoConcreta =
                 }
             ]
         },
+
+        //Estrututa para a lista de itens do pedido
         {
-            name: "section-itens", children:
+            name: 'pedido',
+            children:
             [
-                {
-                    name: "block-table", children:
+                { name: 'cabecalho' },
+                { 
+                    name: 'itens',
+                    children: 
                     [
-                        {
-                            name:"table-itens", children:
-                            [
-                                { name:"table-header" },
-                                { 
-                                    name: "lista-itens", children:
-                                    [
-                                        { name: "item-informado" }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    name: "block-total",  children:
-                    [
-                        { name:"valor-total" },
-                        { 
-                            name:"block-buttons", children:
-                            [
-                                { name:"novo-pedido" }
-                            ]
-                        }
+                        { name: 'item' },
                     ]
                 }
             ]
-        }
+        },
+
+        //estrutura para os botões
+        {
+            name: 'section-acoes', 
+            children:
+            [
+                {
+                    name: 'container-botoes',
+                    children:
+                    [
+                        {name: 'confirmar-pedido' },
+                        {name: 'cancelar-pedido' },
+                        { name: 'valor-total' }
+                    ]
+                }
+            ]
+        },
     ],
     maps: 
     [   
@@ -705,30 +700,70 @@ var pedidoConcreta =
             name: "numero-pedido", widget: "WaiContent", class:"alert alert-success", value:"$bind"
         },
 
-        /* Lista de itens */
-        { name: "table-itens", tag: "table", widget:"WaiContent", class:"table table-bordered table-hover" },
-        { 
-            //Cabeçalho
-            name: "table-header", tag: "thead", widget: "WaiContent", children:
-            [
-                { 
-                    name: "tr-head", tag:"tr", widget: "WaiContent", children:
-                    [
-                        { name: "header-item", tag:"th", widget: "WaiContent", value: "Item" },
-                        { name: "header-item", tag:"th", widget: "WaiContent", value: { "pt-BR":"Quantidade", "en-US":"Quantity" } },
-                        { name: "header-item", tag:"th", widget: "WaiContent", value: { "pt-BR": "Total (R$)", "en-US": "Total (US$)"} }
-                    ]
-                }
-            ]
-        },
+        //Pedido
+        { name: "titulo-pedido", tag:'h2', widget: 'WaiContent', value: "Pedido" },
+        { name: 'pedido', tag: 'div', class:'panel panel-primary'},
 
-        { name: "lista-itens", tag:"tbody", widget: "WaiListContent" },
+        //Cabeçalho
+        { name: 'cabecalho', tag: 'div', class: 'panel-heading', value: "Itens do Pedido"},
+
+        //Corpo
+        { name: 'itens', tag: 'div', class:'panel-body', widget: 'WaiListContent' },
         { 
-            name: "item-informado", tag:"tr", widget: "WaiContent", children:
+            name: 'item', 
+            tag: 'div', 
+            class:'item-pedido',
+            widget: 'WaiContent',
+            events: {
+                focus: {
+                    event: 'item_selecionado',
+                    params: {
+                        nome: 'GetSelectItem(context.$element).nome',
+                        quantidade: 'GetSelectItem(context.$element).quantidade',
+                        total: 'GetSelectItem(context.$element).total'
+                    }
+                }
+            },
+            children:
             [
-                { name: "item-name", tag:"td", widget: "WaiContent", value: "$data.item"},
-                { name: "item-quantidade", tag:"td", widget: "WaiContent", value: "$data.quantidade"},
-                { name: "item-preco", tag:"td", widget: "WaiContent", value: "$data.total.formatMoney()"}
+                //nome do item
+                { name: "item-name", tag:"div", class:"col-sm-5 container-dado-item border-container label-bold", widget: "WaiContent", value: "$data.nome"},
+                
+                //controles para aumentar a diminuir quantidade
+                { 
+                    name: "item-quantidade", 
+                    tag:"div", 
+                    class:"col-sm-4 container-dado-item border-container",
+                    widget: "WaiContent", 
+                    children:
+                    [
+                        {
+                            name: "container-field", tag:"div", widget:"WaiContent", class:"col-sm-6",
+                            children:[
+                                {
+                                    name: "qtd-field", 
+                                    widget:"WaiInput", 
+                                    value: "$data.quantidade", 
+                                    class:"input-qtd",
+                                    events: {
+                                        change: {
+                                            action: "SetTotal",
+                                            event: "editar_item",
+                                            params: {
+                                                nome: "GetSelectItem(context.$element.closest('.item-pedido')).nome",
+                                                quantidade: "GetSelectItem(context.$element.closest('.item-pedido')).quantidade",
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+
+                //valor total
+                { name: "item-preco", tag:"div", widget: "WaiContent", value: "$data.total.formatMoney()", class:"col-sm-2 container-dado-item border-container label-total-item label-bold"},
+                
             ]
         },
 
@@ -741,8 +776,23 @@ var pedidoConcreta =
         },
 
         //Operações da view
-        { name: "novo-pedido", widget:"WaiButton", class: "btn btn-success btn-lg", value: "$bind", events: {click:"NovoPedido" } },
-         
+        { name: 'container-botoes', widget: 'WaiContent', class: 'row text-center', style: 'margin: 10% 0 5% 0;'},
+        { 
+            name: "novo-pedido", 
+            tag:"a", 
+            widget:"WaiButton", 
+            class: "btn btn-success btn-lg", 
+            value: "$bind", 
+            href:"navigate('fastfood/')", 
+            style: "margin-right: 10px;",
+            events:{ 
+                click: {
+                    action: "EvtCadastrarPedido",
+                    event: "cadastrar_pedido"
+                }
+
+            },  
+        },
     ]
 };
 //---------------------------------------------------------------------------------------- Fim: pedido ----------------------------------------------------------------------------------------
