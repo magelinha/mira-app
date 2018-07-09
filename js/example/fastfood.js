@@ -27,7 +27,7 @@ var GeralHead = [
 ];
 
 window.ChangeCurrentValue = function(){
-    //De 15 em 15 Segundos, atualiza o número do pedido
+    //De 20 em 20 Segundos, atualiza o número do pedido
     setInterval(function(){
 
         var $atual = $("#value-numero-atual");
@@ -44,7 +44,7 @@ window.ChangeCurrentValue = function(){
             $atual.text(valueAtual + 1);
         });
 
-    }, 15000)
+    }, 20000)
 }
 
 //---------------------------------------------------------------------------------------- landing ----------------------------------------------------------------------------------------
@@ -582,11 +582,15 @@ var pedidoAbstrata = {
                                 "en-US": "Number of Order"
                             }
                         },
-                        { name: "novo-pedido" }
+                        { 
+                            name: "novo-pedido",
+                            bind: {
+                                "pt-BR": "Novo Pedido",
+                                "en-US": "New Order"
+                            }
+                        }
                     ]
                 },
-                
-
                 {
                     name: "section-itens",
                     children: [
