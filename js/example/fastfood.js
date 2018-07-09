@@ -740,7 +740,7 @@ var pedidoConcreta =
             name: "valor-total", widget: "WaiContent", class:"row text-center", children:
             [
                 { name: "label-total", widget: "WaiContent", tag:"strong", value: "Total: " },
-                { name: "label-total", widget: "WaiContent", tag:"span", value: "$bind.formatMoney()" },
+                { name: "label-total", widget: "WaiContent", tag:"span", value: "$data.total.formatMoney()" },
             ]
         },
         { 
