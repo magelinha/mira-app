@@ -8,7 +8,7 @@ var rules = [
 var selection = [
     
     {
-        when: "!_.isUndefined($data.numero) && $data.numero > 0 && window.selecionados.length > 0",
+        when: "!_.isUndefined($data.numero) && $data.numero > 0",
         abstract: 'pedido'
     },
 
