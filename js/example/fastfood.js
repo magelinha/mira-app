@@ -960,7 +960,9 @@ if(typeof define === 'function') {
             window.ChangeAmount = function(classItem){
                 var $currentElement = $(document.activeElement);
                 var $button = $currentElement.find(classItem);
-                $button.click();
+
+                if($button.length)
+                    $button.click();
             }
 
             window.RefreshTotalPedido = function(){

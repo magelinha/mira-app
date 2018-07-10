@@ -685,7 +685,8 @@ window.RequestFocus = function(params){
     }, 0);
 };
 
-window.ClickElement = function($element){
+window.ClickElement = function(params){
+    
     $element.click();
 }
 
