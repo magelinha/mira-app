@@ -75,6 +75,24 @@ const combos =
 	}
 ];
 
+var replaceAccent = function(str) {
+	return str.replace(
+		/([àáâãäå])|([ç])|([èéêë])|([ìíîï])|([ñ])|([òóôõöø])|([ß])|([ùúûü])|([ÿ])|([æ])/g, 
+		function (str, a, c, e, i, n, o, s, u, y, ae) {
+			if (a) return 'a';
+			if (c) return 'c';
+			if (e) return 'e';
+			if (i) return 'i';
+			if (n) return 'n';
+			if (o) return 'o';
+			if (s) return 's';
+			if (u) return 'u';
+			if (y) return 'y';
+			if (ae) return 'ae';
+		}
+	);
+}
+
 var formatPrice = function(param){
 	param = param.replace("R$","");
 	param = param.replace(",",".");
@@ -125,7 +143,8 @@ var getItem = function(nome, tipo){
 		toSearch = combos;
 	}
 
-	return toSearch.find(it => it.nome == nome);
+	var formatName = replaceAccent(nome).toUpperCase();
+	return toSearch.find(it => replaceAccent(it.nome).toUpperCase() == formatName);
 }
 
 var getItemByName = function(nome){
@@ -147,7 +166,7 @@ var setPedidos = function(pedidos){
 
 var removeItem = function(nome){
 	//faz a leitura do arquivo para verificar quais os itens do pedido
-	var pedidos = jsonfile.readFileSync(pathPedidos);
+	var pedidos = getPedidos();
 	
 	//verifica se o item a ser excluído está no pedido
 	var exists = pedidos.itens.find(it => it.nome == nome);
@@ -165,10 +184,9 @@ var removeItem = function(nome){
 	}
 	
 	//caso tenha encontrado, remove da lista
-	pedidos.itens.filter(it => it.nome != nome)
+	pedidos.itens = pedidos.itens.filter(it => it.nome != nome)
 
-	//reescreve no arquivo json
-	jsonfile.writeFileSync(pathPedidos, pedidos);
+	setPedidos(pedidos);
 
 	return result;
 }
@@ -179,7 +197,7 @@ var adicionarItem = function(item, quantidade){
 	//verifica se já existe algum item na lista
 	console.log(pedidos.itens);
 	console.log(item);
-	
+
 	var index = pedidos.itens.findIndex(it => it.nome == item.nome);
 	if(index >= 0){
 		pedidos.itens[index].quantidade += quantidade;
@@ -312,6 +330,7 @@ var Init = function(server){
 			return false;
 		});
 		
+		console.log(nome, tipo);
 		var item = getItem(nome, tipo);
 
 		return adicionarItem(item, quantidade);
