@@ -852,11 +852,11 @@ if(typeof define === 'function') {
             }
 
             window.AumentarQuantidade = function(){
-                ChangeAmount('.btn-minus');
+                ChangeAmount('.btn-plus');
             }
 
             window.ReduzirQuaantidade = function(){
-                ChangeAmount('.btn-plus');
+                ChangeAmount('.btn-minus');
             }
 
             window.RemoverItemEspecifico = function(){
