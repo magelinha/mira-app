@@ -177,6 +177,9 @@ var adicionarItem = function(item, quantidade){
 	var pedidos = getPedidos();
 
 	//verifica se já existe algum item na lista
+	console.log(pedidos.itens);
+	console.log(item);
+	
 	var index = pedidos.itens.findIndex(it => it.nome == item.nome);
 	if(index >= 0){
 		pedidos.itens[index].quantidade += quantidade;
