@@ -169,7 +169,8 @@ var removeItem = function(nome){
 	var pedidos = getPedidos();
 	
 	//verifica se o item a ser excluído está no pedido
-	var exists = pedidos.itens.find(it => it.nome == nome);
+	var formatName = replaceAccent(nome).toUpperCase();
+	var exists = pedidos.itens.find(it => replaceAccent(it.nome).toUpperCase() == formatName);
 
 	//Se não encontrou o item, informa para o usuário
 	var result = {
@@ -184,7 +185,7 @@ var removeItem = function(nome){
 	}
 	
 	//caso tenha encontrado, remove da lista
-	pedidos.itens = pedidos.itens.filter(it => it.nome != nome)
+	pedidos.itens = pedidos.itens.filter(it => replaceAccent(it.nome).toUpperCase != formatName)
 
 	setPedidos(pedidos);
 
@@ -198,7 +199,8 @@ var adicionarItem = function(item, quantidade){
 	console.log(pedidos.itens);
 	console.log(item);
 
-	var index = pedidos.itens.findIndex(it => it.nome == item.nome);
+	var formatName = replaceAccent(item.nome).toUpperCase();
+	var index = pedidos.itens.findIndex(it => replaceAccent(it.nome).toUpperCase() == formatName);
 	if(index >= 0){
 		pedidos.itens[index].quantidade += quantidade;
 		pedidos.itens[index].total += pedidos.itens[index].preco * quantidade;
