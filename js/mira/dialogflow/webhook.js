@@ -507,7 +507,7 @@ var Init = function(server){
 		var numeroAtual = params.numeroAtual + 1;
 		var pedido = params.numeroPedido;
 		
-		return numeroAtual == pedido ? `Seu pedido está pronto` : `O pedido de número ${numeroAtual+1} está pronto.`;
+		return numeroAtual == pedido ? `Seu pedido está pronto` : `O pedido de número ${numeroAtual} está pronto.`;
 	});
 
 	webhookFunctions.AddIntentAction('ultimo-pedido', function(params){
@@ -527,7 +527,7 @@ var Init = function(server){
 	webhookFunctions.AddIntentAction('welcome-pedido', function(params){
 		var pedido = getPedidos();
 
-		return `Seu pedido é ${pedido.numeroPedido}.`;
+		return `Seu pedido é ${pedido.numero}.`;
 	});
 
 
