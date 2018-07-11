@@ -568,7 +568,7 @@ var pedidoAbstrata = {
                     children: [
                         {
                             name: "numero-atual",
-                            bind: "$data.numero - 10",
+                            bind: "$data.atual",
                             title: {
                                 "pt-BR": "Número Atual",
                                 "en-US": "Current Number"

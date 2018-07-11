@@ -272,11 +272,12 @@ var Init = function(server){
 	server.get('/fastfood/gerarPedido', function(req, res, next){
 		var pedidos = getPedidos();
 		pedidos.numero = Math.floor(Math.random() * (100 - 11 + 1)) + 11;
-		pedidos.atual = pedidos.numero - 10;
+		pedidos.atual = pedidos.numero - 5;
 		setPedidos(pedidos);
 
 		var numeroPedido = {
-			numero: pedidos.numero
+			numero: pedidos.numero,
+			atual: pedidos.atual
 		};
 	
 		res.json(numeroPedido);
