@@ -447,7 +447,7 @@ var landingConcreta =
                                     class:"input-qtd",
                                     events: {
                                         change: {
-                                            action: "SetTotal",
+                                            action: "EvtChangeAmount",
                                             event: "editar_item",
                                             params: {
                                                 nome: "GetSelectItem(context.$element.closest('.item_pedido')).nome",
@@ -842,13 +842,28 @@ if(typeof define === 'function') {
 
             window.EditarItem = function(options){
                 var quantidade = parseInt(options.quantidade);
-                if(_.isNaN(quantidade))
-                    return;
                 
-                var $currentElement = $(document.activeElement);
-                var $fieldQtd = $currentElement.find('.input-qtd');
-                $fieldQtd.val(quantidade);
-                $fieldQtd.change();
+                var item = "";
+                Object.keys(options.item).forEach(key => {
+                    if(options.item[key])
+                        item = options.item[key];
+                });
+
+                //Busca o .item_pedido relacionado ao item
+                $(".item_pedido").each((index, element) => {
+                    var $element = $($element);
+
+                    if($(element).children().eq(0).text() != item)
+                        return true;
+
+                    //Caso seja o item, informa o valor correto no campo de quantidade e atualizar o total
+                    $element.find(".input-qtd").val(quantidade);
+                    var params = {item: item, quantidade: quantidade}; 
+                    RefreshTotalItem($element, params);
+                    
+                    return false;
+                    
+                });
             }
 
             window.AumentarQuantidade = function(){
@@ -876,6 +891,19 @@ if(typeof define === 'function') {
                 RefreshTotalPedido();
             };
 
+            window.EvtChangeAmount = function(options){
+                var $itemPedido = options.$element.closest('.item_pedido');
+                var selectedItem = GetSelectItem($itemPedido);
+                
+                var item = selectedItem.nome;
+                var quantidade = selectedItem.quantidade;
+
+                var params = {item: item, quantidade: quantidade};
+
+                //recalcula o total do item
+                RefreshTotalItem($itemPedido, params);
+            }
+
             //Diminui a quantidade de um determinado item
             window.EvtMinus = function(options){
                 var $fieldQtd = GetFieldQtd(options);
@@ -894,10 +922,7 @@ if(typeof define === 'function') {
                 var params = {item: item, quantidade: quantidade};
 
                 //recalcula o total do item
-                appApi.AjaxRequest('POST', '/total-item', params, null, function(data){
-                    $itemPedido.find('.label-total-item').text(data.total.formatMoney());
-                    RefreshTotalPedido();
-                });
+                RefreshTotalItem($itemPedido, params);
             };
 
             window.EvtPlus = function(options){
@@ -914,10 +939,7 @@ if(typeof define === 'function') {
                 var params = {item: item, quantidade: quantidade};
 
                 //recalcula o total do item
-                appApi.AjaxRequest('POST', '/total-item', params, null, function(data){
-                    $itemPedido.find('.label-total-item').text(data.total.formatMoney());
-                    RefreshTotalPedido();
-                });
+                RefreshTotalItem($itemPedido, params);
             };
 
             window.EvtCadastrarPedido = function(options){
@@ -972,6 +994,14 @@ if(typeof define === 'function') {
 
                 if($button.length)
                     $button.click();
+            }
+
+            window.RefreshTotalItem = function($itemPedido, params){
+                //recalcula o total do item
+                appApi.AjaxRequest('POST', '/total-item', params, null, function(data){
+                    $itemPedido.find('.label-total-item').text(data.total.formatMoney());
+                    RefreshTotalPedido();
+                });
             }
 
             window.RefreshTotalPedido = function(){
