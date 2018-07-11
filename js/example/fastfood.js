@@ -959,6 +959,15 @@ if(typeof define === 'function') {
 
             window.ChangeAmount = function(classItem){
                 var $currentElement = $(document.activeElement);
+                
+                //Se não tem a classe item-pedido, tenta pegar o parent que tenha a classe
+                if(!$currentElement.hasClass("item-pedido")){
+                    $currentElement = $currentElement.closest(".item-pedido");
+                }
+
+                if(!$currentElement.length)
+                    return;
+                    
                 var $button = $currentElement.find(classItem);
 
                 if($button.length)
