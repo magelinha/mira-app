@@ -196,7 +196,11 @@ var removeItem = function(nome){
 	}
 	
 	//caso tenha encontrado, remove da lista
-	pedidos.itens = pedidos.itens.filter(it => replaceAccent(it.nome).toUpperCase != formatName)
+	console.log("antes");
+	console.log(pedido.itens);
+	pedidos.itens = pedidos.itens.filter(it => replaceAccent(it.nome).toUpperCase != formatName);
+	console.log("depois");
+	console.log(pedido.itens);
 
 	setPedidos(pedidos);
 
