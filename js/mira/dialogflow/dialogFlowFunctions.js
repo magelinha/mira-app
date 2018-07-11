@@ -563,19 +563,19 @@ const appActions =
 
     Repeat: 
     {
-        "pt-BR": ["Repetir", "Repita"],
+        "pt-BR": ["Repetir", "Repita", "Fale novamente"],
         "en-US": ["Repeat"]
     },
 
     NextItem: 
     {
-        "pt-BR": ["Ir para o próximo", "Próximo", "Próximo Item", "Avançar"],
+        "pt-BR": ["Ir para o próximo", "Próximo", "Próximo Item", "Avançar", "Para o próximo"],
         "en-US": ["Next", "Next Item"]
     },
 
     PrevItem: 
     {
-        "pt-BR": ["Ir para o anterior", "Anterior", "Item anterior", "Voltar"],
+        "pt-BR": ["Para o anterior", "Ir para o anterior", "Anterior", "Item anterior", "Voltar"],
         "en-US": ["Previous"]
     },
 
