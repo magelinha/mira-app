@@ -686,8 +686,9 @@ window.RequestFocus = function(params){
 };
 
 window.ClickElement = function(params){
-    
-    $element.click();
+    var $element = $("#" + params.element);
+    if($element.length)
+        $element.click();
 }
 
 ActionAPI.SpeechAction.prototype.executeCommand = function(action, params){

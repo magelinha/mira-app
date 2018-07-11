@@ -495,7 +495,7 @@ var Init = function(server){
 		return `O total do pedido é ${totalMoeda}`;
 	});
 
-	webhookFunctions.AddIntentAction('pedido.cadastrar-pedido', function(params){
+	webhookFunctions.AddIntentAction('pedido.cadastrar-pedido-event', function(params){
 		var pedidos = getPedidos();
 
 		return pedidos.itens.length > 0 ? 
