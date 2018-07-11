@@ -235,6 +235,8 @@ var adicionarItem = function(item, quantidade){
 };
 
 var alterarItem = function(nome, quantidade){
+	var formatName = nome.toUpperCase();
+
 	//Atualiza o pedido corrente
 	var pedido = getPedidos();
 
@@ -243,7 +245,7 @@ var alterarItem = function(nome, quantidade){
 	//Informa qual a nova quantidade do item
 	pedido.itens.forEach(item => {
 		var itemName = item.nome.toUpperCase();
-		if(itemName != nome)
+		if(itemName != formatName)
 			return;
 			
 		if(item.quantidade == quantidade){
@@ -409,7 +411,7 @@ var Init = function(server){
 	});
 
 	webhookFunctions.AddIntentAction('pedido.alterar-item-event', function(params){
-		var nome = params.nome.toUpperCase();
+		var nome = params.nome;
 		var quantidade = params.quantidade;
 
 		return alterarItem(nome, quantidade);		
