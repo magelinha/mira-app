@@ -98,10 +98,8 @@ var replaceAccent = function(str) {
 }
 
 var formatPrice = function(param){
-	param = param.replace("R$","");
-	param = param.replace(",",".");
-	console.log(param);
-	var value = parseFloat(param);
+	var value = typeof param == "string" ? param.replace("R$","").replace(",",".") : param.toString();
+	value = parseFloat(value);
 
 	var intPart = Math.trunc(value);
     var decimalPart = value % 1;
@@ -316,7 +314,7 @@ var Init = function(server){
 	webhookFunctions.AddIntentAction('cardapio.bebidas', function(params) {
 		var speech = "As bebidas são: ";
 		bebidas.forEach(function(bebida){
-			speech += `${bebida.nome} - ${formatPrice(bebida.preco.toString())}.`;
+			speech += `${bebida.nome} - ${formatPrice(bebida.preco)}.`;
 		});
 
 		return speech;
@@ -325,7 +323,7 @@ var Init = function(server){
 	webhookFunctions.AddIntentAction('cardapio.sanduiches', function(params) {
 		var speech = "Os sanduíches são: ";
 		sanduices.forEach(function(sanduice){
-			speech += `${sanduice.nome} - ${formatPrice(sanduice.preco.toString())}.`;
+			speech += `${sanduice.nome} - ${formatPrice(sanduice.preco)}.`;
 		});
 
 		return speech;
@@ -335,7 +333,7 @@ var Init = function(server){
 		var speech = "Os combos são: ";
 
 		combos.forEach(function(combo){
-			speech += `${combo.nome} - ${formatPrice(combo.preco.toString())}.`;
+			speech += `${combo.nome} - ${formatPrice(combo.preco)}.`;
 		});
 
 		return speech;
