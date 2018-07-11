@@ -234,6 +234,35 @@ var adicionarItem = function(item, quantidade){
 	return speech;
 };
 
+var alterarItem = function(nome, quantidade){
+	//Atualiza o pedido corrente
+	var pedido = getPedidos();
+
+	var msg = "";
+
+	//Informa qual a nova quantidade do item
+	pedido.itens.forEach(item => {
+		var itemName = item.nome.toUpperCase();
+		if(itemName != nome)
+			return;
+			
+		if(item.quantidade == quantidade){
+			msg = "A quantidade informada é a mesma já informada no pedido";
+			return;
+		}
+
+		item.total = item.preco * quantidade;
+		item.quantidade = quantidade;
+
+		msg = `A nova quantidade do item ${item.nome} é ${quantidade}.`;
+	});
+
+	msg = msg == "" ? "O item a ter sua quantidade alterada não foi encontrado" : msg; 
+
+	setPedidos(pedido);
+	return msg;
+};
+
 var Init = function(server){
 	webhookFunctions.Init(server);
 	pathPedidos = webhookFunctions.BaseURL + 'data/pedidos.json';
@@ -383,32 +412,19 @@ var Init = function(server){
 		var nome = params.nome.toUpperCase();
 		var quantidade = params.quantidade;
 
-		//Atualiza o pedido corrente
-		var pedido = getPedidos();
+		return alterarItem(nome, quantidade);		
+	});
 
-		var msg = "";
-
-		//Informa qual a nova quantidade do item
-		pedido.itens.forEach(item => {
-			var itemName = item.nome.toUpperCase();
-			if(itemName != nome)
-				return;
-				
-			if(item.quantidade == quantidade){
-				msg = "A quantidade informada é a mesma já informada no pedido";
-				return;
-			}
-
-			item.total = item.preco * quantidade;
-			item.quantidade = quantidade;
-
-			msg = `A nova quantidade do item ${item.nome} é ${quantidade}.`;
+	webhookFunctions.AddIntentAction('pedido.alterar-item', function(params){
+		var nome = "";
+		Object.keys(params.item).forEach(key => {
+			if(params.item[key])
+				nome = params.item[key];
 		});
 
-		msg = msg == "" ? "O item a ter sua quantidade alterada não foi encontrado" : msg; 
+		var quantidade = params.quantidade;
 
-		setPedidos(pedido);
-		return msg;
+		return alterarItem(nome, quantidade);
 	});
 
 	webhookFunctions.AddIntentAction('pedido.reduzir-quantidade-event', function(params){
