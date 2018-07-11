@@ -55,21 +55,25 @@ const combos =
 [
 	{
 		"id": 9,
+		"alias": "Primavera",
 		"nome": "Primavera (1 Hambúrguer + 1 Milk Shake)",
 		"preco": 11
 	},
 	{
 		"id": 10,
+		"alias": "Verão",
 		"nome": "Verão (2 Mistos Quentes + 1 Suco Natural)",
 		"preco": 7.5
 	},
 	{
 		"id": 11,
+		"alias": "Outono",
 		"nome": "Outono (1 Hambúrguer + 1 Cachorro Quente + 2 Refrigerantes)",
 		"preco": 12.5
 	},
 	{
 		"id": 12,
+		"alias": "Inverno",
 		"nome": "Inverno (2 Hambúrgueres + 2 Refrigerantes)",
 		"preco": 10
 	}
@@ -134,17 +138,24 @@ var novoPedido = function(){
 
 var getItem = function(nome, tipo){
 	var toSearch = [];
+	var searchInCombos = false;
 	if(tipo == 'bebida'){
 		toSearch = bebidas;
 	} else if(tipo == 'sanduiche'){
 		toSearch = sanduices;
 	}
 	else{
+		searchInCombos = true;
 		toSearch = combos;
 	}
 
 	var formatName = replaceAccent(nome).toUpperCase();
-	return toSearch.find(it => replaceAccent(it.nome).toUpperCase() == formatName);
+	return toSearch.find(it => 
+	{
+		return searchInCombos ? 
+		replaceAccent(it.alias).toUpperCase() == formatName || replaceAccent(it.nome).toUpperCase() == formatName :
+		replaceAccent(it.nome).toUpperCase() == formatName;
+	});
 }
 
 var getItemByName = function(nome){
