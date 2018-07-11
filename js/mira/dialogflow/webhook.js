@@ -196,11 +196,7 @@ var removeItem = function(nome){
 	}
 	
 	//caso tenha encontrado, remove da lista
-	pedidos.itens = pedidos.itens.filter(it => 
-	{
-		console.log(`Busca: ${replaceAccent(it.nome).toUpperCase} | Parâmetro: ${formatName}`);
-		replaceAccent(it.nome).toUpperCase != formatName
-	});
+	pedidos.itens = pedidos.itens.filter(it => replaceAccent(it.nome).toUpperCase() != formatName);
 
 	setPedidos(pedidos);
 
