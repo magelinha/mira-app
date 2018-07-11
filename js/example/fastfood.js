@@ -749,7 +749,8 @@ var pedidoConcreta =
             widget:"WaiButton", 
             class: "btn btn-success btn-lg", 
             value: "$bind", 
-            href:"navigate('fastfood/')"  
+            href:"navigate('fastfood/')",
+            events: { click: "EvtNovoPedido"}  
         },
     ]
 };
@@ -958,6 +959,10 @@ if(typeof define === 'function') {
 
             window.EvtCancelarPedido = function(options){
                 app.$env.$dataObj.trigger("change");
+            }
+
+            window.EvtNovoPedido = function(options){
+                window.location.href = options.$element.prop('href');
             }
 
             //#endregion
