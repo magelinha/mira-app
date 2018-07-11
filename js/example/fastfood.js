@@ -851,7 +851,7 @@ if(typeof define === 'function') {
 
                 //Busca o .item_pedido relacionado ao item
                 $(".item_pedido").each((index, element) => {
-                    var $element = $($element);
+                    var $element = $(element);
 
                     if($(element).children().eq(0).text() != item)
                         return true;
