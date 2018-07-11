@@ -389,7 +389,7 @@ var landingConcreta =
         { 
             name: 'item', 
             tag: 'div', 
-            class:'item-pedido',
+            class:'item_pedido',
             widget: 'WaiContent',
             events: {
                 focus: {
@@ -427,7 +427,7 @@ var landingConcreta =
                                             action: "EvtMinus",
                                             event: "reduzir_quantidade",
                                             params:{
-                                                nome: "GetSelectItem(context.$element.closest('.item-pedido')).nome"
+                                                nome: "GetSelectItem(context.$element.closest('.item_pedido')).nome"
                                             }
                                         }
                                     },
@@ -450,8 +450,8 @@ var landingConcreta =
                                             action: "SetTotal",
                                             event: "editar_item",
                                             params: {
-                                                nome: "GetSelectItem(context.$element.closest('.item-pedido')).nome",
-                                                quantidade: "GetSelectItem(context.$element.closest('.item-pedido')).quantidade",
+                                                nome: "GetSelectItem(context.$element.closest('.item_pedido')).nome",
+                                                quantidade: "GetSelectItem(context.$element.closest('.item_pedido')).quantidade",
                                             }
                                         }
                                     }
@@ -470,7 +470,7 @@ var landingConcreta =
                                             action: "EvtPlus",
                                             event: "aumentar_quantidade",
                                             params:{
-                                                nome: "GetSelectItem(context.$element.closest('.item-pedido')).nome"
+                                                nome: "GetSelectItem(context.$element.closest('.item_pedido')).nome"
                                             }
                                         }
                                     },
@@ -499,7 +499,7 @@ var landingConcreta =
                                     action: "EvtRemoveItem",
                                     event: "item_removido",
                                     params:{
-                                        item: "GetSelectItem(context.$element.closest('.item-pedido')).nome"
+                                        item: "GetSelectItem(context.$element.closest('.item_pedido')).nome"
                                     }
                                 }
                             },
@@ -690,7 +690,7 @@ var pedidoConcreta =
         { 
             name: 'item', 
             tag: 'div', 
-            class:'item-pedido',
+            class:'item_pedido',
             widget: 'WaiContent',
             events: {
                 focus: {
@@ -869,7 +869,7 @@ if(typeof define === 'function') {
 
             window.EvtRemoveItem = function(options){
                 //remove o item do pedido
-                var $itemPedido = options.$element.closest(".item-pedido");
+                var $itemPedido = options.$element.closest(".item_pedido");
                 $itemPedido.remove();
 
                 //recalcula o total
@@ -879,7 +879,7 @@ if(typeof define === 'function') {
             //Diminui a quantidade de um determinado item
             window.EvtMinus = function(options){
                 var $fieldQtd = GetFieldQtd(options);
-                var $itemPedido = options.$element.closest('.item-pedido');
+                var $itemPedido = options.$element.closest('.item_pedido');
                 var selectedItem = GetSelectItem($itemPedido);
 
                 var item = selectedItem.nome;
@@ -902,7 +902,7 @@ if(typeof define === 'function') {
 
             window.EvtPlus = function(options){
                 var $fieldQtd = GetFieldQtd(options);
-                var $itemPedido = options.$element.closest('.item-pedido');
+                var $itemPedido = options.$element.closest('.item_pedido');
                 var selectedItem = GetSelectItem($itemPedido);
 
                 var quantidade = parseInt(selectedItem.quantidade) + 1;
@@ -924,7 +924,7 @@ if(typeof define === 'function') {
                 options.$event.preventDefault();
 
                 //Se o pedido estiver vazio, não registra o mesmo
-                if($('.item-pedido').length <= 0)
+                if($('.item_pedido').length <= 0)
                     return;
 
                 window.location.href = options.$element.prop('href');
@@ -954,20 +954,20 @@ if(typeof define === 'function') {
             }
 
             window.GetFieldQtd = function(options){
-                return options.$element.closest('.item-pedido').find('.input-qtd');
+                return options.$element.closest('.item_pedido').find('.input-qtd');
             }
 
             window.ChangeAmount = function(classItem){
                 var $currentElement = $(document.activeElement);
                 
-                //Se não tem a classe item-pedido, tenta pegar o parent que tenha a classe
-                if(!$currentElement.hasClass("item-pedido")){
-                    $currentElement = $currentElement.closest(".item-pedido");
+                //Se não tem a classe item_pedido, tenta pegar o parent que tenha a classe
+                if(!$currentElement.hasClass("item_pedido")){
+                    $currentElement = $currentElement.closest(".item_pedido");
                 }
 
                 if(!$currentElement.length)
                     return;
-                    
+
                 var $button = $currentElement.find(classItem);
 
                 if($button.length)
