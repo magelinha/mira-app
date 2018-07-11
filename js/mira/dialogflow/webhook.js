@@ -524,6 +524,12 @@ var Init = function(server){
 			"Você ainda não finalizou a compra do seu pedido.";
 	});
 
+	webhookFunctions.AddIntentAction('welcome-pedido', function(params){
+		var pedido = getPedidos();
+
+		return `Seu pedido é ${pedido.numeroPedido}.`;
+	});
+
 
 	//#endregion
 
