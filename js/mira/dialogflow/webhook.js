@@ -518,6 +518,7 @@ var Init = function(server){
 		var total = 0; 
 		pedidos.itens.forEach(item => total += item.total);
 
+		console.log(total);
 		var totalMoeda = formatPrice(total);
 
 		return `O total do pedido é ${totalMoeda}`;
