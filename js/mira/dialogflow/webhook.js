@@ -290,7 +290,7 @@ var Init = function(server){
 		return speech;
 	});
 
-	webhookFunctions.AddIntentAction('cardapio.sanduices', function(params) {
+	webhookFunctions.AddIntentAction('cardapio.sanduiches', function(params) {
 		var speech = "Os sanduíches são: ";
 		sanduices.forEach(function(sanduice){
 			speech += `${sanduice.nome} - ${formatPrice(sanduice.preco)}.`;
