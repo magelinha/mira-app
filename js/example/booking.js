@@ -265,8 +265,6 @@ var landingConcreta =
         }
     ],
     maps: [
-        { name: 'form-group', widget:'WaiContent', class: 'form-group' },
-
         { name: "container-center", window: "WaiContent", class:"container" },
         { name: 'section-buscar-hoteis', class: 'row', tag:'section', widget: 'WaiContent' },
         { name: 'section-principais-destinos', class: 'row', tag:'section', widget: 'WaiContent' },
@@ -274,6 +272,10 @@ var landingConcreta =
 
         //Form buscar hoteis
         { name: "titulo-formulario", tag:'h2', widget: 'WaiContent', value: "Buscar Hotéis" },
+
+        { name: 'form-group', widget:'WaiContent', class: 'form-group' },
+        { name: 'container-field', widget:'WaiContent', class:'col-sm-10' },
+        
         { name: 'buscar-hoteis', widget: "WaiForm", class:'form-horizontal', events: { submit: 'BuscarHoteis'} },
         
         { name: "label-destino", tag: 'label', for:"destino", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Destino" },
