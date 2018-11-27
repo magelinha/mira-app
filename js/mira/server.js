@@ -37,7 +37,8 @@ const Storage = require('@google-cloud/storage');
 // specifying the private key file. All clients in google-cloud-node have this
 // helper, see https://github.com/GoogleCloudPlatform/google-cloud-node/blob/master/docs/authentication.md
 const storage = new Storage({
-  keyFilename: './js/mira/dialogflow/keys/fastfood.json'
+    projectId: 'booking-cf175',
+    //keyFilename: './js/mira/dialogflow/keys/fastfood.json'
 });
 
 // Makes an authenticated API request.
