@@ -40,12 +40,12 @@ function DetectTextIntent(projectId, query, languageCode) {
 }
 
 function DetectEventIntent(projectId, eventName, languageCode, params, context) {
-    console.log(eventName);
+    console.log(eventName, projectId, sessionId);
     // The path to identify the agent that owns the created intent.
     const sessionPath = sessionClient.sessionPath(projectId, sessionId);
     
     console.log(sessionPath);
-    
+
     // The text query request.
     const request = {
         session: sessionPath,
