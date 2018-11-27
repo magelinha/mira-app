@@ -98,6 +98,7 @@ var landingAbstrata =
                     name: 'section-principais-destinos',
                     children:
                     [
+                        { name: 'titulo-principais-destino' },
                         {
                             name: 'principais-destinos',
                             datasource: 'url:<%= "/api/booking/principaisDestinos" %>',
@@ -109,6 +110,7 @@ var landingAbstrata =
                     name: 'section-ultimas-avaliacoes',
                     children:
                     [
+                        { name: 'titulo-ultimas-avaliacoes' },
                         {
                             name: 'ultimas-avaliacoes',
                             datasource: 'url:<%= "/api/booking/ultimasAvalicoes" %>',
@@ -268,7 +270,9 @@ var landingConcreta =
         { name: "container-center", window: "WaiContent", class:"container" },
         { name: 'section-buscar-hoteis', class: 'row', tag:'section', widget: 'WaiContent' },
         { name: 'section-principais-destinos', class: 'row', tag:'section', widget: 'WaiContent' },
+        { name: "titulo-principais-destino", tag:'h2', widget: 'WaiContent', value: "Principais Destinos" },
         { name: 'section-ultimas-avaliacoes', class: 'row', tag:'section', widget: 'WaiContent' },
+        { name: "titulo-ultimas-avaliacoes", tag:'h2', widget: 'WaiContent', value: "Últimas Avaliações" },
 
         //Form buscar hoteis
         { name: "titulo-formulario", tag:'h2', widget: 'WaiContent', value: "Buscar Hotéis" },
