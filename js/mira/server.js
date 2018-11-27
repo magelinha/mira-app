@@ -31,7 +31,7 @@ server.use(
 );
 
 // Imports the Google Cloud client library.
-const Storage = require('@google-cloud/storage');
+const { Storage } = require('@google-cloud/storage');
 
 // Instantiates a client. Explicitly use service account credentials by
 // specifying the private key file. All clients in google-cloud-node have this
