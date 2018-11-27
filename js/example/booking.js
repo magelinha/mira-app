@@ -56,263 +56,35 @@ var landingAbstrata =
                     name: 'section-buscar-hoteis',
                     children:
                     [
+                        { name: 'titulo-formulario' },
                         {
                             name: 'buscar-hoteis',
-                            title: 
-                            {
-                                "pt-BR": "Buscar Hotéis",
-                                "en-US": "Search Hotels"
-                            },
                             children : 
                             [
                                 { 
                                     name: 'destino',
-                                    label: 
-                                    {
-                                        "pt-BR": "Destino",
-                                        "en-US": "Destination"
-                                    },
-                                    entity: {name: 'destino', key: 'name' },
-                                    validation: function(value){
-                                        return {success: value != undefined && value.length > 0 };
-                                    },
                                     datasource: 'url:<%= "/api/booking/destinos" %>',
-                                    error: 
-                                    {
-                                        name: "default",
-                                        message:
-                                        {
-                                            "pt-BR": "O destino não foi informado",
-                                            "en-US": "The destination didn't informed"    
-                                        }
-                                    },
                                     children:['option-destino']
                                 },
 
                                 { 
                                     name: 'checkin',
-                                    label: 
-                                    {
-                                        "pt-BR": "Data de Entrada",
-                                        "en-US": "Check-in"
-                                    },
-                                    validation: function(value){
-                                        //a data de entrada não pode ser menor que a data atual e nem maior que a data de saída
-                                        var checkin = new Date(value);
-                                        if(!checkin.isValid()){
-                                            return { success: false, error: 'empty'};
-                                        }
-
-                                        if(checkin < Date.now())
-                                            return { success: false, error: 'lessThanNow'};
-
-                                        var dtCheckout = new Date(checkout);
-                                        if(checkin > dtCheckout)
-                                            return { success: false, error:'invalid' };
-
-                                        return { success: true };
-
-                                    },
-                                    error: 
-                                    [
-                                        {
-                                            name: "lessThanNow",
-                                            message : 
-                                            {
-                                                "pt-BR": "A data de entrada informada é menor que a data atual.",
-                                                "en-US": "Check in is less than Today."
-                                            }
-                                        },
-                                        {
-                                            name:"empty",
-                                            message : 
-                                            {
-                                                "pt-BR": "A data de entrada não foi informada.",
-                                                "en-US": "Check in didn't informed."
-                                            }
-                                        },
-                                        {
-                                            name:"invalid",
-                                            message : 
-                                            {
-                                                "pt-BR": "A data de entrada informada é maior que a data de saída.",
-                                                "en-US": "Check in is less than check out."
-                                            }
-                                        }
-                                    ],
-                                    help: 
-                                    {
-                                        "pt-BR": "A data de entrada dever ser maior ou igual a data atual e menor que data de saída.",
-                                        "en-US": "The check in must be greater then or equal to Today and less than the check out."
-                                    }
                                 },
                                 { 
                                     name: 'checkout',
-                                    label: 
-                                    {
-                                        "pt-BR": "Data de Saída",
-                                        "en-US": "Check-out"
-                                    },
-                                    validation: function(value){
-                                        //a data de entrada não pode ser menor que a data atual e nem maior que a data de saída
-                                        var checkout = new Date(value);
-
-                                        if(!checkout.isValid())
-                                            return {success: false, error: 'empty'};
-
-                                        if(checkout < Date.now())
-                                            return { success: false, error: 'lessThanNow'};
-
-                                        var dtCheckin = new Date(checkin);
-                                        if(checkout > dtCheckin)
-                                            return { success: false, error: 'invalid' };
-
-                                        return { success: true };
-                                    },
-                                    error: 
-                                    [
-                                        {
-                                            name: "lessThanNow",
-                                            message:
-                                            {
-                                                "pt-BR": "A data de saída informada é menor que a data atual.",
-                                                "en-US": "The check-out informed is less than the current date."
-                                            }
-                                        },
-                                        {
-                                            name: "empty",
-                                            message:
-                                            {
-                                                "pt-BR": "A data de saída não foi informada.",
-                                                "en-US": "The check-out wasn't informed"
-                                            }
-                                        },
-                                        {
-                                           name: "invalid",
-                                            message: 
-                                            {
-                                                "pt-BR": "A data de saída informada é menor que a data de entrada.",
-                                                "en-US": "The check-out informed is less than check-in"
-                                            }
-                                        }
-                                    ],
-                                    help: 
-                                    {
-                                        "pt-BR": "A data de saída deve ser maior que a data atual e maior que data de entrada.",  
-                                        "en-US": "The check-out must be bigger than the current date and check-out"
-                                    } 
                                 },
                                 { 
                                     name: 'quartos',
-                                    label: 
-                                    {
-                                        "pt-BR": "Quantidade de quartos",
-                                        "en-US": "Number of Rooms"
-                                    },
-                                    validation: function(value){
-                                        var intValue = parseInt(value);
-                                        return { success: intValue != NaN && intValue > 0 && intValue < 31 };    
-                                    },
-                                    error: 
-                                    [
-                                        {
-                                            name: "valueIsNaN",
-                                            message: 
-                                            {
-                                                "pt-BR": "A quantidade de quartos informada é inválida.",
-                                                "en-US": "The amount of rooms informed is invalid"
-                                            }                                            
-                                        },
-                                        {
-                                            name: "invalidAmount",
-                                            message: 
-                                            {
-                                                "pt-BR": "A quantidade de quartos deve ser um valor de 1 a 30",
-                                                "en-US": "The amount of rooms should be a number from 1 to 30"
-                                            }
-                                        }
-                                    ],
-                                    help: 
-                                    {
-                                        "pt-BR": "Informe a quantidade de quartos de 1 a 30.",
-                                        "en-US": "Enter the number of rooms from 1 to 30."
-                                    },
                                     children: ['option-quartos'], 
-                                    datasource: generateNumber(30)
+                                    datasource: 'generateNumber(30)'
                                 },
                                 { 
                                     name: 'adultos',
-                                    label: 
-                                    {
-                                        "pt-BR": "Quantidade de Adultos",
-                                        "en-US": "Number of Adults"
-                                    },
-                                    validation: function(value){
-                                        var intValue = parseInt(value);
-                                        return { success: intValue != NaN && intValue > 0 && intValue < 31 };    
-                                    },
-                                    error: 
-                                    [
-                                        {
-                                            name: "valueIsNaN",
-                                            message: 
-                                            {
-                                                "pt-BR": "A quantidade de adultos informada é inválida.",
-                                                "en-US": "The number of adults informed is invalid."
-                                            }                                            
-                                        },
-                                        {
-                                            name: "invalidAmount",
-                                            message: 
-                                            {
-                                                "pt-BR": "A quantidade de adultos deve ser um valor de 1 a 30",
-                                                "en-US": "The amount of adults should be a number from 1 to 30"
-                                            }
-                                        }
-                                    ],
-                                    help: 
-                                    {
-                                        "pt-BR": "Informe a quantidade de adultos de 1 a 30.",
-                                        "en-US": "Enter the number of adults from 1 to 30"    
-                                    },
-                                    children:['option-adultos'], 
-                                    datasource:generateNumber(30)
+                                    children: ['option-adultos'], 
+                                    datasource: 'generateNumber(30)'
                                 },
                                 { 
                                     name: 'criancas',
-                                    label: 
-                                    {
-                                        "pt-BR": "Quantidade de Crianças",
-                                        "en-US": "Number of Children"
-                                    },
-                                    validation: function(value){
-                                        var intValue = parseInt(value);
-                                        return { success: intValue != NaN && intValue >= 0 && intValue <= 10 };    
-                                    },
-                                    error: 
-                                    [
-                                        {
-                                            name: "valueIsNaN",
-                                            message: 
-                                            {
-                                                "pt-BR": "A quantidade de crianças informada é inválida.",
-                                                "en-US": "The number of children informed is invalid."
-                                            }                                            
-                                        },
-                                        {
-                                            name: "invalidAmount",
-                                            message: 
-                                            {
-                                                "pt-BR": "A quantidade de crianças deve ser um valor de 1 a 10",
-                                                "en-US": "The number of children should be a number from 1 to 10"
-                                            }
-                                        }
-                                    ],
-                                    help: 
-                                    {
-                                        "pt-BR": "Informe a quantidade de crianças de 1 a 10.",
-                                        "en-US": "Enter the number of crianças from 1 to 10"    
-                                    },
                                     children:['option-criancas'], 
                                     datasource:'generateNumber(11)'
                                 },
@@ -328,20 +100,8 @@ var landingAbstrata =
                     [
                         {
                             name: 'principais-destinos',
-                            title: 
-                            {
-                                "pt-BR": "Principais Destinos",
-                                "en-US": "Top Destinations"
-                            },
                             datasource: 'url:<%= "/api/booking/principaisDestinos" %>',
-                            entity: { name: 'principalDestino', key: 'name' },
-                            children: 
-                            [
-                                { 
-                                    name: 'item-destino',
-                                    tts: '$data.name'
-                                }
-                            ]      
+                            children: ['item-destino']   
                         }
                     ]
                 },
@@ -351,23 +111,8 @@ var landingAbstrata =
                     [
                         {
                             name: 'ultimas-avaliacoes',
-                            title: 
-                            {
-                                "pt-BR": "Últimas Avaliações",
-                                "en-US": "Latest Reviews"
-                            },
                             datasource: 'url:<%= "/api/booking/ultimasAvalicoes" %>',
-                            children: 
-                            [
-                                { 
-                                    name: 'avaliacao',
-                                    tts: 
-                                    {
-                                        "pt-BR": "$data.avaliacao. $data.usuario sobre $data.hotel",
-                                        "en-US": "$data.avaliacao. $data.usuario about $data.hotel"
-                                    }
-                                },   
-                            ]  
+                            children: ['avaliacao']
                         }
                     ]
                 }
@@ -382,29 +127,177 @@ var landingConcreta =
     head: GeralHead.concat([
         {name: 'title', widget:'Title', value: 'Página Inicial'}
     ]),
+    structure: 
+    [
+        //Estrutura para o formulário
+        {
+            name: 'buscar-hoteis', 
+            children: 
+            [
+                { 
+                    name: 'form-group', 
+                    children:
+                    [
+                        { name: 'label-destino' },
+                        { 
+                            name: 'container-field',
+                            children: 
+                            [
+                                {
+                                    name: 'destino',
+                                    children: 
+                                    [
+                                        { 
+                                            name: 'option-destino', 
+                                            
+                                        }
+                                    ] 
+                                }
+                            ]
+                        }
+                    ]
+                },
+                { 
+                    name: 'form-group', 
+                    children:
+                    [
+                        { name: 'label-checkin' },
+                        { 
+                            name: 'container-field',
+                            children: 
+                            [
+                                { name: 'checkin'}
+                            ]
+                        }
+                    ]
+                },
+                { 
+                    name: 'form-group', 
+                    children:
+                    [
+                        { name: 'label-checkout' },
+                        { 
+                            name: 'container-field',
+                            children: 
+                            [
+                                { name: 'checkout'}
+                            ]
+                        }
+                    ]
+                },
+                { 
+                    name: 'form-group', 
+                    children:
+                    [
+                        { name: 'label-quartos' },
+                        { 
+                            name: 'container-field',
+                            children: 
+                            [
+                                {
+                                    name: 'quartos',
+                                    children: 
+                                    [
+                                        { 
+                                            name: 'option-quartos', 
+                                            
+                                        }
+                                    ] 
+                                }
+                            ]
+                        }
+                    ]
+                },
+                { 
+                    name: 'form-group', 
+                    children:
+                    [
+                        { name: 'label-adultos' },
+                        { 
+                            name: 'container-field',
+                            children: 
+                            [
+                                {
+                                    name: 'adultos',
+                                    children: 
+                                    [
+                                        { 
+                                            name: 'option-adultos', 
+                                            
+                                        }
+                                    ] 
+                                }
+                            ]
+                        }
+                    ]
+                },
+                { 
+                    name: 'form-group', 
+                    children:
+                    [
+                        { name: 'label-criancas' },
+                        { 
+                            name: 'container-field',
+                            children: 
+                            [
+                                {
+                                    name: 'criancas',
+                                    children: 
+                                    [
+                                        { 
+                                            name: 'option-criancas', 
+                                            
+                                        }
+                                    ] 
+                                }
+                            ]
+                        }
+                    ]
+                },
+                { 
+                    name: 'form-group', 
+                    children:
+                    [
+                        { name: 'confirmar'}
+                    ]
+                },
+            ]
+        }
+    ],
     maps: [
+        { name: 'form-group', widget:'WaiContent', class: 'form-group' },
+
         { name: "container-center", window: "WaiContent", class:"container" },
         { name: 'section-buscar-hoteis', class: 'row', tag:'section', widget: 'WaiContent' },
         { name: 'section-principais-destinos', class: 'row', tag:'section', widget: 'WaiContent' },
         { name: 'section-ultimas-avaliacoes', class: 'row', tag:'section', widget: 'WaiContent' },
 
         //Form buscar hoteis
+        { name: "titulo-formulario", tag:'h2', widget: 'WaiContent', value: "Buscar Hotéis" },
         { name: 'buscar-hoteis', widget: "WaiForm", class:'form-horizontal', events: { submit: 'BuscarHoteis'} },
         
+        { name: "label-destino", tag: 'label', for:"destino", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Destino" },
         { name: 'destino', widget: "WaiSelect" },
         { name: 'option-destino', tag: 'option', value: '$data.name', text:'$data.name' },
 
+        { name: "label-checkin", tag: 'label', for:"checkin", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Check-In" },
         { name: 'checkin', widget: "WaiInput", type:'date'},
+
+        { name: "label-checkout", tag: 'label', for:"checkout", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Check-Out" },
         { name: 'checkout', widget: "WaiInput", type:'date' },
 
+        { name: "label-quartos", tag: 'label', for:"quartos", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Nº Quartos" },
         { name: 'quartos', widget: "WaiSelect"},
         { name: 'option-quartos', tag:'option', value: 'parseInt($data.number) + 1', text: '$data.number + 1' },
 
+        { name: "label-adultos", tag: 'label', for:"adultos", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Nº Adultos" },
         { name: 'adultos', widget: "WaiSelect"},
         { name: 'option-adultos', tag:'option', value: 'parseInt($data.number) + 1', text: '$data.number + 1' },
 
+        { name: "label-criancas", tag: 'label', for:"criancas", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Nº Crianças" },
         { name: 'criancas', widget: "WaiSelect" },
         { name: 'option-criancas', tag:'option', value: 'parseInt($data.number)', text: '$data.number' },
+
         { name: 'confirmar', widget: 'WaiButton', value: '$bind',  type:'submit', class: 'btn btn-primary pull-right' },
 
 
@@ -465,261 +358,33 @@ var hoteisAbstrata =
                     [
                         {
                             name: 'buscar-hoteis',
-                            title: 
-                            {
-                                "pt-BR": "Buscar Hotéis",
-                                "en-US": "Search Hotels"
-                            },
                             children : 
                             [
                                 { 
                                     name: 'destino',
-                                    label: 
-                                    {
-                                        "pt-BR": "Destino",
-                                        "en-US": "Destination"
-                                    },
                                     entity: {name: 'destino', key: 'name' },
-                                    validation: function(value){
-                                        return {success: value != undefined && value.length > 0 };
-                                    },
                                     datasource: 'url:<%= "/api/booking/destinos" %>',
-                                    error: 
-                                    {
-                                        name: "default",
-                                        message:
-                                        {
-                                            "pt-BR": "O destino não foi informado",
-                                            "en-US": "The destination didn't informed"    
-                                        }
-                                    },
                                     children:['option-destino']
                                 },
 
                                 { 
                                     name: 'checkin',
-                                    label: 
-                                    {
-                                        "pt-BR": "Data de Entrada",
-                                        "en-US": "Check-in"
-                                    },
-                                    validation: function(value){
-                                        //a data de entrada não pode ser menor que a data atual e nem maior que a data de saída
-                                        var checkin = new Date(value);
-                                        if(!checkin.isValid()){
-                                            return { success: false, error: 'empty'};
-                                        }
-
-                                        if(checkin < Date.now())
-                                            return { success: false, error: 'lessThanNow'};
-
-                                        var dtCheckout = new Date(checkout);
-                                        if(checkin > dtCheckout)
-                                            return { success: false, error:'invalid' };
-
-                                        return { success: true };
-
-                                    },
-                                    error: 
-                                    [
-                                        {
-                                            name: "lessThanNow",
-                                            message : 
-                                            {
-                                                "pt-BR": "A data de entrada informada é menor que a data atual.",
-                                                "en-US": "Check in is less than Today."
-                                            }
-                                        },
-                                        {
-                                            name:"empty",
-                                            message : 
-                                            {
-                                                "pt-BR": "A data de entrada não foi informada.",
-                                                "en-US": "Check in didn't informed."
-                                            }
-                                        },
-                                        {
-                                            name:"invalid",
-                                            message : 
-                                            {
-                                                "pt-BR": "A data de entrada informada é maior que a data de saída.",
-                                                "en-US": "Check in is less than check out."
-                                            }
-                                        }
-                                    ],
-                                    help: 
-                                    {
-                                        "pt-BR": "A data de entrada dever ser maior ou igual a data atual e menor que data de saída.",
-                                        "en-US": "The check in must be greater then or equal to Today and less than the check out."
-                                    }
                                 },
                                 { 
-                                    name: 'checkout',
-                                    label: 
-                                    {
-                                        "pt-BR": "Data de Saída",
-                                        "en-US": "Check-out"
-                                    },
-                                    validation: function(value){
-                                        //a data de entrada não pode ser menor que a data atual e nem maior que a data de saída
-                                        var checkout = new Date(value);
-
-                                        if(!checkout.isValid())
-                                            return {success: false, error: 'empty'};
-
-                                        if(checkout < Date.now())
-                                            return { success: false, error: 'lessThanNow'};
-
-                                        var dtCheckin = new Date(checkin);
-                                        if(checkout > dtCheckin)
-                                            return { success: false, error: 'invalid' };
-
-                                        return { success: true };
-                                    },
-                                    error: 
-                                    [
-                                        {
-                                            name: "lessThanNow",
-                                            message:
-                                            {
-                                                "pt-BR": "A data de saída informada é menor que a data atual.",
-                                                "en-US": "The check-out informed is less than the current date."
-                                            }
-                                        },
-                                        {
-                                            name: "empty",
-                                            message:
-                                            {
-                                                "pt-BR": "A data de saída não foi informada.",
-                                                "en-US": "The check-out wasn't informed"
-                                            }
-                                        },
-                                        {
-                                           name: "invalid",
-                                            message: 
-                                            {
-                                                "pt-BR": "A data de saída informada é menor que a data de entrada.",
-                                                "en-US": "The check-out informed is less than check-in"
-                                            }
-                                        }
-                                    ],
-                                    help: 
-                                    {
-                                        "pt-BR": "A data de saída deve ser maior que a data atual e maior que data de entrada.",  
-                                        "en-US": "The check-out must be bigger than the current date and check-out"
-                                    } 
+                                    name: 'checkout', 
                                 },
                                 { 
                                     name: 'quartos',
-                                    label: 
-                                    {
-                                        "pt-BR": "Quantidade de quartos",
-                                        "en-US": "Number of Rooms"
-                                    },
-                                    validation: function(value){
-                                        var intValue = parseInt(value);
-                                        return { success: intValue != NaN && intValue > 0 && intValue < 31 };    
-                                    },
-                                    error: 
-                                    [
-                                        {
-                                            name: "valueIsNaN",
-                                            message: 
-                                            {
-                                                "pt-BR": "A quantidade de quartos informada é inválida.",
-                                                "en-US": "The amount of rooms informed is invalid"
-                                            }                                            
-                                        },
-                                        {
-                                            name: "invalidAmount",
-                                            message: 
-                                            {
-                                                "pt-BR": "A quantidade de quartos deve ser um valor de 1 a 30",
-                                                "en-US": "The amount of rooms should be a number from 1 to 30"
-                                            }
-                                        }
-                                    ],
-                                    help: 
-                                    {
-                                        "pt-BR": "Informe a quantidade de quartos de 1 a 30.",
-                                        "en-US": "Enter the number of rooms from 1 to 30."
-                                    },
                                     children: ['option-quartos'], 
                                     datasource: generateNumber(30)
                                 },
                                 { 
                                     name: 'adultos',
-                                    label: 
-                                    {
-                                        "pt-BR": "Quantidade de Adultos",
-                                        "en-US": "Number of Adults"
-                                    },
-                                    validation: function(value){
-                                        var intValue = parseInt(value);
-                                        return { success: intValue != NaN && intValue > 0 && intValue < 31 };    
-                                    },
-                                    error: 
-                                    [
-                                        {
-                                            name: "valueIsNaN",
-                                            message: 
-                                            {
-                                                "pt-BR": "A quantidade de adultos informada é inválida.",
-                                                "en-US": "The number of adults informed is invalid."
-                                            }                                            
-                                        },
-                                        {
-                                            name: "invalidAmount",
-                                            message: 
-                                            {
-                                                "pt-BR": "A quantidade de adultos deve ser um valor de 1 a 30",
-                                                "en-US": "The amount of adults should be a number from 1 to 30"
-                                            }
-                                        }
-                                    ],
-                                    help: 
-                                    {
-                                        "pt-BR": "Informe a quantidade de adultos de 1 a 30.",
-                                        "en-US": "Enter the number of adults from 1 to 30"    
-                                    },
                                     children:['option-adultos'], 
                                     datasource:generateNumber(30)
                                 },
                                 { 
                                     name: 'criancas',
-                                    label: 
-                                    {
-                                        "pt-BR": "Quantidade de Crianças",
-                                        "en-US": "Number of Children"
-                                    },
-                                    validation: function(value){
-                                        var intValue = parseInt(value);
-                                        return { success: intValue != NaN && intValue >= 0 && intValue <= 10 };    
-                                    },
-                                    error: 
-                                    [
-                                        {
-                                            name: "valueIsNaN",
-                                            message: 
-                                            {
-                                                "pt-BR": "A quantidade de crianças informada é inválida.",
-                                                "en-US": "The number of children informed is invalid."
-                                            }                                            
-                                        },
-                                        {
-                                            name: "invalidAmount",
-                                            message: 
-                                            {
-                                                "pt-BR": "A quantidade de crianças deve ser um valor de 1 a 10",
-                                                "en-US": "The number of children should be a number from 1 to 10"
-                                            }
-                                        }
-                                    ],
-                                    help: 
-                                    {
-                                        "pt-BR": "Informe a quantidade de crianças de 1 a 10.",
-                                        "en-US": "Enter the number of crianças from 1 to 10"    
-                                    },
                                     children:['option-criancas'], 
                                     datasource:'generateNumber(11)'
                                 },
@@ -734,18 +399,12 @@ var hoteisAbstrata =
                     children:
                     [
                         {
-                            name: 'hoteis', 
-                            title: 
-                            {
-                                "pt-BR": "Lista de hotéis",
-                                "en-US": "List of Hotels"
-                            },
+                            name: 'hoteis',
                             datasource: 'getHoteis($data.hoteis)', 
                             children:
                             [
                                 { 
                                     name: 'item-hotel',
-                                    tts:"sprintf('Nome:%s. Bairro:%s. Nota:%f. Status:%s. Quantidade de Avaliações:%d', '$data.nome', '$data.bairro', $data.nota, '$data.status', $data.qtdAvaliacoes)", 
                                 }
                             ]
                         }
