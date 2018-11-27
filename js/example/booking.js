@@ -275,11 +275,11 @@ var landingConcreta =
 
         { name: 'form-group', widget:'WaiContent', class: 'form-group' },
         { name: 'container-field', widget:'WaiContent', class:'col-sm-10' },
-        
+
         { name: 'buscar-hoteis', widget: "WaiForm", class:'form-horizontal', events: { submit: 'BuscarHoteis'} },
         
         { name: "label-destino", tag: 'label', for:"destino", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Destino" },
-        { name: 'destino', widget: "WaiSelect" },
+        { name: 'destino', widget: "WaiSelect", class:"form-control" },
         { name: 'option-destino', tag: 'option', value: '$data.name', text:'$data.name' },
 
         { name: "label-checkin", tag: 'label', for:"checkin", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Check-In" },
@@ -289,15 +289,15 @@ var landingConcreta =
         { name: 'checkout', widget: "WaiInput", type:'date' },
 
         { name: "label-quartos", tag: 'label', for:"quartos", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Nº Quartos" },
-        { name: 'quartos', widget: "WaiSelect"},
+        { name: 'quartos', widget: "WaiSelect", class:"form-control"},
         { name: 'option-quartos', tag:'option', value: 'parseInt($data.number) + 1', text: '$data.number + 1' },
 
         { name: "label-adultos", tag: 'label', for:"adultos", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Nº Adultos" },
-        { name: 'adultos', widget: "WaiSelect"},
+        { name: 'adultos', widget: "WaiSelect", class:"form-control"},
         { name: 'option-adultos', tag:'option', value: 'parseInt($data.number) + 1', text: '$data.number + 1' },
 
         { name: "label-criancas", tag: 'label', for:"criancas", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Nº Crianças" },
-        { name: 'criancas', widget: "WaiSelect" },
+        { name: 'criancas', widget: "WaiSelect", class:"form-control" },
         { name: 'option-criancas', tag:'option', value: 'parseInt($data.number)', text: '$data.number' },
 
         { name: 'confirmar', widget: 'WaiButton', value: '$bind',  type:'submit', class: 'btn btn-primary pull-right' },
