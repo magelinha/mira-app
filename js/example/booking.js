@@ -808,8 +808,7 @@ var ajaxSetup = {
 var configAPIAi = 
 {
     defaultLanguage: 'pt-BR',
-    
-    
+    projectId: 'booking-cf175',
     tokens: {
         'pt-BR': '1351a6de0c914e3fbf3a2e9d5522f680',
         'en-US': '2e7915d5dd8549e18836562f590ef130'
