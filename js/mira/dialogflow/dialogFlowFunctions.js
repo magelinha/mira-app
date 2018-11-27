@@ -44,6 +44,8 @@ function DetectEventIntent(projectId, eventName, languageCode, params, context) 
     // The path to identify the agent that owns the created intent.
     const sessionPath = sessionClient.sessionPath(projectId, sessionId);
     
+    console.log(sessionPath);
+    
     // The text query request.
     const request = {
         session: sessionPath,
