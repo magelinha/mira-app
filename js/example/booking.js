@@ -665,9 +665,9 @@ var hoteisConcreta =
         { name: 'filtros', widget:'WaiContent', class:'col-sm-4', style: 'margin-left: 20px;' },
 
         { name: 'filtro-bairro', widget: 'WaiListCheck', title: 'Bairros' },
-        { name: 'item-filtro-bairro', widget:'WaiCheckbox', value: '$data.name', events: { change:'clickCheckbox' }},
+        { name: 'item-filtro-bairro', widget:'WaiCheckbox', text: '$data.name', value: '$data.name', events: { change:'clickCheckbox' }},
         { name: 'filtro-status', widget: 'WaiListCheck', title: 'Status' },
-        { name: 'item-filtro-status', widget:'WaiCheckbox', value: '$data.name', events: { change:'clickCheckbox' }},
+        { name: 'item-filtro-status', widget:'WaiCheckbox', text: '$data.name', value: '$data.name', events: { change:'clickCheckbox' }},
     ]
 };
 
