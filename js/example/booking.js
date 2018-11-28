@@ -352,8 +352,6 @@ var landingConcreta =
 var hoteisAbstrata = 
 {
     name:'hoteis',
-    title: { "pt-BR": "Listagem de hotéis", "en-US": "Hotels List" },
-    options: ['hoteis', 'filtro-bairro', 'filtro-status', 'buscar-hoteis'],
     widgets : [
         {
             name:"container-center", children:
@@ -743,6 +741,7 @@ var filterHoteis = function(message){
 }
 
 window.getHoteis = function(hoteis){
+    console.log(hoteis);
     var params = getParamsURL();
     return _.filter(hoteis, function(hotel){ return hotel.cidade == params.cidade});
 }
