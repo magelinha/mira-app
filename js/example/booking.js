@@ -123,142 +123,6 @@ var landingAbstrata =
     ]
 };
 
-//Estrutura para o formulário
-var structureFormulario = 
-{
-    name: 'buscar-hoteis', 
-    children: 
-    [
-        { 
-            name: 'form-group', 
-            children:
-            [
-                { name: 'label-destino' },
-                { 
-                    name: 'container-field',
-                    children: 
-                    [
-                        {
-                            name: 'destino',
-                            children: 
-                            [
-                                { 
-                                    name: 'option-destino', 
-                                    
-                                }
-                            ] 
-                        }
-                    ]
-                }
-            ]
-        },
-        { 
-            name: 'form-group', 
-            children:
-            [
-                { name: 'label-checkin' },
-                { 
-                    name: 'container-field',
-                    children: 
-                    [
-                        { name: 'checkin'}
-                    ]
-                }
-            ]
-        },
-        { 
-            name: 'form-group', 
-            children:
-            [
-                { name: 'label-checkout' },
-                { 
-                    name: 'container-field',
-                    children: 
-                    [
-                        { name: 'checkout'}
-                    ]
-                }
-            ]
-        },
-        { 
-            name: 'form-group', 
-            children:
-            [
-                { name: 'label-quartos' },
-                { 
-                    name: 'container-field',
-                    children: 
-                    [
-                        {
-                            name: 'quartos',
-                            children: 
-                            [
-                                { 
-                                    name: 'option-quartos', 
-                                    
-                                }
-                            ] 
-                        }
-                    ]
-                }
-            ]
-        },
-        { 
-            name: 'form-group', 
-            children:
-            [
-                { name: 'label-adultos' },
-                { 
-                    name: 'container-field',
-                    children: 
-                    [
-                        {
-                            name: 'adultos',
-                            children: 
-                            [
-                                { 
-                                    name: 'option-adultos', 
-                                    
-                                }
-                            ] 
-                        }
-                    ]
-                }
-            ]
-        },
-        { 
-            name: 'form-group', 
-            children:
-            [
-                { name: 'label-criancas' },
-                { 
-                    name: 'container-field',
-                    children: 
-                    [
-                        {
-                            name: 'criancas',
-                            children: 
-                            [
-                                { 
-                                    name: 'option-criancas', 
-                                    
-                                }
-                            ] 
-                        }
-                    ]
-                }
-            ]
-        },
-        { 
-            name: 'form-group', 
-            children:
-            [
-                { name: 'confirmar'}
-            ]
-        },
-    ]
-}
-
 var landingConcreta = 
 {
     name: 'landing', 
@@ -267,7 +131,140 @@ var landingConcreta =
     ]),
     structure: 
     [
-        structureFormulario
+        //Estrutura para o formulário
+        {
+            name: 'buscar-hoteis', 
+            children: 
+            [
+                { 
+                    name: 'form-group', 
+                    children:
+                    [
+                        { name: 'label-destino' },
+                        { 
+                            name: 'container-field',
+                            children: 
+                            [
+                                {
+                                    name: 'destino',
+                                    children: 
+                                    [
+                                        { 
+                                            name: 'option-destino', 
+                                            
+                                        }
+                                    ] 
+                                }
+                            ]
+                        }
+                    ]
+                },
+                { 
+                    name: 'form-group', 
+                    children:
+                    [
+                        { name: 'label-checkin' },
+                        { 
+                            name: 'container-field',
+                            children: 
+                            [
+                                { name: 'checkin'}
+                            ]
+                        }
+                    ]
+                },
+                { 
+                    name: 'form-group', 
+                    children:
+                    [
+                        { name: 'label-checkout' },
+                        { 
+                            name: 'container-field',
+                            children: 
+                            [
+                                { name: 'checkout'}
+                            ]
+                        }
+                    ]
+                },
+                { 
+                    name: 'form-group', 
+                    children:
+                    [
+                        { name: 'label-quartos' },
+                        { 
+                            name: 'container-field',
+                            children: 
+                            [
+                                {
+                                    name: 'quartos',
+                                    children: 
+                                    [
+                                        { 
+                                            name: 'option-quartos', 
+                                            
+                                        }
+                                    ] 
+                                }
+                            ]
+                        }
+                    ]
+                },
+                { 
+                    name: 'form-group', 
+                    children:
+                    [
+                        { name: 'label-adultos' },
+                        { 
+                            name: 'container-field',
+                            children: 
+                            [
+                                {
+                                    name: 'adultos',
+                                    children: 
+                                    [
+                                        { 
+                                            name: 'option-adultos', 
+                                            
+                                        }
+                                    ] 
+                                }
+                            ]
+                        }
+                    ]
+                },
+                { 
+                    name: 'form-group', 
+                    children:
+                    [
+                        { name: 'label-criancas' },
+                        { 
+                            name: 'container-field',
+                            children: 
+                            [
+                                {
+                                    name: 'criancas',
+                                    children: 
+                                    [
+                                        { 
+                                            name: 'option-criancas', 
+                                            
+                                        }
+                                    ] 
+                                }
+                            ]
+                        }
+                    ]
+                },
+                { 
+                    name: 'form-group', 
+                    children:
+                    [
+                        { name: 'confirmar'}
+                    ]
+                },
+            ]
+        }
     ],
     maps: [
         { name: "container-center", window: "WaiContent", class:"container" },
@@ -451,7 +448,140 @@ var hoteisConcreta =
     ]),
     structure: 
     [
-        structureFormulario
+        //Estrutura para o formulário
+        {
+            name: 'buscar-hoteis', 
+            children: 
+            [
+                { 
+                    name: 'form-group', 
+                    children:
+                    [
+                        { name: 'label-destino' },
+                        { 
+                            name: 'container-field',
+                            children: 
+                            [
+                                {
+                                    name: 'destino',
+                                    children: 
+                                    [
+                                        { 
+                                            name: 'option-destino', 
+                                            
+                                        }
+                                    ] 
+                                }
+                            ]
+                        }
+                    ]
+                },
+                { 
+                    name: 'form-group', 
+                    children:
+                    [
+                        { name: 'label-checkin' },
+                        { 
+                            name: 'container-field',
+                            children: 
+                            [
+                                { name: 'checkin'}
+                            ]
+                        }
+                    ]
+                },
+                { 
+                    name: 'form-group', 
+                    children:
+                    [
+                        { name: 'label-checkout' },
+                        { 
+                            name: 'container-field',
+                            children: 
+                            [
+                                { name: 'checkout'}
+                            ]
+                        }
+                    ]
+                },
+                { 
+                    name: 'form-group', 
+                    children:
+                    [
+                        { name: 'label-quartos' },
+                        { 
+                            name: 'container-field',
+                            children: 
+                            [
+                                {
+                                    name: 'quartos',
+                                    children: 
+                                    [
+                                        { 
+                                            name: 'option-quartos', 
+                                            
+                                        }
+                                    ] 
+                                }
+                            ]
+                        }
+                    ]
+                },
+                { 
+                    name: 'form-group', 
+                    children:
+                    [
+                        { name: 'label-adultos' },
+                        { 
+                            name: 'container-field',
+                            children: 
+                            [
+                                {
+                                    name: 'adultos',
+                                    children: 
+                                    [
+                                        { 
+                                            name: 'option-adultos', 
+                                            
+                                        }
+                                    ] 
+                                }
+                            ]
+                        }
+                    ]
+                },
+                { 
+                    name: 'form-group', 
+                    children:
+                    [
+                        { name: 'label-criancas' },
+                        { 
+                            name: 'container-field',
+                            children: 
+                            [
+                                {
+                                    name: 'criancas',
+                                    children: 
+                                    [
+                                        { 
+                                            name: 'option-criancas', 
+                                            
+                                        }
+                                    ] 
+                                }
+                            ]
+                        }
+                    ]
+                },
+                { 
+                    name: 'form-group', 
+                    children:
+                    [
+                        { name: 'confirmar'}
+                    ]
+                },
+            ]
+        }
     ],
     maps: [
         { name: "container-center", window: "WaiContent", class:"container" },
