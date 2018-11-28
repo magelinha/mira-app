@@ -123,6 +123,142 @@ var landingAbstrata =
     ]
 };
 
+//Estrutura para o formulário
+var structureFormulario = 
+{
+    name: 'buscar-hoteis', 
+    children: 
+    [
+        { 
+            name: 'form-group', 
+            children:
+            [
+                { name: 'label-destino' },
+                { 
+                    name: 'container-field',
+                    children: 
+                    [
+                        {
+                            name: 'destino',
+                            children: 
+                            [
+                                { 
+                                    name: 'option-destino', 
+                                    
+                                }
+                            ] 
+                        }
+                    ]
+                }
+            ]
+        },
+        { 
+            name: 'form-group', 
+            children:
+            [
+                { name: 'label-checkin' },
+                { 
+                    name: 'container-field',
+                    children: 
+                    [
+                        { name: 'checkin'}
+                    ]
+                }
+            ]
+        },
+        { 
+            name: 'form-group', 
+            children:
+            [
+                { name: 'label-checkout' },
+                { 
+                    name: 'container-field',
+                    children: 
+                    [
+                        { name: 'checkout'}
+                    ]
+                }
+            ]
+        },
+        { 
+            name: 'form-group', 
+            children:
+            [
+                { name: 'label-quartos' },
+                { 
+                    name: 'container-field',
+                    children: 
+                    [
+                        {
+                            name: 'quartos',
+                            children: 
+                            [
+                                { 
+                                    name: 'option-quartos', 
+                                    
+                                }
+                            ] 
+                        }
+                    ]
+                }
+            ]
+        },
+        { 
+            name: 'form-group', 
+            children:
+            [
+                { name: 'label-adultos' },
+                { 
+                    name: 'container-field',
+                    children: 
+                    [
+                        {
+                            name: 'adultos',
+                            children: 
+                            [
+                                { 
+                                    name: 'option-adultos', 
+                                    
+                                }
+                            ] 
+                        }
+                    ]
+                }
+            ]
+        },
+        { 
+            name: 'form-group', 
+            children:
+            [
+                { name: 'label-criancas' },
+                { 
+                    name: 'container-field',
+                    children: 
+                    [
+                        {
+                            name: 'criancas',
+                            children: 
+                            [
+                                { 
+                                    name: 'option-criancas', 
+                                    
+                                }
+                            ] 
+                        }
+                    ]
+                }
+            ]
+        },
+        { 
+            name: 'form-group', 
+            children:
+            [
+                { name: 'confirmar'}
+            ]
+        },
+    ]
+}
+
 var landingConcreta = 
 {
     name: 'landing', 
@@ -131,140 +267,7 @@ var landingConcreta =
     ]),
     structure: 
     [
-        //Estrutura para o formulário
-        {
-            name: 'buscar-hoteis', 
-            children: 
-            [
-                { 
-                    name: 'form-group', 
-                    children:
-                    [
-                        { name: 'label-destino' },
-                        { 
-                            name: 'container-field',
-                            children: 
-                            [
-                                {
-                                    name: 'destino',
-                                    children: 
-                                    [
-                                        { 
-                                            name: 'option-destino', 
-                                            
-                                        }
-                                    ] 
-                                }
-                            ]
-                        }
-                    ]
-                },
-                { 
-                    name: 'form-group', 
-                    children:
-                    [
-                        { name: 'label-checkin' },
-                        { 
-                            name: 'container-field',
-                            children: 
-                            [
-                                { name: 'checkin'}
-                            ]
-                        }
-                    ]
-                },
-                { 
-                    name: 'form-group', 
-                    children:
-                    [
-                        { name: 'label-checkout' },
-                        { 
-                            name: 'container-field',
-                            children: 
-                            [
-                                { name: 'checkout'}
-                            ]
-                        }
-                    ]
-                },
-                { 
-                    name: 'form-group', 
-                    children:
-                    [
-                        { name: 'label-quartos' },
-                        { 
-                            name: 'container-field',
-                            children: 
-                            [
-                                {
-                                    name: 'quartos',
-                                    children: 
-                                    [
-                                        { 
-                                            name: 'option-quartos', 
-                                            
-                                        }
-                                    ] 
-                                }
-                            ]
-                        }
-                    ]
-                },
-                { 
-                    name: 'form-group', 
-                    children:
-                    [
-                        { name: 'label-adultos' },
-                        { 
-                            name: 'container-field',
-                            children: 
-                            [
-                                {
-                                    name: 'adultos',
-                                    children: 
-                                    [
-                                        { 
-                                            name: 'option-adultos', 
-                                            
-                                        }
-                                    ] 
-                                }
-                            ]
-                        }
-                    ]
-                },
-                { 
-                    name: 'form-group', 
-                    children:
-                    [
-                        { name: 'label-criancas' },
-                        { 
-                            name: 'container-field',
-                            children: 
-                            [
-                                {
-                                    name: 'criancas',
-                                    children: 
-                                    [
-                                        { 
-                                            name: 'option-criancas', 
-                                            
-                                        }
-                                    ] 
-                                }
-                            ]
-                        }
-                    ]
-                },
-                { 
-                    name: 'form-group', 
-                    children:
-                    [
-                        { name: 'confirmar'}
-                    ]
-                },
-            ]
-        }
+        structureFormulario
     ],
     maps: [
         { name: "container-center", window: "WaiContent", class:"container" },
@@ -362,13 +365,13 @@ var hoteisAbstrata =
                     name: 'section-buscar-hoteis',
                     children:
                     [
+                        { name: 'titulo-formulario' },
                         {
                             name: 'buscar-hoteis',
                             children : 
                             [
                                 { 
                                     name: 'destino',
-                                    entity: {name: 'destino', key: 'name' },
                                     datasource: 'url:<%= "/api/booking/destinos" %>',
                                     children:['option-destino']
                                 },
@@ -377,17 +380,17 @@ var hoteisAbstrata =
                                     name: 'checkin',
                                 },
                                 { 
-                                    name: 'checkout', 
+                                    name: 'checkout',
                                 },
                                 { 
                                     name: 'quartos',
                                     children: ['option-quartos'], 
-                                    datasource: generateNumber(30)
+                                    datasource: 'generateNumber(30)'
                                 },
                                 { 
                                     name: 'adultos',
-                                    children:['option-adultos'], 
-                                    datasource:generateNumber(30)
+                                    children: ['option-adultos'], 
+                                    datasource: 'generateNumber(30)'
                                 },
                                 { 
                                     name: 'criancas',
@@ -420,50 +423,18 @@ var hoteisAbstrata =
                     name: 'section-filtros',
                     children:
                     [
+                        { name: 'titulo-filtro-bairro' },
                         {
                             name: 'filtro-bairro', 
-                            title: 
-                            {
-                                "pt-BR":"Filtrar por Bairro",
-                                "en-US": "Filter by Neighborhood"
-                            },
                             datasource: 'getBairros(getHoteis($data.hoteis))', 
-                            entity: 
-                            {
-                                name: 'bairro',
-                                key: 'name',
-                            },
-                            children:
-                            [
-                                {
-                                    name: 'item-filtro-bairro',
-                                    label: '$data.name',
-                                    tts: '$data.name'
-                                }
-                            ]
+                            children: ['item-filtro-bairro']
                         },
 
+                        { name: 'titulo-filtro-status' },
                         {
                             name: 'filtro-status', 
-                            title: 
-                            {
-                                "pt-BR":"Filtrar por Status",
-                                "en-US": "Filter by Status"
-                            },
                             datasource: '$data.status', 
-                            entity: 
-                            {
-                                name: 'status',
-                                key: 'name',
-                            },
-                            children:
-                            [
-                                {
-                                    name: 'item-filtro-status',
-                                    label: '$data.name',
-                                    tts: '$data.name'
-                                }
-                            ],
+                            children: ['item-filtro-status']
                         }
                     ]
                 }
@@ -478,30 +449,49 @@ var hoteisConcreta =
     head: GeralHead.concat([
         {name: 'title', widget:'Title', value: "Hotéis"}
     ]),
+    structure: 
+    [
+        structureFormulario
+    ],
     maps: [
         { name: "container-center", window: "WaiContent", class:"container" },
         { name: 'section-buscar-hoteis', class: 'col-sm-4', tag:'section', widget: 'WaiContent' },
         { name: 'section-hoteis', class: 'col-sm-8 pull-right', tag:'section', widget: 'WaiContent' },
         { name: 'section-filtros', class: 'col-sm-4', tag:'section', widget: 'WaiContent' },
+        { name: "titulo-filtro-bairro", tag:'h2', widget: 'WaiContent', value: "Filtrar por Bairro" },
+        { name: "titulo-filtro-status", tag:'h2', widget: 'WaiContent', value: "Filtrar por Status" },
 
         //Form buscar hoteis
-        { name: 'buscar-hoteis', widget: "WaiForm", class:'form-horizontal', title: 'Buscar Hotéis', events: { submit: 'BuscarHoteis'} },
+        { name: "titulo-formulario", tag:'h2', widget: 'WaiContent', value: "Buscar Hotéis" },
+
+        { name: 'form-group', widget:'WaiContent', class: 'form-group' },
+        { name: 'container-field', widget:'WaiContent', class:'col-sm-10' },
+
+        { name: 'buscar-hoteis', widget: "WaiForm", class:'form-horizontal', events: { submit: 'BuscarHoteis'} },
         
-        { name: 'destino', widget: "WaiSelect", label: 'Destino' },
+        { name: "label-destino", tag: 'label', for:"destino", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Destino" },
+        { name: 'destino', widget: "WaiSelect", class:"form-control" },
         { name: 'option-destino', tag: 'option', value: '$data.name', text:'$data.name' },
 
-        { name: 'checkin', widget: "WaiInput", type:'date', label: 'Data de Entrada' },
-        { name: 'checkout', widget: "WaiInput", type:'date', label: 'Data de Saída' },
+        { name: "label-checkin", tag: 'label', for:"checkin", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Check-In" },
+        { name: 'checkin', widget: "WaiInput", type:'date'},
 
-        { name: 'quartos', widget: "WaiSelect", label: 'Quantidade de Quartos' },
+        { name: "label-checkout", tag: 'label', for:"checkout", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Check-Out" },
+        { name: 'checkout', widget: "WaiInput", type:'date' },
+
+        { name: "label-quartos", tag: 'label', for:"quartos", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Nº Quartos" },
+        { name: 'quartos', widget: "WaiSelect", class:"form-control"},
         { name: 'option-quartos', tag:'option', value: 'parseInt($data.number) + 1', text: '$data.number + 1' },
 
-        { name: 'adultos', widget: "WaiSelect", label: 'Quantidade de Adultos' },
+        { name: "label-adultos", tag: 'label', for:"adultos", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Nº Adultos" },
+        { name: 'adultos', widget: "WaiSelect", class:"form-control"},
         { name: 'option-adultos', tag:'option', value: 'parseInt($data.number) + 1', text: '$data.number + 1' },
 
-        { name: 'criancas', widget: "WaiSelect", label: 'Quantidade de Crianças' },
+        { name: "label-criancas", tag: 'label', for:"criancas", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Nº Crianças" },
+        { name: 'criancas', widget: "WaiSelect", class:"form-control" },
         { name: 'option-criancas', tag:'option', value: 'parseInt($data.number)', text: '$data.number' },
-        { name: 'confirmar', widget: 'WaiButton', value: 'Buscar',  type:'submit', class: 'btn btn-primary pull-right' },
+
+        { name: 'confirmar', widget: 'WaiButton', value: '$bind',  type:'submit', class: 'btn btn-primary pull-right' },
 
         // Itens para seleção
         { name: 'hoteis', widget:'WaiListSelect', style: 'min-height: 800px;' },
@@ -659,11 +649,6 @@ var detalheHotelAbstrata =
                     [
                         { 
                             name: 'imagens', 
-                            title: 
-                            {
-                                "pt-BR":"Imagens",
-                                "en-US": "Images"
-                            },
                             datasource: '$data.urls',
                             children:[
                                 { name: 'imagem', tts: '$data.descricao' }
@@ -671,26 +656,14 @@ var detalheHotelAbstrata =
                         },
                         { 
                             name: 'detalhes-hotel',
-                            title: 
-                            {
-                                "pt-BR":"Descrição",
-                                "en-US": "Description"
-                            },
-                            tts: '$data.get("descricao")',
                         },
                         { 
                             name: 'quartos', 
-                            title: 
-                            {
-                                "pt-BR":"Tipo de Quartos",
-                                "en-US": "Types of Rooms"
-                            },
                             datasource: '$data.quartos', 
                             children: 
                             [
                                 { 
                                     name: 'item-quarto',
-                                    tts: "sprintf('%s. Quantidade de camas: %s. Café da manhã: %s, Preço:%s. ', '$data.tipo', '$data.camas', textBoolean($data.cafe_da_manha), $data.preco)", 
                                 }
                             ]
                         }
@@ -698,17 +671,11 @@ var detalheHotelAbstrata =
                 },
                 { 
                     name: 'avaliacoes', 
-                    title: 
-                    {
-                        "pt-BR":"Avaliações",
-                        "en-US": "Reviews"
-                    },
                     datasource:'$data.avaliacoes',
                     children:
                     [ 
                         {
-                            name: 'item-avaliacao',
-                            tts: "sprintf('%s. Autor: %s', '$data.avaliacao', '$data.autor')"
+                            name: 'item-avaliacao'
                         }
                     ] 
                 }
