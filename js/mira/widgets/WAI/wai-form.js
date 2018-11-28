@@ -133,31 +133,31 @@ define([
         }
 
         //Faz primeira a validação do campos para depois executar o submit cadastrado no evento do MIRA.
-        $element.submit(function(e){
-            e.preventDefault();
+        // $element.submit(function(e){
+        //     e.preventDefault();
 
-            var inputs = $element.find(':input:not(:radio, :checkbox, :button)');
-            var errors = [];
-            _.each(inputs, function(input){
-                var $input = $(input);
-                var action = input.validation($input.val());
-                var message = '';
-                if(!action.success){
-                    message = typeof(input.errorMessage) == "string" ? input.errorMessage :
-                                        _.find(input.errorMessage, function(error) { return error.name == action.error }).message || 
-                                        input.errorMessage[0].message;
+        //     var inputs = $element.find(':input:not(:radio, :checkbox, :button)');
+        //     var errors = [];
+        //     _.each(inputs, function(input){
+        //         var $input = $(input);
+        //         var action = input.validation($input.val());
+        //         var message = '';
+        //         if(!action.success){
+        //             message = typeof(input.errorMessage) == "string" ? input.errorMessage :
+        //                                 _.find(input.errorMessage, function(error) { return error.name == action.error }).message || 
+        //                                 input.errorMessage[0].message;
 
-                    errors.push(message);
-                }
-            });
+        //             errors.push(message);
+        //         }
+        //     });
 
-            if(errors.length){
-                e.stopImmediatePropagation();
-                setAlertMessage($element, errors); 
-            }else{
-                $element.find('.alert').addClass('hidden');
-            }
-        });
+        //     if(errors.length){
+        //         e.stopImmediatePropagation();
+        //         setAlertMessage($element, errors); 
+        //     }else{
+        //         $element.find('.alert').addClass('hidden');
+        //     }
+        // });
 
         //Faz o build dos eventos
         if(options.events) {
