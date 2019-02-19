@@ -79,7 +79,7 @@ define([
                 link.setAttribute('href', '#');
                 if (options.href) {
                     var template = "<%= " + options.href + '%>';
-                    link.setAttribute('href', _.template(template, _.extend({}, options, $context)));
+                    link.setAttribute('href', options.href);
                 }
                 if (options.value) {
                     var template = "<%= " + options.value + '%>';
