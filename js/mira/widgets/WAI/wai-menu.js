@@ -50,7 +50,7 @@ define([
             $parent.append(element);
             if(callback){
                 callback({
-                    $children: $element.find('nav'),
+                    $children: $parent.find('nav'),
                     html: $parent.html()
                 })
             }
@@ -66,7 +66,7 @@ define([
             $parent.append(_.template(templateDropdown, optionsTemplate));
             if(callback){
                 callback({
-                    $children:$parent.find("#" + options.name + ' .dropdown'),
+                    $children: $parent.find("#" + options.name + ' .dropdown'),
                     html: $parent.html
                 })
             }
