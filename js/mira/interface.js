@@ -43,6 +43,7 @@ define([
             var $head = $('head');
             this.concrete.buildHead($head, this.model, this.$env);
             this.abstract.getHtml(this.$el, this.concrete, this.model, this.$env);
+            this.concrete.buildScripts(this.$el, this.model, this.$env);
             return this;
         }
 

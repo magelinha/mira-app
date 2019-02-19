@@ -29,6 +29,12 @@ define([
             });
         },
 
+        buildScripts: function($body, $data, $env){
+            this.get('scripts').each(function(map){
+                map.getHtml($body, $data, $env);
+            })
+        }
+
         findStructure: function(name, abstracts){
             var structure = this.get('structure').findWhere({'name': name});
             return structure;
