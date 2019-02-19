@@ -27,7 +27,7 @@ define([
     'mira/widgets/WAI/wai-list',
     'mira/widgets/WAI/wai-menu'
 
-    ],function (Helper, SimpleHtml, Map, Input, Head, Meta, Title, ImageHtml,
+    ],function (Helper, SimpleHtml, Map, Input, Head, Script, Meta, Title, ImageHtml,
                 BootstrapBase, BootstrapModal, BootstrapCarousel, BootstrapImageBox, BootstrapNavigation, BootstrapFooter,
                 BootstrapForm, Audio, Profile, Freebase, TecWeb, 
                 //WAI Components
