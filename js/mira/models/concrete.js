@@ -15,6 +15,7 @@ define([
 
         parse: function(data){
             data.head = new Map.Collection(data.head, {parse:true});
+            data.script = new Map.Collection(data.script, {parse:true});
             data.maps = new Map.Collection(data.maps, {parse:true});
             data.structure = new Structure.Collection(data.structure, {parse:true});
             return data;
