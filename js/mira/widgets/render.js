@@ -24,13 +24,14 @@ define([
     'mira/widgets/WAI/wai-content',
     'mira/widgets/WAI/wai-form',
     'mira/widgets/WAI/wai-control',
-    'mira/widgets/WAI/wai-list'
+    'mira/widgets/WAI/wai-list',
+    'mira/widgets/WAI/wai-menu'
 
     ],function (Helper, SimpleHtml, Map, Input, Head, Meta, Title, ImageHtml,
                 BootstrapBase, BootstrapModal, BootstrapCarousel, BootstrapImageBox, BootstrapNavigation, BootstrapFooter,
                 BootstrapForm, Audio, Profile, Freebase, TecWeb, 
                 //WAI Components
-                WaiContent, WaiForm, WaiControl, WaiList
+                WaiContent, WaiForm, WaiControl, WaiList, WaiMenu
     ) {
 
     var pathToWidget = function(name){
@@ -84,7 +85,10 @@ define([
         WaiButton: WaiControl.Button,
         WaiListContent: WaiList.Content,
         WaiListSelect: WaiList.Select,
-        WaiListCheck: WaiList.Check
+        WaiListCheck: WaiList.Check,
+        WaiMenu: WaiMenu.Main,
+        WaiMenuDropdown: WaiMenu.Dropdown,
+        WaiMenuItem: WaiMenu.Item
     };
 
     return  {

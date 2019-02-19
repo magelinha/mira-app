@@ -14,22 +14,15 @@ var selection = [
     //promoções
 
     //pedido
-    {
-        when: "!_.isUndefined($data.numero) && $data.numero > 0",
-        abstract: 'pedido'
-    },
-
-    {
-        when: "_.isUndefined($data.numero)",
-        abstract: 'landing'
-    },
      
 ];
 
 var head = [
     {name: 'main_css', widget:'Head', href:'css/bootstrap.css', tag: 'style'},
+    {name: 'bootstrap_accessibility_css', widget:'Head', href:'css/bootstrap-accessibility.css', tag: 'style'},
     {name: 'fontawesone_css', widget:'Head', href:'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', tag: 'style'},
     {name: 'fastfood_css', widget:'Head', href:'css/fastFood.css', tag: 'style'},
+    
     {name: 'viewport', widget:'Meta', content:'width=device-width, initial-scale=1'}
 ];
 
@@ -43,7 +36,23 @@ var landingAbstrata =
 	name: "landing",
 	widgets:
 	[
+        //Menu
+        { 
+            name: "menu", children:
+            [
+                { name: "menu-cardapio" },
+                { name: "menu-promocoes" },
+                { name: "menu-pedido" }
+            ]
+        },
 
+        //Area de promoções
+        {
+            name:"promocoes", children:
+            [
+                { name : "promocao" }
+            ]
+        }
 	]
 };
 
@@ -59,7 +68,12 @@ var landingConcreta =
     ],
     maps:
     [
-
+        { name: "menu", widget: "WaiMenu", value:"Fast Food UAI", content:"#promocoes" },
+        { name: "menu-cardapio", widget:"WaiMenuItem", href:"./cardapio" },
+        { name: "menu-promocoes", widget:"WaiMenuItem", href:"./promocoes" },
+        { name: "menu-pedido", widget:"WaiMenuItem", href:"./pedido" },
+        { name: "promocoes", widget:"WaiContent" },
+        { name: "promocao", widget:"WaiContent" },
     ],
     script: script
 };
@@ -69,7 +83,6 @@ var cardapioAbstrata =
 	name: "cardapio",
 	widgets:
 	[
-
 	]
 };
 
@@ -148,14 +161,14 @@ var interface_abstracts = [
 
     landingAbstrata,
     cardapioAbstrata,
-    promocoesAbstrata
+    promocoesAbstrata,
     pedidoAbstrata
 ];
 
 var concrete_interface = [
     landingConcreta,
     cardapioConcreta,
-    promocoesConcreta 
+    promocoesConcreta, 
     pedidoConcreta
 ];
 
@@ -182,6 +195,6 @@ if(typeof define === 'function') {
             var app = new Mira.Application(interface_abstracts, concrete_interface, rules, selection, configAPIAi);
             Mira.Widget.setDefault('BootstrapSimple');
         };
-    }
-}
+    });
+};
 
