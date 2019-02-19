@@ -31,7 +31,7 @@ define([
         },
 
         buildScripts: function($body, $data, $env){
-            _.each(this.get('script') || [], function(map){
+            _.each(this.get('script'), function(map){
                 map.getHtml($body, $data, $env);
             })
         },
