@@ -30,7 +30,7 @@ define([
         },
 
         buildScripts: function($body, $data, $env){
-            this.get('scripts').each(function(map){
+            this.get('script').each(function(map){
                 map.getHtml($body, $data, $env);
             })
         },
