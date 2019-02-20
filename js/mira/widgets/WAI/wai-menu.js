@@ -19,9 +19,9 @@ define([
                 </button>
                 <a class="navbar-brand" href="<%=projectLink%>"><%=value%></a>
             </div>
-        </div>
-        <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav"></ul>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav"></ul>
+            </div>
         </div>
     </nav>
     `;
