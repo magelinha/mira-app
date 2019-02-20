@@ -31,9 +31,9 @@ define([
         },
 
         buildScripts: function($body, $data, $env){
-            _.each(this.get('script'), function(map){
+            this.get('script').each(function(map){
                 map.getHtml($body, $data, $env);
-            })
+            });
         },
 
         findStructure: function(name, abstracts){
