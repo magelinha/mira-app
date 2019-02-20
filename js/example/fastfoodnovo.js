@@ -40,9 +40,9 @@ var landingAbstrata =
         { 
             name: "menu", children:
             [
-                { name: "menu-cardapio" },
-                { name: "menu-promocoes" },
-                { name: "menu-pedido" }
+                { name: "menu-cardapio", bind: "Cardápio" },
+                { name: "menu-promocoes", bind: "Promoções" },
+                { name: "menu-pedido", bind: "Pedido" }
             ]
         },
 
@@ -69,9 +69,9 @@ var landingConcreta =
     maps:
     [
         { name: "menu", widget: "WaiMenu", value:"Fast Food UAI", content:"#promocoes" },
-        { name: "menu-cardapio", widget:"WaiMenuItem", href:"./cardapio", value:"Cardápio" },
-        { name: "menu-promocoes", widget:"WaiMenuItem", href:"./promocoes", value:"Promoções" },
-        { name: "menu-pedido", widget:"WaiMenuItem", href:"./pedido", value:"Pedido" },
+        { name: "menu-cardapio", widget:"WaiMenuItem", href:"./cardapio", value:"$bind" },
+        { name: "menu-promocoes", widget:"WaiMenuItem", href:"./promocoes", value:"$bind" },
+        { name: "menu-pedido", widget:"WaiMenuItem", href:"./pedido", value:"$bind" },
         { name: "promocoes", widget:"WaiContent" },
         { name: "promocao", widget:"WaiContent" },
     ],
