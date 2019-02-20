@@ -7,8 +7,8 @@ define([
 ], function ($, _, Helper) {
 
     var templateMenu =`
-    <nav class="navbar<%=classMenu>" role="navigation" id="<%=id>">
-    <a class="sr-only" href="<%=content>">Skip to content</a>
+    <nav class="navbar<%=classMenu%>" role="navigation" id="<%=id%>">
+    <a class="sr-only" href="<%=content%>">Skip to content</a>
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -17,7 +17,7 @@ define([
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<%=projectLink>"><%=value></a>
+                <a class="navbar-brand" href="<%=projectLink%>"><%=value%></a>
             </div>
         </div>
         <div class="collapse navbar-collapse">
@@ -27,8 +27,8 @@ define([
     `;
 
     var templateDropdown=`
-    <li class="dropdown" id="<%=id>">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%=value> <span class="caret"></span></a>
+    <li class="dropdown" id="<%=id%>">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%=value%> <span class="caret"></span></a>
         <ul class="dropdown-menu">
           
         </ul>
