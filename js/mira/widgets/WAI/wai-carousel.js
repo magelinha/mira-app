@@ -58,8 +58,8 @@ define([
                 count: $containerControl.children().length
             }
 
-            var control = _.template(templateControl, optionsCarousel);
-            $containerControl.append(control);
+            var $control = _.template(templateControl, optionsCarousel);
+            $containerControl.append($control);
 
             if(callback){
                 callback({

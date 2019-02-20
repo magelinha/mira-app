@@ -85,7 +85,7 @@ var landingConcreta =
                     children:
                     [
                         { name: "promacao-caption-titulo", tag:"h3", value:"$data.nome" },
-                        { name: "promacao-caption-descricao", tag:"h3", value:"$data.descricao" },
+                        { name: "promacao-caption-descricao", tag:"p", value:"$data.descricao" },
                     ] 
                 }
             ]
