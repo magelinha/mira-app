@@ -51,7 +51,7 @@ define([
             $parent.append(element);
 
             //Atualiza o carousel com as bolinhas de acordo com a quantidade de itens
-            var containerControl = $parent.find('carousel-indicators');
+            var containerControl = $parent.find('.carousel-indicators');
             var optionsCarousel = {
                 id: $parent.prop('id'),
                 count: containerControl.children().length
