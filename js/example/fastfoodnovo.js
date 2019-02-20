@@ -28,7 +28,7 @@ var head = [
 
 var script = 
 [
-	{name: 'bootstrap_accessibility', widget:'Script', src:'bootstrap-accessibility.min.js'},
+	{name: 'bootstrap_accessibility', widget:'Script', src:'js/libs/bootstrap-accessibility.min.js'},
 ];
 
 var landingAbstrata = 
