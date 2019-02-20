@@ -75,7 +75,7 @@ define([
         Item: function($parent, name, $context, options, callback){
             var element = document.createElement('li');
             var link = null;
-            var value = _.isObject(options.value) ? options.value[appAPI.currentLanguage] : options.value; 
+            var value = _.isObject(options.value) ? options.value[appApi.currentLanguage] : options.value; 
 
             if(options.href) {
                 link = document.createElement('a');;
