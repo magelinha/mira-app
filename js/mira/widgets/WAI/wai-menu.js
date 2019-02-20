@@ -80,7 +80,7 @@ define([
             if(options.href) {
                 link = document.createElement('a');;
                 link.setAttribute('href', options.href || "#");
-                link.innerHTML(value);
+                link.innerHTML = value;
                 element.appendChild(link);
             }
             else{
