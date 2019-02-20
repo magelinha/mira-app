@@ -74,19 +74,19 @@ define([
 
         Item: function($parent, name, $context, options, callback){
             var element = document.createElement('li');
-            if(options.href || options.value) {
-                var link = document.createElement('a');
-                link.setAttribute('href', '#');
-                if (options.href) {
-                    var template = "<%= " + options.href + '%>';
-                    link.setAttribute('href', options.href);
-                }
-                if (options.value) {
-                    var template = "<%= " + options.value + '%>';
-                    link.innerHTML = _.template(template, _.extend({}, options, $context));
-                }
+            var link = null;
+            var value = _.isObject(options.value) ? options.value[appAPI.currentLanguage] : options.value; 
+
+            if(options.href) {
+                link = document.createElement('a');;
+                link.setAttribute('href', options.href || "#");
+                link.innerHTML(value);
                 element.appendChild(link);
             }
+            else{
+                element.innerHTML = value;
+            }
+
             $parent.append(element);
             if(callback){
                 callback({
