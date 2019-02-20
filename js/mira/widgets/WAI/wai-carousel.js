@@ -16,10 +16,6 @@ define([
   
         <!-- Wrapper for slides -->
         <div class="carousel-inner">
-            <div class="item active">
-                <img src="..." alt="...">
-                <div class="carousel-caption"></div>
-            </div>
         </div>
         <!-- Controls -->
         <a class="left carousel-control" href="#<%=id%>" data-slide="prev">
@@ -31,19 +27,9 @@ define([
     </div>
     `;
 
-    var templateItem = `<div class="item active"></div>`;
+    var templateItem = `<div class="item"></div>`;
 
-    var templateCaption = `<div class="carousel-caption"></div>`
-
-    var templateDropdown=`
-    <li class="dropdown" id="<%=id%>">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%=value%> <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          
-        </ul>
-    </li>
-
-    `
+    var templateCaption = `<div class="carousel-caption"></div>`;
 
     return {
         Main: function($parent, name, $context, options, callback){
@@ -54,7 +40,7 @@ define([
             //Atualiza o carousel com as bolinhas de acordo com a quantidade de itens
             if(callback){
                 callback({
-                    $children: $(element),
+                    $children: $(element).find('.carousel-inner'),
                     html: $parent.html()
                 })
             }
@@ -68,7 +54,7 @@ define([
             var containerControl = $parent.find('carousel-indicators');
             var optionsCarousel = {
                 id: $parent.prop('id'),
-                count: containerControl.children().lenght
+                count: containerControl.children().length
             }
 
             var control = _.template(templateControl, optionsCarousel);
