@@ -91,8 +91,8 @@ define([
         WaiMenuDropdown: WaiMenu.Dropdown,
         WaiMenuItem: WaiMenu.Item,
         WaiCarousel: WaiCarousel.Main,
-        WaiItem: WaiCarousel.Item,
-        WaiCaption: WaiCarousel.Caption
+        WaiCarouselItem: WaiCarousel.Item,
+        WaiCarouselCaption: WaiCarousel.Caption
     };
 
     return  {

@@ -75,13 +75,13 @@ var landingConcreta =
         { name: "promocoes", widget:"WaiCarousel" },
         { 
             name: "promocao", 
-            widget:"WaiContentItem",
+            widget:"WaiCarouselItem",
             children:
             [
                 { name: "promocao-image", tag:"img", alt:"$data.descricao", src:"$data.img" },
                 { 
                     name: "promocao-caption", 
-                    widget:"WaiCaption", 
+                    widget:"WaiCarouselCaption", 
                     children:
                     [
                         { name: "promacao-caption-titulo", tag:"h3", value:"$data.nome" },
