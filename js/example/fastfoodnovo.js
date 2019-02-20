@@ -69,9 +69,9 @@ var landingConcreta =
     maps:
     [
         { name: "menu", widget: "WaiMenu", value:"Fast Food UAI", content:"#promocoes" },
-        { name: "menu-cardapio", widget:"WaiMenuItem", href:"./cardapio" },
-        { name: "menu-promocoes", widget:"WaiMenuItem", href:"./promocoes" },
-        { name: "menu-pedido", widget:"WaiMenuItem", href:"./pedido" },
+        { name: "menu-cardapio", widget:"WaiMenuItem", href:"./cardapio", value:"Cardápio" },
+        { name: "menu-promocoes", widget:"WaiMenuItem", href:"./promocoes", value:"Promoções" },
+        { name: "menu-pedido", widget:"WaiMenuItem", href:"./pedido", value:"Pedido" },
         { name: "promocoes", widget:"WaiContent" },
         { name: "promocao", widget:"WaiContent" },
     ],

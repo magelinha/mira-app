@@ -50,7 +50,7 @@ define([
             $parent.append(element);
             if(callback){
                 callback({
-                    $children: $parent.find('nav'),
+                    $children: $parent.find('.nav'),
                     html: $parent.html()
                 })
             }
