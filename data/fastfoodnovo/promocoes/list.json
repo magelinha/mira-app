@@ -2,21 +2,21 @@
 	{
         "id": 1,
         "nome": "Sem refrigente, não rola!",
-        "img":"/img/exemplos/fastfood/promo1.jpg",
+        "img":"/imgs/exemplos/fastfood/promo1.jpg",
         "descricao": "Na compra de uma pizza, ganhe um refrigerante.",
 		"preco": 20
     },
     {
         "id": 2,
         "nome": "Chega de batata palha!",
-        "img":"/img/exemplos/fastfood/promo2.jpg",
+        "img":"/imgs/exemplos/fastfood/promo2.jpg",
         "descricao": "Nosso hamburguer agora vem acompanhando com batata rústica.",
 		"preco": 2.5
     },
     {
         "id": 3,
         "nome": "Vida saudável",
-        "img":"/img/exemplos/fastfood/promo2.jpg",
+        "img":"/imgs/exemplos/fastfood/promo2.jpg",
         "descricao": "Abaixou o preço dos sucos naturais. Corra e aproveite",
 		"preco": 6.5
 	}
