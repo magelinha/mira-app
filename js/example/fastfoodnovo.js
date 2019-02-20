@@ -48,7 +48,7 @@ var landingAbstrata =
 
         //Area de promoções
         {
-            name:"promocoes", children:
+            name:"promocoes", datasource:'url:<%= "/api/fastfoodnovo/promocoes" %>', children:
             [
                 { name : "promocao" }
             ]
@@ -72,8 +72,24 @@ var landingConcreta =
         { name: "menu-cardapio", widget:"WaiMenuItem", href:"./cardapio", value:{"pt-BR": "Cardápio"}},
         { name: "menu-promocoes", widget:"WaiMenuItem", href:"./promocoes", value:{"pt-BR": "Promoções"} },
         { name: "menu-pedido", widget:"WaiMenuItem", href:"./pedido", value:{"pt-BR": "Pedido"} },
-        { name: "promocoes", widget:"WaiContent" },
-        { name: "promocao", widget:"WaiContent" },
+        { name: "promocoes", widget:"WaiCarousel" },
+        { 
+            name: "promocao", 
+            widget:"WaiContentItem",
+            children:
+            [
+                { name: "promocao-image", tag:"img", alt:"$data.descricao", src:"$data.img" },
+                { 
+                    name: "promocao-caption", 
+                    widget:"WaiCaption", 
+                    children:
+                    [
+                        { name: "promacao-caption-titulo", tag:"h3", value:"$data.nome" },
+                        { name: "promacao-caption-descricao", tag:"h3", value:"$data.descricao" },
+                    ] 
+                }
+            ]
+        },
     ],
     script: script
 };
