@@ -45,7 +45,7 @@ define([
             if(!$parent.children().length)
                 $element.addClass('active');
 
-            $parent.append(element);
+            $parent.append($element);
 
             //Atualiza o carousel com as bolinhas de acordo com a quantidade de itens
             var $carousel = $parent.parents('.carousel');
@@ -73,7 +73,7 @@ define([
 
         Caption: function($parent, name, $context, options, callback){
             var $element = $(_.template(templateCaption, {}));
-            $parent.append(element);
+            $parent.append($element);
 
             if(callback){
                 callback({
