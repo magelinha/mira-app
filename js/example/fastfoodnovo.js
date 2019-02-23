@@ -97,7 +97,7 @@ var landingConcreta =
         { name: "promacao-caption-titulo", tag:"h3", value:"$data.nome" },
         { name: "promacao-caption-descricao", tag:"p", value:"$data.descricao" }
     ],
-    //script: script
+    script: script
 };
 
 var cardapioAbstrata = 
