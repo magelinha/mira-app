@@ -91,7 +91,7 @@ var landingConcreta =
             ]
         },
     ],
-    //script: script
+    script: script
 };
 
 var cardapioAbstrata = 
