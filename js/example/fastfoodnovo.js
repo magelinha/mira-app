@@ -64,7 +64,25 @@ var landingConcreta =
     ]),
     structure: 
     [
+        { 
+            name: "promocoes", children: 
+            [
+                { 
+                    name: "promocao", children:
+                    [
+                        { name: "promocao-image" },
+                        { 
+                            name: "promocao-caption", children: 
+                            [
+                                { name: "promacao-caption-titulo" },
+                                { name: "promacao-caption-descricao" }
+                            ] 
+                        },
+                    ]
+                }
 
+            ]
+        }
     ],
     maps:
     [
@@ -73,23 +91,11 @@ var landingConcreta =
         { name: "menu-promocoes", widget:"WaiMenuItem", href:"./promocoes", value:{"pt-BR": "Promoções"} },
         { name: "menu-pedido", widget:"WaiMenuItem", href:"./pedido", value:{"pt-BR": "Pedido"} },
         { name: "promocoes", widget:"WaiCarousel" },
-        { 
-            name: "promocao", 
-            widget:"WaiCarouselItem",
-            children:
-            [
-                { name: "promocao-image", tag:"img", alt:"$data.descricao", src:"$data.img" },
-                { 
-                    name: "promocao-caption", 
-                    widget:"WaiCarouselCaption", 
-                    children:
-                    [
-                        { name: "promacao-caption-titulo", tag:"h3", value:"$data.nome" },
-                        { name: "promacao-caption-descricao", tag:"p", value:"$data.descricao" },
-                    ] 
-                }
-            ]
-        },
+        { name: "promocao", widget:"WaiCarouselItem" },
+        { name: "promocao-image", tag:"img", alt:"$data.descricao", src:"$data.img" },
+        { name: "promocao-caption", widget:"WaiCarouselCaption" },
+        { name: "promacao-caption-titulo", tag:"h3", value:"$data.nome" },
+        { name: "promacao-caption-descricao", tag:"p", value:"$data.descricao" }
     ],
     script: script
 };
