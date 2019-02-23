@@ -27,14 +27,18 @@ define([
     return {
         Main: function($parent, name, $context, options, callback){
             var optionsTemplate = { id: name };
-            var element = _.template(templateCarousel, optionsTemplate);
-            $parent.append(element);
+            var $element = $(_.template(templateCarousel, optionsTemplate));
+            
+            //Determina as propriedades básicas do elemento
+            var context = Helper.build_context($context, options);
+            Helper.build_attributes($element, {}, context);
 
-            //Atualiza o carousel com as bolinhas de acordo com a quantidade de itens
+            $parent.append($element);
+            
             if(callback){
                 callback({
-                    $children: $(element).find('.carousel-inner'),
-                    html: $parent.html()
+                    $children: $element.find('.carousel-inner'),
+                    html: $element.html()
                 })
             }
         },
@@ -44,6 +48,10 @@ define([
             var $element = $(_.template(templateItem, {}));
             if(!$parent.children().length)
                 $element.addClass('active');
+            
+            //Determina as propriedades básicas do elemento
+            var context = Helper.build_context($context, options);
+            Helper.build_attributes($element, {}, context);
 
             $parent.append($element);
 
@@ -73,6 +81,11 @@ define([
 
         Caption: function($parent, name, $context, options, callback){
             var $element = $(_.template(templateCaption, {}));
+            
+            //Determina as propriedades básicas do elemento
+            var context = Helper.build_context($context, options);
+            Helper.build_attributes($element, {}, context);
+            
             $parent.append($element);
 
             if(callback){
