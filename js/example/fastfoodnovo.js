@@ -50,7 +50,20 @@ var landingAbstrata =
         {
             name:"promocoes", datasource:'url:<%= "/api/fastfoodnovo/promocoes" %>', children:
             [
-                { name : "promocao" }
+                { 
+                    name : "promocao", children:
+                    [
+                        { name: "promocao-image" },
+                        { 
+                            name: "promocao-caption", children:
+                            [
+                                { name: "promacao-caption-titulo" },
+                                { name: "promacao-caption-descricao" }
+                            ]
+                        }
+
+                    ]
+                }
             ]
         }
 	]
@@ -64,25 +77,25 @@ var landingConcreta =
     ]),
     structure: 
     [
-        { 
-            name: "promocoes", children: 
-            [
-                { 
-                    name: "promocao", children:
-                    [
-                        { name: "promocao-image" },
-                        { 
-                            name: "promocao-caption", children: 
-                            [
-                                { name: "promacao-caption-titulo" },
-                                { name: "promacao-caption-descricao" }
-                            ] 
-                        },
-                    ]
-                }
+        // { 
+        //     name: "promocoes", children: 
+        //     [
+        //         { 
+        //             name: "promocao", children:
+        //             [
+        //                 { name: "promocao-image" },
+        //                 { 
+        //                     name: "promocao-caption", children: 
+        //                     [
+        //                         { name: "promacao-caption-titulo" },
+        //                         { name: "promacao-caption-descricao" }
+        //                     ] 
+        //                 },
+        //             ]
+        //         }
 
-            ]
-        }
+        //     ]
+        // }
     ],
     maps:
     [
