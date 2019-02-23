@@ -67,7 +67,7 @@ define([
             if(callback){
                 callback({
                     $children: $parent.find("#" + options.name + ' .dropdown'),
-                    html: $parent.html
+                    html: $parent.html()
                 })
             }
         },

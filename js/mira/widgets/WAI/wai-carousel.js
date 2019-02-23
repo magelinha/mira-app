@@ -63,7 +63,7 @@ define([
             if(callback){
                 callback({
                     $children: $(element),
-                    html: $parent.html()
+                    html: element.innerHTML
                 })
             }
         },
@@ -75,7 +75,7 @@ define([
             if(callback){
                 callback({
                     $children: $(element),
-                    html: $parent.html()
+                    html: element.innerHTML
                 })
             }
         },
