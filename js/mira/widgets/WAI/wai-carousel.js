@@ -9,13 +9,8 @@ define([
 
     var templateCarousel =`
     <div id="<%=id%>" class="carousel slide">
-        <ol class="carousel-indicators">
-            
-        </ol>
-  
-        
-        <div class="carousel-inner">
-        </div>
+        <ol class="carousel-indicators"></ol>
+        <div class="carousel-inner"></div>
         <a class="left carousel-control" href="#<%=id%>" data-slide="prev">
             <span class="glyphicon glyphicon-chevron-left"></span>
         </a>
@@ -45,36 +40,43 @@ define([
         },
 
         Item: function($parent, name, $context, options, callback){
-            var element = _.template(templateItem, {});
+            var $element = $(_.template(templateItem, {}));
+            if(!$parent.children().length)
+                $element.addClass('active');
+
             $parent.append(element);
 
             //Atualiza o carousel com as bolinhas de acordo com a quantidade de itens
             var $carousel = $parent.parents('.carousel');
             var $containerControl = $carousel.find('.carousel-indicators');
+            var count = $containerControl.children().length;
             var optionsCarousel = {
                 id: $carousel.prop('id'),
-                count: $containerControl.children().length
+                count: count
             }
 
-            var $control = _.template(templateControl, optionsCarousel);
+            var $control = $(_.template(templateControl, optionsCarousel));
+            if(count == 0)
+                $control.addClass('active');
+
             $containerControl.append($control);
             console.log($containerControl.children().length);
 
             if(callback){
                 callback({
-                    $children: $(element),
-                    html: element.innerHTML
+                    $children: $element,
+                    html: $element.html()
                 })
             }
         },
 
         Caption: function($parent, name, $context, options, callback){
-            var element = _.template(templateCaption, {});
+            var $element = $(_.template(templateCaption, {}));
             $parent.append(element);
 
             if(callback){
                 callback({
-                    $children: $(element),
+                    $children: $element,
                     html: element.innerHTML
                 })
             }
