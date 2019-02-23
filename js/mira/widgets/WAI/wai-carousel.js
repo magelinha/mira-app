@@ -9,15 +9,13 @@ define([
 
     var templateCarousel =`
     <div id="<%=id%>" class="carousel slide">
-        <!-- Indicators -->
         <ol class="carousel-indicators">
             
         </ol>
   
-        <!-- Wrapper for slides -->
+        
         <div class="carousel-inner">
         </div>
-        <!-- Controls -->
         <a class="left carousel-control" href="#<%=id%>" data-slide="prev">
             <span class="glyphicon glyphicon-chevron-left"></span>
         </a>
@@ -60,6 +58,7 @@ define([
 
             var $control = _.template(templateControl, optionsCarousel);
             $containerControl.append($control);
+            console.log($containerControl.children().length);
 
             if(callback){
                 callback({
