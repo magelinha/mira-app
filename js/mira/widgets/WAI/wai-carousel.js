@@ -40,6 +40,7 @@ define([
         },
 
         Item: function($parent, name, $context, options, callback){
+            console.log($parent);
             var $element = $(_.template(templateItem, {}));
             if(!$parent.children().length)
                 $element.addClass('active');
