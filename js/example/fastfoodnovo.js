@@ -26,11 +26,6 @@ var head = [
     {name: 'viewport', widget:'Meta', content:'width=device-width, initial-scale=1'}
 ];
 
-var script = 
-[
-	{name: 'bootstrap_accessibility', widget:'Script', src:'js/libs/bootstrap-accessibility.min.js'},
-];
-
 var landingAbstrata = 
 {
 	name: "landing",
@@ -96,8 +91,7 @@ var landingConcreta =
         { name: "promocao-caption", widget:"WaiCarouselCaption" },
         { name: "promacao-caption-titulo", tag:"h3", value:"$data.nome" },
         { name: "promacao-caption-descricao", tag:"p", value:"$data.descricao" }
-    ],
-    script: script
+    ]
 };
 
 var cardapioAbstrata = 
@@ -121,8 +115,7 @@ var cardapioConcreta =
     maps:
     [
 
-    ],
-    script: script
+    ]
 };
 
 var promocoesAbstrata = 
@@ -147,8 +140,7 @@ var promocoesConcreta =
     maps:
     [
 
-    ],
-    script: script
+    ]
 };
 
 var pedidoAbstrata = 
@@ -173,8 +165,7 @@ var pedidoConcreta =
     maps:
     [
 
-    ],
-    script: script
+    ]
 };
 
 
