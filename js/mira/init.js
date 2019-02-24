@@ -9,7 +9,7 @@ define([
     'mira/models/concrete',
     'mira/models/map',
     'mira/models/rule',
-    'jlibs/bootstrap-accessibility.min',
+    'libs/bootstrap-accessibility.min',
     'libs/sprintf.min',
     'libs/resampler',
     'libs/processors',
