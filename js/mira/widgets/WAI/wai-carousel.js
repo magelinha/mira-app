@@ -67,7 +67,8 @@ define([
             var $control = $(_.template(templateControl, optionsCarousel));
             if(count == 0)
                 $control.addClass('active');
-
+            
+            Helper.build_attributes($control, {}, context);
             $containerControl.append($control);
             console.log($containerControl.children().length);
 
@@ -85,7 +86,7 @@ define([
             //Determina as propriedades básicas do elemento
             var context = Helper.build_context($context, options);
             Helper.build_attributes($element, {}, context);
-            
+
             $parent.append($element);
 
             if(callback){
