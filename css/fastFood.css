@@ -66,3 +66,7 @@ option, select {
 .numero-pedido {
 	font-size: 25px;
 }
+
+.carousel-inner img {
+	margin: auto;
+}
