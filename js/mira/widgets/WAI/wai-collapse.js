@@ -9,7 +9,7 @@ define([
     <div class="panel-group" id="<%=id%>"><div>
     `;
 
-    var templateCollapseItem = `<div class="panel <%=class%>"></div>`;
+    var templateCollapseItem = `<div class="panel <%=panel%>"></div>`;
 
     var templateHeader = `
     <div class="panel-heading">
@@ -45,8 +45,8 @@ define([
         },
 
         Item: function($parent, name, $context, options, callback){
-
-            var $element = $(_.template(templateCollapseItem, {class: options.class || "panel-default"}));
+            var optionsTemplate = { panel: options.class || "panel-default" };
+            var $element = $(_.template(templateCollapseItem, optionsTemplate));
             
             //Determina as propriedades básicas do elemento
             var context = Helper.build_context($context, options);
