@@ -1,0 +1,75 @@
+{
+    "categorias" : 
+    [
+        {
+            "nome": "Pizzas", 
+            "itens":
+            [
+                { 
+                    "nome": "Calabresa", "preco": 
+                    [
+                        { "tamanho": "Pequena", "valor": 10.0 },
+                        { "tamanho": "Média", "valor": 20 },
+                        { "tamanho": "Grande", "valor": 35.5 },
+                        { "tamanho": "Família", "valor": 40.0 }
+                    ] 
+                },
+                { 
+                    "nome": "4 Queijos", "preco": 
+                    [
+                        { "tamanho": "Pequena", "valor": 10.0 },
+                        { "tamanho": "Média", "valor": 20 },
+                        { "tamanho": "Grande", "valor": 35.5 },
+                        { "tamanho": "Família", "valor": 40.0 }
+                    ] 
+                },
+                { 
+                    "nome": "Frango", "preco": 
+                    [
+                        { "tamanho": "Pequena", "valor": 10.0 },
+                        { "tamanho": "Média", "valor": 20 },
+                        { "tamanho": "Grande", "valor": 35.5 },
+                        { "tamanho": "Família", "valor": 40.0 }
+                    ] 
+                },
+                { 
+                    "nome": "Italiana", "preco": 
+                    [
+                        { "tamanho": "Pequena", "valor": 15.0 },
+                        { "tamanho": "Média", "valor": 22 },
+                        { "tamanho": "Grande", "valor": 38 },
+                        { "tamanho": "Família", "valor": 44 }
+                    ] 
+                },
+                { 
+                    "nome": "Provolone", "preco": 
+                    [
+                        { "tamanho": "Pequena", "valor": 15.0 },
+                        { "tamanho": "Média", "valor": 22 },
+                        { "tamanho": "Grande", "valor": 38 },
+                        { "tamanho": "Família", "valor": 44 }
+                    ] 
+                }
+            ]
+        },
+        {
+            "nome": "Bebidas", 
+            "itens":
+            [
+                { "nome": "Refrigerante", "preco": 8.00 },
+                { "nome": "Suco Natural", "preco": 6.5},
+                { "nome": "Agua Mineral", "preco": 3.0},
+                { "nome": "Milk Shake", "preco": 12.0}
+            ]
+        },
+        {
+            "nome": "Sobremesas", 
+            "itens":
+            [
+                { "nome": "Pudim", "preco": 4 },
+                { "nome": "Bolo", "preco": 3.5},
+                { "nome": "Café Espresso", "preco": 3.5}
+            ]
+        }
+    ]
+}
