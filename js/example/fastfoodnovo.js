@@ -10,6 +10,10 @@ var selection = [
     //landing
 
     //cardápio
+    {
+        when: "$data.categorias != null",
+        abstract: "cardapio"
+    }
 
     //promoções
 
