@@ -121,7 +121,7 @@ var cardapioAbstrata =
                         { 
                             name: "item", when: "_.isArray($dataObj.preco)", children:
                             [
-                                { name: "item-preco", datasource: "$data.preco", children:[ { name: "preco" }]},
+                                { name: "item-preco", datasource: "$dataObj.preco", children:[ { name: "preco" }]},
                             ]
                         },
                         { name: "item", when: "!_.isArray($dataObj.preco)" },
