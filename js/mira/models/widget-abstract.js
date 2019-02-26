@@ -136,9 +136,7 @@
         buildChildren: function($parent, concrete, $data, $env, currentInterface){
             var esse = this;
             var $bind = this.getBind($data.attributes, $data, $env);
-            if(!esse.isVisible($data, $env, $bind))
-                return;
-                
+
             if(this.get('datasource')){
                 var itemWidget = this.get('children').at(0);
                 this.requestData($data, $env, $bind, function(collection){
