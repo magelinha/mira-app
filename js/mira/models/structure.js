@@ -78,14 +78,14 @@
                 this.attributes = this.original
             }
 
-            // if(abstract){
-            //     this.set('datasource', abstract.get('datasource'));
-            //     this.abstract = abstract;
-            //     return;
-            // }
+            if(abstract){
+                this.set('datasource', abstract.get('datasource'));
+                this.abstract = abstract;
+                return;
+            }
 
-            // if(itemWidget)
-            //     this.abstract = itemWidget;
+            if(itemWidget)
+                this.abstract = itemWidget;
         }
 
 
