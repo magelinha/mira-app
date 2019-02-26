@@ -84,12 +84,8 @@
                 return;
             }
 
-            if(itemWidget){
-                itemWidget.set("when", abstract ? abstract.get("when") : null);
+            if(itemWidget)
                 this.abstract = itemWidget;
-            }
-                
-            
         }
 
 
