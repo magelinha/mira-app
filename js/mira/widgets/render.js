@@ -95,9 +95,7 @@ define([
         WaiCarouselItem: WaiCarousel.Item,
         WaiCarouselCaption: WaiCarousel.Caption,
         WaiCollapse: WaiCollapse.Main,
-        WaiCollapseItem: WaiCollapse.Item,
-        WaiCollapseItemHeader: WaiCollapse.ItemHeader,
-        WaiCollapseItemContent: WaiCollapse.ItemContent
+        WaiCollapseItem: WaiCollapse.Item
     };
 
     return  {

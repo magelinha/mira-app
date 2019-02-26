@@ -146,60 +146,46 @@ var cardapioConcreta =
                 { 
                     name: "categoria", children:
                     [
-                        { name: "categoria-cabecalho" },
-                        {
-                            name: "categoria-item",
-                            children: 
+                        
+                        { 
+                            name: "item", children:
                             [
+                                //descrição do item
                                 { 
-                                    name: "item", children:
+                                    name: "item-descricao", children:
+                                    [
+                                        { name: "item-image" },
+                                        { name: "item-nome" },
+                                    ]
+                                },
+
+                                //Preço do item
+                                { name:"item-preco", children:[{ name: "preco" }] },
+                                
+                                //Quantidade
+                                { 
+                                    name: "item-quantidade",
+                                    children:
                                     [
                                         { 
-                                            name: "content-item",
+                                            name: 'form-group', 
                                             children:
                                             [
-                                                //descrição do item
+                                                { name: 'label-quantidade' },
                                                 { 
-                                                    name: "item-descricao", children:
+                                                    name: 'container-field',
+                                                    children: 
                                                     [
-                                                        { name: "item-image" },
-                                                        { name: "item-nome" },
+                                                        { name: 'quantidade'}
                                                     ]
-                                                },
-
-                                                //Preço do item
-                                                { name:"item-preco", children:[{ name: "preco" }] },
-                                                
-                                                //Quantidade
-                                                { 
-                                                    name: "item-quantidade",
-                                                    children:
-                                                    [
-                                                        { 
-                                                            name: 'form-group', 
-                                                            children:
-                                                            [
-                                                                { name: 'label-quantidade' },
-                                                                { 
-                                                                    name: 'container-field',
-                                                                    children: 
-                                                                    [
-                                                                        { name: 'quantidade'}
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        },
-                                                    ]
-                                                },
-                
-                                                //Botão de adicionar item ao pedido
-                                                { name: "item-adicionar", children:[{ name: "adicionar" }] }
-
+                                                }
                                             ]
-                                        }
-                                        
+                                        },
                                     ]
-                                }
+                                },
+
+                                //Botão de adicionar item ao pedido
+                                { name: "item-adicionar", children:[{ name: "adicionar" }] }
                             ]
                         }
                     ]
@@ -215,15 +201,13 @@ var cardapioConcreta =
         { name: "menu-pedido", widget:"WaiMenuItem", href:"./pedido", value:{"pt-BR": "Pedido"} },
         
         { name: "cardapio", widget:"WaiCollapse", value:{ "pt-BR":"Cardápio" } },
-        { name: "categoria", widget: "WaiCollapseItem" },
-        { name: "categoria-cabecalho", widget:"WaiCollapseItemHeader", value: "$data.nome" },
-        { name: "categoria-item", widget: "WaiCollapseItemContent"},
+        { name: "categoria", widget: "WaiCollapseItem", value: "$data.nome" },
         
         //descrição
-        { name: "item", widget: "WaiCollapseItemContent" },
+        { name: "item", widget: "WaiContent", class:"row" },
         { name: "item-descricao", widget: "WaiContent", class:"content-item" },
         { name: "item-image", tag:"img", src:"$data.imagem", alt:"$data.nome", class: "img-thumbnail img-responsive"},
-        { name: "item-descricao", tag:"h5", value:"$data.nome"},
+        { name: "item-nome", tag:"h5", value:"$data.nome"},
 
         //preço
         { name: "item-preco", widget: "WaiContent", class:"content-item" },
