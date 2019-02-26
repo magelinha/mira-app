@@ -79,14 +79,16 @@
             }
 
             if(abstract){
-                this.set('datasource', abstract.get('datasource')); 
-                this.set('when', abstract.get('when')); 
+                this.set('datasource', abstract.get('datasource'));
                 this.abstract = abstract;
                 return;
             }
 
-            if(itemWidget)
+            if(itemWidget){
+                itemWidget.set("when", this.abstract.get("when"));
                 this.abstract = itemWidget;
+            }
+                
             
         }
 
