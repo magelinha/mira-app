@@ -84,8 +84,8 @@
             //     return;
             // }
 
-            if(itemWidget)
-                this.abstract = itemWidget;
+            // if(itemWidget)
+            //     this.abstract = itemWidget;
         }
 
 
