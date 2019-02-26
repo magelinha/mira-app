@@ -19,6 +19,10 @@
         idAttribute: 'name',
 
         evaluate: function($data, $env, $dataObj, $bind){
+            console.log($data);
+            console.log($env);
+            console.log($dataObj);
+            console.log($bind);
             try {
                 return eval(this.get('validate')) == true;
             } catch (e){
