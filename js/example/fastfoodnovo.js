@@ -211,10 +211,11 @@ var cardapioConcreta =
 
         //preço
         { name: "item-preco", widget: "WaiContent", class:"content-item" },
-        { name: "preco", widget: "WaiContent", tag: "p", value:"$data.preco", when: "_.isNumber($data.preco)" },
+        { name: "preco", widget: "WaiContent", tag: "p", value:"$data", when: "_.isNumber($data)" },
         { 
             name: "preco", 
-            widget: "WaiContent", when: "_.isObject($data)",
+            widget: "WaiContent", 
+            when: "_.isObject($data)",
             children:
             [
                 { name: "tamanho", widget: "WaiContent", tag:"span", value: { "pt-BR": "$data.tamanho"}},
