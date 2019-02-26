@@ -47,7 +47,7 @@ define([
             { 
                 panel: options.class || "panel-default",
                 idParent: $parent.prop("id"),
-                id: Helper.get_valid_id(name, $context),
+                id: Helper.get_valid_id(name, $parent),
                 value: Helper.process_value(options.value, $context)
             };
 
