@@ -46,9 +46,9 @@
         },
 
         canHasMapChildren: function(map){
-            //if(!this.get('children').length){
+            if(!this.get('children').length){
                 return map.hasChildren();
-            //}
+            }
         },
 
         getBind: function($data, $dataObj, $env){

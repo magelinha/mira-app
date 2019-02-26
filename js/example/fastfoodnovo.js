@@ -124,7 +124,7 @@ var cardapioAbstrata =
                                 { name: "item-preco", datasource: "$dataObj.preco", children:[ { name: "preco" }]},
                             ]
                         },
-                        { name: "item", when: "!_.isArray($dataObj.preco)" },
+                        { name: "item", when: "!_.isNumber($data.preco)" },
                     ]
                 }
             ] 
@@ -140,58 +140,69 @@ var cardapioConcreta =
     ]),
     structure: 
     [
-        //{
-        //     name: "cardapio", children:
-        //     [
-        //         { 
-        //             name: "categoria", children:
-        //             [
+        {
+            name: "cardapio", children:
+            [
+                { 
+                    name: "categoria", children:
+                    [
                         
-        //                 { 
-        //                     name: "item", children:
-        //                     [
-        //                         //descrição do item
-        //                         { 
-        //                             name: "item-descricao", children:
-        //                             [
-        //                                 { name: "item-image" },
-        //                                 { name: "item-nome" },
-        //                             ]
-        //                         },
+                        { 
+                            name: "item", children:
+                            [
+                                //descrição do item
+                                { 
+                                    name: "item-descricao", children:
+                                    [
+                                        { name: "item-image" },
+                                        { name: "item-nome" },
+                                    ]
+                                },
 
-        //                         //Preço do item
-        //                         { name:"item-preco", children:[{ name: "preco" }] },
+                                //Preço do item
+                                { 
+                                    name:"item-preco", children:
+                                    [
+                                        { 
+                                            name: "preco", when: "_.isObject($data.preco)", children: 
+                                            [
+
+                                            ]
+                                        },
+                                        { name: "preco", when: "_.isNumber($data.preco)" }
+                                    ] 
+                                },
                                 
-        //                         //Quantidade
-        //                         { 
-        //                             name: "item-quantidade",
-        //                             children:
-        //                             [
-        //                                 { 
-        //                                     name: 'form-group', 
-        //                                     children:
-        //                                     [
-        //                                         { name: 'label-quantidade' },
-        //                                         { 
-        //                                             name: 'container-field',
-        //                                             children: 
-        //                                             [
-        //                                                 { name: 'quantidade'}
-        //                                             ]
-        //                                         }
-        //                                     ]
-        //                                 },
-        //                             ]
-        //                         },
+                                //Quantidade
+                                { 
+                                    name: "item-quantidade",
+                                    children:
+                                    [
+                                        { 
+                                            name: 'form-group', 
+                                            children:
+                                            [
+                                                { name: 'label-quantidade' },
+                                                { 
+                                                    name: 'container-field',
+                                                    children: 
+                                                    [
+                                                        { name: 'quantidade'}
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                    ]
+                                },
 
-        //                         //Botão de adicionar item ao pedido
-        //                         { name: "item-adicionar", children:[{ name: "adicionar" }] }
-        //                     ]
-        //                 }
-        //             ]
-        //         }
-        //     ]
-        // }
+                                //Botão de adicionar item ao pedido
+                                { name: "item-adicionar", children:[{ name: "adicionar" }] }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
     ],
     maps:
     [
@@ -204,70 +215,37 @@ var cardapioConcreta =
         { name: "categoria", widget: "WaiCollapseItem", value: "$data.nome" },
         
         
-        { 
-            name: "item", widget: "WaiContent", class:"row", children:
-            [
-                //descrição
-                { 
-                    name: "item-descricao", widget: "WaiContent", class:"content-item", children:
-                    [
-                        { name: "item-image", tag:"img", src:"$data.imagem", alt:"$data.nome", class: "img-thumbnail img-responsive"},
-                        { name: "item-nome", tag:"h5", value:"$data.nome"},
-                    ] 
-                },
+        { name: "item", widget: "WaiContent", class:"row" },
+        
+        //Descrição
+        { name: "item-descricao", widget: "WaiContent", class:"content-item" },
+        { name: "item-image", tag:"img", src:"$data.imagem", alt:"$data.nome", class: "img-thumbnail img-responsive"},
+        { name: "item-nome", tag:"h5", value:"$data.nome"},        
                 
-                //preço
-                { 
-                    name: "item-preco", widget: "WaiContent", class:"content-item",
-                    children:
-                    [
-                        { name: "preco", widget: "WaiContent", tag: "p", value:"$dataObj.preco", when: "_.isNumber($dataObj.preco)" },
-                        { 
-                            name: "preco", 
-                            widget: "WaiContent", 
-                            when: "_.isObject($dataObj.preco)",
-                            children:
-                            [
-                                { name: "tamanho", widget: "WaiContent", tag:"span", value: { "pt-BR": "$data.tamanho"}},
-                                { name: "valor", widget: "WaiContent", tag:"span", value: { "pt-BR": "$data.valor"}},
-                            ]
-                        },
-                    ]
-                },
-                //quantidade
-                { 
-                    name: "item-quantidade", widget: "WaiContent", class:"content-item", children:
-                    [
-                        { 
-                            name: 'form-group', widget:'WaiContent', class: 'form-group', children:
-                            [
-                                { name: "label-quantidade", tag: 'label', for:"quantidade", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Quantidade" },
-                                { 
-                                    name: 'container-field', widget:'WaiContent', class:'col-sm-10', children:
-                                    [
-                                        { name: "quantidade", widget: "WaiInput" },
-                                    ]
-                                },
-                            ]
-                        },
-                    ]
-                },
+        //preço
+        { name: "item-preco", widget: "WaiContent", class:"content-item" },
+        { name: "preco", widget: "WaiContent", tag: "p", value:"$$data.preco", when: "_.isNumber($data.preco)" },
+        { name: "preco", widget: "WaiContent", when: "_.isObject($dataObj.preco)" },
 
-                //Adicionar item ao pedido
-                { 
-                    name: "item-adicionar", widget: "WaiContent", class:"content-item", children:
-                    [
-                        { 
-                            name: "adicionar", 
-                            widget: "WaiButton", 
-                            value: { "pt-BR":"Adicionar" }, 
-                            type:"submit", 
-                            class:"btn btn-primary"
-                        }
-                    ]
-                },
-            ] 
-        },
+        { name: "tamanho", widget: "WaiContent", tag:"span", value: { "pt-BR": "$data.tamanho"}},
+        { name: "valor", widget: "WaiContent", tag:"span", value: { "pt-BR": "$data.valor"}},
+        
+        //quantidade
+        { name: "item-quantidade", widget: "WaiContent", class:"content-item" },
+        { name: 'form-group', widget:'WaiContent', class: 'form-group' },
+        { name: "label-quantidade", tag: 'label', for:"quantidade", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Quantidade" },
+        { name: 'container-field', widget:'WaiContent', class:'col-sm-10' },
+        { name: "quantidade", widget: "WaiInput" },
+        
+        //Adicionar item ao pedido
+        { name: "item-adicionar", widget: "WaiContent", class:"content-item" },
+        { 
+            name: "adicionar", 
+            widget: "WaiButton", 
+            value: { "pt-BR":"Adicionar" }, 
+            type:"submit", 
+            class:"btn btn-primary"
+        }
 
         //preço
         // { name: "item-preco", widget: "WaiContent", class:"content-item" },
