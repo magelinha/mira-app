@@ -70,7 +70,7 @@
             
             this.abstract = abstracts.findWhere({name: this.get('name')});
 
-            findAbstract(abstracts);
+            //findAbstract(abstracts);
             this.get('children').invoke('prepare', abstracts, itemWidget);
             if(this.abstract) {
                 this.attributes = _.defaults(this.original, this.abstract.attributes);
@@ -78,11 +78,11 @@
                 this.attributes = this.original
             }
 
-            if(abstract){
-                this.set('datasource', abstract.get('datasource'));
-                this.abstract = abstract;
-                return;
-            }
+            // if(abstract){
+            //     this.set('datasource', abstract.get('datasource'));
+            //     this.abstract = abstract;
+            //     return;
+            // }
 
             if(itemWidget)
                 this.abstract = itemWidget;
