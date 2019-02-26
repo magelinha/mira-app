@@ -166,6 +166,8 @@ var cardapioConcreta =
                                         { 
                                             name: "preco", when: "_.isObject($data.preco)", children: 
                                             [
+                                                {name: "tamanho" },
+                                                {name: "valor" }
 
                                             ]
                                         },
