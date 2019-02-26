@@ -270,8 +270,8 @@ var cardapioConcreta =
         },
 
         //preço
-        { name: "item-preco", widget: "WaiContent", class:"content-item" },
-        { name: "preco", widget: "WaiContent", tag: "p", value:"$dataObj.preco", when: "_.isNumber($dataObj.preco)" }
+        // { name: "item-preco", widget: "WaiContent", class:"content-item" },
+        // { name: "preco", widget: "WaiContent", tag: "p", value:"$dataObj.preco", when: "_.isNumber($dataObj.preco)" }
     ]
 };
 
