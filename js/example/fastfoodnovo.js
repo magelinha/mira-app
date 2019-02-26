@@ -217,7 +217,7 @@ var cardapioConcreta =
         { name: "cardapio", widget:"WaiCollapse", value:{ "pt-BR":"Cardápio" } },
         { name: "categoria", widget: "WaiCollapseItem" },
         { name: "categoria-cabecalho", widget:"WaiCollapseItemHeader", value: "$data.nome" },
-        { name: "categoria-item", widget: "WaiCollapseItem"},
+        { name: "categoria-item", widget: "WaiCollapseItemContent"},
         
         //descrição
         { name: "item", widget: "WaiCollapseItemContent" },

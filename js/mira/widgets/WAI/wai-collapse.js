@@ -64,7 +64,7 @@ define([
 
         ItemHeader: function($parent, name, $context, options, callback){
             var idParent = $parent.parents(".panel-group").prop("id");
-            var optionsTemplate = { id: idParent, value: options.value };
+            var optionsTemplate = { id: idParent, value: Helper.proccess_value(options.value, $context) };
             var $element = $(_.template(templateHeader, optionsTemplate));
             
             //Determina as propriedades básicas do elemento
