@@ -79,7 +79,8 @@
             }
 
             if(abstract){
-                this.set('datasource', abstract.get('datasource'));  
+                this.set('datasource', abstract.get('datasource')); 
+                this.set('when', abstract.get('when')); 
                 this.abstract = abstract;
                 return;
             }
