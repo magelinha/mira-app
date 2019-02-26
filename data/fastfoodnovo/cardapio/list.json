@@ -6,7 +6,9 @@
             "itens":
             [
                 { 
-                    "nome": "Calabresa", "preco": 
+                    "nome": "Calabresa", 
+                    "imagem": "/imgs/exemplos/fastfood/itens/calabresa.jpg",
+                    "preco": 
                     [
                         { "tamanho": "Pequena", "valor": 10.0 },
                         { "tamanho": "Média", "valor": 20 },
@@ -15,7 +17,9 @@
                     ] 
                 },
                 { 
-                    "nome": "4 Queijos", "preco": 
+                    "nome": "4 Queijos", 
+                    "imagem": "/imgs/exemplos/fastfood/itens/4queijos.jpg",
+                    "preco": 
                     [
                         { "tamanho": "Pequena", "valor": 10.0 },
                         { "tamanho": "Média", "valor": 20 },
@@ -24,7 +28,9 @@
                     ] 
                 },
                 { 
-                    "nome": "Frango", "preco": 
+                    "nome": "Frango", 
+                    "imagem": "/imgs/exemplos/fastfood/itens/frango.jpg",
+                    "preco": 
                     [
                         { "tamanho": "Pequena", "valor": 10.0 },
                         { "tamanho": "Média", "valor": 20 },
@@ -33,7 +39,9 @@
                     ] 
                 },
                 { 
-                    "nome": "Italiana", "preco": 
+                    "nome": "Italiana", 
+                    "imagem": "/imgs/exemplos/fastfood/itens/italiana.jpg",
+                    "preco": 
                     [
                         { "tamanho": "Pequena", "valor": 15.0 },
                         { "tamanho": "Média", "valor": 22 },
@@ -42,7 +50,9 @@
                     ] 
                 },
                 { 
-                    "nome": "Provolone", "preco": 
+                    "nome": "Provolone", 
+                    "imagem": "/imgs/exemplos/fastfood/itens/provolone.jpg",
+                    "preco": 
                     [
                         { "tamanho": "Pequena", "valor": 15.0 },
                         { "tamanho": "Média", "valor": 22 },
@@ -56,19 +66,19 @@
             "nome": "Bebidas", 
             "itens":
             [
-                { "nome": "Refrigerante", "preco": 8.00 },
-                { "nome": "Suco Natural", "preco": 6.5},
-                { "nome": "Agua Mineral", "preco": 3.0},
-                { "nome": "Milk Shake", "preco": 12.0}
+                { "nome": "Refrigerante","imagem": "/imgs/exemplos/fastfood/itens/refrigerante.jpg", "preco": 8.00 },
+                { "nome": "Suco Natural", "imagem": "/imgs/exemplos/fastfood/itens/suconatural.jpg", "preco": 6.5 },
+                { "nome": "Agua Mineral", "imagem": "/imgs/exemplos/fastfood/itens/agua.jpg", "preco": 3.0 },
+                { "nome": "Milk Shake", "imagem": "/imgs/exemplos/fastfood/itens/milkshake.jpg", "preco": 12.0 }
             ]
         },
         {
             "nome": "Sobremesas", 
             "itens":
             [
-                { "nome": "Pudim", "preco": 4 },
-                { "nome": "Bolo", "preco": 3.5},
-                { "nome": "Café Espresso", "preco": 3.5}
+                { "nome": "Pudim", "imagem": "/imgs/exemplos/fastfood/itens/pudim.jpg", "preco": 4 },
+                { "nome": "Bolo", "imagem": "/imgs/exemplos/fastfood/itens/bolo.jpg", "preco": 3.5 },
+                { "nome": "Café Espresso", "imagem": "/imgs/exemplos/fastfood/itens/cafe.jpg", "preco": 3.5 }
             ]
         }
     ]

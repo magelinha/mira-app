@@ -1,7 +1,6 @@
 "use strict";
 //Define as regras para avaliação de widgets
 var rules = [
-    
 ];
 
 //Define as regras para seleção de interface
@@ -119,7 +118,13 @@ var cardapioAbstrata =
                 { 
                     name: "categoria", datasource:"$data.itens", children:
                     [
-                        { name: "item" }
+                        { 
+                            name: "item", when: "_.isArray($data.preco)", children:
+                            [
+                                { name: "item-preco", datasource: "$data.preco", children:[ { name: "preco" }]},
+                            ]
+                        },
+                        { name: "item", when: "!_.isArray($data.preco)" },
                     ]
                 }
             ] 
@@ -141,29 +146,60 @@ var cardapioConcreta =
                 { 
                     name: "categoria", children:
                     [
-                        { 
-                            name: "item", children:
+                        { name: "categoria-cabecalho" },
+                        {
+                            name: "categoria-item",
+                            children: 
                             [
-                                { name: "item-image" },
-                                { name: "item-descricao" },
-                                
-                                //Quantidade
                                 { 
-                                    name: 'form-group', 
-                                    children:
+                                    name: "item", children:
                                     [
-                                        { name: 'label-quantidade' },
                                         { 
-                                            name: 'container-field',
-                                            children: 
+                                            name: "content-item",
+                                            children:
                                             [
-                                                { name: 'quantidade'}
+                                                //descrição do item
+                                                { 
+                                                    name: "item-descricao", children:
+                                                    [
+                                                        { name: "item-image" },
+                                                        { name: "item-nome" },
+                                                    ]
+                                                },
+
+                                                //Preço do item
+                                                { name:"item-preco", children:[{ name: "preco" }] },
+                                                
+                                                //Quantidade
+                                                { 
+                                                    name: "item-quantidade",
+                                                    children:
+                                                    [
+                                                        { 
+                                                            name: 'form-group', 
+                                                            children:
+                                                            [
+                                                                { name: 'label-quantidade' },
+                                                                { 
+                                                                    name: 'container-field',
+                                                                    children: 
+                                                                    [
+                                                                        { name: 'quantidade'}
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        },
+                                                    ]
+                                                },
+                
+                                                //Botão de adicionar item ao pedido
+                                                { name: "item-adicionar", children:[{ name: "adicionar" }] }
+
                                             ]
                                         }
+                                        
                                     ]
-                                },
-
-                                { name: "item-adicionar" }
+                                }
                             ]
                         }
                     ]
@@ -177,21 +213,42 @@ var cardapioConcreta =
         { name: "menu-cardapio", widget:"WaiMenuItem", href:"./cardapio", value:{"pt-BR": "Cardápio"}},
         { name: "menu-promocoes", widget:"WaiMenuItem", href:"./promocoes", value:{"pt-BR": "Promoções"} },
         { name: "menu-pedido", widget:"WaiMenuItem", href:"./pedido", value:{"pt-BR": "Pedido"} },
-        { name: "cardapio", widget:"WaiContent", value:{ "pt-BR":"Cardápio" } },
-        { name: "categoria", widget: "WaiCollapse", value:"$data.nome" },
-        { name: "item", widget: "WaiContent" },
-        { name: "item-image", tag:"img", src:"$data.image"},
-        { name: "item-descricao", tag:"h3", value:"$data.descricao"},
+        
+        { name: "cardapio", widget:"WaiCollapse", value:{ "pt-BR":"Cardápio" } },
+        { name: "categoria", widget: "WaiCollapseItem" },
+        { name: "categoria-cabecalho", widget:"WaiCollapseItemHeader", value: "$data.nome" },
+        { name: "categoria-item", widget: "WaiCollapseItem"},
+        
+        //descrição
+        { name: "item", widget: "WaiCollapseItemContent" },
+        { name: "item-descricao", widget: "WaiContent", class:"content-item" },
+        { name: "item-image", tag:"img", src:"$data.imagem", alt:"$data.nome", class: "img-thumbnail img-responsive"},
+        { name: "item-descricao", tag:"h5", value:"$data.nome"},
+
+        //preço
+        { name: "item-preco", widget: "WaiContent", class:"content-item" },
+        { name: "preco", widget: "WaiContent", tag: "p", value:"$data.preco", when: "_.isNumber($data.preco)" },
+        { 
+            name: "preco", 
+            widget: "WaiContent", when: "_.isObject($data)",
+            children:
+            [
+                { name: "tamanho", widget: "WaiContent", tag:"span", value: { "pt-BR": "$data.tamanho"}},
+                { name: "valor", widget: "WaiContent", tag:"span", value: { "pt-BR": "$data.valor"}},
+            ]
+        },
 
         //quantidade
+        { name: "item-quantidade", widget: "WaiContent", class:"content-item" },
         { name: 'form-group', widget:'WaiContent', class: 'form-group' },
         { name: 'container-field', widget:'WaiContent', class:'col-sm-10' },
         { name: "label-quantidade", tag: 'label', for:"quantidade", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Quantidade" },
         { name: "quantidade", widget: "WaiInput" },
 
         //Adicionar item ao pedido
+        { name: "item-adicionar", widget: "WaiContent", class:"content-item" },
         { 
-            name: "item-adicionar", 
+            name: "adicionar", 
             widget: "WaiButton", 
             value: { "pt-BR":"Adicionar" }, 
             type:"submit", 
