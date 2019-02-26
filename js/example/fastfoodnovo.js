@@ -141,57 +141,57 @@ var cardapioConcreta =
     structure: 
     [
         {
-            name: "cardapio", children:
-            [
-                { 
-                    name: "categoria", children:
-                    [
+        //     name: "cardapio", children:
+        //     [
+        //         { 
+        //             name: "categoria", children:
+        //             [
                         
-                        { 
-                            name: "item", children:
-                            [
-                                //descrição do item
-                                { 
-                                    name: "item-descricao", children:
-                                    [
-                                        { name: "item-image" },
-                                        { name: "item-nome" },
-                                    ]
-                                },
+        //                 { 
+        //                     name: "item", children:
+        //                     [
+        //                         //descrição do item
+        //                         { 
+        //                             name: "item-descricao", children:
+        //                             [
+        //                                 { name: "item-image" },
+        //                                 { name: "item-nome" },
+        //                             ]
+        //                         },
 
-                                //Preço do item
-                                { name:"item-preco", children:[{ name: "preco" }] },
+        //                         //Preço do item
+        //                         { name:"item-preco", children:[{ name: "preco" }] },
                                 
-                                //Quantidade
-                                { 
-                                    name: "item-quantidade",
-                                    children:
-                                    [
-                                        { 
-                                            name: 'form-group', 
-                                            children:
-                                            [
-                                                { name: 'label-quantidade' },
-                                                { 
-                                                    name: 'container-field',
-                                                    children: 
-                                                    [
-                                                        { name: 'quantidade'}
-                                                    ]
-                                                }
-                                            ]
-                                        },
-                                    ]
-                                },
+        //                         //Quantidade
+        //                         { 
+        //                             name: "item-quantidade",
+        //                             children:
+        //                             [
+        //                                 { 
+        //                                     name: 'form-group', 
+        //                                     children:
+        //                                     [
+        //                                         { name: 'label-quantidade' },
+        //                                         { 
+        //                                             name: 'container-field',
+        //                                             children: 
+        //                                             [
+        //                                                 { name: 'quantidade'}
+        //                                             ]
+        //                                         }
+        //                                     ]
+        //                                 },
+        //                             ]
+        //                         },
 
-                                //Botão de adicionar item ao pedido
-                                { name: "item-adicionar", children:[{ name: "adicionar" }] }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
+        //                         //Botão de adicionar item ao pedido
+        //                         { name: "item-adicionar", children:[{ name: "adicionar" }] }
+        //                     ]
+        //                 }
+        //             ]
+        //         }
+        //     ]
+        // }
     ],
     maps:
     [
@@ -203,43 +203,71 @@ var cardapioConcreta =
         { name: "cardapio", widget:"WaiCollapse", value:{ "pt-BR":"Cardápio" } },
         { name: "categoria", widget: "WaiCollapseItem", value: "$data.nome" },
         
-        //descrição
-        { name: "item", widget: "WaiContent", class:"row" },
-        { name: "item-descricao", widget: "WaiContent", class:"content-item" },
-        { name: "item-image", tag:"img", src:"$data.imagem", alt:"$data.nome", class: "img-thumbnail img-responsive"},
-        { name: "item-nome", tag:"h5", value:"$data.nome"},
-
-        //preço
-        { name: "item-preco", widget: "WaiContent", class:"content-item" },
-        { name: "preco", widget: "WaiContent", tag: "p", value:"$dataObj.preco", when: "_.isNumber($dataObj.preco)" },
+        
         { 
-            name: "preco", 
-            widget: "WaiContent", 
-            when: "_.isObject($dataObj.preco)",
-            children:
+            name: "item", widget: "WaiContent", class:"row", children:
             [
-                { name: "tamanho", widget: "WaiContent", tag:"span", value: { "pt-BR": "$data.tamanho"}},
-                { name: "valor", widget: "WaiContent", tag:"span", value: { "pt-BR": "$data.valor"}},
-            ]
+                //descrição
+                { 
+                    name: "item-descricao", widget: "WaiContent", class:"content-item", children:
+                    [
+                        { name: "item-image", tag:"img", src:"$data.imagem", alt:"$data.nome", class: "img-thumbnail img-responsive"},
+                        { name: "item-nome", tag:"h5", value:"$data.nome"},
+                    ] 
+                },
+                
+                //preço
+                { 
+                    name: "item-preco", widget: "WaiContent", class:"content-item",
+                    children:
+                    [
+                        { name: "preco", widget: "WaiContent", tag: "p", value:"$dataObj.preco", when: "_.isNumber($dataObj.preco)" },
+                        { 
+                            name: "preco", 
+                            widget: "WaiContent", 
+                            when: "_.isObject($dataObj.preco)",
+                            children:
+                            [
+                                { name: "tamanho", widget: "WaiContent", tag:"span", value: { "pt-BR": "$data.tamanho"}},
+                                { name: "valor", widget: "WaiContent", tag:"span", value: { "pt-BR": "$data.valor"}},
+                            ]
+                        },
+                    ]
+                },
+                //quantidade
+                { 
+                    name: "item-quantidade", widget: "WaiContent", class:"content-item", children:
+                    [
+                        { 
+                            name: 'form-group', widget:'WaiContent', class: 'form-group', children:
+                            [
+                                { name: "label-quantidade", tag: 'label', for:"quantidade", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Quantidade" },
+                                { 
+                                    name: 'container-field', widget:'WaiContent', class:'col-sm-10', children:
+                                    [
+                                        { name: "quantidade", widget: "WaiInput" },
+                                    ]
+                                },
+                            ]
+                        },
+                    ]
+                },
+
+                //Adicionar item ao pedido
+                { 
+                    name: "item-adicionar", widget: "WaiContent", class:"content-item", children:
+                    [
+                        { 
+                            name: "adicionar", 
+                            widget: "WaiButton", 
+                            value: { "pt-BR":"Adicionar" }, 
+                            type:"submit", 
+                            class:"btn btn-primary"
+                        }
+                    ]
+                },
+            ] 
         },
-
-        //quantidade
-        { name: "item-quantidade", widget: "WaiContent", class:"content-item" },
-        { name: 'form-group', widget:'WaiContent', class: 'form-group' },
-        { name: 'container-field', widget:'WaiContent', class:'col-sm-10' },
-        { name: "label-quantidade", tag: 'label', for:"quantidade", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Quantidade" },
-        { name: "quantidade", widget: "WaiInput" },
-
-        //Adicionar item ao pedido
-        { name: "item-adicionar", widget: "WaiContent", class:"content-item" },
-        { 
-            name: "adicionar", 
-            widget: "WaiButton", 
-            value: { "pt-BR":"Adicionar" }, 
-            type:"submit", 
-            class:"btn btn-primary"
-        }
-
     ]
 };
 
