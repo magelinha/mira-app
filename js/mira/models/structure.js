@@ -40,52 +40,59 @@
             return data;
         },
 
-        prepare: function(abstracts, itemWidget){
-            var name = this.get("name");
+        findAbstracts: function(abstracts, itemWidget, $data, $env) {
+            //converte a lista de widgets abstratos aninhados num lista única
+            
+
+            //retorna todos os widgtes abstratos que correspondem ao item desejado
+
+
 
             var abstract = null;
-            
-            var findAbstract = function(items){
-                //Caso a raiz da estrutura seja o próprio widget
-                if(name == itemWidget.get('name')){
-                    abstract = itemWidget;
-                    return;
-                }
-                    
-                items.each(function(item){
-                    if(item.get('name') == name){
-                        abstract = item;
-                        return;
-                    }
+            var name = this.get("name");
 
-                    var children = item.get("children");
-                    if(children)
-                        findAbstract(children);
-                });
-            };
+            //Caso a raiz da estrutura seja o próprio widget
+            if(name == itemWidget.get('name')/* && itemWidget.isVisible($data, $env, null)*/){
+                abstract = itemWidget;
+                return;
+            }
+                
+            abstracts.find(function(item){
+                if(item.get('name') == name /*&&  item.isVisible($data, $env, null)*/)
+                    return item;
 
+                var children = item.get("children");
+                if(children)
+                    return findAbstract(children, itemWidget, $data, $env);
+            });
+
+            return abstract;
+        },
+
+        isVisible: function($data, $env, $bind){
+            if(this.get('when')) {
+                return Helper.evaluate(this.get('when'), $data.attributes, $env, $data, $bind);
+            }
+            return true;
+        },
+
+        prepare: function(abstracts, itemWidget){
+            var name = this.get("name");
             if(!this.original){
                 this.original = _.clone(this.attributes);
             }
             
-            this.abstract = abstracts.findWhere({name: this.get('name')});
+            this.abstracts = abstracts.filter(function(abstract){
+                return abstract.get("name") == name;
+            });
 
-            findAbstract(abstracts);
             this.get('children').invoke('prepare', abstracts, itemWidget);
+
             if(this.abstract) {
                 this.attributes = _.defaults(this.original, this.abstract.attributes);
             } else {
                 this.attributes = this.original
             }
-
-            if(abstract){
-                this.set('datasource', abstract.get('datasource'));
-                this.abstract = abstract;
-                return;
-            }
-
-            if(itemWidget)
-                this.abstract = itemWidget;
         }
 
 

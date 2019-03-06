@@ -81,6 +81,18 @@
             var $bindl = this.getBind($data.attributes, $data, $env);
             
             var next = function ($bind) {
+                //Se for uma estrutura...verifica os abstracts. Caso algum seja válido, seta o datasource, caso necessário
+                if(esse.abstracts && esse.abstracts.length){
+                    var abstract = esse.abstracts.find(function(x){
+                        esse.set("when", x.get("when"));
+                        return esse.isVisible($data, $env, $bind);
+                    });
+
+                    if(abstract)
+                        esse.set("datasource", abstract.get("datasource"));
+                    
+                }
+
                 var map = esse.getRender(concrete, $data, $env, $bind);
                 if (map && esse.isVisible($data, $env, $bind)) {
 
@@ -142,22 +154,12 @@
                 this.requestData($data, $env, $bind, function(collection){
                     esse.registerCollection($env, collection);
 
-                    var entity = esse.get('entity');
-                    var values = $env.collections[esse.get('name')].models;
-
-                    if(Helper.hasEntity(entity, values)){
-                        var entities = Helper.buildEntities(entity, values);
-                        appApi.RegisterEntity(entities);
-                    }
-
                     var $bind1 = itemWidget.getBind($data.attributes !== {} ? $data.attributes : mappedValues, $data, $env);
                     var structure = concrete.findStructure(itemWidget.get('name'));
                     if(structure){
-                        structure.prepare(itemWidget.get('children'), itemWidget);
+                        structure.prepare(mira.interface.abstracts, itemWidget);
                         itemWidget = structure;
                     }
-
-                    itemWidget.set("interface", currentInterface);
 
                     var view = new MiraView.Collection({
                         collection: collection,
@@ -194,8 +196,7 @@
             var temp = Helper.buildAnchor();
             var structure = concrete.findStructure(this.get('name'));
             if(structure){
-                structure.prepare(this.get('children'), esse);
-                
+                structure.prepare(mira.interface.abstracts, esse);
                 esse = structure;
             }
 

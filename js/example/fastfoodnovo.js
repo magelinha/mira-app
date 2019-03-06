@@ -163,15 +163,15 @@ var cardapioConcreta =
                                 { 
                                     name:"item-preco", children:
                                     [
-                                        { 
-                                            name: "preco", when: "_.isObject($data.preco)", children: 
-                                            [
-                                                {name: "tamanho" },
-                                                {name: "valor" }
+                                        // { 
+                                        //     name: "preco", when: "_.isObject($data.preco)", children: 
+                                        //     [
+                                        //         {name: "tamanho" },
+                                        //         {name: "valor" }
 
-                                            ]
-                                        },
-                                        { name: "preco", when: "_.isNumber($data.preco)" }
+                                        //     ]
+                                        // },
+                                        { name: "preco"}
                                     ] 
                                 },
                                 
@@ -226,11 +226,17 @@ var cardapioConcreta =
                 
         //preço
         { name: "item-preco", widget: "WaiContent", class:"content-item" },
-        { name: "preco", widget: "WaiContent", tag: "p", value:"$$data.preco", when: "_.isNumber($data.preco)" },
-        { name: "preco", widget: "WaiContent", when: "_.isObject($dataObj.preco)" },
-
-        { name: "tamanho", widget: "WaiContent", tag:"span", value: { "pt-BR": "$data.tamanho"}},
-        { name: "valor", widget: "WaiContent", tag:"span", value: { "pt-BR": "$data.valor"}},
+        { name: "preco", widget: "WaiContent", tag: "p", value:"$data.preco", when: "_.isNumber($data.preco)" },
+        { 
+            name: "preco", 
+            widget: "WaiContent", 
+            when: "_.isObject($dataObj.preco)",
+            children:
+            [
+                { name: "tamanho", widget: "WaiContent", tag:"span", value: { "pt-BR": "$data.tamanho"}},
+                { name: "valor", widget: "WaiContent", tag:"span", value: { "pt-BR": "$data.valor"}},
+            ]
+        },
         
         //quantidade
         { name: "item-quantidade", widget: "WaiContent", class:"content-item" },

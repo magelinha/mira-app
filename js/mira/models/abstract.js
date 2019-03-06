@@ -28,16 +28,30 @@
         },
 
         parse: function(data){
+            //transforma widgets aninhados numa lista linear
+            var getAbstracts = function(widgets){
+                var list = [];
+                widgets.each(function(widget){
+                    list.push(widget);
+                    var children = widget.get("children");
+                    if(children.length)
+                        list = list.concat(getAbstracts(children));
+                });
+
+                return list;
+            }
+
             if(_.isArray(data.widgets)) {
                 data.widgets = new WidgetAbstract.Collection(data.widgets, {parse: true});
             } else {
                 data.widgets = new WidgetAbstract.Collection([data.widgets], {parse: true});
             }
+
+            mira.interface.abstracts = getAbstracts(data.widgets);
             return data;
         },
 
         getHtml: function($parent, concrete, $data, $env, currentInterface){
-            var _this = this;
             var widgets = this.get('widgets');
             widgets.each(function(widget){
                 widget.set("interface", currentInterface);

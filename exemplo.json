@@ -1,0 +1,56 @@
+[
+    {
+        "name": "Jogador",
+        "values":
+        [
+            {
+                "reference": "Ronaldo",
+                "synonyms": ["Fenômeno, R9"]
+            },
+            {
+                "reference": "Ibrahimovic",
+                "synonyms": ["Ibrah", "Zlatan", "Ibrahcadabra"]
+            }
+        ]
+    },
+    {
+        "intents": 
+        [
+            {
+                "name": "Quantidade de Gols",
+                "context": 
+                {
+                    "in": ["Esportes"],
+                    "out":["Futebol"] 
+                },
+                "action": "InformarGols",
+                "phrases": 
+                [
+                    {
+                        "phrase": "Quantos gols tem Ronaldo na carreira?", 
+                        "entities": [ { "type": "Jogador", "value": "Ronaldo"} ] 
+                    },
+                    {
+                        "phrase": "Ibrahimovic tem quantos gols?", 
+                        "entities": [ { "type": "Jogador", "value": "Ibrahimovic"} ] 
+                    }
+                ],
+                "params": [{ "name": "jogador", "value": "$jogador" }],
+                "error": 
+                {
+                    "name": "Jogador não encontrado",
+                    "messages": ["Não temos informações do jogador #jogador no nosso banco de dados."]
+                },
+                "responses": ["Estamos procurando informações sobre $jogador"]
+            }
+
+        ]
+    }
+
+
+    
+]
+
+
+
+
