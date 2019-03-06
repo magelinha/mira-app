@@ -38,12 +38,13 @@
         },
 
         getAbstracts: function(widgets){
+            var _this = this;
             var list = [];
             widgets.each(function(widget){
                 list.push(widget);
                 var children = widget.get("children");
                 if(children.length)
-                    list = list.concat(getAbstracts(children));
+                    list = list.concat(_this.getAbstracts(children));
             });
 
             return list;
