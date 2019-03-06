@@ -24,6 +24,7 @@ define([
 
         full_render: function(abstract, concrete, $data, $env){
             this.abstract = abstract;
+            this.full_abstracts = abstract.getAbstracts(abstract.get("widgets"));
             this.concrete = concrete;
             this.setModel($data);
             this.$env = $env;

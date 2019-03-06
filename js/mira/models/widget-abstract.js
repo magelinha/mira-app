@@ -157,7 +157,7 @@
                     var $bind1 = itemWidget.getBind($data.attributes !== {} ? $data.attributes : mappedValues, $data, $env);
                     var structure = concrete.findStructure(itemWidget.get('name'));
                     if(structure){
-                        structure.prepare(mira.interface.abstracts, itemWidget);
+                        structure.prepare(mira.interface.full_abstracts, itemWidget);
                         itemWidget = structure;
                     }
 
@@ -196,7 +196,7 @@
             var temp = Helper.buildAnchor();
             var structure = concrete.findStructure(this.get('name'));
             if(structure){
-                structure.prepare(mira.interface.abstracts, esse);
+                structure.prepare(mira.interface.full_abstracts, esse);
                 esse = structure;
             }
 
