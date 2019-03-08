@@ -198,6 +198,7 @@
             if(structure){
                 structure.prepare(mira.interface.full_abstracts, esse);
                 esse = structure;
+                this.set("datasource", structure.get("datasource"));
             }
 
             this.buildWidget(temp, concrete, $data, $env, function(options){
