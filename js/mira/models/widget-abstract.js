@@ -76,23 +76,33 @@
             return map_selected
         },
 
+        updateStrucute: function(concrete, $data, $env, $bind) {
+            var structure = concrete.findStructure(itemWidget.get('name'));
+
+            if(!structure)
+                return this;
+
+            structure.prepare(mira.interface.full_abstracts, this);
+
+            //Se for uma estrutura...verifica os abstracts. Caso algum seja válido, seta o datasource, caso necessário
+            if(strucute.abstracts && strucute.abstracts.length){
+                var abstract = strucute.abstracts.find(function(x){
+                    esse.set("when", x.get("when"));
+                    return esse.isVisible($data, $env, $bind);
+                });
+
+                if(abstract)
+                    structure.set("datasource", abstract.get("datasource"));
+            }
+
+            this = structure;
+        },
+
         buildWidget: function($parent, concrete, $data, $env, callback) {
             var esse = this;
             var $bindl = this.getBind($data.attributes, $data, $env);
             
             var next = function ($bind) {
-                //Se for uma estrutura...verifica os abstracts. Caso algum seja válido, seta o datasource, caso necessário
-                if(esse.abstracts && esse.abstracts.length){
-                    var abstract = esse.abstracts.find(function(x){
-                        esse.set("when", x.get("when"));
-                        return esse.isVisible($data, $env, $bind);
-                    });
-
-                    if(abstract)
-                        esse.set("datasource", abstract.get("datasource"));
-                    
-                }
-
                 var map = esse.getRender(concrete, $data, $env, $bind);
                 if (map && esse.isVisible($data, $env, $bind)) {
 
@@ -155,11 +165,8 @@
                     esse.registerCollection($env, collection);
 
                     var $bind1 = itemWidget.getBind($data.attributes !== {} ? $data.attributes : mappedValues, $data, $env);
-                    var structure = concrete.findStructure(itemWidget.get('name'));
-                    if(structure){
-                        structure.prepare(mira.interface.full_abstracts, itemWidget);
-                        itemWidget = structure;
-                    }
+
+                    itemWidget.updateStrucute(concrete, $data, $env, $bind1);
 
                     var view = new MiraView.Collection({
                         collection: collection,
@@ -194,12 +201,7 @@
 
             var anchor = Helper.buildAnchor();
             var temp = Helper.buildAnchor();
-            var structure = concrete.findStructure(this.get('name'));
-            if(structure){
-                structure.prepare(mira.interface.full_abstracts, esse);
-                esse = structure;
-                this.set("datasource", structure.get("datasource"));
-            }
+            this.updateStrucute(concrete, $data, $env);
 
             this.buildWidget(temp, concrete, $data, $env, function(options){
                 esse.buildChildren(options.$children, concrete, $data, $env);               
