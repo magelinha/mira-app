@@ -78,7 +78,7 @@
 
         updateStrucute: function(concrete, $data, $env, $bind) {
             var _this = this;
-            var structure = concrete.findStructure(itemWidget.get('name'));
+            var structure = concrete.findStructure(_this.get('name'));
 
             if(!structure)
                 return _this;
