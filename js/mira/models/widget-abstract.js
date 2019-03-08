@@ -87,7 +87,7 @@
 
             //Se for uma estrutura...verifica os abstracts. Caso algum seja válido, seta o datasource, caso necessário
             if(structure.abstracts && structure.abstracts.length){
-                var abstract = strucute.abstracts.find(function(x){
+                var abstract = structure.abstracts.find(function(x){
                     esse.set("when", x.get("when"));
                     return esse.isVisible($data, $env, $bind);
                 });
