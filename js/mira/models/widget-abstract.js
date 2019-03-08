@@ -77,12 +77,13 @@
         },
 
         updateStrucute: function(concrete, $data, $env, $bind) {
+            var _this = this;
             var structure = concrete.findStructure(itemWidget.get('name'));
 
             if(!structure)
-                return this;
+                return _this;
 
-            structure.prepare(mira.interface.full_abstracts, this);
+            structure.prepare(mira.interface.full_abstracts, _this);
 
             //Se for uma estrutura...verifica os abstracts. Caso algum seja válido, seta o datasource, caso necessário
             if(strucute.abstracts && strucute.abstracts.length){
@@ -95,7 +96,7 @@
                     structure.set("datasource", abstract.get("datasource"));
             }
 
-            this = structure;
+            _this = structure;
         },
 
         buildWidget: function($parent, concrete, $data, $env, callback) {
