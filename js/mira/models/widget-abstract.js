@@ -161,28 +161,30 @@
             var $bind = this.getBind($data.attributes, $data, $env);
 
             if(this.get('datasource')){
-                var itemWidget = this.get('children').at(0);
-                this.requestData($data, $env, $bind, function(collection){
-                    esse.registerCollection($env, collection);
-
-                    var $bind1 = itemWidget.getBind($data.attributes !== {} ? $data.attributes : mappedValues, $data, $env);
-
-                    itemWidget.updateStrucute(concrete, $data, $env, $bind1);
-
-                    var view = new MiraView.Collection({
-                        collection: collection,
-                        model: $data,
-                        $el: $parent,
-                        $env: $env, 
-                        $bind: $bind1,
-                        widget: this,
-                        concrete: concrete,
-                        itemWidget: itemWidget
+                this.get('children').each(function (itemWidget) {
+                    this.requestData($data, $env, $bind, function(collection){
+                        esse.registerCollection($env, collection);
+    
+                        var $bind1 = itemWidget.getBind($data.attributes !== {} ? $data.attributes : mappedValues, $data, $env);
+    
+                        itemWidget.updateStrucute(concrete, $data, $env, $bind1);
+    
+                        var view = new MiraView.Collection({
+                            collection: collection,
+                            model: $data,
+                            $el: $parent,
+                            $env: $env, 
+                            $bind: $bind1,
+                            widget: this,
+                            concrete: concrete,
+                            itemWidget: itemWidget
+                        });
+    
+                        view.render();
                     });
-
-                    view.render();
-
                 });
+
+                //var itemWidget = this.get('children').at(0);
             }  else {
                 var title = this.get("title");
                 if(appApi && title && currentInterface){
