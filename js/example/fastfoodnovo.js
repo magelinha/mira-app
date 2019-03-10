@@ -230,7 +230,7 @@ var cardapioConcreta =
         { 
             name: "preco", 
             widget: "WaiContent", 
-            when: "_.isObject($dataObj.preco)",
+            when: "_.isObject($data.preco)",
             children:
             [
                 { name: "tamanho", widget: "WaiContent", tag:"span", value: { "pt-BR": "$data.tamanho"}},
