@@ -162,7 +162,7 @@
 
             if(this.get('datasource')){
                 this.get('children').each(function (itemWidget) {
-                    this.requestData($data, $env, $bind, function(collection){
+                    esse.requestData($data, $env, $bind, function(collection){
                         esse.registerCollection($env, collection);
     
                         var $bind1 = itemWidget.getBind($data.attributes !== {} ? $data.attributes : mappedValues, $data, $env);
