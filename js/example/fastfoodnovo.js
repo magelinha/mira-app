@@ -124,7 +124,14 @@ var cardapioAbstrata =
                                 { name: "item-preco", datasource: "$data.preco", children:[ { name: "preco" }]},
                             ]
                         },
-                        { name: "item", when: "_.isNumber($data.preco)" },
+                        { 
+                            name: "item", 
+                            when: "_.isNumber($data.preco)",
+                            children: 
+                            [
+                                { name: "item-preco", children: [{ name: "preco" }]}
+                            ]
+                        },
                     ]
                 }
             ] 
