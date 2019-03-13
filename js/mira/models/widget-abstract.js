@@ -39,10 +39,31 @@
         },
 
         isVisible: function($data, $env, $bind){
+            var visibled = true;
             if(this.get('when')) {
-                return Helper.evaluate(this.get('when'), $data.attributes || $data, $env, $data, $bind);
+                visibled = Helper.evaluate(this.get('when'), $data.attributes || $data, $env, $data, $bind);
             }
-            return true;
+
+            this.set("visibled", visibled);
+            return visibled;
+        },
+
+        getLastAbstract: function(){
+            //Se for um widget abstrato, retorna ele mesmo,
+        },
+
+        checkVisibledParents: function(){
+            //Se o próprio widget não é visível, retorna false;
+            if(this.get("visibled") == false)
+                return false;
+            
+            //Se não tiver parent, retorna o visibled dele. Caso não tenha setado, também retorna true
+            var parent = this.get("$parentAbstract");
+            if(!parent)
+                return true;
+
+            //Caso tenha parent, retorna o visibled do mesmo.
+            return parent.checkVisibledParents();
         },
 
         canHasMapChildren: function(map){
@@ -78,12 +99,20 @@
 
         updateStructure: function(concrete, $data, $env, $bind) {
             var _this = this;
-            var structure = _this.constructor.name == "Structure_Model" ? _this : concrete.findStructure(_this.get('name'));
+            var structure = null;
 
+            if(_this.constructor.name == "Structure_Model"){
+                //Se ja for um structure, não precisa chamar o prepare
+                structure = _this;
+            }
+            else{
+                structure = concrete.findStructure(_this.get('name'));
+                if(structure)
+                    structure.prepare(mira.interface.full_abstracts, _this);
+            }
+            
             if(!structure)
                 return _this;
-
-            structure.prepare(mira.interface.full_abstracts, _this);
 
             //Se for uma estrutura...verifica os abstracts. Caso algum seja válido, seta o datasource, caso necessário
             if(structure.abstracts && structure.abstracts.length){
@@ -92,8 +121,11 @@
                     return _this.isVisible($data, $env, $bind);
                 });
 
-                if(abstract)
+                if(abstract){
                     structure.set("datasource", abstract.get("datasource"));
+                    structure.abstract = abstract;
+                }
+                    
             }
 
             return structure;
@@ -166,7 +198,7 @@
                         esse.registerCollection($env, collection);
     
                         var $bind1 = itemWidget.getBind($data.attributes !== {} ? $data.attributes : mappedValues, $data, $env);
-    
+                        itemWidget.set("$parentAbstract", esse);
                         itemWidget = itemWidget.updateStructure(concrete, $data, $env, $bind1);
     
                         var view = new MiraView.Collection({
@@ -194,13 +226,14 @@
 
                 this.get('children').each(function (widget, i) {
                     widget.set("interface", currentInterface);
-                    widget.getHtml($parent, concrete, $data, $env);
+                    widget.getHtml($parent, concrete, $data, $env, esse);
                 }, this);
             }
         },
 
-        getHtml: function($parent, concrete, $data, $env){
+        getHtml: function($parent, concrete, $data, $env, $parentAbstract){
             var esse = this;
+            this.set("$parentAbstract", $parentAbstract);
 
             var anchor = Helper.buildAnchor();
             var temp = Helper.buildAnchor();
