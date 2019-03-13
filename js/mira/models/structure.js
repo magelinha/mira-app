@@ -69,13 +69,6 @@
             return abstract;
         },
 
-        isVisible: function($data, $env, $bind){
-            if(this.get('when')) {
-                return Helper.evaluate(this.get('when'), $data.attributes, $env, $data, $bind);
-            }
-            return true;
-        },
-
         prepare: function(abstracts, itemWidget){
             var name = this.get("name");
             if(!this.original){

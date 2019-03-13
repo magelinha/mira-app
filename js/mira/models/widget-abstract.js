@@ -76,9 +76,9 @@
             return map_selected
         },
 
-        updateStrucute: function(concrete, $data, $env, $bind) {
+        updateStructure: function(concrete, $data, $env, $bind) {
             var _this = this;
-            var structure = concrete.findStructure(_this.get('name'));
+            var structure = _this.constructor.name == "Structure_Model" ? _this : concrete.findStructure(_this.get('name'));
 
             if(!structure)
                 return _this;
@@ -96,12 +96,12 @@
                     structure.set("datasource", abstract.get("datasource"));
             }
 
-            return strucuture;
+            return structure;
         },
 
         buildWidget: function($parent, concrete, $data, $env, callback) {
-            var esse = this;
             var $bindl = this.getBind($data.attributes, $data, $env);
+            var esse = this.updateStructure(concrete, $data, $env, $bindl);
             
             var next = function ($bind) {
                 var map = esse.getRender(concrete, $data, $env, $bind);
@@ -167,7 +167,7 @@
     
                         var $bind1 = itemWidget.getBind($data.attributes !== {} ? $data.attributes : mappedValues, $data, $env);
     
-                        itemWidget.updateStrucute(concrete, $data, $env, $bind1);
+                        itemWidget = itemWidget.updateStructure(concrete, $data, $env, $bind1);
     
                         var view = new MiraView.Collection({
                             collection: collection,
@@ -204,8 +204,8 @@
 
             var anchor = Helper.buildAnchor();
             var temp = Helper.buildAnchor();
-            
-            esse = this.updateStrucute(concrete, $data, $env);
+
+            esse = this.updateStructure(concrete, $data, $env);
 
             this.buildWidget(temp, concrete, $data, $env, function(options){
                 esse.buildChildren(options.$children, concrete, $data, $env);               
