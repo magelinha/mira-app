@@ -96,7 +96,7 @@
                     structure.set("datasource", abstract.get("datasource"));
             }
 
-            _this = structure;
+            return strucuture;
         },
 
         buildWidget: function($parent, concrete, $data, $env, callback) {
@@ -204,7 +204,8 @@
 
             var anchor = Helper.buildAnchor();
             var temp = Helper.buildAnchor();
-            this.updateStrucute(concrete, $data, $env);
+            
+            esse = this.updateStrucute(concrete, $data, $env);
 
             this.buildWidget(temp, concrete, $data, $env, function(options){
                 esse.buildChildren(options.$children, concrete, $data, $env);               
