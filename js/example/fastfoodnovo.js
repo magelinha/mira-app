@@ -192,13 +192,7 @@ var cardapioConcreta =
                                             children:
                                             [
                                                 { name: 'label-quantidade' },
-                                                { 
-                                                    name: 'container-field',
-                                                    children: 
-                                                    [
-                                                        { name: 'quantidade'}
-                                                    ]
-                                                }
+                                                { name: 'quantidade'}
                                             ]
                                         },
                                     ]
@@ -227,30 +221,30 @@ var cardapioConcreta =
         { name: "item", widget: "WaiContent", class:"row" },
         
         //Descrição
-        { name: "item-descricao", widget: "WaiContent", class:"content-item" },
-        { name: "item-image", tag:"img", src:"$data.imagem", alt:"$data.nome", class: "img-thumbnail img-responsive"},
-        { name: "item-nome", tag:"h5", value:"$data.nome"},        
+        { name: "item-descricao", widget: "WaiContent", class:"content-item col-md-3" },
+        { name: "item-image", tag:"img", src:"$data.imagem", alt:"$data.nome", class: "img-thumbnail img-responsive img-item"},
+        { name: "item-nome", tag:"h3", value:"$data.nome"},        
                 
         //preço
-        { name: "item-preco", widget: "WaiContent", class:"content-item" },
-        { name: "preco", widget: "WaiContent", tag: "p", value:"$data.preco", when: "_.isNumber($data)" },
+        { name: "item-preco", widget: "WaiContent", class:"content-item col-md-3" },
+        { name: "preco", widget: "WaiContent", tag: "p", value:"FormatValue($data)", when: "_.isNumber($data)" },
         { 
             name: "preco", 
             widget: "WaiContent", 
             when: "_.isObject($data)",
             children:
             [
-                { name: "tamanho", widget: "WaiContent", tag:"span", value: { "pt-BR": "$data.tamanho"}},
-                { name: "valor", widget: "WaiContent", tag:"span", value: { "pt-BR": "$data.valor"}},
+                { name: "tamanho", widget: "WaiContent", class:"title-preco", tag:"span", value: { "pt-BR": "`${$data.tamanho}: `"}},
+                { name: "valor", widget: "WaiContent", tag:"span", value: { "pt-BR": "FormatValue($data.valor)"}},
             ]
         },
         
         //quantidade
-        { name: "item-quantidade", widget: "WaiContent", class:"content-item" },
+        { name: "item-quantidade", widget: "WaiContent", class:"content-item col-md-3" },
         { name: 'form-group', widget:'WaiContent', class: 'form-group' },
-        { name: "label-quantidade", tag: 'label', for:"quantidade", class: 'control-label col-sm-2', widget: 'WaiContent', value:"Quantidade" },
-        { name: 'container-field', widget:'WaiContent', class:'col-sm-10' },
-        { name: "quantidade", widget: "WaiInput" },
+        { name: "label-quantidade", tag: 'label', for:"quantidade", class: 'text-center', widget: 'WaiContent', value:"Quantidade" },
+        //{ name: 'container-field', widget:'WaiContent', class:'col-sm-10' },
+        { name: "quantidade", widget: "WaiInput", class: "col-md-6" },
         
         //Adicionar item ao pedido
         { name: "item-adicionar", widget: "WaiContent", class:"content-item" },
@@ -404,4 +398,11 @@ if(typeof define === 'function') {
         };
     });
 };
+
+//Funções auxiliares
+var FormatValue = function(value){
+    var format = { minimumFractionDigits: 2 , style: 'currency', currency: 'BRL' };
+
+    return value.toLocaleString(format);
+}
 

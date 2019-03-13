@@ -70,3 +70,11 @@ option, select {
 .carousel-inner img {
 	margin: auto;
 }
+
+.img-item {
+	max-height: 7em;
+}
+
+.title-preco {
+	font-weight: bold;
+}
