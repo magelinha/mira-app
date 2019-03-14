@@ -49,7 +49,9 @@
         },
 
         getLastAbstract: function(){
-            //Se for um widget abstrato, retorna ele mesmo,
+            //Se for um widget abstrato, retorna ele mesmo.
+
+            //Caso seja uma structure, caso tenha um abst
         },
 
         checkVisibledParents: function(){
@@ -97,11 +99,15 @@
             return map_selected
         },
 
+        isStructure: function(){
+            return _this.constructor.name == "Structure_Model";
+        },
+
         updateStructure: function(concrete, $data, $env, $bind) {
             var _this = this;
             var structure = null;
 
-            if(_this.constructor.name == "Structure_Model"){
+            if(_this.isStructure()){
                 //Se ja for um structure, não precisa chamar o prepare
                 structure = _this;
             }
@@ -188,7 +194,7 @@
 
         },
 
-        buildChildren: function($parent, concrete, $data, $env, currentInterface){
+        buildChildren: function($parent, concrete, $data, $env, lastAbstract){
             var esse = this;
             var $bind = this.getBind($data.attributes, $data, $env);
 
@@ -198,8 +204,8 @@
                         esse.registerCollection($env, collection);
     
                         var $bind1 = itemWidget.getBind($data.attributes !== {} ? $data.attributes : mappedValues, $data, $env);
-                        itemWidget.set("$parentAbstract", esse);
                         itemWidget = itemWidget.updateStructure(concrete, $data, $env, $bind1);
+                        itemWidget.set("lastAbstract", lastAbstract);
     
                         var view = new MiraView.Collection({
                             collection: collection,
@@ -226,22 +232,23 @@
 
                 this.get('children').each(function (widget, i) {
                     widget.set("interface", currentInterface);
-                    widget.getHtml($parent, concrete, $data, $env, esse);
+                    widget.getHtml($parent, concrete, $data, $env, esse, lastAbstract);
                 }, this);
             }
         },
 
-        getHtml: function($parent, concrete, $data, $env, $parentAbstract){
+        getHtml: function($parent, concrete, $data, $env, lastAbstract){
             var esse = this;
-            this.set("$parentAbstract", $parentAbstract);
-
+            
             var anchor = Helper.buildAnchor();
             var temp = Helper.buildAnchor();
 
             esse = this.updateStructure(concrete, $data, $env);
+            esse.set("lastAbstract", lastAbstract);
 
             this.buildWidget(temp, concrete, $data, $env, function(options){
-                esse.buildChildren(options.$children, concrete, $data, $env);               
+                var abstractParent = esse.isStructure() ? (esse.abstract || lastAbstract) : esse;
+                esse.buildChildren(options.$children, concrete, $data, $env, abstractParent);
                 $parent.append(temp.children());
             });
         },
