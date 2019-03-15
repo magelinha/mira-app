@@ -48,10 +48,8 @@
             return visibled;
         },
 
-        getLastAbstract: function(){
-            //Se for um widget abstrato, retorna ele mesmo.
-
-            //Caso seja uma structure, caso tenha um abst
+        getLastAbstract: function(abstractDefault){
+            return this.isStructure() ? (this.abstract || abstractDefault) : this;
         },
 
         checkVisibledParents: function(){
@@ -99,11 +97,26 @@
             return map_selected
         },
 
-        isStructure: function(){
-            return _this.constructor.name == "Structure_Model";
+        isValid: function(lastAbstract){
+            //Se LastParent é nulo, indica que o widget abstrato é um root, então ele é válido
+            if(!lastAbstract)
+                return true;
+
+            var parent = this.get("parent");
+
+            //Se não tem parent, indica o widget abstrato não faz parte da árvore de execução
+            if(!parent)
+                return false;
+
+            //Verifica se algum parent é o último abstrato executado
+            return parent.cid == lastAbstract.cid || parent.isValid(lastAbstract);
         },
 
-        updateStructure: function(concrete, $data, $env, $bind) {
+        isStructure: function(){
+            return this.constructor.name == "Structure_Model";
+        },
+
+        updateStructure: function(concrete, $data, $env, lastAbstract, $bind) {
             var _this = this;
             var structure = null;
 
@@ -117,12 +130,19 @@
                     structure.prepare(mira.interface.full_abstracts, _this);
             }
             
-            if(!structure)
+            if(!structure){
+                _this.lastAbstract = lastAbstract;
                 return _this;
+            }
+                
 
             //Se for uma estrutura...verifica os abstracts. Caso algum seja válido, seta o datasource, caso necessário
             if(structure.abstracts && structure.abstracts.length){
                 var abstract = structure.abstracts.find(function(x){
+                    //Verifica se o widget abstrato é filho do último widget abstrato executado
+                    if(!x.isValid(lastAbstract))
+                        return false;
+
                     _this.set("when", x.get("when"));
                     return _this.isVisible($data, $env, $bind);
                 });
@@ -134,12 +154,14 @@
                     
             }
 
+            structure.lastAbstract = lastAbstract;
             return structure;
         },
 
         buildWidget: function($parent, concrete, $data, $env, callback) {
             var $bindl = this.getBind($data.attributes, $data, $env);
-            var esse = this.updateStructure(concrete, $data, $env, $bindl);
+            var esse = this;
+            // var esse = this.updateStructure(concrete, $data, $env, $bindl);
             
             var next = function ($bind) {
                 var map = esse.getRender(concrete, $data, $env, $bind);
@@ -204,9 +226,8 @@
                         esse.registerCollection($env, collection);
     
                         var $bind1 = itemWidget.getBind($data.attributes !== {} ? $data.attributes : mappedValues, $data, $env);
-                        itemWidget = itemWidget.updateStructure(concrete, $data, $env, $bind1);
-                        itemWidget.set("lastAbstract", lastAbstract);
-    
+                        //itemWidget = itemWidget.updateStructure(concrete, $data, $env, $bind1, lastAbstract);
+
                         var view = new MiraView.Collection({
                             collection: collection,
                             model: $data,
@@ -215,6 +236,7 @@
                             $bind: $bind1,
                             widget: this,
                             concrete: concrete,
+                            lastAbstract: lastAbstract,
                             itemWidget: itemWidget
                         });
     
@@ -231,23 +253,22 @@
                 }
 
                 this.get('children').each(function (widget, i) {
-                    widget.set("interface", currentInterface);
-                    widget.getHtml($parent, concrete, $data, $env, esse, lastAbstract);
+                    var $bind1 = widget.getBind($data.attributes !== {} ? $data.attributes : mappedValues, $data, $env);
+                    widget.getHtml($parent, concrete, $data, $env, lastAbstract, $bind1);
                 }, this);
             }
         },
 
-        getHtml: function($parent, concrete, $data, $env, lastAbstract){
+        getHtml: function($parent, concrete, $data, $env, lastAbstract, $bind){
             var esse = this;
             
             var anchor = Helper.buildAnchor();
             var temp = Helper.buildAnchor();
 
-            esse = this.updateStructure(concrete, $data, $env);
-            esse.set("lastAbstract", lastAbstract);
+            esse = this.updateStructure(concrete, $data, $env, lastAbstract, $bind);
 
-            this.buildWidget(temp, concrete, $data, $env, function(options){
-                var abstractParent = esse.isStructure() ? (esse.abstract || lastAbstract) : esse;
+            esse.buildWidget(temp, concrete, $data, $env, function(options){
+                var abstractParent = esse.getLastAbstract(lastAbstract);
                 esse.buildChildren(options.$children, concrete, $data, $env, abstractParent);
                 $parent.append(temp.children());
             });

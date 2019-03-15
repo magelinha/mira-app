@@ -19,7 +19,7 @@ define([
                 this.setModel();
             }
 
-            var plus = _.pick(options, 'concrete', 'widget', '$env', '$bind', '$parent', 'collectionView');
+            var plus = _.pick(options, 'concrete', 'widget', '$env', '$bind', '$parent', 'collectionView', 'lastAbstract');
             _.extend(this, plus);
             this.subviews = [];
         },
@@ -44,9 +44,14 @@ define([
                 old_$el.hide();
             }
 
-            this.widget.buildWidget(esse.$parent, this.concrete, $data, this.$env, function(options){
+
+            var lastAbstract = this.lastAbstract;
+            var widget = this.widget.updateStructure(this.concrete, $data, this.$env, lastAbstract, this.$bind);
+
+            widget.buildWidget(esse.$parent, this.concrete, $data, this.$env, function(options){
                 esse.setElement(options.$element || options.$children);
-                esse.widget.buildChildren(esse.$el, esse.concrete, esse.model, esse.$env);
+                var abstractParent = widget.getLastAbstract(lastAbstract);
+                esse.widget.buildChildren(esse.$el, esse.concrete, esse.model, esse.$env, abstractParent);
 
                 // var children = parent.children();
                 // if(!children.length)
@@ -76,7 +81,7 @@ define([
 
             this.setElement(options.$el);
 
-            var plus = _.pick(options, 'concrete', 'widget', 'itemWidget', '$env', '$bind');
+            var plus = _.pick(options, 'concrete', 'widget', 'itemWidget', '$env', '$bind', 'lastAbstract');
             _.extend(this, plus);
 
             this.setCollection();
@@ -105,7 +110,9 @@ define([
                     widget: this.itemWidget,
                     concrete: this.concrete,
                     $env: this.$env,
-                    collectionView: this
+                    $bind: this.$bind,
+                    collectionView: this,
+                    lastAbstract: this.lastAbstract
                 });
                 subview.render();
 
