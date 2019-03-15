@@ -43,6 +43,11 @@
             widgets.each(function(widget){
                 list.push(widget);
                 var children = widget.get("children");
+
+                children.each(function(child){
+                    child.set("parent", widget);
+                });
+
                 if(children.length)
                     list = list.concat(_this.getAbstracts(children));
             });

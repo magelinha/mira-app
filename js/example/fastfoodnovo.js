@@ -129,7 +129,7 @@ var cardapioAbstrata =
                             when: "_.isNumber($data.preco)",
                             children: 
                             [
-                                { name: "item-preco", children: [{ name: "preco" }]}
+                                { name: "preco" }
                             ]
                         },
                     ]
