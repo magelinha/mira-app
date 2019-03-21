@@ -1,10 +1,10 @@
 {
   "name": "MIRA",
   "main": "js/index.js",
-  "scripts":{
+  "scripts": {
     "start": "node js/mira/server.js"
   },
-  "engines":{
+  "engines": {
     "node": "6.11.4",
     "npm": "3.10.10"
   },
@@ -19,7 +19,7 @@
     "memory-cache": "0.1.2",
     "morgan": "~1.1.1",
     "optimist": "~0.6.1",
-    "n3":"latest",
+    "n3": "latest",
     "rdfstore": "0.9.5",
     "request": "~2.36.0",
     "requirejs": "~2.1.11",
@@ -28,11 +28,14 @@
     "uuid-v4": "latest",
     "body-parser": "latest",
     "zip-dir": "latest",
-    "rimraf":"latest",
+    "rimraf": "latest",
     "jsonfile": "latest",
     "@google-cloud/storage": "latest"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^5.15.3",
+    "eslint-config-google": "^0.12.0"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:tecweblab/mira.git"

@@ -108,8 +108,12 @@
             if(!parent)
                 return false;
 
+            //se o tem o mesmo nome, verifica o cid
+            if(parent.get("name") == lastAbstract.get("name"))
+                return parent.cid == lastAbstract.cid;
+
             //Verifica se algum parent é o último abstrato executado
-            return parent.cid == lastAbstract.cid || parent.isValid(lastAbstract);
+            return parent.isValid(lastAbstract);
         },
 
         isStructure: function(){
@@ -147,10 +151,8 @@
                     return _this.isVisible($data, $env, $bind);
                 });
 
-                if(abstract){
-                    structure.set("datasource", abstract.get("datasource"));
-                    structure.abstract = abstract;
-                }
+                structure.set("datasource", abstract ? abstract.get("datasource") : undefined);
+                structure.abstract = abstract;
                     
             }
 
