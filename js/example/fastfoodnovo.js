@@ -21,6 +21,7 @@ var selection = [
 ];
 
 var head = [
+    {name: 'font_google', widget:"Head", tag:'style', href:"https://fonts.googleapis.com/css?family=PT+Sans"},
     {name: 'main_css', widget:'Head', href:'css/bootstrap.css', tag: 'style'},
     {name: 'bootstrap_accessibility_css', widget:'Head', href:'css/bootstrap-accessibility.css', tag: 'style'},
     {name: 'fontawesone_css', widget:'Head', href:'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', tag: 'style'},
@@ -128,7 +129,7 @@ var cardapioAbstrata =
                             ]
                         },
                         { 
-                            name: "item-outros", 
+                            name: "item", 
                             when: "_.isNumber($data.preco)",
                             children: 
                             [
@@ -208,20 +209,20 @@ var cardapioConcreta =
         { name: "categoria", widget: "WaiCollapseItem", value: "$data.nome" },
         
         
-        { name: "item", widget: "WaiContent", class:"col-md-3" },
+        { name: "item", widget: "WaiContent", class:"col-md-3 card" },
         
         //Imagem
-        { name: "content-imagem", widget: "WaiContent", class:"col-md-6" },
-        { name: "imagem", tag:"img", src:"$data.imagem", alt:"$data.nome", class: "img-thumbnail img-responsive img-item"},
+        { name: "content-imagem", widget: "WaiContent", class:"col-md-6 content-imagem" },
+        { name: "imagem", tag:"img", src:"$data.imagem", alt:"$data.nome", class: "img-responsive img-item"},
 
         //Descrição
         { name: "content-details", widget:"WaiContent", class:"col-md-6" },
 
         //--- nome
-        { name: "descricao", tag:"p", class:"row", value:"$data.nome"},        
+        { name: "descricao", tag:"h4", class:"nome-produto row", value:"$data.nome"},        
                 
         //--- preço
-        { name: "item-preco", widget: "WaiContent", class:"row" },
+        { name: "item-preco", widget: "WaiContent", class:"row item-preco" },
         { name: "preco", widget: "WaiContent", tag: "p", value:"FormatValue($data.preco)", when: "_.isNumber($data.preco)" },
         { 
             name: "preco", 
@@ -229,8 +230,8 @@ var cardapioConcreta =
             when: "$data.valor != undefined",
             children:
             [
-                { name: "tamanho", widget: "WaiContent", class:"title-preco", tag:"span", value: { "pt-BR": "`${$data.tamanho}: `"}},
-                { name: "valor", widget: "WaiContent", tag:"span", value: { "pt-BR": "FormatValue($data.valor)"}},
+                { name: "tamanho", widget: "WaiContent", tag:"span", class:"title-tamanho", value: { "pt-BR": "`${$data.tamanho}: `"}},
+                { name: "valor", widget: "WaiContent", tag:"span", class:"value-tamanho", value: { "pt-BR": "FormatValue($data.valor)"}},
             ]
         },
         
