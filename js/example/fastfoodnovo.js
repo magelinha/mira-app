@@ -12,11 +12,15 @@ var selection = [
     {
         when: "$data.categorias != null",
         abstract: "cardapio"
-    }
+    },
 
     //promoções
 
     //pedido
+    {
+        when: "$data.pedido != null",
+        abstract: "pedido"
+    }
      
 ];
 
@@ -208,7 +212,6 @@ var cardapioConcreta =
         { name: "cardapio", widget:"WaiCollapse", value:{ "pt-BR":"Cardápio" } },
         { name: "categoria", widget: "WaiCollapseItem", value: "$data.nome" },
         
-        
         { name: "item", widget: "WaiContent", class:"col-md-3 card" },
         
         //Imagem
@@ -325,6 +328,68 @@ var pedidoAbstrata =
 	name: "pedido",
 	widgets:
 	[
+        //Menu
+        { 
+            name: "menu", children:
+            [
+                { name: "menu-cardapio" },
+                { name: "menu-promocoes" },
+                { name: "menu-pedido" }
+            ]
+        },
+
+        //cardápio
+        {
+            name: "cardapio", datasource:'url:<%= "/api/fastfoodnovo/cardapio" %>', children:
+            [
+                { 
+                    name: "categoria", datasource:"$data.itens", children:
+                    [
+                        { 
+                            name: "item", when: "_.isArray($data.preco)", children:
+                            [
+                                { name: "imagem" },
+                                { name: "descricao" },
+                                { name: "item-preco", datasource: "$data.preco", children:[ { name: "preco" }]},
+                                { name: "adicionar"}
+                            ]
+                        },
+                        { 
+                            name: "item", 
+                            when: "_.isNumber($data.preco)",
+                            children: 
+                            [
+                                { name: "imagem" },
+                                { name: "descricao" },
+                                { name: "preco" },
+                                { name: "adicionar"}
+                            ]
+                        },
+                    ]
+                }
+            ] 
+        },
+
+        //Pedido
+        {
+            name: "pedido", children:
+            [
+                { 
+                    name: "itens", datasource:"$data.pedido.itens", children:
+                    [
+                        { 
+                            name: "item", children:
+                            [
+                                { name: "nome" },
+                                { name: "quantidade" },
+                                { name: "total-item"}
+                            ]
+                        }
+                    ]
+                },
+                { name: "total"}
+            ]
+        }
 
 	]
 };
@@ -337,11 +402,95 @@ var pedidoConcreta =
     ]),
     structure: 
     [
+        {
+            name: "cardapio", children:
+            [
+                { 
+                    name: "categoria", children:
+                    [
+                        
+                        { 
+                            name: "item", children:
+                            [
+                                //Imagem
+                                { 
+                                    name: "content-imagem",
+                                    children:
+                                    [
+                                        { name: "imagem" }
+                                    ]
+                                },
 
+                                {
+                                    name: "content-details", children:
+                                    [
+                                        //Descricao
+                                        { name: "descricao" },
+                                        
+                                        //Preço do item
+                                        { 
+                                            name:"item-preco", children:
+                                            [
+                                                { name: "preco"}
+                                            ] 
+                                        },
+
+                                        //Botão de adicionar item ao pedido
+                                        { name: "item-adicionar", children:[{ name: "adicionar" }] }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
     ],
     maps:
     [
+        { name: "menu", widget: "WaiMenu", value:"Fast Food UAI", content:"#promocoes" },
+        { name: "menu-cardapio", widget:"WaiMenuItem", href:"./cardapio", value:{"pt-BR": "Cardápio"}},
+        { name: "menu-promocoes", widget:"WaiMenuItem", href:"./promocoes", value:{"pt-BR": "Promoções"} },
+        { name: "menu-pedido", widget:"WaiMenuItem", href:"./pedido", value:{"pt-BR": "Pedido"} },
+        
+        { name: "cardapio", widget:"WaiCollapse", value:{ "pt-BR":"Cardápio" } },
+        { name: "categoria", widget: "WaiCollapseItem", value: "$data.nome" },
+        
+        { name: "item", widget: "WaiContent", class:"col-md-3 card" },
+        
+        //Imagem
+        { name: "content-imagem", widget: "WaiContent", class:"col-md-6 content-imagem" },
+        { name: "imagem", tag:"img", src:"$data.imagem", alt:"$data.nome", class: "img-responsive img-item"},
 
+        //Descrição
+        { name: "content-details", widget:"WaiContent", class:"col-md-6" },
+
+        //--- nome
+        { name: "descricao", tag:"h4", class:"nome-produto row", value:"$data.nome"},        
+                
+        //--- preço
+        { name: "item-preco", widget: "WaiContent", class:"row item-preco" },
+        { name: "preco", widget: "WaiContent", tag: "p", value:"FormatValue($data.preco)", when: "_.isNumber($data.preco)" },
+        { 
+            name: "preco", 
+            widget: "WaiContent", 
+            when: "$data.valor != undefined",
+            children:
+            [
+                { name: "tamanho", widget: "WaiContent", tag:"span", class:"title-tamanho", value: { "pt-BR": "`${$data.tamanho}: `"}},
+                { name: "valor", widget: "WaiContent", tag:"span", class:"value-tamanho", value: { "pt-BR": "FormatValue($data.valor)"}},
+            ]
+        },
+        
+        //--- adicionar
+        { name: "item-adicionar", widget: "WaiContent", class:"row" },
+        { 
+            name: "adicionar", 
+            widget: "WaiButton", 
+            value: { "pt-BR":"Adicionar" }, 
+            type:"submit", 
+            class:"btn-adicionar btn btn-primary"
+        },
     ]
 };
 
