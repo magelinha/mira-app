@@ -340,7 +340,7 @@ var pedidoAbstrata =
 
         //cardápio
         {
-            name: "cardapio", datasource:'url:<%= "/api/fastfoodnovo/cardapio" %>', children:
+            name: "cardapio", datasource:'$data.categorias', children:
             [
                 { 
                     name: "categoria", datasource:"$data.itens", children:
@@ -374,19 +374,21 @@ var pedidoAbstrata =
         {
             name: "pedido", children:
             [
-                { 
-                    name: "itens", datasource:"$data.pedido.itens", children:
+                {
+                    name: "itens-pedido",  datasource:"$data.pedido.itens", children:
                     [
                         { 
-                            name: "item", children:
+                            name: "item-pedido", children:
                             [
                                 { name: "nome" },
                                 { name: "quantidade" },
-                                { name: "total-item"}
+                                { name: "total-item"},
+                                { name: "remover" }
                             ]
                         }
                     ]
                 },
+
                 { name: "total"}
             ]
         }
@@ -445,6 +447,23 @@ var pedidoConcreta =
                 }
             ]
         },
+
+        {
+            name: "item-pedido", children:
+            [
+                { name: "nome" },
+                { 
+                    name: "content-total", children:
+                    [
+                        { name: "label-quantidade" },
+                        { name: "quantidade" },
+                        { name: "total-item" }
+                    ]
+                },
+                { name: "remover" }
+
+            ]
+        }
     ],
     maps:
     [
@@ -453,7 +472,7 @@ var pedidoConcreta =
         { name: "menu-promocoes", widget:"WaiMenuItem", href:"./promocoes", value:{"pt-BR": "Promoções"} },
         { name: "menu-pedido", widget:"WaiMenuItem", href:"./pedido", value:{"pt-BR": "Pedido"} },
         
-        { name: "cardapio", widget:"WaiCollapse", value:{ "pt-BR":"Cardápio" } },
+        { name: "cardapio", widget:"WaiCollapse", class:"col-sm-6", value:{ "pt-BR":"Cardápio" } },
         { name: "categoria", widget: "WaiCollapseItem", value: "$data.nome" },
         
         { name: "item", widget: "WaiContent", class:"col-md-3 card" },
@@ -491,6 +510,24 @@ var pedidoConcreta =
             type:"submit", 
             class:"btn-adicionar btn btn-primary"
         },
+
+        //Pedido
+        { name: "pedido", widget:"WaiContent", title:"Pedido", class: "col-md-4 content-pedido" },
+        { name: "itens-pedido", widget:"WaiContent" },
+        { name: "item-pedido", widget: "WaiContent", class:"row" },
+        { name: "nome", tag: "p", value:"$data.nome" },
+        { name: "content-total", widget:"WaiContent" },
+        { name: "label-quantidade", widget:"WaiContent", tag: "span", value: {"pt-BR": "Quantidade"}},
+        { name: "quantidade", widget:"WaiControl", tag:"input", type:"text", class:"col-sm-2", value:"$data.quantidade" },
+        { name: "total-item", widget:"WaiContent", tag: "span", class:"pull-right", value:{"pt-BR": "FormatValue($data.total)"}},
+        { 
+            name: "remover", 
+            widget: "WaiButton", 
+            value: { "pt-BR":"Remover" },  
+            class:"btn-remover btn btn-danger"
+        },
+
+        { name: "total", widget:"WaiContent", tag: "h3", value: {"pt-BR" : "FormatValue($data.pedido.total)"} }
     ]
 };
 
