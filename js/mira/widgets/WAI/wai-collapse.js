@@ -24,13 +24,14 @@ define([
     </div>`;
 
     return {
-        Main: function($parent, name, $context, options, callback){
+        Main: function($parent, name, $context, options, callback, ignored_options){
             var optionsTemplate = { id: name };
             var $element = $(_.template(templateCollapse, optionsTemplate));
             
             //Determina as propriedades básicas do elemento
+            var atrs = Helper.omit_params(options, ignored_options || {});
             var context = Helper.build_context($context, options);
-            Helper.build_attributes($element, {}, context);
+            Helper.build_attributes($element[0], atrs, context);
 
             $parent.append($element);
             

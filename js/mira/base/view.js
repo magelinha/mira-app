@@ -51,7 +51,7 @@ define([
             widget.buildWidget(esse.$parent, this.concrete, $data, this.$env, function(options){
                 esse.setElement(options.$element || options.$children);
                 var abstractParent = widget.getLastAbstract(lastAbstract);
-                esse.widget.buildChildren(esse.$el, esse.concrete, esse.model, esse.$env, abstractParent);
+                widget.buildChildren(esse.$el, esse.concrete, esse.model, esse.$env, abstractParent);
 
                 // var children = parent.children();
                 // if(!children.length)

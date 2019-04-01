@@ -212,7 +212,7 @@ var cardapioConcreta =
         { name: "cardapio", widget:"WaiCollapse", value:{ "pt-BR":"Cardápio" } },
         { name: "categoria", widget: "WaiCollapseItem", value: "$data.nome" },
         
-        { name: "item", widget: "WaiContent", class:"col-md-3 card" },
+        { name: "item", widget: "WaiContent", class:"col-md-3 card border-rounded" },
         
         //Imagem
         { name: "content-imagem", widget: "WaiContent", class:"col-md-6 content-imagem" },
@@ -389,7 +389,8 @@ var pedidoAbstrata =
                     ]
                 },
 
-                { name: "total"}
+                { name: "total"},
+                { name: "finalizar-pedido" }
             ]
         }
 
@@ -457,10 +458,10 @@ var pedidoConcreta =
                     [
                         { name: "label-quantidade" },
                         { name: "quantidade" },
-                        { name: "total-item" }
+                        { name: "total-item" },
+                        { name: "remover" }
                     ]
                 },
-                { name: "remover" }
 
             ]
         }
@@ -472,10 +473,10 @@ var pedidoConcreta =
         { name: "menu-promocoes", widget:"WaiMenuItem", href:"./promocoes", value:{"pt-BR": "Promoções"} },
         { name: "menu-pedido", widget:"WaiMenuItem", href:"./pedido", value:{"pt-BR": "Pedido"} },
         
-        { name: "cardapio", widget:"WaiCollapse", class:"col-sm-6", value:{ "pt-BR":"Cardápio" } },
+        { name: "cardapio", widget:"WaiCollapse", class:"col-sm-8", value:{ "pt-BR":"Cardápio" } },
         { name: "categoria", widget: "WaiCollapseItem", value: "$data.nome" },
         
-        { name: "item", widget: "WaiContent", class:"col-md-3 card" },
+        { name: "item", widget: "WaiContent", class:"col-md-5 card border-rounded" },
         
         //Imagem
         { name: "content-imagem", widget: "WaiContent", class:"col-md-6 content-imagem" },
@@ -512,22 +513,32 @@ var pedidoConcreta =
         },
 
         //Pedido
-        { name: "pedido", widget:"WaiContent", title:"Pedido", class: "col-md-4 content-pedido" },
+        { name: "pedido", widget:"WaiContent", title:"Pedido", class: "col-md-3 content-pedido" },
         { name: "itens-pedido", widget:"WaiContent" },
-        { name: "item-pedido", widget: "WaiContent", class:"row" },
-        { name: "nome", tag: "p", value:"$data.nome" },
-        { name: "content-total", widget:"WaiContent" },
-        { name: "label-quantidade", widget:"WaiContent", tag: "span", value: {"pt-BR": "Quantidade"}},
-        { name: "quantidade", widget:"WaiControl", tag:"input", type:"text", class:"col-sm-2", value:"$data.quantidade" },
-        { name: "total-item", widget:"WaiContent", tag: "span", class:"pull-right", value:{"pt-BR": "FormatValue($data.total)"}},
+        { name: "item-pedido", widget: "WaiContent", class:"row border-rounded", style: "padding: 1em" },
+        { name: "nome", tag: "p", value:"$data.nome", style:"font-weight: bold"},
+        { name: "content-total", class:"content-total", widget:"WaiContent" },
+        { name: "label-quantidade", widget:"WaiContent", style:"margin-right:1em", tag: "span", value: {"pt-BR": "Quantidade"}},
+        { name: "quantidade", widget:"WaiInput", type:"text", style:"margin-right:5em; text-align:center", value:"$data.quantidade", class:"input-quantidade" },
+        { name: "total-item", widget:"WaiContent", tag: "span", style:"margin-right:1em", value:{"pt-BR": "FormatValue($data.total)"}},
         { 
             name: "remover", 
             widget: "WaiButton", 
-            value: { "pt-BR":"Remover" },  
-            class:"btn-remover btn btn-danger"
+            class:"btn-remover btn btn-danger",
+            children: 
+            [
+                { name: "icon-remover", tag:"i", class:"fa fa-trash", "aria-hidden":"true"}
+            ]
         },
 
-        { name: "total", widget:"WaiContent", tag: "h3", value: {"pt-BR" : "FormatValue($data.pedido.total)"} }
+        { name: "total", widget:"WaiContent", tag: "h3", value: {"pt-BR" : "FormatValue($data.pedido.total)"} },
+
+        { 
+            name: "finalizar-pedido", 
+            widget: "WaiButton", 
+            class:"btn-adicionar btn btn-success",
+            value:"Finalizar"
+        },
     ]
 };
 
