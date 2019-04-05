@@ -15,6 +15,12 @@ var bodyParser = require('body-parser');
 var Rule = require('./models/rule.js');
 var Selection = require('./models/selection.js');
 
+//Conexão com o mongodb
+var mongo = require('mongodb').MongoClient;
+var url = process.env.MONGODB_URI || "mongodb://localhost:27017/";
+var db_heroku = 'heroku_2hlrrqz9';
+
+
 
 // start do servidor
 var server = express();
@@ -192,11 +198,97 @@ server.get('/api/:folder/:subfolder/:id', function (req, res, next) {
     });
 });
 
+/**
+ * API para salvar no mongodb
+ * 
+*/
+
+// Get All Collection
+server.get('/mestrado/:collection', function(req, res){
+
+    var collection = req.params.collection;
+    mongo.connect(url, function(err, db) {
+        var dbo = db.db(db_heroku);
+        var dbCollection = dbo.collection(collection);
+        dbCollection.find({}).toArray(function(findError, result){
+            if(findError){
+                res.send(findError);
+            }
+            else{
+                res.send(result);
+            }
+            db.close();
+        });
+    });
+});
+
+//Get by Id
+server.get('/mestrado/:collection/:id', function(req, res){
+
+    var collection = req.params.collection;
+    var id = req.params.id;
+
+    mongo.connect(url, function(err, db) {
+        var dbo = db.db(db_heroku);
+        var dbCollection = dbo.collection(collection);
+        dbCollection.findOne({id: id}, function(findError, result){
+            if(findError){
+                res.send(findError);
+            }
+            else{
+                res.send(result);
+            }
+
+            db.close();
+        });
+    });
+});
+
+//Insert
+server.post('/mestrado/insert/:collection/', function(req, res){
+
+    var collection = req.params.collection;
+    var items = req.params.items;
+
+    mongo.connect(url, function(err, db) {
+        var dbo = db.db(db_heroku);
+        var dbCollection = dbo.collection(collection);
+        try{
+            dbCollection.insertMany(items);
+            res.send({result: true});
+        }
+        catch(e){
+            res.send(e);
+        }
+    });
+});
+
+server.post('/mestrado/update/:collection/', function(req, res){
+
+    var collection = req.params.collection;
+    var items = req.params.items;
+
+    mongo.connect(url, function(err, db) {
+        var dbo = db.db(db_heroku);
+        var dbCollection = dbo.collection(collection);
+        try{
+            dbCollection.updateMany(items);
+            res.send({result: true});
+        }
+        catch(e){
+            res.send(e);
+        }
+    });
+});
+
+
 
 var isInt = function(value) {
   var x = parseFloat(value);
   return !isNaN(value) && (x | 0) === x;
 };
+
+
 
 server.get('/docs', function(req, res, next){
    res.redirect('http://mestrado.amazingworks.com.br/documentacao/'); 

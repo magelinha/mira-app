@@ -1,23 +1,26 @@
-[
-	{
-        "id": 1,
-        "nome": "Sem refrigente, não rola!",
-        "img":"/imgs/exemplos/fastfood/promo1.jpg",
-        "descricao": "Na compra de uma pizza, ganhe um refrigerante.",
-		"preco": 20
-    },
-    {
-        "id": 2,
-        "nome": "Chega de batata palha!",
-        "img":"/imgs/exemplos/fastfood/promo2.jpg",
-        "descricao": "Nosso hamburguer agora vem acompanhando com batata rústica.",
-		"preco": 2.5
-    },
-    {
-        "id": 3,
-        "nome": "Vida saudável",
-        "img":"/imgs/exemplos/fastfood/promo3.jpg",
-        "descricao": "Abaixou o preço dos sucos naturais. Corra e aproveite",
-		"preco": 6.5
-	}
-]
+{
+    "promocoes":
+    [
+        {
+            "id": 1,
+            "nome": "Sem refrigente, não rola!",
+            "img":"/imgs/exemplos/fastfood/promo1.jpg",
+            "descricao": "Na compra de uma pizza, ganhe um refrigerante.",
+            "preco": 20
+        },
+        {
+            "id": 2,
+            "nome": "Chega de batata palha!",
+            "img":"/imgs/exemplos/fastfood/promo2.jpg",
+            "descricao": "Nosso hamburguer agora vem acompanhando com batata rústica.",
+            "preco": 2.5
+        },
+        {
+            "id": 3,
+            "nome": "Vida saudável",
+            "img":"/imgs/exemplos/fastfood/promo3.jpg",
+            "descricao": "Abaixou o preço dos sucos naturais. Corra e aproveite",
+            "preco": 6.5
+        }
+    ]
+}
