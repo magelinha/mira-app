@@ -23,8 +23,12 @@ const Categoria = mongoose.model('Categoria', new mongoose.Schema({
 const Pedido = moongose.model('Pedido', new mongoose.Schema({
     _id: mongoose.Schema.Types.Number,
     numero: mongoose.Schema.Types.String,
-    email: mongoose.Schema.Types.String,
-    item: { type: mongoose.Schema.Types.ObjectId, ref:'Item' }
+    itens:[
+        {
+            item: { type: mongoose.Schema.Types.ObjectId, ref:'Item' },
+            quantidade: { type: mongoose.Schema.Types.Number }
+        }
+    ]
 }));
 
 var Init = function(){

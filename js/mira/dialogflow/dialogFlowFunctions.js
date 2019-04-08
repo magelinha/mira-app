@@ -3,7 +3,16 @@
 /************************* Funções para o dialogflow ****************************/
 
 const dialogflow = require('dialogflow');
-const sessionClient = new dialogflow.SessionsClient();
+//configura as credenciais
+const credentials = JSON.parse(process.env.GOOGLE_CLOUD_CREDENTIALS);
+let config = {
+    credentials: {
+        private_key: credentials.private_key,
+        client_email: credentials.client_email
+    }
+}
+
+const sessionClient = new dialogflow.SessionsClient(config);
 
 //const grpc = require('grpc');
 const structjson = require('./structjson.js');

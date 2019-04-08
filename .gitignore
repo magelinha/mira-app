@@ -8,3 +8,4 @@ command.bat
 documentacao
 temp
 .vscode/launch.json
+.env

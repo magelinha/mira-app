@@ -36,33 +36,6 @@ server.use(
     })
 );
 
-// Imports the Google Cloud client library.
-const { Storage } = require('@google-cloud/storage');
-
-// Instantiates a client. Explicitly use service account credentials by
-// specifying the private key file. All clients in google-cloud-node have this
-// helper, see https://github.com/GoogleCloudPlatform/google-cloud-node/blob/master/docs/authentication.md
-const storage = new Storage({
-    projectId: 'booking-cf175',
-    //keyFilename: './js/mira/dialogflow/keys/fastfood.json'
-});
-
-// Makes an authenticated API request.
-
-storage
-  .getBuckets()
-  .then((results) => {
-    const buckets = results[0];
-
-    console.log('Buckets:');
-    buckets.forEach((bucket) => {
-      console.log(bucket.name);
-    });
-  })
-  .catch((err) => {
-    console.error('ERROR:', err);
-  });
-
 
 // criando servidor para arquivos estaticos
 server.use(express.static(path.normalize(__dirname + '/../..'),  { maxAge: 60 * 60 * 1000 }));
@@ -183,7 +156,7 @@ server.get('/api/:folder/:id', function (req, res, next) {
     });
 });
 
-//implementador por joão victor
+//implementado por joão victor
 server.get('/api/:folder/:subfolder/:id', function (req, res, next) {
     var folder = req.params.folder;
     var subfolder = req.params.subfolder;
@@ -195,89 +168,6 @@ server.get('/api/:folder/:subfolder/:id', function (req, res, next) {
         if (err) throw err;
         file = JSON.parse(data);
         res.json(file);
-    });
-});
-
-/**
- * API para salvar no mongodb
- * 
-*/
-
-// Get All Collection
-server.get('/mestrado/:collection', function(req, res){
-
-    var collection = req.params.collection;
-    mongo.connect(url, function(err, db) {
-        var dbo = db.db(db_heroku);
-        var dbCollection = dbo.collection(collection);
-        dbCollection.find({}).toArray(function(findError, result){
-            if(findError){
-                res.send(findError);
-            }
-            else{
-                res.send(result);
-            }
-            db.close();
-        });
-    });
-});
-
-//Get by Id
-server.get('/mestrado/:collection/:id', function(req, res){
-
-    var collection = req.params.collection;
-    var id = req.params.id;
-
-    mongo.connect(url, function(err, db) {
-        var dbo = db.db(db_heroku);
-        var dbCollection = dbo.collection(collection);
-        dbCollection.findOne({id: id}, function(findError, result){
-            if(findError){
-                res.send(findError);
-            }
-            else{
-                res.send(result);
-            }
-
-            db.close();
-        });
-    });
-});
-
-//Insert
-server.post('/mestrado/insert/:collection/', function(req, res){
-
-    var collection = req.params.collection;
-    var items = req.params.items;
-
-    mongo.connect(url, function(err, db) {
-        var dbo = db.db(db_heroku);
-        var dbCollection = dbo.collection(collection);
-        try{
-            dbCollection.insertMany(items);
-            res.send({result: true});
-        }
-        catch(e){
-            res.send(e);
-        }
-    });
-});
-
-server.post('/mestrado/update/:collection/', function(req, res){
-
-    var collection = req.params.collection;
-    var items = req.params.items;
-
-    mongo.connect(url, function(err, db) {
-        var dbo = db.db(db_heroku);
-        var dbCollection = dbo.collection(collection);
-        try{
-            dbCollection.updateMany(items);
-            res.send({result: true});
-        }
-        catch(e){
-            res.send(e);
-        }
     });
 });
 
