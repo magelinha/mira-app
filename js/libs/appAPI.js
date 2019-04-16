@@ -24,6 +24,17 @@ var encodedString = function(object){
     return encodedString;
 }
 
+var getDescriptionElement = function($element){
+    var tag = $element.prop("tagName");
+    var id = $element.prop("id") ? "#" + $element.prop("id") : "";
+    var classes = "";
+    for(key in $element[0].classList){
+        classes += "." + $element[0].classList[key];
+    };
+
+    return tag + id + classes;
+}
+
 
 var appApi = null;
 var ActionAPI = window.ActionAPI || {};
@@ -199,6 +210,7 @@ ActionAPI.SpeechAction = function(conf){
     this.observer = null;
     this.speak = null;
     this.currentContext = [];
+    this.logs = [];
 };
 
 /*
@@ -538,6 +550,22 @@ ActionAPI.SpeechAction.prototype.Init = function() {
 ActionAPI.SpeechAction.prototype.InitialMessage = function(welcomeEvent) {
     var _this = this;
     _this.CallRequestEvent(welcomeEvent);
+}
+
+ActionAPI.SpeechAction.prototype.RegisterLog = function($element){
+    var events = "click focus blur keydown change dblclick mouseover mouseout submit";
+    //var events = "click mousedown mouseup focus blur keydown change mouseup click dblclick mouseover mouseout mousewheel keydown keyup keypress textInput touchstart touchmove touchend touchcancel resize scroll zoom focus blur select change submit reset";
+    $element.on(events,function(e){
+        var log = {
+            teste: window.teste,
+            checkpoint: false,
+            evento: e.name,
+            elemento: getDescriptionElement($element)
+        };
+
+        appApi.logs.push(log);
+        console.log(e);
+   });
 }
 
 //Métodos a serem executados pelo APP

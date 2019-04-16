@@ -7,18 +7,28 @@ var rules = [
 var selection = [
     
     //landing
+    
+    //home
+    {
+        when: "IsTesteEmAndamento() && IsPage('home')",
+        abstract: "home"
+    },
 
     //cardápio
     {
-        when: "$data.categorias != null",
+        when: "IsPage('cardapio')",
         abstract: "cardapio"
     },
 
     //promoções
+    {
+        when: "IsPage('promocoes')",
+        abstract: "cardapio"
+    },
 
     //pedido
     {
-        when: "$data.pedido != null",
+        when: "IsPage('pedido')",
         abstract: "pedido"
     }
      
@@ -36,7 +46,72 @@ var head = [
 
 var landingAbstrata = 
 {
-	name: "landing",
+    name: "landing",
+    widgets:
+    [
+        {
+            name: "form-inicial", children:
+            [
+                { name: "nome" },
+                { name: "email" },
+                { name: "iniciar" }
+            ]
+        }
+    ]
+};
+
+var landingConcreta = 
+{
+
+    name:"landing",
+	head: head.concat([
+        {name: 'title', widget:'Title', value: 'fastFood Uai - Dados Iniciais'}
+    ]),
+    structure: 
+    [
+        { 
+            name: "form-inicial", children: 
+            [
+                { 
+                    name: "content-field", children:
+                    [
+                        { name: "label-nome"},
+                        { name: "content-control", children: [{ name: "nome" }] },
+                    ]
+                },
+                { 
+                    name: "content-field", children:
+                    [
+                        { name: "label-email"},
+                        { name: "content-control", children: [{ name: "email" }] },
+                    ]
+                },
+                { 
+                    name: "content-field", children:
+                    [
+                        { name: "iniciar"}
+                    ]
+                }
+            ]
+        }
+    ],
+    maps:
+    [
+        { name: "form-incial", widget: "WaiForm", class: "form-dados" },
+        { name: "content-field", class: "form-group" },
+        { name: "content-control", class: "col-sm-10" },
+
+        { name: "label-nome", class: "col-sm-2", for:"#nome" },
+        { name: "nome", widget:"WaiInput", type: "text", placeholder:"Nome" },
+        { name: "label-email", class: "col-sm-2", for:"#email" },
+        { name: "email", widget:"WaiInput", type: "email", placeholder:"E-mail" },
+        { name: "inicial", widget:"WaiButton", placeholder:"E-mail", events:{ submit: "OnStart"} },
+    ]
+};
+
+var homeAbstrata = 
+{
+	name: "home",
 	widgets:
 	[
         //Menu
@@ -59,9 +134,9 @@ var landingAbstrata =
 	]
 };
 
-var landingConcreta = 
+var homeConcreta = 
 {
-	name:"landing",
+	name:"home",
 	head: head.concat([
         {name: 'title', widget:'Title', value: 'fastFood Uai - Página Inicial'}
     ]),
@@ -90,9 +165,9 @@ var landingConcreta =
     maps:
     [
         { name: "menu", widget: "WaiMenu", value:"Fast Food UAI", content:"#promocoes" },
-        { name: "menu-cardapio", widget:"WaiMenuItem", href:"./cardapio", value:{"pt-BR": "Cardápio"}},
-        { name: "menu-promocoes", widget:"WaiMenuItem", href:"./promocoes", value:{"pt-BR": "Promoções"} },
-        { name: "menu-pedido", widget:"WaiMenuItem", href:"./pedido", value:{"pt-BR": "Pedido"} },
+        { name: "menu-cardapio", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/cardapio/", value:{"pt-BR": "Cardápio"}},
+        { name: "menu-promocoes", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/promocoes/", value:{"pt-BR": "Promoções"} },
+        { name: "menu-pedido", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/pedido/", value:{"pt-BR": "Pedido"} },
         { name: "promocoes", widget:"WaiCarousel" },
         { name: "promocao", widget:"WaiCarouselItem" },
         { name: "promocao-image", tag:"img", alt:"$data.descricao", src:"$data.img" },
@@ -205,9 +280,9 @@ var cardapioConcreta =
     maps:
     [
         { name: "menu", widget: "WaiMenu", value:"Fast Food UAI", content:"#promocoes" },
-        { name: "menu-cardapio", widget:"WaiMenuItem", href:"./cardapio", value:{"pt-BR": "Cardápio"}},
-        { name: "menu-promocoes", widget:"WaiMenuItem", href:"./promocoes", value:{"pt-BR": "Promoções"} },
-        { name: "menu-pedido", widget:"WaiMenuItem", href:"./pedido", value:{"pt-BR": "Pedido"} },
+        { name: "menu-cardapio", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/cardapio/", class:"active", value:{"pt-BR": "Cardápio"}},
+        { name: "menu-promocoes", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/promocoes/", value:{"pt-BR": "Promoções"} },
+        { name: "menu-pedido", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/pedido/", value:{"pt-BR": "Pedido"} },
         
         { name: "cardapio", widget:"WaiCollapse", value:{ "pt-BR":"Cardápio" } },
         { name: "categoria", widget: "WaiCollapseItem", value: "$data.nome" },
@@ -311,9 +386,9 @@ var promocoesConcreta =
     maps:
     [
         { name: "menu", widget: "WaiMenu", value:"Fast Food UAI", content:"#promocoes" },
-        { name: "menu-cardapio", widget:"WaiMenuItem", href:"./cardapio", value:{"pt-BR": "Cardápio"}},
-        { name: "menu-promocoes", widget:"WaiMenuItem", class:"active", href:"./promocoes", value:{"pt-BR": "Promoções"} },
-        { name: "menu-pedido", widget:"WaiMenuItem", href:"./pedido", value:{"pt-BR": "Pedido"} },
+        { name: "menu-cardapio", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/cardapio/", value:{"pt-BR": "Cardápio"}},
+        { name: "menu-promocoes", widget:"WaiMenuItem", class:"active", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/promocoes/", value:{"pt-BR": "Promoções"} },
+        { name: "menu-pedido", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/pedido/", value:{"pt-BR": "Pedido"} },
         { name: "promocoes", widget:"WaiCarousel" },
         { name: "promocao", widget:"WaiCarouselItem" },
         { name: "promocao-image", tag:"img", alt:"$data.descricao", src:"$data.img" },
@@ -469,9 +544,9 @@ var pedidoConcreta =
     maps:
     [
         { name: "menu", widget: "WaiMenu", value:"Fast Food UAI", content:"#promocoes" },
-        { name: "menu-cardapio", widget:"WaiMenuItem", href:"./cardapio", value:{"pt-BR": "Cardápio"}},
-        { name: "menu-promocoes", widget:"WaiMenuItem", href:"./promocoes", value:{"pt-BR": "Promoções"} },
-        { name: "menu-pedido", widget:"WaiMenuItem", href:"./pedido", value:{"pt-BR": "Pedido"} },
+        { name: "menu-cardapio", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/cardapio/", value:{"pt-BR": "Cardápio"}},
+        { name: "menu-promocoes", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/promocoes/", value:{"pt-BR": "Promoções"} },
+        { name: "menu-pedido", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/pedido/", class:"active", value:{"pt-BR": "Pedido"} },
         
         { name: "cardapio", widget:"WaiCollapse", class:"col-sm-8", value:{ "pt-BR":"Cardápio" } },
         { name: "categoria", widget: "WaiCollapseItem", value: "$data.nome" },
@@ -545,8 +620,8 @@ var pedidoConcreta =
 
 //Configuração do Api.ai
 var interface_abstracts = [
-
     landingAbstrata,
+    homeAbstrata,
     cardapioAbstrata,
     promocoesAbstrata,
     pedidoAbstrata
@@ -554,6 +629,7 @@ var interface_abstracts = [
 
 var concrete_interface = [
     landingConcreta,
+    homeConcreta,
     cardapioConcreta,
     promocoesConcreta, 
     pedidoConcreta
@@ -581,6 +657,38 @@ if(typeof define === 'function') {
         return function BookingMira() {
             var app = new Mira.Application(interface_abstracts, concrete_interface, rules, selection, configAPIAi);
             Mira.Widget.setDefault('BootstrapSimple');
+
+            //Eventos Registrados pela aplicação
+            window.OnStart = function() {
+                var nome = $("#nome").val();
+                var email = $("#email").val();
+
+                if(!nome){
+                    alert("Informe o seu nome para iniciar o teste");
+                    return;
+                }
+
+                if(!email){
+                    alert("Informe o seu e-mail para iniciar o teste");
+                    return;
+                }
+
+                //Cria o novo teste e salva no banco de dados
+                $.ajax({
+                    url: "",
+                    type: "POST",
+                    data: { nome: nome, email: email },
+                    success: function(data){
+                        //Busca os dados iniciais
+                        var testes = JSON.parse(localStorage.getItem("testes") || "[]");
+                        testes.push(data);
+                        localStorage.setItem("testes", JSON.stringify(testes));
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                })
+            }
         };
     });
 };
@@ -590,5 +698,33 @@ var FormatValue = function(value){
     var format = { minimumFractionDigits: 2 , style: 'currency', currency: 'BRL' };
 
     return value.toLocaleString("pt-BR", format);
+}
+
+window.IsTestEmAndamento = function(){
+    var testes = JSON.parse(localStorage.getItem("testes") || "[]");
+    var testeEmAndamento = testes.find(function(teste){
+        return !teste.encerrado;
+    });
+
+    if(!testeEmAndamento)
+        return false;
+
+    window.idTeste = testeEmAndamento._id;
+    return true;
+};
+
+window.pages = {
+    home: "",
+    cardapio: "#?URI=/api/fastfoodnovo/cardapio/",
+    promocoes: "#?URI=/api/fastfoodnovo/promocoes/",
+    pedido: "#?URI=/api/fastfoodnovo/pedido/"
+},
+
+window.IsPage = function(page){
+    if(!IsTestEmAndamento())
+        return false;
+
+    var url = new URL(window.location);
+    return window.pages[page] == url.hash;
 }
 

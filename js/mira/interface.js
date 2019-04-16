@@ -18,7 +18,7 @@ define([
                 if (mutation.type == 'childList') {
                     for (let i = 0; i < mutation.addedNodes.length; i++) {
                         var $element = $(mutation.addedNodes[i]);
-                        Helper.registerLog($element);
+                        appApi.RegisterLog($element);
                     }
                 }
             }

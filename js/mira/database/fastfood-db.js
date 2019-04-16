@@ -6,6 +6,21 @@ const mongoose = require('monogoose');
 var db_heroku = 'heroku_2hlrrqz9';
 
 //Models para o fastfood
+const Teste = mongoose.model('Teste', new mongoose.Schema({
+    _id: mongoose.Schema.Types.Number,
+    nome: mongoose.Schema.Types.String,
+    email: mongoose.Schema.Types.String,
+    encerrado: mongoose.Schema.Types.Boolean
+}));
+
+const Passo = mongoose.model('Passo', new mongoose.Schema({
+    _id: mongoose.Schema.Types.Number,
+    elemento: mongoose.Schema.Types.String,
+    evento: mongoose.Schema.Types.String,
+    checkpoint: mongoose.Schema.Types.Boolean,
+    teste: { type: mongoose.Schema.Types.ObjectId, ref:'Teste' },
+}))
+
 const Item = mongoose.model('Item', new mongoose.Schema({
     _id: mongoose.Schema.Types.Number,
     nome: mongoose.Schema.Types.String,
@@ -39,5 +54,7 @@ module.exports = {
     Init,
     Item,
     Categoria,
-    Pedido
+    Pedido,
+    Teste,
+    Passo
 };

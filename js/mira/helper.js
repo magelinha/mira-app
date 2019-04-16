@@ -430,14 +430,6 @@
         omit_params: function(options, ignored_options) {
             return _.omit(options, ignored_options, 'tag', 'value', 'tts', 'validation', 'entity', 
                             'name', 'widget', 'events', 'title','label', 'error', 'help', 'text', 'interface');
-        },
-
-        registerLog: function($element){
-            var events = "click focus blur keydown change dblclick mouseover mouseout submit";
-            //var events = "click mousedown mouseup focus blur keydown change mouseup click dblclick mouseover mouseout mousewheel keydown keyup keypress textInput touchstart touchmove touchend touchcancel resize scroll zoom focus blur select change submit reset";
-            $element.on(events,function(e){
-                console.log(e);
-           });
         }
     };
     return esse;
