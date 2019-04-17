@@ -15,13 +15,6 @@ var bodyParser = require('body-parser');
 var Rule = require('./models/rule.js');
 var Selection = require('./models/selection.js');
 
-//Conexão com o mongodb
-var mongo = require('mongodb').MongoClient;
-var url = process.env.MONGODB_URI || "mongodb://localhost:27017/";
-var db_heroku = 'heroku_2hlrrqz9';
-
-
-
 // start do servidor
 var server = express();
 
