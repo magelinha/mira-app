@@ -553,6 +553,7 @@ ActionAPI.SpeechAction.prototype.InitialMessage = function(welcomeEvent) {
 }
 
 ActionAPI.SpeechAction.prototype.RegisterLog = function($element){
+    var _this = this;
     var events = "click focus blur keydown change dblclick mouseover mouseout submit";
     //var events = "click mousedown mouseup focus blur keydown change mouseup click dblclick mouseover mouseout mousewheel keydown keyup keypress textInput touchstart touchmove touchend touchcancel resize scroll zoom focus blur select change submit reset";
     $element.on(events,function(e){
@@ -563,10 +564,43 @@ ActionAPI.SpeechAction.prototype.RegisterLog = function($element){
             elemento: getDescriptionElement($element)
         };
 
-        appApi.logs.push(log);
+        _this.logs.push(log);
         console.log(e);
    });
-}
+};
+
+ActionAPI.SpeechAction.prototype.SaveLog = function(){
+    var _this = this;
+    if(!_this.logs.length)
+        return;
+
+    $.ajax({
+        url: "/api/fastfoodnovo/logs/",
+        type: "POST",
+        data: {logs: _this.logs},
+        success: function(){
+            console.log('log registrado com sucesso');
+            _this.logs = [];
+        },
+        error: function(error){
+            console.log(error);
+        }
+    });
+};
+
+ActionAPI.SpeechAction.prototype.executeCommand = function(action, params){
+    console.log(action);
+    if(typeof(window[action]) != "undefined"){
+        window[action](params);
+        return;
+    }
+
+    try{
+        eval(action + ';');
+    }catch(ex){
+        console.error(ex);
+    }
+};
 
 //Métodos a serem executados pelo APP
 window.NextItem = function(){
@@ -719,16 +753,6 @@ window.ClickElement = function(params){
         $element.click();
 }
 
-ActionAPI.SpeechAction.prototype.executeCommand = function(action, params){
-    console.log(action);
-    if(typeof(window[action]) != "undefined"){
-        window[action](params);
-        return;
-    }
-
-    try{
-        eval(action + ';');
-    }catch(ex){
-        console.error(ex);
-    }
-};
+window.addEventListener("beforeunload", function(e){
+    appApi.SaveLog();
+});

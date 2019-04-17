@@ -675,7 +675,7 @@ if(typeof define === 'function') {
 
                 //Cria o novo teste e salva no banco de dados
                 $.ajax({
-                    url: "",
+                    url: "/api/fastfoodnovo/teste/criar",
                     type: "POST",
                     data: { nome: nome, email: email },
                     success: function(data){

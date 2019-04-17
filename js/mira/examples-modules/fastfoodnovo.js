@@ -5,6 +5,31 @@ const db = require('../database/fastfood-db.js');
 var Init = function(server){
     db.Init();
 
+    // Incia um teste
+    server.post('/api/fastfoodnovo/teste/criar', function(req, res){
+        let testeToSave = new db.Teste({
+            nome: req.params.nome,
+            email: req.params.email,
+            encerrado: false
+        });
+
+        testeToSave.save().then((result) => res.send(result));
+    });
+
+    //Salva os logs de um teste
+    server.post('/api/fastfoodnovo/logs/', function(req, res){
+        let logsToSave = req.params.logs.map((data) => {
+            return new db.Passo({
+                elemento: data.elemento,
+                evento: data.evento,
+                checkpoint: data.checkpoint,
+                teste: data.teste
+            });
+        });
+
+        db.Passo.InsertMany(logsToSave).then((result) => res.send(true));
+    });
+
     //Busca a lista de promocções
     server.get('/api/fastfoodnovo/promocoes/', function(req, res){
         db.Categoria
