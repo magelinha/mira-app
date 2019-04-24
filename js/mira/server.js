@@ -36,6 +36,10 @@ server.use(express.static(path.normalize(__dirname + '/../..'),  { maxAge: 60 * 
 var dialogFlowFunctions = require('./dialogflow/dialogFlowFunctions.js');
 dialogFlowFunctions.Init(server);
 
+//Modúlos para os testes
+var fastfoodModule = require('./examples-modules/fastfoodnovo.js');
+fastfoodModule.Init(server);
+
 var preparer_mira_app = function(app){
 
     var MiraApp = require(app);

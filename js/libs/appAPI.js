@@ -28,7 +28,7 @@ var getDescriptionElement = function($element){
     var tag = $element.prop("tagName");
     var id = $element.prop("id") ? "#" + $element.prop("id") : "";
     var classes = "";
-    for(key in $element[0].classList){
+    for(let key in $element[0].classList){
         classes += "." + $element[0].classList[key];
     };
 
@@ -560,12 +560,11 @@ ActionAPI.SpeechAction.prototype.RegisterLog = function($element){
         var log = {
             teste: window.teste,
             checkpoint: false,
-            evento: e.name,
+            evento: e.type,
             elemento: getDescriptionElement($element)
         };
 
         _this.logs.push(log);
-        console.log(e);
    });
 };
 

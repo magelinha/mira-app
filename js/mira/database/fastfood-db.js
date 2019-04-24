@@ -2,89 +2,88 @@
 
 //Constantes para acesso ao banco de dados
 const url = process.env.MONGODB_URI || "mongodb://localhost:27017/magela-db";
-const mongoose = require('monogoose');
+const mongoose = require('mongoose');
 var path = require("path");
 var fs = require('fs');
 
 //Models para o fastfood
-const Teste = mongoose.model('testes', new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
-    nome: mongoose.Schema.Types.String,
-    email: mongoose.Schema.Types.String,
-    encerrado: mongoose.Schema.Types.Boolean
-}));
+const Teste = mongoose.model('Teste', new mongoose.Schema({
+    //_id: mongoose.Schema.Types.ObjectId,
+    nome: String,
+    email: String,
+    encerrado: Boolean
+}, {collection: "testes"}));
 
-const Passo = mongoose.model('passos', new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
-    elemento: mongoose.Schema.Types.String,
-    evento: mongoose.Schema.Types.String,
-    checkpoint: mongoose.Schema.Types.Boolean,
-    teste: { type: mongoose.Schema.Types.ObjectId, ref:'testes' },
-}))
+const Passo = mongoose.model('Passo', new mongoose.Schema({
+    //_id: mongoose.Schema.Types.ObjectId,
+    elemento: String,
+    evento: String,
+    checkpoint: Boolean,
+    teste: { type: mongoose.Schema.Types.ObjectId, ref:'Teste' },
+}, {collection: "passos"}))
 
-const Item = mongoose.model('itens', new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
-    nome: mongoose.Schema.Types.String,
-    imagem: mongoose.Schema.Types.String,
+const Item = mongoose.model('Item', new mongoose.Schema({
+    //_id: mongoose.Schema.Types.ObjectId,
+    nome: String,
+    imagem: String,
     preco: mongoose.Schema.Types.Mixed,
-    descricao: mongoose.Schema.Types.String
-}));
+    descricao: String
+}, {collection: "itens"}));
 
-const Categoria = mongoose.model('categorias', new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
-    nome: mongoose.Schema.Types.String,
-    itens: [{ type: mongoose.Schema.Types.ObjectId, ref: 'itens'}]
-}));
+const Categoria = mongoose.model('Categoria', new mongoose.Schema({
+    //_id: mongoose.Schema.Types.ObjectId,
+    nome: String,
+    itens: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Item'}]
+}, {collection: "categorias"}));
 
-const Pedido = moongose.model('pedidos', new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
-    numero: mongoose.Schema.Types.String,
+const Pedido = mongoose.model('Pedido', new mongoose.Schema({
+    //_id: mongoose.Schema.Types.ObjectId,
+    numero: String,
     itens:[
         {
-            item: { type: mongoose.Schema.Types.ObjectId, ref:'itens' },
-            quantidade: { type: mongoose.Schema.Types.Number }
+            item: { type: mongoose.Schema.Types.ObjectId, ref:'Item' },
+            quantidade: { type: Number }
         }
     ]
-}));
+}, {collection: "pedidos"}));
 
 var startDB = function(){
-    var url = path.normalize(__dirname + '/../..') + '/data/fastfoodnovo/cardapio/list.json';
+    var url = path.normalize(__dirname + '/../../..') + '/data/fastfoodnovo/cardapio/list.json';
     var file;
-    fs.readFile(url, 'utf8', function (err, data) {
+    fs.readFile(url, 'utf8', (err, data) => {
         if (err) 
             throw err;
             
         //Busca as categorias com o itens
         file = JSON.parse(data);
-        
-        //Para cada categoria, salva os itens e depois a categoria
-        var categorias = file.categorias.map((categoria) => {
-            //Adiciona os itens
-            var itens = categoria.itens.map(item => {
-                return new Item({
-                    nome: item.nome,
-                    imagem: item.imagem,
-                    preco: item.preco,
-                    descricao: item.descricao
-                })
-            });
+       
 
-            var savedItems = await Item.InsertMany(itens);
+        file.categorias.forEach(async (categoria) => {
+            //Salva o itens da categoria
+            await Item.insertMany(categoria.itens, async (error, itens) => {
+                if(error){
+                    console.log("erro ao salvar: " + error);
+                    return;
+                };
 
-            //cria a categoria a ser salva
-            return new Categoria({
-                nome: categoria.nome,
-                itens: savedItems
-            });
+                console.log("salvou os itens");
+                console.log(itens);                    
+                let ids = itens.map(item => item._id);
+                let categoriaDB = new Categoria({
+                    nome: categoria.nome,
+                    itens: ids
+                });
+                await categoriaDB.save();
+                console.log("salvou a categoria");
+            })
         });
-
-        Categoria.InsertMany(categorias);
     });
 }
 
 var Init = function(){
+    console.log(url);
     mongoose.connect(url, { useNewUrlParser: true});
-    startDB();
+    //startDB();
 }
 
 module.exports = {

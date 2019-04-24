@@ -10,7 +10,7 @@ var selection = [
     
     //home
     {
-        when: "IsTesteEmAndamento() && IsPage('home')",
+        when: "IsTestEmAndamento() && IsPage('home')",
         abstract: "home"
     },
 
@@ -97,15 +97,15 @@ var landingConcreta =
     ],
     maps:
     [
-        { name: "form-incial", widget: "WaiForm", class: "form-dados" },
+        { name: "form-inicial", widget: "WaiForm", class: "form-horizontal form-dados col-md-4", events:{ submit: "OnStart"} },
         { name: "content-field", class: "form-group" },
         { name: "content-control", class: "col-sm-10" },
 
-        { name: "label-nome", class: "col-sm-2", for:"#nome" },
+        { name: "label-nome", widget: "WaiContent", tag: "label", class: "col-sm-2", for:"#nome", value: { "pt-BR": "Nome: "} },
         { name: "nome", widget:"WaiInput", type: "text", placeholder:"Nome" },
-        { name: "label-email", class: "col-sm-2", for:"#email" },
+        { name: "label-email", class: "col-sm-2", for:"#email", widget: "WaiContent", tag: "label", value: { "pt-BR": "E-mail: "} },
         { name: "email", widget:"WaiInput", type: "email", placeholder:"E-mail" },
-        { name: "inicial", widget:"WaiButton", placeholder:"E-mail", events:{ submit: "OnStart"} },
+        { name: "iniciar", value: "Iniciar", widget:"WaiButton", class:"btn btn-primary pull-right", style:"margin-right: 15px" },
     ]
 };
 
@@ -659,7 +659,9 @@ if(typeof define === 'function') {
             Mira.Widget.setDefault('BootstrapSimple');
 
             //Eventos Registrados pela aplicação
-            window.OnStart = function() {
+            window.OnStart = function(options) {
+                options.$event.preventDefault();
+
                 var nome = $("#nome").val();
                 var email = $("#email").val();
 
@@ -683,11 +685,12 @@ if(typeof define === 'function') {
                         var testes = JSON.parse(localStorage.getItem("testes") || "[]");
                         testes.push(data);
                         localStorage.setItem("testes", JSON.stringify(testes));
+
                     },
                     error: function(error){
                         console.log(error);
                     }
-                })
+                });
             }
         };
     });

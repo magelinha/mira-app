@@ -6,7 +6,7 @@ var Init = function(server){
     db.Init();
 
     // Incia um teste
-    server.post('/api/fastfoodnovo/teste/criar', function(req, res){
+    server.post('/api/fastfoodnovo/teste/criar', (req, res) =>{
         let testeToSave = new db.Teste({
             nome: req.params.nome,
             email: req.params.email,
@@ -17,7 +17,7 @@ var Init = function(server){
     });
 
     //Salva os logs de um teste
-    server.post('/api/fastfoodnovo/logs/', function(req, res){
+    server.post('/api/fastfoodnovo/logs/', (req, res) => {
         let logsToSave = req.params.logs.map((data) => {
             return new db.Passo({
                 elemento: data.elemento,
@@ -31,7 +31,7 @@ var Init = function(server){
     });
 
     //Busca a lista de promocções
-    server.get('/api/fastfoodnovo/promocoes/', function(req, res){
+    server.get('/api/fastfoodnovo/promocoes/', (req, res) => {
         db.Categoria
             .where({nome: "Promoções"})
             .findOne()
@@ -45,13 +45,12 @@ var Init = function(server){
             });
     });
 
-    server.get('/api/fastfoodnovo/cardapio', function(req, res){
-        var categorias = await db.Categoria
+    server.get('/api/fastfoodnovo/cardapio', (req, res) => {
+        db.Categoria
             .find()
             .findOne()
-            .populate("itens");
-
-        res.send(categorias);
+            .populate("itens")
+            .exec((error, categorias) => res.send(categorias));
     });
 
     server.get('/api/fastfoodnovo/pedido', function(req, res){
