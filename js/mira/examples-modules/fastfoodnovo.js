@@ -7,9 +7,11 @@ var Init = function(server){
 
     // Incia um teste
     server.post('/api/fastfoodnovo/teste/criar', (req, res) =>{
+        console.log(req.body);
+
         let testeToSave = new db.Teste({
-            nome: req.params.nome,
-            email: req.params.email,
+            nome: req.body.nome,
+            email: req.body.email,
             encerrado: false
         });
 

@@ -41,7 +41,19 @@
                     })
                 }
             } else {
-                callback('landing', 'landing', new Api.Model(), $env)
+                //Como não tem dados a serem buscados, verifica usando dados vazios (caso tenha regras de seleção que não utiliza dados)
+                var $data = new Api.Model();
+                var abstract = 'landing';
+                var concrete = 'landing';
+                this.each(function(selection){
+                    if(Helper.evaluate(selection.get('when'), $data.attributes, $env, $data)){
+                        abstract = selection.get('abstract');
+                        concrete = selection.get('concrete') || selection.get('abstract')
+                    }
+                });
+
+                callback(abstract, concrete, $data, $env);
+                //callback('landing', 'landing', new Api.Model(), $env)
             }
         }
     });

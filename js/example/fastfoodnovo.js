@@ -170,7 +170,7 @@ var homeConcreta =
         { name: "menu-pedido", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/pedido/", value:{"pt-BR": "Pedido"} },
         { name: "promocoes", widget:"WaiCarousel" },
         { name: "promocao", widget:"WaiCarouselItem" },
-        { name: "promocao-image", tag:"img", alt:"$data.descricao", src:"$data.img" },
+        { name: "promocao-image", tag:"img", alt:"$data.descricao", src:"$data.imagem" },
         { name: "promocao-caption", widget:"WaiCarouselCaption" },
         { name: "promacao-caption-titulo", tag:"h3", value:"$data.nome" },
         { name: "promacao-caption-descricao", tag:"p", value:"$data.descricao" }
@@ -685,6 +685,7 @@ if(typeof define === 'function') {
                         var testes = JSON.parse(localStorage.getItem("testes") || "[]");
                         testes.push(data);
                         localStorage.setItem("testes", JSON.stringify(testes));
+                        options.$dataObj.trigger('change');
 
                     },
                     error: function(error){
