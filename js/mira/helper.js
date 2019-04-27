@@ -367,8 +367,17 @@
             //var reg = new RegExp('(\\$\\w+\\.\\w+)|(\\$\w+)', 'g');
             var matches = text.match(/(\$\w+\.\w+)|(\$\w+)\w+|(\$\(\")|(\$\(\')/g);
 
-            if(matches == null)
-                return text;
+            if(matches == null){
+                try{
+                    //Executa o eval para verificar se é a chamada de um método global
+                    return eval(text);
+                } catch(ex){
+                    console.log(ex);
+                    //Caso não seja, retorna a string informada
+                    return text;
+                }
+
+            }                
 
             try{
                 var result = eval(text);

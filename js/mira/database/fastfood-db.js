@@ -39,6 +39,7 @@ const Categoria = mongoose.model('Categoria', new mongoose.Schema({
 const Pedido = mongoose.model('Pedido', new mongoose.Schema({
     //_id: mongoose.Schema.Types.ObjectId,
     numero: String,
+    teste: { type: mongoose.Schema.Types.ObjectId, ref: 'Teste'},
     itens:[
         {
             item: { type: mongoose.Schema.Types.ObjectId, ref:'Item' },

@@ -20,7 +20,7 @@ var Init = function(server){
 
     //Salva os logs de um teste
     server.post('/api/fastfoodnovo/logs/', (req, res) => {
-        let logsToSave = req.params.logs.map((data) => {
+        let logsToSave = req.body.logs.map((data) => {
             return new db.Passo({
                 elemento: data.elemento,
                 evento: data.evento,
@@ -35,8 +35,7 @@ var Init = function(server){
     //Busca a lista de promocções
     server.get('/api/fastfoodnovo/promocoes/', (req, res) => {
         db.Categoria
-            .where({nome: "Promoções"})
-            .findOne()
+            .findOne({nome: "Promoções"})
             .populate("itens")
             .exec(function(error, categoria){
                 if(error)
@@ -48,58 +47,52 @@ var Init = function(server){
     });
 
     server.get('/api/fastfoodnovo/cardapio', (req, res) => {
-        db.Categoria
-            .find()
-            .populate("itens")
-            .exec((error, categorias) => res.send({ categorias : categorias }));
+        GetCategorias(res);
     });
 
     server.get('/api/fastfoodnovo/pedido', function(req, res){
-        var id = req.params.id;
-        var pedido = GetPedido(id);
-
-        res.send(pedido);
+        GetCategorias(res);
     });
 
     //Cria um novo pedido e retorna o id do mesmo
     server.post('/api/fastfoodnovo/pedido', (req, res) => {
         var pedido = new db.Pedido({
             numero: GenerateNumber(10),
-            itens: []
+            itens: req.body.itens
         });
 
         pedido.save().then((saved) => { res.send(saved)});
     });
 
     server.post('/api/fastfoodnovo/pedido/:id', (req, res) => {
-        var id = req.params.id;
+        var id = req.body.id;
         var pedido = GetPedido(id);
 
         //Atualiza a lista de itens
-        if(req.params.item){
-            var index = pedido.itens.findIndex((element) => element.item == req.params.item.id);
+        if(req.body.item){
+            var index = pedido.itens.findIndex((element) => element.item == req.body.item.id);
             
             //Se o item já existe, apenas incrementa a quantidade
             if(index > -1){
                 pedido.itens[index].quantidade++;
             }
             else{
-                pedido.itens.push(req.params.item);
+                pedido.itens.push(req.body.item);
             }
         }
-        else if(req.params.itens){
-            pedido.itens = req.params.itens;
+        else if(req.body.itens){
+            pedido.itens = req.body.itens;
         }
         
         pedido.save().then(() => { res.send(true)});
     });
 
     server.post('/api/fastfoodnovo/pedido/item', (req, res) => {
-        var id = req.params.id;
+        var id = req.body.id;
         var pedido = GetPedido(id);
 
         //Atualiza a lista de itens
-        var index = pedido.itens.findIndex((element) => element.item == req.params.item.id);
+        var index = pedido.itens.findIndex((element) => element.item == req.body.item.id);
             
         //Se o item já existe, apenas incrementa a quantidade
         if(index > -1)
@@ -109,7 +102,7 @@ var Init = function(server){
     });
 
     server.get('/api/fastfoodnovo/finalizar', (req, res) => {
-        var id = req.params.id;
+        var id = req.body.id;
         var pedido = GetPedido(id);
 
         res.send(pedido);
@@ -117,10 +110,21 @@ var Init = function(server){
 
 };
 
-function GetPedido(id) {
-    return db.Pedido
-    .FindById(id)
+function GetPedido(id) 
+{
+    var pedido = db.Pedido
+    .findById(id)
     .populate("itens");
+
+    console.log("pedido: " + pedido);
+    return pedido;
+}
+
+function GetCategorias(res){
+    db.Categoria
+            .find()
+            .populate("itens")
+            .exec((error, categorias) => res.send({ categorias : categorias }));
 }
 
 function GenerateNumber(size){

@@ -450,7 +450,7 @@ var pedidoAbstrata =
             name: "pedido", children:
             [
                 {
-                    name: "itens-pedido",  datasource:"$data.pedido.itens", children:
+                    name: "itens-pedido",  datasource:"GetCurrentPedido()", children:
                     [
                         { 
                             name: "item-pedido", children:
@@ -606,7 +606,7 @@ var pedidoConcreta =
             ]
         },
 
-        { name: "total", widget:"WaiContent", tag: "h3", value: {"pt-BR" : "FormatValue($data.pedido.total)"} },
+        { name: "total", widget:"WaiContent", tag: "h3", value: {"pt-BR" : "FormatValue(GetTotalPedido())"} },
 
         { 
             name: "finalizar-pedido", 
@@ -683,6 +683,11 @@ if(typeof define === 'function') {
                     success: function(data){
                         //Busca os dados iniciais
                         var testes = JSON.parse(localStorage.getItem("testes") || "[]");
+                        data.pedido = {
+                            itens: [],
+                            total: 0
+                        };
+
                         testes.push(data);
                         localStorage.setItem("testes", JSON.stringify(testes));
                         options.$dataObj.trigger('change');
@@ -730,5 +735,17 @@ window.IsPage = function(page){
 
     var url = new URL(window.location);
     return window.pages[page] == url.hash;
+}
+
+window.GetCurrentPedido = function(){
+    var testes = JSON.parse(localStorage.getItem("testes"));
+    var currentTeste = testes.find(teste => !teste.encerrado);
+    return currentTeste ? currentTeste.pedido.itens : [];
+}
+
+window.GetTotalPedido = function(){
+    var pedido = GetCurrentPedido();
+
+    return !pedido.length ? 0 : pedido.itens.reduce((current, add) => current + add);
 }
 
