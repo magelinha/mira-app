@@ -50,9 +50,8 @@ var Init = function(server){
     server.get('/api/fastfoodnovo/cardapio', (req, res) => {
         db.Categoria
             .find()
-            .findOne()
             .populate("itens")
-            .exec((error, categorias) => res.send(categorias));
+            .exec((error, categorias) => res.send({ categorias : categorias }));
     });
 
     server.get('/api/fastfoodnovo/pedido', function(req, res){
