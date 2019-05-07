@@ -37,18 +37,26 @@ var Init = function(server, source) {
 			result = {
 				fulfillmentText: errorText
 			};
+
+			res.send(result);
+			return;
 		}
 		else {
-			var speech = intentObj.action(params);
-			if(!speech || !speech.length)
-				speech = currentText;
-				
-			result = {
-				fulfillmentText: speech
-			};
+
+			Promise.resolve(intentObj.action(params)).then((speech) =>{
+				console.log("fala: " + speech);
+				if(!speech || !speech.length)
+					speech = currentText;
+					
+				result = {
+					fulfillmentText: speech
+				};
+
+				res.send(result);
+			});
 		}
 
-		return res.json(result);
+		//return res.json(result);
 	});
 };
 

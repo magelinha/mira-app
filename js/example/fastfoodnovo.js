@@ -119,7 +119,7 @@ var homeAbstrata =
             name: "menu", children:
             [
                 { name: "menu-cardapio" },
-                { name: "menu-promocoes" },
+                //{ name: "menu-promocoes" },
                 { name: "menu-pedido" }
             ]
         },
@@ -168,12 +168,52 @@ var homeConcreta =
         { name: "menu-cardapio", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/cardapio/", value:{"pt-BR": "Cardápio"}},
         { name: "menu-promocoes", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/promocoes/", value:{"pt-BR": "Promoções"} },
         { name: "menu-pedido", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/pedido/", value:{"pt-BR": "Pedido"} },
-        { name: "promocoes", widget:"WaiCarousel" },
+        { 
+            name: "promocoes", widget:"WaiCarousel", 'data-interval':false, events:
+            {
+                'slid.bs.carousel': 
+                {
+                    action: 'EvtSlidePromocao',
+                    event: 'promocao_selecionada',
+                    params: 
+                    {
+                        nome: 'GetNomePromocao()',
+                        descricao: 'GetDescricaoPromocao()'
+                    }
+                },
+                focus: {
+                    action: 'EvtSlidePromocao',
+                    event: 'promocao_selecionada',
+                    params: 
+                    {
+                        nome: 'GetNomePromocao()',
+                        descricao: 'GetDescricaoPromocao()'
+                    }
+                }
+
+            }
+        },
         { name: "promocao", widget:"WaiCarouselItem" },
         { name: "promocao-image", tag:"img", alt:"$data.descricao", src:"$data.imagem" },
         { name: "promocao-caption", widget:"WaiCarouselCaption" },
-        { name: "promacao-caption-titulo", tag:"h3", value:"$data.nome" },
-        { name: "promacao-caption-descricao", tag:"p", value:"$data.descricao" }
+        { name: "promacao-caption-titulo", tag:"h3", value:"$data.nome", events: 
+            {
+                click: 
+                {
+                    action: 'EvtClickItem',
+                    event: 'informar_quantidade'
+                }
+            }
+        },
+        { name: "promacao-caption-descricao", tag:"p", value:"$data.descricao", events: 
+            {
+                click: 
+                {
+                    action: 'EvtClickItem',
+                    event: 'informar_quantidade'
+                }
+            } 
+        }
     ]
 };
 
@@ -187,7 +227,7 @@ var cardapioAbstrata =
             name: "menu", children:
             [
                 { name: "menu-cardapio" },
-                { name: "menu-promocoes" },
+                //{ name: "menu-promocoes" },
                 { name: "menu-pedido" }
             ]
         },
@@ -287,7 +327,17 @@ var cardapioConcreta =
         { name: "cardapio", widget:"WaiCollapse", value:{ "pt-BR":"Cardápio" } },
         { name: "categoria", widget: "WaiCollapseItem", value: "$data.nome" },
         
-        { name: "item", widget: "WaiContent", class:"col-md-3 card border-rounded" },
+        { 
+            name: "item", widget: "WaiContent", class:"col-md-3 card border-rounded", 'data-id': "$data._id", events: {
+                focus: {
+                    action: 'EvtItem',
+                    event: 'falar_produto',
+                    params: {
+                        id: 'GetIdProduto()'
+                    }
+                }
+            }
+        },
         
         //Imagem
         { name: "content-imagem", widget: "WaiContent", class:"col-md-6 content-imagem" },
@@ -339,7 +389,7 @@ var promocoesAbstrata =
             name: "menu", children:
             [
                 { name: "menu-cardapio" },
-                { name: "menu-promocoes" },
+                //{ name: "menu-promocoes" },
                 { name: "menu-pedido" }
             ]
         },
@@ -408,7 +458,7 @@ var pedidoAbstrata =
             name: "menu", children:
             [
                 { name: "menu-cardapio" },
-                { name: "menu-promocoes" },
+                //{ name: "menu-promocoes" },
                 { name: "menu-pedido" }
             ]
         },
@@ -640,7 +690,7 @@ var ajaxSetup = {
 
 var configAPIAi = {
     defaultLanguage: 'pt-BR',
-    projectId: 'newagent-596a4',
+    projectId: 'api-project-281112630384',
     tokens: {
         "pt-BR": "14e4103ed77f4ce28f3c8ace6176f8eb",
         "en-US": "31674df025dd4d14843970fbfc38f524"
@@ -697,6 +747,47 @@ if(typeof define === 'function') {
                         console.log(error);
                     }
                 });
+            };
+
+            window.EvtSlidePromocao = function(options){
+                console.log('EvtSlidePromocao');
+            }
+
+            window.EvtItem = function(options){
+                console.log('EvtItem');
+            }
+
+            window.GetNomePromocao = function(){
+                console.log('GetNomePromocao');
+                var $current =  $("#promocoes");
+                return $current.find('.item.active h3').text();
+            };
+
+            window.GetDescricaoPromocao = function(){
+                console.log('GetDescricaoPromocao');
+                var $current =  $("#promocoes");
+                return $current.find('.item.active p').text();
+            };
+
+            window.GetIdProduto = function(){
+                return appApi.$currentElement.data('id');
+            }
+
+            window.SelectCategoria = function(params){
+                var categoria = params.categoria;
+                //Verifica qual categoria selecionada
+                var $element = $(`a.accordion-toggle:contains(${categoria})`);
+                if(!$element.length)
+                    return;
+                $element[0].click();
+
+                //expande a categoria e focaliza no primeiro elemento disponível
+                var id = $element.closest('.panel').find('.panel-body').children(':first').prop('id');
+                var paramRequest = {
+                    container: id
+                };
+
+                window.RequestFocus(paramRequest);
             }
         };
     });

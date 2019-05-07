@@ -34,6 +34,8 @@ define([
             Helper.build_attributes($element, {}, context);
 
             $parent.append($element);
+
+            Helper.build_events($element,options.events, context);
             
             if(callback){
                 callback({

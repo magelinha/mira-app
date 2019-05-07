@@ -211,6 +211,7 @@ ActionAPI.SpeechAction = function(conf){
     this.speak = null;
     this.currentContext = [];
     this.logs = [];
+    this.$currentElement = null;
 };
 
 /*
@@ -601,12 +602,22 @@ ActionAPI.SpeechAction.prototype.executeCommand = function(action, params){
     }
 };
 
+var isCarousel = function($element){
+    return $element.hasClass('carousel');
+}
+
 //Métodos a serem executados pelo APP
 window.NextItem = function(){
     console.log('executou o nextItem');
-    var currentElement = $(document.activeElement);
-    var index = currentElement.index();
-    var parent = currentElement.parent();
+    
+    //Se o item focalizado for um carousel, apenas chama o evento de próximo
+    if(isCarousel(this.$currentElement)){
+        appApi.$currentElementcarousel('next');
+        return;
+    }
+
+    var index = appApi.$currentElementindex();
+    var parent = appApi.$currentElementparent();
     var allChildren = parent.children();
     var children = parent.children('div:visible, blockquote:visible, a:visible, li:visible, section:visible, tr:visible');
     
@@ -621,9 +632,14 @@ window.NextItem = function(){
 };
 
 window.PrevItem = function(){
-    var currentElement = $(document.activeElement);
-    var parent = currentElement.parent();
-    var index = currentElement.index();
+    //Se o item focalizado for um carousel, apenas chama o evento de próximo
+    if(isCarousel(this.$currentElement)){
+        appApi.$currentElementcarousel('prev');
+        return;
+    }
+
+    var parent = appApi.$currentElementparent();
+    var index = appApi.$currentElementindex();
     var children = parent.children('div:visible, blockquote:visible, a:visible, li:visible, section:visible');
     var allChildren = parent.children();
     
@@ -638,31 +654,37 @@ window.PrevItem = function(){
 };
 
 window.SelectItem = function(){
-    var currentElement = $(document.activeElement);
     
-    if(!currentElement.length){
+    if(isCarousel(this.$currentElement)){
+        //Verifica qual o item corrente e clica no título
+        var $link = appApi.$currentElementfind('.item.active h3');
+        $link.click();
+        console.log('clicou no elemento');
+        return;
+    }
+
+    
+    if(!appApi.$currentElementlength){
         _this.speak("Não há nenhum item focalizado para ser selecionado");
         return;
     }
 
-    currentElement.click();
+    appApi.$currentElementclick();
 };
 
 window.CheckItem = function(){
-    var currentElement = $(document.activeElement);
-    if(currentElement.is('input')){
-        currentElement.prop('checked', true).change(); 
+    if(appApi.$currentElementis('input')){
+        appApi.$currentElementprop('checked', true).change(); 
     }else{
-        currentElement.find('input').prop('checked', true).change();
+        appApi.$currentElementfind('input').prop('checked', true).change();
     }
 };
 
 window.UncheckItem = function(){
-    var currentElement = $(document.activeElement);
-    if(currentElement.is('input')){
-        currentElement.prop('checked', false).change(); 
+    if(appApi.$currentElementis('input')){
+        appApi.$currentElementprop('checked', false).change(); 
     }else{
-        currentElement.find('input').prop('checked', false).change();
+        appApi.$currentElementfind('input').prop('checked', false).change();
     }
 };
 
@@ -734,14 +756,20 @@ window.RequestFocus = function(params){
     var value = params['container'];
 
     var $container = $('#' + value);
-    console.log($container);
     
     if(!$container.length){
         console.log("Não encontrou o container para setar o foco.");
         return;
     }
 
+    appApi.$currentElement = $container;
+
     setTimeout(function(){
+        if(isCarousel($container)){
+            $container.trigger('slid.bs.carousel');
+            return;
+        }
+
         $container[0].focus();
     }, 0);
 };
@@ -750,6 +778,12 @@ window.ClickElement = function(params){
     var $element = $("#" + params.element);
     if($element.length)
         $element.click();
+}
+
+window.ClickMenu = function(params){
+    var $element = $('.nav').find(`a:contains(${params.menu})`);
+    if($element.length)
+        $element[0].click();
 }
 
 window.addEventListener("beforeunload", function(e){

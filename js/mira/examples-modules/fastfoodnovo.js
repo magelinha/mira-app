@@ -1,9 +1,11 @@
 "use strict";
 
 const db = require('../database/fastfood-db.js');
+const webhook = require('../dialogflow/webhookfastfoodnovo.js');
 
 var Init = function(server){
     db.Init();
+    webhook.Init(server, db);
 
     // Incia um teste
     server.post('/api/fastfoodnovo/teste/criar', (req, res) =>{
@@ -20,6 +22,7 @@ var Init = function(server){
 
     //Salva os logs de um teste
     server.post('/api/fastfoodnovo/logs/', (req, res) => {
+        console.log(req.body.logs);
         let logsToSave = req.body.logs.map((data) => {
             return new db.Passo({
                 elemento: data.elemento,

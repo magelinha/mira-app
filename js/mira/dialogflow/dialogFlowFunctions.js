@@ -12,6 +12,8 @@ let config = {
     }
 }
 
+console.log(config);
+
 const sessionClient = new dialogflow.SessionsClient(config);
 
 //const grpc = require('grpc');
