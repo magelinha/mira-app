@@ -28,12 +28,13 @@ define([
     'mira/widgets/WAI/wai-menu',
     'mira/widgets/WAI/wai-carousel',
     'mira/widgets/WAI/wai-collapse',
+    'mira/widgets/WAI/wai-modal',
 
     ],function (Helper, SimpleHtml, Map, Input, Head, Script, Meta, Title, ImageHtml,
                 BootstrapBase, BootstrapModal, BootstrapCarousel, BootstrapImageBox, BootstrapNavigation, BootstrapFooter,
                 BootstrapForm, Audio, Profile, Freebase, TecWeb, 
                 //WAI Components
-                WaiContent, WaiForm, WaiControl, WaiList, WaiMenu, WaiCarousel, WaiCollapse
+                WaiContent, WaiForm, WaiControl, WaiList, WaiMenu, WaiCarousel, WaiCollapse, WaiModal
     ) {
 
     var pathToWidget = function(name){
@@ -95,7 +96,11 @@ define([
         WaiCarouselItem: WaiCarousel.Item,
         WaiCarouselCaption: WaiCarousel.Caption,
         WaiCollapse: WaiCollapse.Main,
-        WaiCollapseItem: WaiCollapse.Item
+        WaiCollapseItem: WaiCollapse.Item,
+        WaiModal: WaiModal.Main,
+        WaiModalHeader: WaiModal.Header,
+        WaiModalBody: WaiModal.Body,
+        WaiModalFooter: WaiModal.Footer
     };
 
     return  {

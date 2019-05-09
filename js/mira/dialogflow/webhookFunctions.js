@@ -22,7 +22,7 @@ var BaseURL = '';
 
 var Init = function(server, source) {
 	source = source || "mira-app";
-	server.post('/fastfood', function(req, res){
+	server.post('/fastfood', async function(req, res){
 		BaseURL = 'https://mira-app.herokuapp.com/';
 
 		var intentName = req.body.queryResult.intent.displayName;
@@ -42,21 +42,17 @@ var Init = function(server, source) {
 			return;
 		}
 		else {
-
-			Promise.resolve(intentObj.action(params)).then((speech) =>{
-				console.log("fala: " + speech);
-				if(!speech || !speech.length)
-					speech = currentText;
-					
-				result = {
-					fulfillmentText: speech
-				};
-
-				res.send(result);
-			});
+			var speech = await intentObj.action(params);
+			console.log("fala: " + speech);
+			if(!speech || !speech.length)
+				speech = currentText;
+				
+			result = {
+				fulfillmentText: speech
+			};
 		}
 
-		//return res.json(result);
+		return res.json(result);
 	});
 };
 

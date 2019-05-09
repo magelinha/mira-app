@@ -324,8 +324,8 @@ var RequestTextIntent = function(params){
 }
 
 var  proccessResponse = function(response, lang){
-    
     var data = {
+        audio: response.outputAudio,
         message: response.queryResult.fulfillmentText,
         action: response.queryResult.action,
         queryText: response.queryResult.queryText, //Apenas para debug
@@ -369,6 +369,7 @@ var Init = function(server){
         promise = DetectEventIntent(req.body.projectId, req.body.eventName, req.body.lang, params, req.body.context);
         promise
             .then(response => {
+                console.log(response);
                 var result = proccessResponse(response[0], req.body.lang);
                 res.json(result);
             }).catch(error => {

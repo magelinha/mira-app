@@ -218,7 +218,7 @@ ActionAPI.SpeechAction = function(conf){
     Transforma um texto em fala
     @text: texto a ser transoformado em fala
 */
-ActionAPI.SpeechAction.prototype.tts = function(text, dontSaveLast){
+ActionAPI.SpeechAction.prototype.tts = function(text, dontSaveLast, audio){
     var _this = this;
     if(!text.length || !this.canTTS)
         return;
@@ -226,8 +226,26 @@ ActionAPI.SpeechAction.prototype.tts = function(text, dontSaveLast){
     //Ao iniciar a fala, desativa o microfone
     _this.SetStatusMicrophone(false);
 
-    if(!dontSaveLast)
+    if(!dontSaveLast){
         _this.lastText = text;
+        _this.lastAudio = audio;
+    }
+
+    //Se for um audio
+    if(audio && audio.length){
+        var $audio = new Audio("data:audio/wav;base64," + audio);
+
+        $audio.addEventListener("onended", function(e){
+            _this.isTTS = false;
+
+            //ao finalizar a fala, ativa o microfone
+            _this.SetStatusMicrophone(true);
+        });
+
+        _this.isTTS = true;
+        $audio.play();
+        return;
+    }
 
     speechRs.speechinit('Google português do Brasil',function(e){
         //Indica que uma fala do sistema está ativa, então não será gravada
@@ -305,7 +323,7 @@ ActionAPI.SpeechAction.prototype.stopRecording = function(toExport) {
 
                     //Se a ação a ser executa é input.unknown, indica que o dialogflow não conseguiu identificar a intenção
                     if(data.action == 'input.unknown'){
-                        _this.tts(data.message, true);
+                        _this.tts(data.message, true, data.audio);
                         return;
                     }
 
@@ -314,7 +332,7 @@ ActionAPI.SpeechAction.prototype.stopRecording = function(toExport) {
                         _this.executeCommand(data.action, data.params);
 
                     //se tiver algo pra falar, chama o tts para informar a mensagem e ativa o microfone.
-                    data.message && data.message.length ? _this.tts(data.message) : _this.SetStatusMicrophone(true);;
+                    data.message && data.message.length ? _this.tts(data.message, true, data.audio) : _this.SetStatusMicrophone(true);;
                 });
             };
 

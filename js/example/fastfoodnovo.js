@@ -130,6 +130,14 @@ var homeAbstrata =
             [
                 { name : "promocao" }
             ]
+        },
+        {
+            name: "modal-quantidade", children:
+            [
+                { name: "titulo" },
+                { name: "nova-quantidade" },
+                { name: "confirmar" }
+            ]
         }
 	]
 };
@@ -158,7 +166,25 @@ var homeConcreta =
                         },
                     ]
                 }
-
+            ]
+        },
+        {
+            name: "modal-quantidade", children:
+            [
+                { name: "titulo" },
+                { 
+                    name: "modal-body", children: 
+                    [
+                        { name: 'label-quantidade' },
+                        { name: 'nova-quantidade' }
+                    ]
+                },
+                {
+                    name: 'modal-footer', children:
+                    [
+                        { name: "confirmar" }
+                    ]
+                }
             ]
         }
     ],
@@ -213,7 +239,16 @@ var homeConcreta =
                     event: 'informar_quantidade'
                 }
             } 
-        }
+        },
+
+        //Modal de quantidade
+        { name: "modal-quantidade", widget:"WaiModal" },
+        { name: "titulo", widget: "WaiModalHeader", value: "Informar nova quantidade"},
+        { name: "modal-body", widget: "WaiModalBody" },
+        { name: "label-quantidade", widget: "WaiContent", tag: "label", for:"#nova-quantidade", value:"Quantidade:" },
+        { name: "nova-quantidade", widget: "WaiInput", type: "text", class: "form-control" },
+        { name: "modal-footer", widget:"WaiModalFooter" },
+        { name: "confirmar", widget: "WaiButton", class:"btn btn-success", value: {"pt-BR": "Confirmar"} }
     ]
 };
 
@@ -261,6 +296,25 @@ var cardapioAbstrata =
                     ]
                 }
             ] 
+        },
+        {
+            name: "modal-quantidade", children:
+            [
+                { name: "titulo" },
+                { 
+                    name: "modal-body", children: 
+                    [
+                        { name: 'label-quantidade' },
+                        { name: 'nova-quantidade' }
+                    ]
+                },
+                {
+                    name: 'modal-footer', children:
+                    [
+                        { name: "confirmar" }
+                    ]
+                }
+            ]
         }
 	]
 };
@@ -312,6 +366,25 @@ var cardapioConcreta =
                                 }
                             ]
                         }
+                    ]
+                }
+            ]
+        },
+        {
+            name: "modal-quantidade", children:
+            [
+                { name: "titulo" },
+                { 
+                    name: "modal-body", children: 
+                    [
+                        { name: 'label-quantidade' },
+                        { name: 'nova-quantidade' }
+                    ]
+                },
+                {
+                    name: 'modal-footer', children:
+                    [
+                        { name: "confirmar" }
                     ]
                 }
             ]
@@ -376,6 +449,15 @@ var cardapioConcreta =
         //preço
         // { name: "item-preco", widget: "WaiContent", class:"content-item" },
         // { name: "preco", widget: "WaiContent", tag: "p", value:"$dataObj.preco", when: "_.isNumber($dataObj.preco)" }
+
+        //Modal de quantidade
+        { name: "modal-quantidade", widget:"WaiModal" },
+        { name: "titulo", widget: "WaiModalHeader", value: "Informar nova quantidade"},
+        { name: "modal-body", widget: "WaiModalBody" },
+        { name: "label-quantidade", widget: "WaiContent", tag: "label", for:"#nova-quantidade", value:"Quantidade:" },
+        { name: "nova-quantidade", widget: "WaiInput", type: "text", class: "form-control" },
+        { name: "modal-footer", widget:"WaiModalFooter" },
+        { name: "confirmar", widget: "WaiButton", class:"btn btn-success", value: {"pt-BR": "Confirmar"} }
     ]
 };
 
@@ -517,6 +599,26 @@ var pedidoAbstrata =
                 { name: "total"},
                 { name: "finalizar-pedido" }
             ]
+        },
+
+        {
+            name: "modal-quantidade", children:
+            [
+                { name: "titulo" },
+                { 
+                    name: "modal-body", children: 
+                    [
+                        { name: 'label-quantidade' },
+                        { name: 'nova-quantidade' }
+                    ]
+                },
+                {
+                    name: 'modal-footer', children:
+                    [
+                        { name: "confirmar" }
+                    ]
+                }
+            ]
         }
 
 	]
@@ -588,6 +690,26 @@ var pedidoConcreta =
                     ]
                 },
 
+            ]
+        },
+
+        {
+            name: "modal-quantidade", children:
+            [
+                { name: "titulo" },
+                { 
+                    name: "modal-body", children: 
+                    [
+                        { name: 'label-quantidade' },
+                        { name: 'nova-quantidade' }
+                    ]
+                },
+                {
+                    name: 'modal-footer', children:
+                    [
+                        { name: "confirmar" }
+                    ]
+                }
             ]
         }
     ],
@@ -664,6 +786,15 @@ var pedidoConcreta =
             class:"btn-adicionar btn btn-success",
             value:"Finalizar"
         },
+
+        //Modal de quantidade
+        { name: "modal-quantidade", widget:"WaiModal" },
+        { name: "titulo", widget: "WaiModalHeader", value: "Informar nova quantidade"},
+        { name: "modal-body", widget: "WaiModalBody" },
+        { name: "label-quantidade", widget: "WaiContent", tag: "label", for:"#nova-quantidade", value:"Quantidade:" },
+        { name: "nova-quantidade", widget: "WaiInput", type: "text", class: "form-control" },
+        { name: "modal-footer", widget:"WaiModalFooter" },
+        { name: "confirmar", widget: "WaiButton", class:"btn btn-success", value: {"pt-BR": "Confirmar"} }
     ]
 };
 
@@ -751,6 +882,10 @@ if(typeof define === 'function') {
 
             window.EvtSlidePromocao = function(options){
                 console.log('EvtSlidePromocao');
+            }
+
+            window.EvtClickItem = function(options){
+                $("#modal-quantidade").modal();
             }
 
             window.EvtItem = function(options){
