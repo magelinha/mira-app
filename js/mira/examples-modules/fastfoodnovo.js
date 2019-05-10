@@ -37,17 +37,19 @@ var Init = function(server){
 
     //Salva os logs de um teste
     server.post('/api/fastfoodnovo/logs/', (req, res) => {
-        console.log(req.body);
-        let logsToSave = req.body.logs.map((data) => {
-            return new db.Passo({
-                elemento: data.elemento,
-                evento: data.evento,
-                checkpoint: data.checkpoint,
-                teste: data.teste
-            });
-        });
+        
+        // let logsToSave = req.body.logs.map((data) => {
+        //     return new db.Passo({
+        //         elemento: data.elemento,
+        //         evento: data.evento,
+        //         checkpoint: data.checkpoint,
+        //         teste: data.teste
+        //     });
+        // });
 
-        db.Passo.InsertMany(logsToSave).then((result) => res.send(true));
+        // db.Passo.InsertMany(logsToSave).then((result) => res.send(true));
+
+        res.send(true);
     });
 
     //Busca a lista de promocções
