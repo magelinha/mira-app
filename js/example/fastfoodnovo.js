@@ -929,7 +929,7 @@ if(typeof define === 'function') {
                         let value = _.extend(data.teste, { pedido: data.pedido._id});
                         testes.push(value);
                         localStorage.setItem("testes", JSON.stringify(testes));
-                        options.$dataObj.trigger('change');
+                        location.reload();
 
                     },
                     error: function(error){
