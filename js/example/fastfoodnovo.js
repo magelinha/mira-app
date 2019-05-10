@@ -1,5 +1,14 @@
 "use strict";
 
+window.GetIdPedido = function(){
+    //Busca o último ativo
+    var testes = JSON.parse(localStorage.getItem("testes"));
+    var currentTeste = testes.find(teste => !teste.encerrado);
+
+    return currentTeste.pedido;
+}
+
+
 //Define as regras para avaliação de widgets
 var rules = [
 ];
@@ -162,7 +171,9 @@ var homeConcreta =
                             name: "promocao-caption", children: 
                             [
                                 { name: "promacao-caption-titulo" },
-                                { name: "promacao-caption-descricao" }
+                                { name: "promacao-caption-descricao" },
+                                { name: "selecionar-promocao"}
+
                             ] 
                         },
                     ]
@@ -194,9 +205,9 @@ var homeConcreta =
         { name: "menu", widget: "WaiMenu", value:"Fast Food UAI", content:"#promocoes" },
         { name: "menu-cardapio", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/cardapio/", value:{"pt-BR": "Cardápio"}},
         { name: "menu-promocoes", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/promocoes/", value:{"pt-BR": "Promoções"} },
-        { name: "menu-pedido", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/pedido/", value:{"pt-BR": "Pedido"} },
+        { name: "menu-pedido", widget:"WaiMenuItem", href:`?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/pedido/${GetIdPedido()}`, value:{"pt-BR": "Pedido"} },
         { 
-            name: "promocoes", widget:"WaiCarousel", 'data-interval':false, events:
+            name: "promocoes", widget:"WaiCarousel", "data-interval":false, events:
             {
                 'slid.bs.carousel': 
                 {
@@ -208,22 +219,24 @@ var homeConcreta =
                         descricao: 'GetDescricaoPromocao()'
                     }
                 },
-                focus: {
-                    action: 'EvtSlidePromocao',
-                    event: 'promocao_selecionada',
-                    params: 
-                    {
-                        nome: 'GetNomePromocao()',
-                        descricao: 'GetDescricaoPromocao()'
-                    }
-                }
+                // focus: {
+                //     action: 'EvtSlidePromocao',
+                //     event: 'promocao_selecionada',
+                //     params: 
+                //     {
+                //         nome: 'GetNomePromocao()',
+                //         descricao: 'GetDescricaoPromocao()'
+                //     }
+                // }
 
             }
         },
         { name: "promocao", widget:"WaiCarouselItem" },
         { name: "promocao-image", tag:"img", alt:"$data.descricao", src:"$data.imagem" },
         { name: "promocao-caption", widget:"WaiCarouselCaption" },
-        { name: "promacao-caption-titulo", tag:"h3", value:"$data.nome", "data-id":"$data._id", events: 
+        { name: "promacao-caption-titulo", tag:"h3", value:"$data.nome", "data-id":"$data._id" },
+        { name: "promacao-caption-descricao", tag:"p", value:"$data.descricao",},
+        { name: "selecionar-promocao", widget: "WaiButton", value:"Quero", class: "btn btn-primary", "data-id":"$data._id", events: 
             {
                 click: 
                 {
@@ -231,15 +244,6 @@ var homeConcreta =
                     event: 'informar_quantidade'
                 }
             }
-        },
-        { name: "promacao-caption-descricao", tag:"p", value:"$data.descricao", "data-id":"$data._id", events: 
-            {
-                click: 
-                {
-                    action: 'EvtClickItem',
-                    event: 'informar_quantidade'
-                }
-            } 
         },
 
         //Modal de quantidade
@@ -409,7 +413,7 @@ var cardapioConcreta =
         { name: "menu", widget: "WaiMenu", value:"Fast Food UAI", content:"#promocoes" },
         { name: "menu-cardapio", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/cardapio/", class:"active", value:{"pt-BR": "Cardápio"}},
         { name: "menu-promocoes", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/promocoes/", value:{"pt-BR": "Promoções"} },
-        { name: "menu-pedido", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/pedido/", value:{"pt-BR": "Pedido"} },
+        { name: "menu-pedido", widget:"WaiMenuItem", href:`?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/pedido/${GetIdPedido()}`, value:{"pt-BR": "Pedido"} },
         
         { name: "cardapio", widget:"WaiCollapse", value:{ "pt-BR":"Cardápio" } },
         { name: "categoria", widget: "WaiCollapseItem", value: "$data.nome" },
@@ -455,9 +459,16 @@ var cardapioConcreta =
         { 
             name: "adicionar", 
             widget: "WaiButton", 
-            value: { "pt-BR":"Adicionar" }, 
-            type:"submit", 
-            class:"btn-adicionar btn btn-primary"
+            "data-id": "$data._id",
+            value: { "pt-BR":"Adicionar" },
+            class:"btn-adicionar btn btn-primary",
+            events : {
+                click: 
+                {
+                    action: 'EvtClickItem',
+                    event: 'informar_quantidade'
+                }
+            }
         },
 
         //preço
@@ -547,7 +558,7 @@ var promocoesConcreta =
         { name: "menu", widget: "WaiMenu", value:"Fast Food UAI", content:"#promocoes" },
         { name: "menu-cardapio", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/cardapio/", value:{"pt-BR": "Cardápio"}},
         { name: "menu-promocoes", widget:"WaiMenuItem", class:"active", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/promocoes/", value:{"pt-BR": "Promoções"} },
-        { name: "menu-pedido", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/pedido/", value:{"pt-BR": "Pedido"} },
+        { name: "menu-pedido", widget:"WaiMenuItem", href:`?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/pedido/${GetIdPedido()}`, value:{"pt-BR": "Pedido"} },
         { name: "promocoes", widget:"WaiCarousel" },
         { name: "promocao", widget:"WaiCarouselItem" },
         { name: "promocao-image", tag:"img", alt:"$data.descricao", src:"$data.img" },
@@ -609,7 +620,7 @@ var pedidoAbstrata =
             name: "pedido", children:
             [
                 {
-                    name: "itens-pedido",  datasource:"GetCurrentPedido()", children:
+                    name: "itens-pedido",  datasource:"$data.itens", children:
                     [
                         { 
                             name: "item-pedido", children:
@@ -745,7 +756,7 @@ var pedidoConcreta =
         { name: "menu", widget: "WaiMenu", value:"Fast Food UAI", content:"#promocoes" },
         { name: "menu-cardapio", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/cardapio/", value:{"pt-BR": "Cardápio"}},
         { name: "menu-promocoes", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/promocoes/", value:{"pt-BR": "Promoções"} },
-        { name: "menu-pedido", widget:"WaiMenuItem", href:"?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/pedido/", class:"active", value:{"pt-BR": "Pedido"} },
+        { name: "menu-pedido", widget:"WaiMenuItem", href:`?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/pedido/${GetIdPedido()}`, class:"active", value:{"pt-BR": "Pedido"} },
         
         { name: "cardapio", widget:"WaiCollapse", class:"col-sm-8", value:{ "pt-BR":"Cardápio" } },
         { name: "categoria", widget: "WaiCollapseItem", value: "$data.nome" },
@@ -781,9 +792,16 @@ var pedidoConcreta =
         { 
             name: "adicionar", 
             widget: "WaiButton", 
-            value: { "pt-BR":"Adicionar" }, 
-            type:"submit", 
-            class:"btn-adicionar btn btn-primary"
+            "data-id": "$data._id",
+            value: { "pt-BR":"Adicionar" },
+            class:"btn-adicionar btn btn-primary",
+            events : {
+                click: 
+                {
+                    action: 'EvtClickItem',
+                    event: 'informar_quantidade'
+                }
+            }
         },
 
         //Pedido
@@ -794,10 +812,11 @@ var pedidoConcreta =
         { name: "content-total", class:"content-total", widget:"WaiContent" },
         { name: "label-quantidade", widget:"WaiContent", style:"margin-right:1em", tag: "span", value: {"pt-BR": "Quantidade"}},
         { name: "quantidade", widget:"WaiInput", type:"text", style:"margin-right:5em; text-align:center", value:"$data.quantidade", class:"input-quantidade" },
-        { name: "total-item", widget:"WaiContent", tag: "span", style:"margin-right:1em", value:{"pt-BR": "FormatValue($data.total)"}},
+        { name: "total-item", widget:"WaiContent", tag: "span", class: "total_item", "data-total":"$data.total", style:"margin-right:1em", value:{"pt-BR": "FormatValue($data.total)"}},
         { 
             name: "remover", 
             widget: "WaiButton", 
+            "data-id": "$data.id",
             class:"btn-remover btn btn-danger",
             children: 
             [
@@ -805,7 +824,7 @@ var pedidoConcreta =
             ]
         },
 
-        { name: "total", widget:"WaiContent", tag: "h3", value: {"pt-BR" : "FormatValue(GetTotalPedido())"} },
+        { name: "total", widget:"WaiContent", tag: "h3", value: {"pt-BR" : "FormatValue($data.totalPedido)"} },
 
         { 
             name: "finalizar-pedido", 
@@ -927,6 +946,11 @@ if(typeof define === 'function') {
                 $modal.modal();
             }
 
+            window.EvtConfirmarQuantidade = function(options){
+                $("#modal-quantidade").modal('hide');
+                app.$env.$dataObj.trigger("change");
+            }
+
             window.EvtItem = function(options){
                 console.log('EvtItem');
             }
@@ -999,26 +1023,32 @@ window.IsPage = function(page){
         return false;
 
     var url = new URL(window.location);
-    return window.pages[page] == url.hash;
+
+    //Se for a home, o hash tem que ser igual a home
+    if(page == "home")
+        return url.hash == window.pages[page];    
+    
+    return url.hash.includes(window.pages[page]);
 }
 
 window.GetCurrentPedido = function(){
+    
     var testes = JSON.parse(localStorage.getItem("testes"));
     var currentTeste = testes.find(teste => !teste.encerrado);
     return currentTeste ? currentTeste.pedido.itens : [];
 }
 
 window.GetTotalPedido = function(){
-    var pedido = GetCurrentPedido();
+    let $itens = $('.total_item');
+    if(!$itens.length)
+        return 0;
 
-    return !pedido.length ? 0 : pedido.itens.reduce((current, add) => current + add);
-}
+    let total = $itens.reduce((current, element) => {
+        let $element = $(element);
+        let totalItem = parseFloat($element.data("total"));
+        return current + totalItem;
+    });
 
-window.GetIdPedido = function(){
-    //Busca o último ativo
-    var testes = JSON.parse(localStorage.getItem("testes"));
-    var currentTeste = testes.find(teste => !teste.encerrado);
-
-    return currentTeste.pedido;
+    return total;
 }
 

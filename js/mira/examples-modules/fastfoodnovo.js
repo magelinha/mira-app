@@ -37,7 +37,7 @@ var Init = function(server){
 
     //Salva os logs de um teste
     server.post('/api/fastfoodnovo/logs/', (req, res) => {
-        console.log(req.body.logs);
+        console.log(req.body);
         let logsToSave = req.body.logs.map((data) => {
             return new db.Passo({
                 elemento: data.elemento,
@@ -64,11 +64,46 @@ var Init = function(server){
             });
     });
 
-    server.get('/api/fastfoodnovo/cardapio', (req, res) => {
-        GetCategorias(res);
+    server.get('/api/fastfoodnovo/pedido/:id', async (req, res) => {
+        let categorias = await db.Categoria
+            .find()
+            .populate("itens")
+            .exec();
+
+        console.log("total: "  + categorias.length);
+        
+        let idPedido = req.params.id;
+        db.Pedido
+            .findById(idPedido)
+            .exec(async (error, pedido) => {
+                let promises  = await pedido.itens.map(async (itemArray) => {
+                    let item = await db.Item.findById(itemArray.item);
+
+                    let result = {
+                        id: item._id,
+                        nome:  item.nome,
+                        quantidade: itemArray.quantidade,
+                        total: itemArray.quantidade * item.preco 
+                    };
+                    
+                    console.log(result);
+
+                    return result;
+                });
+
+                let itens = await Promise.all(promises); 
+                let totalPedido = itens.reduce((current, processado) => current + processado.total, 0);
+                let response = {
+                    categorias : categorias,
+                    itens: itens,
+                    totalPedido : totalPedido
+                }
+
+                res.send(response);
+            });
     });
 
-    server.get('/api/fastfoodnovo/pedido', function(req, res){
+    server.get('/api/fastfoodnovo/cardapio', (req, res) => {
         GetCategorias(res);
     });
 

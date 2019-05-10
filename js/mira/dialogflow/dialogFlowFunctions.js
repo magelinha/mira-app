@@ -325,7 +325,7 @@ var RequestTextIntent = function(params){
 
 var  proccessResponse = function(response, lang){
     var data = {
-        audio: response.outputAudio,
+        audio: response.output_audio,
         message: response.queryResult.fulfillmentText,
         action: response.queryResult.action,
         queryText: response.queryResult.queryText, //Apenas para debug

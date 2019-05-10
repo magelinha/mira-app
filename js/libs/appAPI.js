@@ -591,11 +591,14 @@ ActionAPI.SpeechAction.prototype.SaveLog = function(){
     var _this = this;
     if(!_this.logs.length)
         return;
+    var config = {
+        logs: _this.logs
+    };
 
     $.ajax({
         url: "/api/fastfoodnovo/logs/",
         type: "POST",
-        data: {logs: _this.logs},
+        data: config,
         success: function(){
             console.log('log registrado com sucesso');
             _this.logs = [];
