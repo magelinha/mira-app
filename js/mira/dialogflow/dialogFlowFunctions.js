@@ -369,7 +369,6 @@ var Init = function(server){
         promise = DetectEventIntent(req.body.projectId, req.body.eventName, req.body.lang, params, req.body.context);
         promise
             .then(response => {
-                console.log(response);
                 var result = proccessResponse(response[0], req.body.lang);
                 res.json(result);
             }).catch(error => {

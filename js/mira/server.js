@@ -9,7 +9,8 @@ var request = require('request');
 var optimist = require('optimist');
 var fs = require('fs');
 var cache = require('memory-cache');
-var rdfstore = require('rdfstore');
+var rdfstore = null;
+//var rdfstore = require('rdfstore');
 var bodyParser = require('body-parser');
 
 var Rule = require('./models/rule.js');

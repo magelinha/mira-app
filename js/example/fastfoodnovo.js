@@ -1,4 +1,5 @@
 "use strict";
+
 //Define as regras para avaliação de widgets
 var rules = [
 ];
@@ -222,7 +223,7 @@ var homeConcreta =
         { name: "promocao", widget:"WaiCarouselItem" },
         { name: "promocao-image", tag:"img", alt:"$data.descricao", src:"$data.imagem" },
         { name: "promocao-caption", widget:"WaiCarouselCaption" },
-        { name: "promacao-caption-titulo", tag:"h3", value:"$data.nome", events: 
+        { name: "promacao-caption-titulo", tag:"h3", value:"$data.nome", "data-id":"$data._id", events: 
             {
                 click: 
                 {
@@ -231,7 +232,7 @@ var homeConcreta =
                 }
             }
         },
-        { name: "promacao-caption-descricao", tag:"p", value:"$data.descricao", events: 
+        { name: "promacao-caption-descricao", tag:"p", value:"$data.descricao", "data-id":"$data._id", events: 
             {
                 click: 
                 {
@@ -248,7 +249,20 @@ var homeConcreta =
         { name: "label-quantidade", widget: "WaiContent", tag: "label", for:"#nova-quantidade", value:"Quantidade:" },
         { name: "nova-quantidade", widget: "WaiInput", type: "text", class: "form-control" },
         { name: "modal-footer", widget:"WaiModalFooter" },
-        { name: "confirmar", widget: "WaiButton", class:"btn btn-success", value: {"pt-BR": "Confirmar"} }
+        { 
+            name: "confirmar", widget: "WaiButton", "data-dismiss":"modal",  class:"btn btn-success", value: {"pt-BR": "Confirmar"}, events:
+            {
+                click: {
+                    action: 'EvtConfirmarQuantidade',
+                    event: 'quantidade_informada',
+                    params: {
+                        id: '$("#modal-quantidade").data("id")',
+                        quantidade: '$("#nova-quantidade").val()',
+                        pedido: 'GetIdPedido()'
+                    }
+                }
+            }
+        }
     ]
 };
 
@@ -457,7 +471,20 @@ var cardapioConcreta =
         { name: "label-quantidade", widget: "WaiContent", tag: "label", for:"#nova-quantidade", value:"Quantidade:" },
         { name: "nova-quantidade", widget: "WaiInput", type: "text", class: "form-control" },
         { name: "modal-footer", widget:"WaiModalFooter" },
-        { name: "confirmar", widget: "WaiButton", class:"btn btn-success", value: {"pt-BR": "Confirmar"} }
+        { 
+            name: "confirmar", widget: "WaiButton", "data-dismiss":"modal",  class:"btn btn-success", value: {"pt-BR": "Confirmar"}, events:
+            {
+                click: {
+                    action: 'EvtConfirmarQuantidade',
+                    event: 'quantidade_informada',
+                    params: {
+                        id: '$("#modal-quantidade").data("id")',
+                        quantidade: '$("#nova-quantidade").val()',
+                        pedido: 'GetIdPedido()' 
+                    }
+                }
+            }
+        }
     ]
 };
 
@@ -794,7 +821,20 @@ var pedidoConcreta =
         { name: "label-quantidade", widget: "WaiContent", tag: "label", for:"#nova-quantidade", value:"Quantidade:" },
         { name: "nova-quantidade", widget: "WaiInput", type: "text", class: "form-control" },
         { name: "modal-footer", widget:"WaiModalFooter" },
-        { name: "confirmar", widget: "WaiButton", class:"btn btn-success", value: {"pt-BR": "Confirmar"} }
+        { 
+            name: "confirmar", widget: "WaiButton", "data-dismiss":"modal",  class:"btn btn-success", value: {"pt-BR": "Confirmar"}, events:
+            {
+                click: {
+                    action: 'EvtConfirmarQuantidade',
+                    event: 'quantidade_informada',
+                    params: {
+                        id: '$("#modal-quantidade").data("id")',
+                        quantidade: '$("#nova-quantidade").val()',
+                        pedido: 'GetIdPedido()' 
+                    }
+                }
+            }
+        }
     ]
 };
 
@@ -863,13 +903,9 @@ if(typeof define === 'function') {
                     data: { nome: nome, email: email },
                     success: function(data){
                         //Busca os dados iniciais
-                        var testes = JSON.parse(localStorage.getItem("testes") || "[]");
-                        data.pedido = {
-                            itens: [],
-                            total: 0
-                        };
-
-                        testes.push(data);
+                        let testes = JSON.parse(localStorage.getItem("testes") || "[]");
+                        let value = _.extend(data.teste, { pedido: data.pedido._id});
+                        testes.push(value);
                         localStorage.setItem("testes", JSON.stringify(testes));
                         options.$dataObj.trigger('change');
 
@@ -885,7 +921,10 @@ if(typeof define === 'function') {
             }
 
             window.EvtClickItem = function(options){
-                $("#modal-quantidade").modal();
+                var id = options.$element.data('id');
+                var $modal = $("#modal-quantidade");
+                $modal.data('id', id);
+                $modal.modal();
             }
 
             window.EvtItem = function(options){
@@ -973,5 +1012,13 @@ window.GetTotalPedido = function(){
     var pedido = GetCurrentPedido();
 
     return !pedido.length ? 0 : pedido.itens.reduce((current, add) => current + add);
+}
+
+window.GetIdPedido = function(){
+    //Busca o último ativo
+    var testes = JSON.parse(localStorage.getItem("testes"));
+    var currentTeste = testes.find(teste => !teste.encerrado);
+
+    return currentTeste.pedido;
 }
 

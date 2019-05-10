@@ -22,7 +22,7 @@ var BaseURL = '';
 
 var Init = function(server, source) {
 	source = source || "mira-app";
-	server.post('/fastfood', async function(req, res){
+	server.post('/fastfood', async (req, res) => {
 		BaseURL = 'https://mira-app.herokuapp.com/';
 
 		var intentName = req.body.queryResult.intent.displayName;

@@ -9,15 +9,30 @@ var Init = function(server){
 
     // Incia um teste
     server.post('/api/fastfoodnovo/teste/criar', (req, res) =>{
-        console.log(req.body);
-
+        
         let testeToSave = new db.Teste({
             nome: req.body.nome,
             email: req.body.email,
             encerrado: false
         });
 
-        testeToSave.save().then((result) => res.send(result));
+        testeToSave.save().then((result) => 
+        {
+            //após salva o teste, cria um pedido relacionado ao testes
+            let pedido = new db.Pedido({
+                numero : GenerateNumber(10),
+                teste: result._id,
+                itens: []
+            });
+
+            pedido.save().then(pedidoSalvo => {
+                let response = {
+                    pedido: pedidoSalvo,
+                    teste: result
+                };
+                res.send(response);
+            });
+        });
     });
 
     //Salva os logs de um teste
