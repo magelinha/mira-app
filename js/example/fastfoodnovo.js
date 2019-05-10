@@ -3,6 +3,9 @@
 window.GetIdPedido = function(){
     //Busca o último ativo
     var testes = JSON.parse(localStorage.getItem("testes"));
+    if(!testes || !testes.length)
+        return '';
+
     var currentTeste = testes.find(teste => !teste.encerrado);
 
     return currentTeste.pedido;
