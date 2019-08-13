@@ -632,13 +632,13 @@ window.NextItem = function(){
     console.log('executou o nextItem');
     
     //Se o item focalizado for um carousel, apenas chama o evento de próximo
-    if(isCarousel(this.$currentElement)){
-        appApi.$currentElementcarousel('next');
+    if(isCarousel(appApi.$currentElement)){
+        appApi.$currentElement.carousel('next');
         return;
     }
 
-    var index = appApi.$currentElementindex();
-    var parent = appApi.$currentElementparent();
+    var index = appApi.$currentElement.index();
+    var parent = appApi.$currentElement.parent();
     var allChildren = parent.children();
     var children = parent.children('div:visible, blockquote:visible, a:visible, li:visible, section:visible, tr:visible');
     
@@ -647,20 +647,22 @@ window.NextItem = function(){
     while(!$(allChildren[index]).is('div:visible, blockquote:visible, a:visible, li:visible, section:visible, tr:visible')){
         index = allChildren.length == (index - 1) ? 0 : index + 1;
     }
-
+    
     var next = allChildren[index];
+    appApi.$currentElement = $(next);
     next.focus();
+    
 };
 
 window.PrevItem = function(){
     //Se o item focalizado for um carousel, apenas chama o evento de próximo
-    if(isCarousel(this.$currentElement)){
-        appApi.$currentElementcarousel('prev');
+    if(isCarousel(appApi.$currentElement)){
+        appApi.$currentElement.carousel('prev');
         return;
     }
 
-    var parent = appApi.$currentElementparent();
-    var index = appApi.$currentElementindex();
+    var parent = appApi.$currentElement.parent();
+    var index = appApi.$currentElement.index();
     var children = parent.children('div:visible, blockquote:visible, a:visible, li:visible, section:visible');
     var allChildren = parent.children();
     
@@ -671,41 +673,42 @@ window.PrevItem = function(){
     }
 
     var prev = allChildren[index];
+    appApi.$currentElement = $(prev);
     prev.focus();
 };
 
 window.SelectItem = function(){
     
-    if(isCarousel(this.$currentElement)){
+    if(isCarousel(appApi.$currentElement)){
         //Verifica qual o item corrente e clica no título
-        var $link = appApi.$currentElementfind('.item.active h3');
+        var $link = appApi.$currentElement.find('.item.active h3');
         $link.click();
         console.log('clicou no elemento');
         return;
     }
 
     
-    if(!appApi.$currentElementlength){
+    if(!appApi.$currentElement.length){
         _this.speak("Não há nenhum item focalizado para ser selecionado");
         return;
     }
 
-    appApi.$currentElementclick();
+    appApi.$currentElement.click();
 };
 
 window.CheckItem = function(){
-    if(appApi.$currentElementis('input')){
-        appApi.$currentElementprop('checked', true).change(); 
+    if(appApi.$currentElement.is('input')){
+        appApi.$currentElement.prop('checked', true).change(); 
     }else{
-        appApi.$currentElementfind('input').prop('checked', true).change();
+        appApi.$currentElement.find('input').prop('checked', true).change();
     }
 };
 
 window.UncheckItem = function(){
-    if(appApi.$currentElementis('input')){
-        appApi.$currentElementprop('checked', false).change(); 
+    if(appApi.$currentElement.is('input')){
+        appApi.$currentElement.prop('checked', false).change(); 
     }else{
-        appApi.$currentElementfind('input').prop('checked', false).change();
+        appApi.$currentElement.find('input').prop('checked', false).change();
     }
 };
 

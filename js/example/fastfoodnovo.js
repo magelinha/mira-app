@@ -243,8 +243,7 @@ var homeConcreta =
             {
                 click: 
                 {
-                    action: 'EvtClickItem',
-                    event: 'informar_quantidade'
+                    action: 'EvtClickItem'
                 }
             }
         },
@@ -468,8 +467,7 @@ var cardapioConcreta =
             events : {
                 click: 
                 {
-                    action: 'EvtClickItem',
-                    event: 'informar_quantidade'
+                    action: 'EvtClickItem'
                 }
             }
         },
@@ -801,8 +799,7 @@ var pedidoConcreta =
             events : {
                 click: 
                 {
-                    action: 'EvtClickItem',
-                    event: 'informar_quantidade'
+                    action: 'EvtClickItem'
                 }
             }
         },
@@ -943,10 +940,11 @@ if(typeof define === 'function') {
             }
 
             window.EvtClickItem = function(options){
-                var id = options.$element.data('id');
-                var $modal = $("#modal-quantidade");
-                $modal.data('id', id);
-                $modal.modal();
+                IncluirItem(options.$element, 1);
+            }
+
+            window.SwhoModalQuantidade = function(options){
+                OpenModal(appApi.$currentElement);
             }
 
             window.EvtConfirmarQuantidade = function(options){
@@ -990,6 +988,40 @@ if(typeof define === 'function') {
 
                 window.RequestFocus(paramRequest);
             }
+
+            window.AdicionarItem = function(params){
+                var $container = params.produto ? GetContainer(params.produto) : appApi.$currentElement;
+                IncluirItem($container, params.quantidade);
+            }
+
+            var GetContainer = function(text){
+                var item = $(`.nome-produto:contains(${text})`);
+                return item.length ? item.parents('.card') : null;
+            }
+
+            var IncluirItem = function($element, quantidade){
+                //Busca  o id
+                var id = $element.data('id');
+
+                //busca o pedido
+                var pedido = GetIdPedido();
+
+                var params = {
+                    id: id,
+                    pedido: pedido,
+                    quantidade: quantidade
+                }
+
+                appApi.CallRequestEvent('adicionar_item', params);
+            }
+
+            var OpenModal = function($element){
+                var id = $element.data('id');
+                var $modal = $("#modal-quantidade");
+                $modal.data('id', id);
+                $modal.modal();
+            }
+
         };
     });
 };

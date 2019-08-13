@@ -372,6 +372,7 @@
                     //Executa o eval para verificar se é a chamada de um método global
                     return eval(text);
                 } catch(ex){
+                    console.log(text);
                     console.log(ex);
                     //Caso não seja, retorna a string informada
                     return text;
