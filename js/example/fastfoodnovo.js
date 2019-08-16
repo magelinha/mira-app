@@ -821,7 +821,13 @@ var pedidoConcreta =
             children: 
             [
                 { name: "icon-remover", tag:"i", class:"fa fa-trash", "aria-hidden":"true"}
-            ]
+            ],
+            events : {
+                click: 
+                {
+                    action: 'EvtRemoverItem'
+                }
+            }
         },
 
         { name: "total", widget:"WaiContent", tag: "h3", value: {"pt-BR" : "FormatValue($data.totalPedido)"} },
@@ -830,7 +836,16 @@ var pedidoConcreta =
             name: "finalizar-pedido", 
             widget: "WaiButton", 
             class:"btn-adicionar btn btn-success",
-            value:"Finalizar"
+            value:"Finalizar",
+            events : {
+                click: 
+                {
+                    event: 'finalizar_pedido',
+                    params: {
+                        pedido: 'GetIdPedido()'
+                    }
+                }
+            }
         },
 
         //Modal de quantidade
@@ -954,6 +969,25 @@ if(typeof define === 'function') {
 
             window.EvtItem = function(options){
                 console.log('EvtItem');
+            }
+
+            window.EvtRemoverItem = function(options){
+                RemoverItem(options.$element);
+            }
+
+            var RemoverItem = function($element){
+                //Busca  o id
+                var id = $element.data('id');
+
+                //busca o pedido
+                var pedido = GetIdPedido();
+
+                var params = {
+                    id: id,
+                    pedido: pedido
+                }
+
+                appApi.CallRequestEvent('remover_item', params);
             }
 
             window.GetNomePromocao = function(){
