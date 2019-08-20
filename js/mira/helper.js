@@ -301,6 +301,10 @@
             var tempName = name;
             var count = 1;
 
+            var parents = $parent ? $parent.parents() : [];
+            if(parents.length)
+               $parent = $(parents[parents.length-1]);
+
             //Verifica no documento
             while(document.getElementById(tempName) != null){
                 tempName = name + count.toString();

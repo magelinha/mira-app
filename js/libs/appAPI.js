@@ -576,8 +576,9 @@ ActionAPI.SpeechAction.prototype.RegisterLog = function($element){
     var events = "click focus blur keydown change dblclick mouseover mouseout submit";
     //var events = "click mousedown mouseup focus blur keydown change mouseup click dblclick mouseover mouseout mousewheel keydown keyup keypress textInput touchstart touchmove touchend touchcancel resize scroll zoom focus blur select change submit reset";
     $element.on(events,function(e){
+        var teste = window.GetCurrentTest();
         var log = {
-            teste: window.teste,
+            teste: teste != null ? teste._id : null,
             checkpoint: false,
             evento: e.type,
             elemento: getDescriptionElement($element)
@@ -587,27 +588,20 @@ ActionAPI.SpeechAction.prototype.RegisterLog = function($element){
    });
 };
 
-ActionAPI.SpeechAction.prototype.SaveLog = function(){
+ActionAPI.SpeechAction.prototype.SaveLog = async function(){
     var _this = this;
     if(!_this.logs.length)
         return;
-    var config = {
-        logs: _this.logs
-    };
+    
+    for(let i = 0; i < _this.logs.length; i = i+100){
+        var logs = (i + 100 >= _this.logs.length - 1) ? _this.logs.slice(i) : _this.logs.slice(i, i+100);
+        await window.SavePartialLog(logs);
+    }
 
-    $.ajax({
-        url: "/api/fastfoodnovo/logs/",
-        type: "POST",
-        data: config,
-        success: function(){
-            console.log('log registrado com sucesso');
-            _this.logs = [];
-        },
-        error: function(error){
-            console.log(error);
-        }
-    });
+    _this.logs = [];
 };
+
+
 
 ActionAPI.SpeechAction.prototype.executeCommand = function(action, params){
     console.log(action);
@@ -813,3 +807,32 @@ window.ClickMenu = function(params){
 window.addEventListener("beforeunload", function(e){
     appApi.SaveLog();
 });
+
+window.GetCurrentTest = function(){
+    //Busca o último ativo
+    var testes = JSON.parse(localStorage.getItem("testes"));
+    if(!testes || !testes.length)
+        return null;
+
+    return testes.find(teste => !teste.encerrado);
+}
+
+window.SavePartialLog = async function(logs){
+
+    var config = {
+        logs: logs
+    };
+
+    return $.ajax({
+        url: "/api/fastfoodnovo/logs/",
+        type: "POST",
+        data: config,
+        success: function(){
+            console.log('log registrado com sucesso');
+            _this.logs = [];
+        },
+        error: function(error){
+            console.log(error);
+        }
+    });
+};

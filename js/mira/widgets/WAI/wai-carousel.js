@@ -31,7 +31,8 @@ define([
             
             //Determina as propriedades básicas do elemento
             var context = Helper.build_context($context, options);
-            Helper.build_attributes($element, {}, context);
+            var attr = Helper.omit_params(options, {});
+            Helper.build_attributes($element[0], attr, context);
 
             $parent.append($element);
 
@@ -53,7 +54,8 @@ define([
             
             //Determina as propriedades básicas do elemento
             var context = Helper.build_context($context, options);
-            Helper.build_attributes($element, {}, context);
+            var attr = Helper.omit_params(options, {});
+            Helper.build_attributes($element, attr, context);
 
             $parent.append($element);
 

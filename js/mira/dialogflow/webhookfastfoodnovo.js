@@ -12,10 +12,22 @@ var Init = function(server, db){
         var id = params.id;
         var message = "";
         var item = await db.Item.findById(id);
-        message = `${item.nome}, custa R$${item.preco}. Você pode adicioná-lo ao pedido ou ir para o próximo.`;
+        message = `${DescreverProduto(item)}. Você pode adicioná-lo ao pedido ou ir para o próximo.`;
         console.log("mensagem: " + message);
         return message;
     });
+
+    var DescreverProduto = (item) => {
+        if(Array.isArray(item.preco)){
+            console.log("preco é um array: " + item.preco.length);
+            return item.preco.reduce((mensagemFinal, valor) => {
+                
+                return `${mensagemFinal}. ${valor.tamanho}, R$${valor.valor}`;
+            }, `${item.nome}`)
+        }
+
+        return `${item.nome}, custa R$${item.preco}`;
+    }
 
     //Informar quantidade no modal
     webhookFunctions.AddIntentAction("quantidade-informada", async (params) => {
@@ -41,27 +53,33 @@ var Init = function(server, db){
     });
 
     //Informar a quantidade de itens do pedido
-    webhookFunctions.AddIntentAction("listar-pedido", async (params) => {
+    webhookFunctions.AddIntentAction("evt-listar-pedido", async (params) => {
         
-        let qtdPedido = await db.Pedido.count();
+        let pedido = await db.Pedido.findById(params.pedido);
+        
+        if(pedido.itens.length == 0)
+            return "Seu pedido ainda não possui itens.";
+        
+        if(pedido.itens.length == 1)
+            return "Vi que seu pedido tem um item. Vou informá-los para você";
 
-        return qtdPedido > 0 ? 
-            `Vi que seu pedido tem ${qtdPedido} itens. Vou informá-los para você.` :
-            "Seu pedido ainda não possui itens.";
+        return `Vi que seu pedido tem ${pedido.itens.length} itens. Vou informá-los para você.`;
     });
 
-    var AdicionarItem = (idItem, quantidade) => {
+    var AdicionarItem = async (idPedido, idItem, quantidade) => {
+        quantidade = quantidade || 1;
         //Busca o pedido
-        let pedido = await db.Pedido.findById(params.pedido).populate('itens').exec();
+        let pedido = await db.Pedido.findById(idPedido).populate('itens').exec();
 
         //Busca o item desejado
         let item = await db.Item.findById(idItem);
 
         let itemPedido = pedido.itens.find(i => i._id == item._id);
+
         if(!itemPedido){
             pedido.itens.push({item: item._id, quantidade: quantidade});
         }
-        else{
+        else{            
             itemPedido.quantidade = itemPedido.quantidade + quantidade;
         }
 
@@ -76,16 +94,17 @@ var Init = function(server, db){
 
     //Evento disparado ao clicar no botão de adicionar
     webhookFunctions.AddIntentAction('evt-adicionar-item', async(params) => {
-        //Busca o produto pelo nome
-        let item = await db.Item.find({ nome: params.item});
 
-        //adicionar o item
-        AdicionarItem(item._id, params.quantidade);
-    });
+        if(params.id != null && params.id.length)
+            return AdicionarItem(params.pedido, params.id, params.quantidade);
 
-    //Evento disparado ao clicar no botão de adicionar
-    webhookFunctions.AddIntentAction('evt-adicionar-item', async(params) => {
-        AdicionarItem(params.id, params.quantidade);
+        //Caso não tenha passado o id, busca o item através do nome
+        console.log("item: " + params.item.toLowerCase());
+        let item = await db.Item.findOne({ nome: params.item});
+        console.log("Id do item: " + item._id);
+
+        return AdicionarItem(params.pedido, item._id, params.quantidade);
+        
     });
 
     //Evento para finalizar o pedido
@@ -123,44 +142,56 @@ var Init = function(server, db){
         }
     });
 
-    var RemoveItemPedido = (pedido, idItem) => {
-        pedido.itens = pedido.itens.filter(x => x._id != idItem);
-    }
+    webhookFunctions.AddIntentAction("evt-alterar-quantidade", async (params) => {
+        //Busca o pedido
+        let pedido = await db.Pedido.findById(params.pedido);
+        console.log("itens:" + pedido.itens);
+        console.log("params: " + params);
+        //busca o item por nome ou id
+        let itemPedido = null;
+        if(params.id && params.id.length){
+            itemPedido = pedido.itens.find(i => i.item == params.id);
+        }
+        else{
+            var itemDB = await db.Item.findOne({nome: params.item});
+            itemPedido = pedido.itens.find(i => i.item.equals(itemDB._id));
+        }
+
+        if(!itemPedido)
+           return ""; 
+
+        itemPedido.quantidade = params.quantidade;
+
+        try{
+            await pedido.save();
+
+            return "A quantidade do item foi atualizada.";
+        }catch(ex){
+            return "Houve um problema ao atualizar a quantidade do item.";
+        }
+    });
 
     webhookFunctions.AddIntentAction("evt-remover-item", async (params) => {
         //Busca o pedido
-        let pedido = await db.Pedido.findById(params.pedido).populate('itens').exec();
+        let pedido = await db.Pedido.findById(params.pedido);
 
-        //Remove do pedido o item
-        RemoveItemPedido(pedido, params.id); 
+        //verifica se tem o item no pedido
+        let itemPedido = null;
+        if(params.id && params.id.length){
+            itemPedido = pedido.itens.find(i => i.item == id);
+        }
+        else{
+            var itemDB = await db.Item.findOne({nome: params.item});
+            itemPedido = pedido.itens.find(i => i.item.equals(itemDB._id));
+        }
+
+        pedido.itens = pedido.itens.filter(x => x != itemPedido);
 
         try{
             await pedido.save();
 
             return "Item removido com sucesso.";
         }catch(ex){
-            return "Houve um problema ao remover o item.";
-        }
-    });
-
-    webhookFunctions.AddIntentAction("remover-item-específico", async (params) => {
-        //Busca o pedido
-        let pedido = await db.Pedido.findById(params.pedido).populate('itens').exec();
-
-        //Remove do pedido o item 
-        let item = pedido.itens.find(x => x.Nome != params.item);
-
-        if(item == null)
-            return `${params.item} já não estava no seu pedido.`
-
-        RemoveItemPedido(pedido, item._id);
-
-        try{
-            
-            await pedido.save();
-
-            return `${params.item} foi retirado do pedido.`;
-        } catch(ex){
             return "Houve um problema ao remover o item.";
         }
     });

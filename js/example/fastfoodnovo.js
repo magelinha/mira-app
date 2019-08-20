@@ -237,7 +237,7 @@ var homeConcreta =
         { name: "promocao", widget:"WaiCarouselItem" },
         { name: "promocao-image", tag:"img", alt:"$data.descricao", src:"$data.imagem" },
         { name: "promocao-caption", widget:"WaiCarouselCaption" },
-        { name: "promacao-caption-titulo", tag:"h3", value:"$data.nome", "data-id":"$data._id" },
+        { name: "promacao-caption-titulo", tag:"h3", class:'titulo', value:"$data.nome", "data-id":"$data._id" },
         { name: "promacao-caption-descricao", tag:"p", value:"$data.descricao",},
         { name: "selecionar-promocao", widget: "WaiButton", value:"Quero", class: "btn btn-primary", "data-id":"$data._id", events: 
             {
@@ -796,22 +796,45 @@ var pedidoConcreta =
             "data-id": "$data._id",
             value: { "pt-BR":"Adicionar" },
             class:"btn-adicionar btn btn-primary",
-            events : {
-                click: 
-                {
-                    action: 'EvtClickItem'
-                }
-            }
+            events : { click: 'EvtClickItem' }
         },
 
         //Pedido
         { name: "pedido", widget:"WaiContent", title:"Pedido", class: "col-md-3 content-pedido" },
-        { name: "itens-pedido", widget:"WaiContent" },
-        { name: "item-pedido", widget: "WaiContent", class:"row border-rounded", style: "padding: 1em" },
+        {
+            name: "itens-pedido", widget:"WaiContent",
+            events:
+            {
+                focus: {
+                    action: 'EvtListarPedido',
+                    event:'listar_pedido',
+                    params:{
+                        pedido: 'GetIdPedido()'
+                    }
+                }
+            }
+        },
+        { 
+            name: "item-pedido", 
+            "data-id": "$data.id",
+            widget: "WaiContent", 
+            class:"row border-rounded", 
+            style: "padding: 1em" ,
+            events: { focus: 'EvtItemPedido' }
+        },
         { name: "nome", tag: "p", value:"$data.nome", style:"font-weight: bold"},
         { name: "content-total", class:"content-total", widget:"WaiContent" },
         { name: "label-quantidade", widget:"WaiContent", style:"margin-right:1em", tag: "span", value: {"pt-BR": "Quantidade"}},
-        { name: "quantidade", widget:"WaiInput", type:"text", style:"margin-right:5em; text-align:center", value:"$data.quantidade", class:"input-quantidade" },
+        { 
+            name: "quantidade", 
+            widget:"WaiInput", 
+            type:"text", 
+            "data-id": "$data.id",
+            style:"margin-right:5em; text-align:center", 
+            value:"$data.quantidade", 
+            class:"input-quantidade",
+            events: { change: 'EvtChangeQuantidade'}
+        },
         { name: "total-item", widget:"WaiContent", tag: "span", class: "total_item", "data-total":"$data.total", style:"margin-right:1em", value:{"pt-BR": "FormatValue($data.total)"}},
         { 
             name: "remover", 
@@ -822,12 +845,7 @@ var pedidoConcreta =
             [
                 { name: "icon-remover", tag:"i", class:"fa fa-trash", "aria-hidden":"true"}
             ],
-            events : {
-                click: 
-                {
-                    action: 'EvtRemoverItem'
-                }
-            }
+            events : { click: 'EvtRemoverItem' }
         },
 
         { name: "total", widget:"WaiContent", tag: "h3", value: {"pt-BR" : "FormatValue($data.totalPedido)"} },
@@ -841,6 +859,7 @@ var pedidoConcreta =
                 click: 
                 {
                     event: 'finalizar_pedido',
+                    action: 'EvtFinalizarPedido',
                     params: {
                         pedido: 'GetIdPedido()'
                     }
@@ -958,24 +977,77 @@ if(typeof define === 'function') {
                 IncluirItem(options.$element, 1);
             }
 
-            window.SwhoModalQuantidade = function(options){
+            window.ShowModalQuantidade = function(options){
                 OpenModal(appApi.$currentElement);
             }
 
             window.EvtConfirmarQuantidade = function(options){
                 $("#modal-quantidade").modal('hide');
-                app.$env.$dataObj.trigger("change");
+                Refresh();
             }
 
             window.EvtItem = function(options){
                 console.log('EvtItem');
             }
 
+            window.EvtItemPedido = function(options){
+                var nome = options.$element.find('p').text();
+                var quantidade = options.$element.find('input').val();
+                var total = options.$element.find('span').data('total');
+
+                var params = {
+                    nome: nome,
+                    quantidade: quantidade,
+                    total: total
+                }
+
+                appApi.CallRequestEvent('item_pedido', params);
+            }
+
             window.EvtRemoverItem = function(options){
                 RemoverItem(options.$element);
             }
 
-            var RemoverItem = function($element){
+            window.EvtChangeQuantidade = function(options){
+                ConfirmarAlteracaoQuantidade(options.$element);
+            }
+
+            window.EvtFinalizarPedido = function(options){
+                //Caso tenha itens no pedido, salva o log
+                appApi.SaveLog();
+            }
+
+            window.RemoverItemPedido = async function(options){
+                var params = {
+                    id: options.item ? null : appApi.$currentElement.data('id'),
+                    item: options.item,
+                    pedido: GetIdPedido()
+                }
+
+                await appApi.CallRequestEvent('remover_item', params);
+
+                Refresh();
+            }
+
+            window.AlterarQuantidade = async function(options){
+
+                var params = {
+                    id: options.item ? null : appApi.$currentElement.data('id'),
+                    item: options.item,
+                    pedido: GetIdPedido(),
+                    quantidade: options.quantidade
+                }
+
+                await appApi.CallRequestEvent('alterar_quantidade', params);
+
+                Refresh();
+            }
+
+            var Refresh = function(){
+                app.$env.$dataObj.trigger("change");
+            }
+
+            var RemoverItem = async function($element){
                 //Busca  o id
                 var id = $element.data('id');
 
@@ -987,7 +1059,27 @@ if(typeof define === 'function') {
                     pedido: pedido
                 }
 
-                appApi.CallRequestEvent('remover_item', params);
+                await appApi.CallRequestEvent('remover_item', params);
+                Refresh();
+            }
+
+            var ConfirmarAlteracaoQuantidade = async function($element){
+                //Busca  o id
+                var id = $element.data('id');
+
+                //busca o pedido
+                var pedido = GetIdPedido();
+
+                var quantidade = $element.val();
+
+                var params = {
+                    id: id,
+                    pedido: pedido,
+                    quantidade: quantidade
+                };
+
+                await appApi.CallRequestEvent('alterar_quantidade', params);
+                Refresh();
             }
 
             window.GetNomePromocao = function(){
@@ -1028,12 +1120,41 @@ if(typeof define === 'function') {
                 IncluirItem($container, params.quantidade);
             }
 
+            window.AdicionarItemEspecifico = async function(params){
+                //busca o pedido
+                var pedido = GetIdPedido();
+
+                var options = {
+                    item: params.item,
+                    pedido: pedido,
+                    quantidade: params.quantidade
+                };
+
+                await appApi.CallRequestEvent('adicionar_item', options);
+            }
+
+            window.AdicionarPromocao = function(params){
+                console.log("adicionou uma promoção");
+                console.log(appApi.$currentElement);
+                //busca o item ativo
+                var $container = appApi.$currentElement.find(".item.active .titulo");
+                if($container.length)  
+                    IncluirItem($container, params.quantidade);
+            }
+
+            window.EvtListarPedido = function(params){
+                var options = {
+                    container: 'item-pedido'
+                }
+                RequestFocus(options);
+            }
+
             var GetContainer = function(text){
                 var item = $(`.nome-produto:contains(${text})`);
                 return item.length ? item.parents('.card') : null;
             }
 
-            var IncluirItem = function($element, quantidade){
+            var IncluirItem = async function($element, quantidade){
                 //Busca  o id
                 var id = $element.data('id');
 
@@ -1046,7 +1167,7 @@ if(typeof define === 'function') {
                     quantidade: quantidade
                 }
 
-                appApi.CallRequestEvent('adicionar_item', params);
+                await appApi.CallRequestEvent('adicionar_item', params);
             }
 
             var OpenModal = function($element){
