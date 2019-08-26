@@ -309,6 +309,15 @@ ActionAPI.SpeechAction.prototype.stopRecording = function(toExport) {
                     *   queryText: ''
                     *}
                     */
+                    //Se está pausado, única ação possível é a Resume
+                    if(!_this.canTTS){
+                        if(data.action == Resume.name){
+                            _this.executeCommand(data.action, data.params);    
+                        }
+
+                        return;
+                    }
+                   
                     
                     
                     if(!data.queryText || !data.queryText.length){
@@ -802,6 +811,14 @@ window.ClickMenu = function(params){
     var $element = $('.nav').find(`a:contains(${params.menu})`);
     if($element.length)
         $element[0].click();
+}
+
+window.Pause = function(params){
+    appApi.canTTS = false;
+}
+
+window.Resume = function(params){
+    appApi.canTTS = true;
 }
 
 window.addEventListener("beforeunload", function(e){

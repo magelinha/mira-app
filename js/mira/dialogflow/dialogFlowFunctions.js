@@ -2,7 +2,7 @@
 
 /************************* Funções para o dialogflow ****************************/
 
-const dialogflow = require('dialogflow');
+const dialogflow = require('dialogflow').v2beta1;
 //configura as credenciais
 const credentials = JSON.parse(process.env.GOOGLE_CLOUD_CREDENTIALS);
 let config = {
@@ -325,19 +325,19 @@ var RequestTextIntent = function(params){
 
 var  proccessResponse = function(response, lang){
     var data = {
-        audio: response.output_audio,
+        audio: response.outputAudio,
         message: response.queryResult.fulfillmentText,
         action: response.queryResult.action,
         queryText: response.queryResult.queryText, //Apenas para debug
         context: response.queryResult.outputContexts
     };
 
-    var internalIntent = GetInternalActions(response.queryResult.queryText, lang || response.queryResult.languageCode);
+    // var internalIntent = GetInternalActions(response.queryResult.queryText, lang || response.queryResult.languageCode);
 
-    if(internalIntent){
-        data.action = internalIntent;
-        data.message = "";
-    }
+    // if(internalIntent){
+    //     data.action = internalIntent;
+    //     data.message = "";
+    // }
         
 
     //mapeia os parametros
@@ -390,13 +390,17 @@ var Init = function(server){
                 audioConfig: {
                     audioEncoding: req.body.encoding ? req.body.encoding : 'AUDIO_ENCODING_LINEAR16',
                     languageCode: req.body.language,
-                    phrase_hints: getInternalPhrases(req.body.language),
+                    //phrase_hints: getInternalPhrases(req.body.language),
                 },
             },
             inputAudio: req.body.audio,
             queryParameters: { 
                 contexts: req.body.context || []
+            },
+            outputAudioConfig: {
+                audioEncoding: `OUTPUT_AUDIO_ENCODING_LINEAR_16`,
             }
+
         };
 
         sessionClient.detectIntent(request)
@@ -559,67 +563,67 @@ var Init = function(server){
 }
 
 /************************* Apoio para o DialogFlow Plugin ****************************/
-const appActions = 
-{
+// const appActions = 
+// {
 
-    ChangeLanguage: 
-    {
-        "pt-BR": ["Mudar linguagem para Inglês"],
-        "en-US": ["Change language to Portuguese"]
-    },
+//     ChangeLanguage: 
+//     {
+//         "pt-BR": ["Mudar linguagem para Inglês"],
+//         "en-US": ["Change language to Portuguese"]
+//     },
 
-    OptionsView:
-    {
-        "pt-BR": ["Minhas opções", "O que posso fazer", "Opções", "Onde estou"],
-        "en-US": ["My options", "What do I do", "Options", "Where I am"]
-    },
+//     OptionsView:
+//     {
+//         "pt-BR": ["Minhas opções", "O que posso fazer", "Opções", "Onde estou"],
+//         "en-US": ["My options", "What do I do", "Options", "Where I am"]
+//     },
 
-    Repeat: 
-    {
-        "pt-BR": ["Repetir", "Repita", "Fale novamente"],
-        "en-US": ["Repeat"]
-    },
+//     Repeat: 
+//     {
+//         "pt-BR": ["Repetir", "Repita", "Fale novamente"],
+//         "en-US": ["Repeat"]
+//     },
 
-    NextItem: 
-    {
-        "pt-BR": ["Ir para o próximo", "Próximo", "Próximo Item", "Avançar", "Para o próximo"],
-        "en-US": ["Next", "Next Item"]
-    },
+//     NextItem: 
+//     {
+//         "pt-BR": ["Ir para o próximo", "Próximo", "Próximo Item", "Avançar", "Para o próximo"],
+//         "en-US": ["Next", "Next Item"]
+//     },
 
-    PrevItem: 
-    {
-        "pt-BR": ["Para o anterior", "Ir para o anterior", "Anterior", "Item anterior", "Voltar"],
-        "en-US": ["Previous"]
-    },
+//     PrevItem: 
+//     {
+//         "pt-BR": ["Para o anterior", "Ir para o anterior", "Anterior", "Item anterior", "Voltar"],
+//         "en-US": ["Previous"]
+//     },
 
-    CheckItem: 
-    {
-        "pt-BR": ["Marcar", "Marcar item", "Marcar esse", "Marcar este"],
-        "en-US": ["Check", "Check item", "check this"]
-    },
+//     CheckItem: 
+//     {
+//         "pt-BR": ["Marcar", "Marcar item", "Marcar esse", "Marcar este"],
+//         "en-US": ["Check", "Check item", "check this"]
+//     },
 
-    UncheckItem: 
-    {
-        "pt-BR": ["Desmarcar", "Desmarcar item", "Desmarcar esse", "Desmarcar este"],
-        "en-US": ["Uncheck", "Uncheck item", "Uncheck this"]
-    },
+//     UncheckItem: 
+//     {
+//         "pt-BR": ["Desmarcar", "Desmarcar item", "Desmarcar esse", "Desmarcar este"],
+//         "en-US": ["Uncheck", "Uncheck item", "Uncheck this"]
+//     },
 
-    SelectItem: 
-    {
-        "pt-BR": ["Selecionar", "Selecionar item", "Selecionar esse", "Selecionar este"],
-        "en-US": ["Select", "Select item", "select this"]
-    },
-};
+//     SelectItem: 
+//     {
+//         "pt-BR": ["Selecionar", "Selecionar item", "Selecionar esse", "Selecionar este"],
+//         "en-US": ["Select", "Select item", "select this"]
+//     },
+// };
 
-function getInternalPhrases(lang){
-    var phrases = [];
+// function getInternalPhrases(lang){
+//     var phrases = [];
 
-    Object.keys(appActions).forEach(key => {
-        phrases.push(appActions[key][lang]);
-    });
+//     Object.keys(appActions).forEach(key => {
+//         phrases.push(appActions[key][lang]);
+//     });
 
-    return phrases;
-}
+//     return phrases;
+// }
 
 function restoreAgent(projectId, data) {
     // Instantiates agent client
