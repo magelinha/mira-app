@@ -152,10 +152,10 @@ var homeAbstrata =
             ]
         },
         {
-            name: "modal-quantidade", children:
+            name: "modal-mensagem", children:
             [
                 { name: "titulo" },
-                { name: "nova-quantidade" },
+                { name: "mensagem" },
                 { name: "confirmar" }
             ]
         }
@@ -191,20 +191,19 @@ var homeConcreta =
             ]
         },
         {
-            name: "modal-quantidade", children:
+            name: "modal-mensagem", children:
             [
                 { name: "titulo" },
                 { 
                     name: "modal-body", children: 
                     [
-                        { name: 'label-quantidade' },
-                        { name: 'nova-quantidade' }
+                        { name: 'mensagem' }
                     ]
                 },
                 {
                     name: 'modal-footer', children:
                     [
-                        { name: "confirmar" }
+                        { name: "fechar" }
                     ]
                 }
             ]
@@ -255,26 +254,14 @@ var homeConcreta =
             }
         },
 
-        //Modal de quantidade
-        { name: "modal-quantidade", widget:"WaiModal" },
+        //modal para a mensagem
+        { name: "modal-mensagem", widget:"WaiModal" },
         { name: "titulo", widget: "WaiModalHeader", value: "Informar nova quantidade"},
         { name: "modal-body", widget: "WaiModalBody" },
-        { name: "label-quantidade", widget: "WaiContent", tag: "label", for:"#nova-quantidade", value:"Quantidade:" },
-        { name: "nova-quantidade", widget: "WaiInput", type: "text", class: "form-control" },
+        { name: "mensagem", widget: "WaiContent", tag: "h1"},
         { name: "modal-footer", widget:"WaiModalFooter" },
         { 
-            name: "confirmar", widget: "WaiButton", "data-dismiss":"modal",  class:"btn btn-success", value: {"pt-BR": "Confirmar"}, events:
-            {
-                click: {
-                    action: 'EvtConfirmarQuantidade',
-                    event: 'quantidade_informada',
-                    params: {
-                        id: '$("#modal-quantidade").data("id")',
-                        quantidade: '$("#nova-quantidade").val()',
-                        pedido: 'GetIdPedido()'
-                    }
-                }
-            }
+            name: "fechar", widget: "WaiButton", "data-dismiss":"modal",  class:"btn btn-primary", value: {"pt-BR": "Confirmar"}
         }
     ]
 };
@@ -325,22 +312,11 @@ var cardapioAbstrata =
             ] 
         },
         {
-            name: "modal-quantidade", children:
+            name: "modal-mensagem", children:
             [
                 { name: "titulo" },
-                { 
-                    name: "modal-body", children: 
-                    [
-                        { name: 'label-quantidade' },
-                        { name: 'nova-quantidade' }
-                    ]
-                },
-                {
-                    name: 'modal-footer', children:
-                    [
-                        { name: "confirmar" }
-                    ]
-                }
+                { name: "mensagem" },
+                { name: "confirmar" }
             ]
         }
 	]
@@ -398,20 +374,19 @@ var cardapioConcreta =
             ]
         },
         {
-            name: "modal-quantidade", children:
+            name: "modal-mensagem", children:
             [
                 { name: "titulo" },
                 { 
                     name: "modal-body", children: 
                     [
-                        { name: 'label-quantidade' },
-                        { name: 'nova-quantidade' }
+                        { name: 'mensagem' }
                     ]
                 },
                 {
                     name: 'modal-footer', children:
                     [
-                        { name: "confirmar" }
+                        { name: "fechar" }
                     ]
                 }
             ]
@@ -483,26 +458,14 @@ var cardapioConcreta =
         // { name: "item-preco", widget: "WaiContent", class:"content-item" },
         // { name: "preco", widget: "WaiContent", tag: "p", value:"$dataObj.preco", when: "_.isNumber($dataObj.preco)" }
 
-        //Modal de quantidade
-        { name: "modal-quantidade", widget:"WaiModal" },
+        //modal para a mensagem
+        { name: "modal-mensagem", widget:"WaiModal" },
         { name: "titulo", widget: "WaiModalHeader", value: "Informar nova quantidade"},
         { name: "modal-body", widget: "WaiModalBody" },
-        { name: "label-quantidade", widget: "WaiContent", tag: "label", for:"#nova-quantidade", value:"Quantidade:" },
-        { name: "nova-quantidade", widget: "WaiInput", type: "text", class: "form-control" },
+        { name: "mensagem", widget: "WaiContent", tag: "h1"},
         { name: "modal-footer", widget:"WaiModalFooter" },
         { 
-            name: "confirmar", widget: "WaiButton", "data-dismiss":"modal",  class:"btn btn-success", value: {"pt-BR": "Confirmar"}, events:
-            {
-                click: {
-                    action: 'EvtConfirmarQuantidade',
-                    event: 'quantidade_informada',
-                    params: {
-                        id: '$("#modal-quantidade").data("id")',
-                        quantidade: '$("#nova-quantidade").val()',
-                        pedido: 'GetIdPedido()' 
-                    }
-                }
-            }
+            name: "fechar", widget: "WaiButton", "data-dismiss":"modal",  class:"btn btn-primary", value: {"pt-BR": "Fechar"}
         }
     ]
 };
@@ -646,24 +609,12 @@ var pedidoAbstrata =
                 { name: "finalizar-pedido" }
             ]
         },
-
         {
-            name: "modal-quantidade", children:
+            name: "modal-mensagem", children:
             [
                 { name: "titulo" },
-                { 
-                    name: "modal-body", children: 
-                    [
-                        { name: 'label-quantidade' },
-                        { name: 'nova-quantidade' }
-                    ]
-                },
-                {
-                    name: 'modal-footer', children:
-                    [
-                        { name: "confirmar" }
-                    ]
-                }
+                { name: "mensagem" },
+                { name: "confirmar" }
             ]
         }
 
@@ -738,22 +689,20 @@ var pedidoConcreta =
 
             ]
         },
-
         {
-            name: "modal-quantidade", children:
+            name: "modal-mensagem", children:
             [
                 { name: "titulo" },
                 { 
                     name: "modal-body", children: 
                     [
-                        { name: 'label-quantidade' },
-                        { name: 'nova-quantidade' }
+                        { name: 'mensagem' }
                     ]
                 },
                 {
                     name: 'modal-footer', children:
                     [
-                        { name: "confirmar" }
+                        { name: "fechar" }
                     ]
                 }
             ]
@@ -874,26 +823,14 @@ var pedidoConcreta =
             }
         },
 
-        //Modal de quantidade
-        { name: "modal-quantidade", widget:"WaiModal" },
+        //modal para a mensagem
+        { name: "modal-mensagem", widget:"WaiModal" },
         { name: "titulo", widget: "WaiModalHeader", value: "Informar nova quantidade"},
         { name: "modal-body", widget: "WaiModalBody" },
-        { name: "label-quantidade", widget: "WaiContent", tag: "label", for:"#nova-quantidade", value:"Quantidade:" },
-        { name: "nova-quantidade", widget: "WaiInput", type: "text", class: "form-control" },
+        { name: "mensagem", widget: "WaiContent", tag: "h1"},
         { name: "modal-footer", widget:"WaiModalFooter" },
         { 
-            name: "confirmar", widget: "WaiButton", "data-dismiss":"modal",  class:"btn btn-success", value: {"pt-BR": "Confirmar"}, events:
-            {
-                click: {
-                    action: 'EvtConfirmarQuantidade',
-                    event: 'quantidade_informada',
-                    params: {
-                        id: '$("#modal-quantidade").data("id")',
-                        quantidade: '$("#nova-quantidade").val()',
-                        pedido: 'GetIdPedido()' 
-                    }
-                }
-            }
+            name: "fechar", widget: "WaiButton", "data-dismiss":"modal",  class:"btn btn-primary", value: {"pt-BR": "Confirmar"}
         }
     ]
 };
@@ -1013,10 +950,6 @@ if(typeof define === 'function') {
 
             window.EvtClickItem = function(options){
                 IncluirItem(options.$element, 1);
-            }
-
-            window.ShowModalQuantidade = function(options){
-                OpenModal(appApi.$currentElement);
             }
 
             window.EvtConfirmarQuantidade = function(options){
@@ -1207,13 +1140,18 @@ if(typeof define === 'function') {
                 }
 
                 await appApi.CallRequestEvent('adicionar_item', params);
+                OpenModal('Item adicionado com sucesso!');
             }
 
-            var OpenModal = function($element){
-                var id = $element.data('id');
-                var $modal = $("#modal-quantidade");
-                $modal.data('id', id);
+            var OpenModal = function(mensagem){
+                var $modal = $("#modal-mensagem");
+                $modal.find('h1').text(mensagem);
                 $modal.modal();
+
+                //Fecha o modal depois de 3 segundos
+                setTimeout(() => {
+                    $modal.modal('hide');
+                });
             }
 
         };
