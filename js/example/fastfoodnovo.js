@@ -245,18 +245,11 @@ var homeConcreta =
         { name: "promocao-caption", widget:"WaiCarouselCaption" },
         { name: "promacao-caption-titulo", tag:"h3", class:'titulo', value:"$data.nome", "data-id":"$data._id" },
         { name: "promacao-caption-descricao", tag:"p", value:"$data.descricao",},
-        { name: "selecionar-promocao", widget: "WaiButton", value:"Quero", class: "btn btn-primary", "data-id":"$data._id", events: 
-            {
-                click: 
-                {
-                    action: 'EvtClickItem'
-                }
-            }
-        },
+        { name: "selecionar-promocao", widget: "WaiButton", value:"Quero", class: "btn btn-primary", "data-id":"$data._id", events: { click: "EvtClickItem"}},
 
         //modal para a mensagem
         { name: "modal-mensagem", widget:"WaiModal" },
-        { name: "titulo", widget: "WaiModalHeader", value: "Informar nova quantidade"},
+        { name: "titulo", widget: "WaiModalHeader", value: "Alerta"},
         { name: "modal-body", widget: "WaiModalBody" },
         { name: "mensagem", widget: "WaiContent", tag: "h1"},
         { name: "modal-footer", widget:"WaiModalFooter" },
@@ -460,7 +453,7 @@ var cardapioConcreta =
 
         //modal para a mensagem
         { name: "modal-mensagem", widget:"WaiModal" },
-        { name: "titulo", widget: "WaiModalHeader", value: "Informar nova quantidade"},
+        { name: "titulo", widget: "WaiModalHeader", value: "Alerta"},
         { name: "modal-body", widget: "WaiModalBody" },
         { name: "mensagem", widget: "WaiContent", tag: "h1"},
         { name: "modal-footer", widget:"WaiModalFooter" },
@@ -825,7 +818,7 @@ var pedidoConcreta =
 
         //modal para a mensagem
         { name: "modal-mensagem", widget:"WaiModal" },
-        { name: "titulo", widget: "WaiModalHeader", value: "Informar nova quantidade"},
+        { name: "titulo", widget: "WaiModalHeader", value: "Alerta"},
         { name: "modal-body", widget: "WaiModalBody" },
         { name: "mensagem", widget: "WaiContent", tag: "h1"},
         { name: "modal-footer", widget:"WaiModalFooter" },
@@ -1151,7 +1144,7 @@ if(typeof define === 'function') {
                 //Fecha o modal depois de 3 segundos
                 setTimeout(() => {
                     $modal.modal('hide');
-                });
+                }, 3000);
             }
 
         };
