@@ -43,7 +43,14 @@ var selection = [
     {
         when: "IsPage('pedido')",
         abstract: "pedido"
+    },
+
+    //pedido
+    {
+        when: "IsPage('pedido-finalizado')",
+        abstract: "pedido-finalizado"
     }
+
      
 ];
 
@@ -891,6 +898,35 @@ var pedidoConcreta =
     ]
 };
 
+var pedidoFinalizadoAbstrata = 
+{
+	name: "pedido-finalizado",
+	widgets:
+	[
+        { 
+            name: "content-mensagem", 
+            children: 
+            [
+                { name: "mensagem"}
+            ]
+        }
+        
+	]
+};
+
+var pedidoFinalizadoConcreta = 
+{
+	name:"pedido-finalizado",
+	head: head.concat([
+        {name: 'title', widget:'Title', value: 'fastFood Uai - Pedido Finalizado'}
+    ]),
+    maps:
+    [
+        { name: "content-mensagem", widget: "WaiContent", class:"bg-success", style:"height: 100vh" },
+        { name: "mensagem", tag:"h3", value:"Obrigado por comprar na FastFoodUai", style:"margin: 0 auto"}
+    ]
+};
+
 
 //Configuração do Api.ai
 var interface_abstracts = [
@@ -898,7 +934,8 @@ var interface_abstracts = [
     homeAbstrata,
     cardapioAbstrata,
     promocoesAbstrata,
-    pedidoAbstrata
+    pedidoAbstrata,
+    pedidoFinalizadoAbstrata
 ];
 
 var concrete_interface = [
@@ -906,7 +943,8 @@ var concrete_interface = [
     homeConcreta,
     cardapioConcreta,
     promocoesConcreta, 
-    pedidoConcreta
+    pedidoConcreta,
+    pedidoFinalizadoConcreta
 ];
 
 var ajaxSetup = {
@@ -1018,6 +1056,7 @@ if(typeof define === 'function') {
             }
 
             window.RemoverItemPedido = async function(options){
+                console.log(options);
                 var params = {
                     id: options.item ? null : appApi.$currentElement.data('id'),
                     item: options.item,
@@ -1044,7 +1083,7 @@ if(typeof define === 'function') {
             }
 
             var Refresh = function(){
-                app.$env.$dataObj.trigger("change");
+                app.$env.$dataObj.trigger('change');
             }
 
             var RemoverItem = async function($element){
@@ -1209,7 +1248,7 @@ window.pages = {
 },
 
 window.IsPage = function(page){
-    if(!IsTestEmAndamento())
+    if(page != "pedido-finalizado" && !IsTestEmAndamento())
         return false;
 
     var url = new URL(window.location);
