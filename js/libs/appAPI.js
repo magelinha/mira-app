@@ -244,7 +244,7 @@ ActionAPI.SpeechAction.prototype.tts = function(text, audio, saveLast){
         var uri = bufferToBase64(buffer);
         var $audio = new Audio("data:audio/wav;base64," + uri);
 
-        $audio.addEventListener("onended", function(e){
+        $audio.addEventListener("ended", function(e){
             _this.isTTS = false;
 
             //ao finalizar a fala, ativa o microfone
@@ -733,13 +733,13 @@ window.ChangeLanguage = function(){
 };
 
 window.Repeat = function(){
-    var audio = this.lastAudio;
-    var text = this.lastText;
+    var audio = appApi.lastAudio;
+    var text = appApi.lastText;
 
     if(!audio && (!text || !text.length))
-        this.tts("Não há fala para ser repetida.");
+        appApi.tts("Não há fala para ser repetida.");
     else
-    this.tts(text, audio, false);
+        appApi.tts(text, audio, false);
     
 };
 

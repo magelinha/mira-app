@@ -1149,7 +1149,7 @@ if(typeof define === 'function') {
                     id: id,
                     pedido: pedido,
                     item: options.item,
-                    quantidade: quantidade,
+                    quantidade: options.quantidade,
                     tamanho: options.tamanho
                 }
 
