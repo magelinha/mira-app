@@ -31,7 +31,6 @@ define([
             if (this.model){
                 this.listenTo(this.model, 'change', this.render, this);
                 this.listenTo(this.model, 'destroy', this.remove, this);
-                this.listenTo(this.model, 'sync', this.render, this);
             }
         },
 

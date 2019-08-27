@@ -439,12 +439,7 @@ var cardapioConcreta =
             "data-id": "$data._id",
             value: { "pt-BR":"Adicionar" },
             class:"btn-adicionar btn btn-primary",
-            events : {
-                click: 
-                {
-                    action: 'EvtClickItem'
-                }
-            }
+            events : { click: 'EvtClickItem'}
         },
 
         //preço
@@ -1008,8 +1003,30 @@ if(typeof define === 'function') {
                 Refresh();
             }
 
+            window.TotalPedido = function(){
+                var params = {
+                    pedido: GetIdPedido()
+                }
+                
+                appApi.CallRequestEvent('total_pedido', params);
+            }
+
             var Refresh = function(){
-                app.$env.$dataObj.trigger('change');
+                location.reload();
+
+                // var collection = app.$env.collections["itens-pedido"];
+                // //Busca os dados dos itens
+                
+                // collection.fetch({
+                //     success: (collection, response, options) => {
+                //         console.log("fez o fetch com sucesso");
+                //         app.$env.$dataObj.trigger('change');
+                //     },
+
+                //     error: (collection, response, options) => {
+                //         console.log("erro ao fazer o fetch");
+                //     }
+                // });
             }
 
             var RemoverItem = async function($element){

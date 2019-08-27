@@ -125,23 +125,6 @@ var Init = function(server, db){
         }
     });
 
-    //Evento para remover um item do pedido
-    webhookFunctions.AddIntentAction("evt-remover-item", async (params) => {
-        //Busca o pedido
-        let pedido = await db.Pedido.findById(params.pedido).populate('itens').exec();
-
-        //Remove do pedido o item 
-        pedido.itens = pedido.itens.filter(x => x._id != params.id);
-
-        try{
-            await pedido.save();
-
-            return "Item removido com sucesso.";
-        }catch(ex){
-            return "Houve um problema ao remover o item.";
-        }
-    });
-
     webhookFunctions.AddIntentAction("evt-alterar-quantidade", async (params) => {
         //Busca o pedido
         let pedido = await db.Pedido.findById(params.pedido);
@@ -175,10 +158,12 @@ var Init = function(server, db){
         //Busca o pedido
         let pedido = await db.Pedido.findById(params.pedido);
 
+        console.log(`quantidade antes de remover: ${pedido.itens.length}`);
+
         //verifica se tem o item no pedido
         let itemPedido = null;
         if(params.id && params.id.length){
-            itemPedido = pedido.itens.find(i => i.item == id);
+            itemPedido = pedido.itens.find(i => i.item == params.id);
         }
         else{
             var itemDB = await db.Item.findOne({nome: params.item});
@@ -187,6 +172,8 @@ var Init = function(server, db){
 
         pedido.itens = pedido.itens.filter(x => x != itemPedido);
 
+        console.log(`quantidade depois de remover: ${pedido.itens.length}`);
+
         try{
             await pedido.save();
 
@@ -194,6 +181,20 @@ var Init = function(server, db){
         }catch(ex){
             return "Houve um problema ao remover o item.";
         }
+    });
+
+    webhookFunctions.AddIntentAction("evt-total-pedido", async (params) => {
+        let pedido = await db.Pedido.findById(params.pedido);
+
+        let total = 0;
+
+        pedido.itens.forEach(async i => {
+            let item = await db.Item.findById(i.item);
+            let preco = Array.isArray(item.preco) ? item.preco[0].valor : item.preco;
+            total += preco * i.quantidade;
+        });
+
+        return `Seu pedido atualmente está custando R$${total}`;
     });
 };
 
