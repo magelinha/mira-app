@@ -81,7 +81,7 @@ var Init = function(server){
                 let promises  = await pedido.itens.map(async (itemArray) => {
                     let item = await db.Item.findById(itemArray.item);
 
-                    var preco = Array.isArray(item.preco) ? item.preco[0].valor : item.preco;
+                    var preco = Array.isArray(item.preco) ? item.preco[itemArray.tamanho].valor : item.preco;
 
                     let result = {
                         id: item._id,

@@ -66,7 +66,7 @@ var Init = function(server, db){
         return `Vi que seu pedido tem ${pedido.itens.length} itens. Vou informá-los para você.`;
     });
 
-    var AdicionarItem = async (idPedido, idItem, quantidade) => {
+    var AdicionarItem = async (idPedido, idItem, quantidade, tamanho) => {
         quantidade = quantidade || 1;
         //Busca o pedido
         let pedido = await db.Pedido.findById(idPedido).populate('itens').exec();
@@ -74,10 +74,10 @@ var Init = function(server, db){
         //Busca o item desejado
         let item = await db.Item.findById(idItem);
 
-        let itemPedido = pedido.itens.find(i => i._id == item._id);
+        let itemPedido = pedido.itens.find(i => i._id == item._id && (tamanho || i.tamanho == tamanho));
 
         if(!itemPedido){
-            pedido.itens.push({item: item._id, quantidade: quantidade});
+            pedido.itens.push({item: item._id, quantidade: quantidade, tamanho: tamanho});
         }
         else{            
             itemPedido.quantidade = itemPedido.quantidade + quantidade;
@@ -96,14 +96,14 @@ var Init = function(server, db){
     webhookFunctions.AddIntentAction('evt-adicionar-item', async(params) => {
 
         if(params.id != null && params.id.length)
-            return AdicionarItem(params.pedido, params.id, params.quantidade);
+            return AdicionarItem(params.pedido, params.id, params.quantidade, params.tamanho);
 
         //Caso não tenha passado o id, busca o item através do nome
         console.log("item: " + params.item.toLowerCase());
         let item = await db.Item.findOne({ nome: params.item});
         console.log("Id do item: " + item._id);
 
-        return AdicionarItem(params.pedido, item._id, params.quantidade);
+        return AdicionarItem(params.pedido, item._id, params.quantidade, params.tamanho);
         
     });
 

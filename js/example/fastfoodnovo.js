@@ -937,7 +937,11 @@ if(typeof define === 'function') {
             }
 
             window.EvtClickItem = function(options){
-                IncluirItem(options.$element, 1);
+                var params = {
+                    quantidade: 1
+                };
+
+                IncluirItem(options.$element, params);
             }
 
             window.EvtConfirmarQuantidade = function(options){
@@ -1099,7 +1103,7 @@ if(typeof define === 'function') {
 
             window.AdicionarItem = function(params){
                 var $container = params.produto ? GetContainer(params.produto) : appApi.$currentElement;
-                IncluirItem($container, params.quantidade);
+                IncluirItem($container, params);
             }
 
             window.AdicionarItemEspecifico = async function(params){
@@ -1116,12 +1120,10 @@ if(typeof define === 'function') {
             }
 
             window.AdicionarPromocao = function(params){
-                console.log("adicionou uma promoção");
-                console.log(appApi.$currentElement);
                 //busca o item ativo
                 var $container = appApi.$currentElement.find(".item.active .titulo");
                 if($container.length)  
-                    IncluirItem($container, params.quantidade);
+                    IncluirItem($container, params);
             }
 
             window.EvtListarPedido = function(params){
@@ -1136,9 +1138,9 @@ if(typeof define === 'function') {
                 return item.length ? item.parents('.card') : null;
             }
 
-            var IncluirItem = async function($element, quantidade){
+            var IncluirItem = async function($element, options){
                 //Busca  o id
-                var id = $element.data('id');
+                var id = options.item ? null : $element.data('id');
 
                 //busca o pedido
                 var pedido = GetIdPedido();
@@ -1146,7 +1148,9 @@ if(typeof define === 'function') {
                 var params = {
                     id: id,
                     pedido: pedido,
-                    quantidade: quantidade
+                    item: options.item,
+                    quantidade: quantidade,
+                    tamanho: options.tamanho
                 }
 
                 await appApi.CallRequestEvent('adicionar_item', params);

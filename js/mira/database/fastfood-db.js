@@ -43,7 +43,8 @@ const Pedido = mongoose.model('Pedido', new mongoose.Schema({
     itens:[
         {
             item: { type: mongoose.Schema.Types.ObjectId, ref:'Item' },
-            quantidade: { type: Number }
+            quantidade: { type: Number },
+            tamanho: String
         }
     ]
 }, {collection: "pedidos"}));

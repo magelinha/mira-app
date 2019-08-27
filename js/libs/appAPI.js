@@ -214,11 +214,18 @@ ActionAPI.SpeechAction = function(conf){
     this.$currentElement = null;
 };
 
+var bufferToBase64 = function(buf) {
+    var binstr = Array.prototype.map.call(buf, function (ch) {
+        return String.fromCharCode(ch);
+    }).join('');
+    return btoa(binstr);
+}
+
 /*
     Transforma um texto em fala
     @text: texto a ser transoformado em fala
 */
-ActionAPI.SpeechAction.prototype.tts = function(text, dontSaveLast, audio){
+ActionAPI.SpeechAction.prototype.tts = function(text, audio, saveLast){
     var _this = this;
     if(!text.length || !this.canTTS)
         return;
@@ -226,14 +233,16 @@ ActionAPI.SpeechAction.prototype.tts = function(text, dontSaveLast, audio){
     //Ao iniciar a fala, desativa o microfone
     _this.SetStatusMicrophone(false);
 
-    if(!dontSaveLast){
+    if(saveLast){
         _this.lastText = text;
         _this.lastAudio = audio;
     }
 
     //Se for um audio
-    if(audio && audio.length){
-        var $audio = new Audio("data:audio/wav;base64," + audio);
+    if(audio && audio.data.length){
+        var buffer = new Uint8Array(audio.data);
+        var uri = bufferToBase64(buffer);
+        var $audio = new Audio("data:audio/wav;base64," + uri);
 
         $audio.addEventListener("onended", function(e){
             _this.isTTS = false;
@@ -323,7 +332,7 @@ ActionAPI.SpeechAction.prototype.stopRecording = function(toExport) {
                     if(!data.queryText || !data.queryText.length){
                         console.log("erro na fala");
                         //Caso tenha gerado o audio, mas o queryText foi errado, indica que houve algo errado com a fala
-                        _this.tts("Não entendi o que foi dito. Repita por favor", true);
+                        _this.tts("Não entendi o que foi dito. Repita por favor");
                         return;
                     }
 
@@ -332,7 +341,7 @@ ActionAPI.SpeechAction.prototype.stopRecording = function(toExport) {
 
                     //Se a ação a ser executa é input.unknown, indica que o dialogflow não conseguiu identificar a intenção
                     if(data.action == 'input.unknown'){
-                        _this.tts(data.message, true, data.audio);
+                        _this.tts(data.message, data.audio, true);
                         return;
                     }
 
@@ -341,7 +350,7 @@ ActionAPI.SpeechAction.prototype.stopRecording = function(toExport) {
                         _this.executeCommand(data.action, data.params);
 
                     //se tiver algo pra falar, chama o tts para informar a mensagem e ativa o microfone.
-                    data.message && data.message.length ? _this.tts(data.message, true, data.audio) : _this.SetStatusMicrophone(true);;
+                    data.message && data.message.length ? _this.tts(data.message, data.audio, true) : _this.SetStatusMicrophone(true);;
                 });
             };
 
@@ -435,8 +444,7 @@ ActionAPI.SpeechAction.prototype.CallRequestEvent = function(eventName, params){
     return _this.AjaxRequest('POST', '/event', data, null, function(response){
         //Se a ação a ser executa é input.unknown, indica que o dialogflow não conseguiu identificar a intenção
         if(data.action == 'input.unknown'){
-            console.log(data);
-            _this.tts(data.message, true);
+            _this.tts(data.message);
             return;
         }
         
@@ -444,7 +452,7 @@ ActionAPI.SpeechAction.prototype.CallRequestEvent = function(eventName, params){
             _this.executeCommand(response.action, response.params);
             
         if(response.message && response.message.length)
-            _this.tts(response.message);
+            _this.tts(response.message, response.audio, true);
     });
 }
 
@@ -721,12 +729,18 @@ window.ChangeLanguage = function(){
     document.documentElement.lang = this.currentLanguage;
 
     this.tts(text);
-    appApi.tts(this.messagesInterface[this.currentInterface][this.currentLanguage]);
+    //appApi.tts(this.messagesInterface[this.currentInterface][this.currentLanguage]);
 };
 
 window.Repeat = function(){
-    var text = this.lastText.length ? this.lastText : "Não há fala para ser repetida.";
-    this.tts(this.lastText);
+    var audio = this.lastAudio;
+    var text = this.lastText;
+
+    if(!audio && (!text || !text.length))
+        this.tts("Não há fala para ser repetida.");
+    else
+    this.tts(text, audio, false);
+    
 };
 
 window.SetValue = function(params){
