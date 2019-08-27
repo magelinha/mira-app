@@ -114,7 +114,7 @@ var Init = function(server, db){
 
         //Busca o teste relacionado ao pedido
         let teste = pedido.Teste;
-        teste.Encerrado = true;
+        teste.encerrado = true;
 
         try{
             await teste.save();
@@ -129,19 +129,19 @@ var Init = function(server, db){
         //Busca o pedido
         let pedido = await db.Pedido.findById(params.pedido);
         console.log("itens:" + pedido.itens);
-        console.log("params: " + params);
+        console.log("params: " + params.item);
         //busca o item por nome ou id
         let itemPedido = null;
         if(params.id && params.id.length){
             itemPedido = pedido.itens.find(i => i.item == params.id);
         }
         else{
-            var itemDB = await db.Item.findOne({nome: params.item});
+            var itemDB = await db.Item.findOne({nome: {$regex: new RegExp(params.item, "i")}});
             itemPedido = pedido.itens.find(i => i.item.equals(itemDB._id));
         }
 
         if(!itemPedido)
-           return ""; 
+           return "O item informado não está no pedido"; 
 
         itemPedido.quantidade = params.quantidade;
 
@@ -188,11 +188,13 @@ var Init = function(server, db){
 
         let total = 0;
 
-        pedido.itens.forEach(async i => {
+        let promises = pedido.itens.map(async i => {
             let item = await db.Item.findById(i.item);
-            let preco = Array.isArray(item.preco) ? item.preco[0].valor : item.preco;
+            let preco = Array.isArray(item.preco) ? item.preco[i.tamanho].valor : item.preco;
             total += preco * i.quantidade;
         });
+
+        await Promise.all(promises);
 
         return `Seu pedido atualmente está custando R$${total}`;
     });

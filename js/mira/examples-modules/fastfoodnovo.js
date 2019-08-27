@@ -158,11 +158,12 @@ var Init = function(server){
         pedido.save().then(() => { res.send(true)});
     });
 
-    server.get('/api/fastfoodnovo/finalizar', (req, res) => {
-        var id = req.body.id;
-        var pedido = GetPedido(id);
-
-        res.send(pedido);
+    server.get('/api/fastfoodnovo/pedido-finalizado', (req, res) => {
+        var result = {
+            mensagem: "Obrigado por comprar na Fast Food UAI. Trem bão demais."
+        }
+        
+        res.send(result);
     });
 
 };

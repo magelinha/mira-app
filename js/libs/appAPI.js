@@ -227,7 +227,7 @@ var bufferToBase64 = function(buf) {
 */
 ActionAPI.SpeechAction.prototype.tts = function(text, audio, saveLast){
     var _this = this;
-    if(!text.length || !this.canTTS)
+    if((!text.length && !audio) || !this.canTTS)
         return;
 
     //Ao iniciar a fala, desativa o microfone
@@ -320,10 +320,17 @@ ActionAPI.SpeechAction.prototype.stopRecording = function(toExport) {
                     */
                     //Se está pausado, única ação possível é a Resume
                     if(!_this.canTTS){
-                        if(data.action == Resume.name){
-                            _this.executeCommand(data.action, data.params);    
+                        if(data.action == "Resume"){
+                            _this.executeCommand(data.action, data.params);
+                            _this.tts(data.message, data.audio, false);
                         }
 
+                        return;
+                    }
+
+                    if(data.action == "Pause"){
+                        _this.tts(data.message, data.audio, false);
+                        _this.executeCommand(data.action, data.params);
                         return;
                     }
                    
@@ -451,7 +458,7 @@ ActionAPI.SpeechAction.prototype.CallRequestEvent = function(eventName, params){
         if (response.success && response.action && response.action.length)
             _this.executeCommand(response.action, response.params);
             
-        if(response.message && response.message.length)
+        if((response.message && response.message.length) || (response.audio && response.audio.length))
             _this.tts(response.message, response.audio, true);
     });
 }

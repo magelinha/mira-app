@@ -8,7 +8,7 @@ window.GetIdPedido = function(){
 
     var currentTeste = testes.find(teste => !teste.encerrado);
 
-    return currentTeste.pedido;
+    return currentTeste ? currentTeste.pedido : null;
 }
 
 
@@ -779,7 +779,10 @@ var pedidoConcreta =
             class:"input-quantidade",
             events: { change: 'EvtChangeQuantidade'}
         },
-        { name: "total-item", widget:"WaiContent", tag: "span", class: "total_item", "data-total":"$data.total", style:"margin-right:1em", value:{"pt-BR": "FormatValue($data.total)"}},
+        { 
+            name: "total-item", widget:"WaiContent", tag: "span", 
+            class: "total-item", "data-total":"$data.total", style:"margin-right:1em", value:{"pt-BR": "FormatValue($data.total)"}
+        },
         { 
             name: "remover", 
             widget: "WaiButton", 
@@ -848,7 +851,7 @@ var pedidoFinalizadoConcreta =
     maps:
     [
         { name: "content-mensagem", widget: "WaiContent", class:"bg-success", style:"height: 100vh" },
-        { name: "mensagem", tag:"h3", value:"Obrigado por comprar na FastFoodUai", style:"margin: 0 auto"}
+        { name: "mensagem", tag:"h3", value:"$data.mensagem", style:"line-height: 100vh; text-align: center;"}
     ]
 };
 
@@ -956,7 +959,7 @@ if(typeof define === 'function') {
             window.EvtItemPedido = function(options){
                 var nome = options.$element.find('p').text();
                 var quantidade = options.$element.find('input').val();
-                var total = options.$element.find('span').data('total');
+                var total = options.$element.find('.total-item').data('total');
 
                 var params = {
                     nome: nome,
@@ -978,6 +981,13 @@ if(typeof define === 'function') {
             window.EvtFinalizarPedido = function(options){
                 //Caso tenha itens no pedido, salva o log
                 appApi.SaveLog();
+
+                var testes = JSON.parse(localStorage.getItem("testes"));
+                var currentTeste = testes.find(teste => !teste.encerrado);
+                currentTeste.encerrado = true;
+                localStorage.setItem("testes", JSON.stringify(testes));
+
+                location.href = "?app=example/fastfoodnovo#?URI=/api/fastfoodnovo/pedido-finalizado/";
             }
 
             window.RemoverItemPedido = async function(options){
@@ -1196,7 +1206,8 @@ window.pages = {
     home: "",
     cardapio: "#?URI=/api/fastfoodnovo/cardapio/",
     promocoes: "#?URI=/api/fastfoodnovo/promocoes/",
-    pedido: "#?URI=/api/fastfoodnovo/pedido/"
+    pedido: "#?URI=/api/fastfoodnovo/pedido/",
+    "pedido-finalizado": "#?URI=/api/fastfoodnovo/pedido-finalizado/"
 },
 
 window.IsPage = function(page){
@@ -1220,7 +1231,7 @@ window.GetCurrentPedido = function(){
 }
 
 window.GetTotalPedido = function(){
-    let $itens = $('.total_item');
+    let $itens = $('.total-item');
     if(!$itens.length)
         return 0;
 
