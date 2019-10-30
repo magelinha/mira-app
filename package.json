@@ -20,7 +20,7 @@
     "jsonfile": "latest",
     "memory-cache": "0.1.2",
     "mongodb": "^3.2.2",
-    "mongoose": "^5.4.22",
+    "mongoose": "^5.7.5",
     "morgan": "^1.9.1",
     "n3": "latest",
     "node-record-lpcm16": "0.2.0",
